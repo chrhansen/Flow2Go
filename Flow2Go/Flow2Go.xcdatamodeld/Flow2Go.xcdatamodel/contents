@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1807" systemVersion="12A269" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Analysis" representedClassName="Analysis" syncable="YES">
+        <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="dateViewed" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="gates" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Gate" inverseName="analysis" inverseEntity="Gate" syncable="YES"/>
+        <relationship name="measurement" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Measurement" inverseName="analyses" inverseEntity="Measurement" syncable="YES"/>
+        <relationship name="plots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Plot" inverseName="analysis" inverseEntity="Plot" syncable="YES"/>
+    </entity>
+    <entity name="Gate" representedClassName="Gate" parentEntity="Node" syncable="YES">
+        <attribute name="cellCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="vertices" optional="YES" attributeType="Transformable" valueTransformerName="NSArrayValueTransformer" syncable="YES"/>
+        <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Analysis" inverseName="gates" inverseEntity="Analysis" syncable="YES"/>
+    </entity>
+    <entity name="Measurement" representedClassName="Measurement" syncable="YES">
+        <attribute name="countOfEvents" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastModificationDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="measurementDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="analyses" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Analysis" inverseName="measurement" inverseEntity="Analysis" syncable="YES"/>
+    </entity>
+    <entity name="Node" representedClassName="Node" isAbstract="YES" syncable="YES">
+        <attribute name="xParName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="xParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="yParName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="yParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="childNodes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Node" inverseName="parentNode" inverseEntity="Node" syncable="YES"/>
+        <relationship name="parentNode" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Node" inverseName="childNodes" inverseEntity="Node" syncable="YES"/>
+    </entity>
+    <entity name="Plot" representedClassName="Plot" parentEntity="Node" syncable="YES">
+        <attribute name="xAxisType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="yAxisType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Analysis" inverseName="plots" inverseEntity="Analysis" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Analysis" positionX="-252" positionY="-211" width="128" height="133"/>
+        <element name="Gate" positionX="124" positionY="-9" width="128" height="118"/>
+        <element name="Measurement" positionX="-56" positionY="99" width="128" height="133"/>
+        <element name="Node" positionX="-38" positionY="-207" width="128" height="133"/>
+        <element name="Plot" positionX="-47" positionY="-13" width="128" height="88"/>
+    </elements>
+</model>

@@ -20,6 +20,7 @@
 }
 
 @property (nonatomic, strong) Plot *plot;
+@property (nonatomic, strong) GateCalculator *gateCalculator;
 @property (nonatomic, strong) CPTXYGraph *graph;
 @property (nonatomic, strong) CPTScatterPlot *scatterPlot;
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
@@ -50,7 +51,7 @@
     [super viewDidAppear:animated];
     [self _insertGraph];
     [self _insertScatterPlot];
-    [self showGate:self.plot.childNodes.firstObject];
+    [self.markView drawPaths];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,7 +107,10 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
+    if (buttonIndex < 0)
+    {
+        return;
+    }
     if (actionSheet == self.xAxisActionSheet)
     {
         self.plot.xParNumber = [NSNumber numberWithInteger:buttonIndex + 1];
@@ -121,8 +125,8 @@
         self.plot.yParName = [FCSFile parameterShortNameForParameterIndex:buttonIndex
                                                                 inFCSFile:self.fcsFile];
     }
-    [self.plot.managedObjectContext save];
     [self.graph reloadData];
+    [self.plot.managedObjectContext save];
 }
 
 
@@ -197,22 +201,23 @@
     
     [self _setAxisIfNeeded];
     
- 
-    //    Node *childNode = self.plot.childNodes.anyObject;
-    //    Gate *gate = (Gate *)childNode;
-    //    NSLog(@"xaxis: %@, yaxis: %@", childNode.xParName, childNode.yParName);
-    //    for (GraphPoint *aPoint in gate.vertices)
-    //    {
-    //        NSLog(@"(x,y) = (%f, %f)", aPoint.x, aPoint.y);
-    //    }
-    Node *parentNode = self.plot.parentNode;
-    NSLog(@"Parent node xaxis: %@, yaxis: %@", parentNode.xParName, parentNode.yParName);
+    self.fcsFile = [self.delegate fcsFile:self];
     
-    if (!self.fcsFile)
+    Gate *parentGate = (Gate *)self.plot.parentNode;
+    
+    if (parentGate)
     {
-        self.fcsFile = [FCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:aMeasurement.filename]];
+        self.gateCalculator = [GateCalculator gateWithVertices:parentGate.vertices
+                                                      onEvents:self.fcsFile
+                                                        xParam:self.plot.xParNumber.integerValue - 1
+                                                        yParam:self.plot.yParNumber.integerValue - 1];
+        self.numberOfEventsToPlot = parentGate.cellCount.integerValue;
     }
-    self.numberOfEventsToPlot = self.fcsFile.noOfEvents;
+    else
+    {
+        self.numberOfEventsToPlot = self.fcsFile.noOfEvents;
+    }
+    [self.graph reloadData];
 }
 
 
@@ -244,10 +249,18 @@
     switch (fieldEnum)
     {
         case CPTCoordinateX:
+            if (self.plot.parentNode)
+            {
+                return (double)self.fcsFile.event[self.gateCalculator.eventsInside[index]][_xParIndex];
+            }
             return (double)self.fcsFile.event[index][_xParIndex];
             break;
             
         case CPTCoordinateY:
+            if (self.plot.parentNode)
+            {
+                return (double)self.fcsFile.event[self.gateCalculator.eventsInside[index]][_yParIndex];
+            }
             return (double)self.fcsFile.event[index][_yParIndex];
             break;
             
@@ -280,59 +293,90 @@ static CPTPlotSymbol *plotSymbol;
     return aPoint;
 }
 
-
-#pragma mark Mark View
-- (void)showGate:(Gate *)aGate
+- (NSArray *)viewVerticesFromGateVertices:(NSArray *)gateVertices inView:(UIView *)aView plotSpace:(CPTPlotSpace *)plotSpace
 {
-    NSMutableArray *gateVerticesInViewCoordinates = NSMutableArray.array;
+    NSMutableArray *viewVertices = NSMutableArray.array;
     double graphPoint[2];
     
-    for (GraphPoint *aPoint in aGate.vertices)
+    for (GraphPoint *aPoint in gateVertices)
     {
         graphPoint[0] = aPoint.x;
         graphPoint[1] = aPoint.y;
-        CGPoint viewPoint = [self.plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
-        viewPoint = [self convertYAxis:viewPoint inView:self.markView];
-        [gateVerticesInViewCoordinates addObject:[NSValue valueWithCGPoint:viewPoint]];
+        CGPoint viewPoint = [plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
+        viewPoint = [self convertYAxis:viewPoint inView:aView];
+        [viewVertices addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
-    [self.markView drawPathWithPoints:gateVerticesInViewCoordinates];
+    [viewVertices removeLastObject];
+    return viewVertices;
 }
 
-#pragma Mark View Delegate
-- (void)didDrawPath:(CGPathRef)pathRef withPoints:(NSArray *)pathPoints insideRect:(CGRect)boundingRect sender:(id)sender
+
+- (NSArray *)gateVerticesFromViewVertices:(NSArray *)vertices inView:(UIView *)aView plotSpace:(CPTPlotSpace *)plotSpace
 {
     NSMutableArray *gateVertices = NSMutableArray.array;
     double graphPoint[2];
     
-    for (NSValue *aValue in pathPoints)
+    for (NSValue *aValue in vertices)
     {
         CGPoint pathPoint = aValue.CGPointValue;
         [self.plotSpace doublePrecisionPlotPoint:graphPoint
-                            forPlotAreaViewPoint:[self convertYAxis:pathPoint inView:(UIView *)sender]];
+                            forPlotAreaViewPoint:[self convertYAxis:pathPoint inView:aView]];
         GraphPoint *gateVertex = [GraphPoint pointWithX:(double)graphPoint[0]
                                                    andY:(double)graphPoint[1]];
         [gateVertices addObject:gateVertex];
         
     }
     [gateVertices addObject:gateVertices[0]];
-    GateCalculator *anotherGate = [GateCalculator gateWithVertices:gateVertices
-                                                          onEvents:self.fcsFile
-                                                            xParam:self.plot.xParNumber.integerValue - 1
-                                                            yParam:self.plot.yParNumber.integerValue - 1];
-    NSLog(@"anotherGate count: %i", anotherGate.numberOfCellsInside);
+    
+    return gateVertices;
+}
+
+
+#pragma mark - Mark View Delegate
+- (void)didDrawPath:(CGPathRef)pathRef withPoints:(NSArray *)pathPoints insideRect:(CGRect)boundingRect sender:(id)sender
+{
+    NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:sender plotSpace:self.plotSpace];
+    
+    GateCalculator *gateContents = [GateCalculator gateWithVertices:gateVertices
+                                                           onEvents:self.fcsFile
+                                                             xParam:self.plot.xParNumber.integerValue - 1
+                                                             yParam:self.plot.yParNumber.integerValue - 1];
+    NSLog(@"gateContents count: %i", gateContents.numberOfCellsInside);
     
     UILabel *numberLabel = (UILabel *)[self.view viewWithTag:99];
     numberLabel.textColor = UIColor.whiteColor;
-    numberLabel.text = [NSString stringWithFormat:@"%i cells", anotherGate.numberOfCellsInside];
-    for (Node *aNode in self.plot.childNodes)
-    {
-        [aNode deleteEntity];
-    }
-    [Gate createChildGateInPlot:self.plot
-                           type:kGateTypePolygon
-                       vertices:gateVertices];
+    numberLabel.text = [NSString stringWithFormat:@"%i cells", gateContents.numberOfCellsInside];
+
+    
+    Gate *gate = [Gate createChildGateInPlot:self.plot
+                                        type:kGateTypePolygon
+                                    vertices:gateVertices];
+    gate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
 
     [self.plot.managedObjectContext save];
+}
+
+
+- (void)didDoubleTapPathNumber:(NSUInteger)pathNumber
+{
+    Gate *gate = [self.plot.childNodes objectAtIndex:pathNumber];
+    [self.delegate didSelectGate:gate forPlot:self.plot];
+}
+
+
+#pragma mark Mark View Datasource
+- (NSUInteger)numberOfPathsInMarkView:(id)sender
+{
+    return self.plot.childNodes.count;
+}
+
+
+- (NSArray *)verticesForPath:(NSUInteger)pathNo inView:(id)sender
+{
+    Gate *gate = [self.plot.childNodes objectAtIndex:pathNo];
+    return [self viewVerticesFromGateVertices:gate.vertices
+                                       inView:self.markView
+                                    plotSpace:self.plotSpace];
 }
 
 @end

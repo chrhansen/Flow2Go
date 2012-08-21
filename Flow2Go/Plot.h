@@ -13,7 +13,7 @@
 
 @interface Plot : Node
 
-+ (Plot *)createPlotForAnalysis:(Analysis *)analysis;
++ (Plot *)createPlotForAnalysis:(Analysis *)analysis parentNode:(Node *)parentNode;
 
 + (Plot *)createChildPlotForGate:(Node *)parentNode
                        xAxisType:(AxisType)xAxisType

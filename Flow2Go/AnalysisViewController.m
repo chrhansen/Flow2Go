@@ -9,14 +9,16 @@
 #import "AnalysisViewController.h"
 #import "PlotViewController.h"
 #import "Analysis.h"
+#import "FCSFile.h"
 #import "Cell.h"
 #import "Plot.h"
 #import "Gate.h"
 #import "PinchLayout.h"
 
-@interface AnalysisViewController ()
+@interface AnalysisViewController () <PlotViewControllerDelegate>
 
 @property (nonatomic, strong) Analysis *analysis;
+@property (nonatomic, strong) FCSFile *fcsFile;
 
 @end
 
@@ -34,6 +36,15 @@
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                          target:self
                                                                                          action:@selector(doneTapped)];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (!_fcsFile)
+    {
+        self.fcsFile = [FCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename]];
+    }
 }
 
 
@@ -78,6 +89,49 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+- (FCSFile *)fcsFile
+{
+    if (!_fcsFile)
+    {
+        _fcsFile = [FCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename]];
+    }
+    return _fcsFile;
+}
+
+- (void)_presentPlot:(Plot *)plot
+{
+    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
+    PlotViewController *plotViewController = (PlotViewController *)navigationController.topViewController;
+    plotViewController.delegate = self;
+    [self presentViewController:navigationController animated:YES completion:nil];
+    
+    NSLog(@"xaxis: %@, yaxis: %@", plot.xParName, plot.yParName);
+    
+    [plotViewController showPlot:plot forMeasurement:self.analysis.measurement];
+}
+
+
+#pragma mark - PlotViewController delegate
+- (FCSFile *)fcsFile:(id)sender
+{
+    return self.fcsFile;
+}
+
+- (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        Plot *newPlot = [Plot createPlotForAnalysis:self.analysis parentNode:gate];
+        newPlot.xAxisType = plot.xAxisType;
+        newPlot.yAxisType = plot.yAxisType;
+        [newPlot.managedObjectContext save];
+        [self.collectionView reloadData];
+        [self _presentPlot:newPlot];
+    }];
+    
+    NSLog(@"selected a gate with count: %i", gate.cellCount.integerValue);
+}
+
 #pragma mark - Collection View Data source
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -95,12 +149,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     Plot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
-    
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
-    PlotViewController *plotViewController = (PlotViewController *)navigationController.topViewController;
-    [self presentViewController:navigationController animated:YES completion:nil];
-    
-    [plotViewController showPlot:plot forMeasurement:self.analysis.measurement];
+    [self _presentPlot:plot];
 }
 
 

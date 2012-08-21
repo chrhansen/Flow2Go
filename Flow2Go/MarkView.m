@@ -10,16 +10,37 @@
 
 @interface MarkView () <UIGestureRecognizerDelegate>
 
-- (void)panAction:(UIPanGestureRecognizer *)panGesture;
+- (IBAction)panAction:(UIPanGestureRecognizer *)panGesture;
+- (IBAction)doubleTapAction:(UITapGestureRecognizer *)tapGesture;
 
 @property (nonatomic, strong) NSMutableArray *pathPoints;
 @property (nonatomic, strong) UIBezierPath *path;
+@property (nonatomic, strong) NSMutableArray *paths;
 
 @end
 
 @implementation MarkView
 
-- (void)drawPathWithPoints:(NSArray *)pathPoints
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self drawPaths];
+    }
+    return self;
+}
+
+- (void)drawPaths
+{
+    NSUInteger numberOfPaths = [self.delegate numberOfPathsInMarkView:self];
+    for (NSUInteger pathNo = 0; pathNo < numberOfPaths; pathNo++)
+    {
+        [self _drawPathWithPoints:[self.delegate verticesForPath:pathNo inView:self]];
+    }
+}
+
+
+- (void)_drawPathWithPoints:(NSArray *)pathPoints
 {
     if (pathPoints.count > 2)
     {
@@ -32,38 +53,13 @@
         
         [self _endPathAtPoint:[pathPoints.lastObject CGPointValue]];
     }
-    else
-    {
-        [self _resetPath];
-    }
 }
 
-- (void)panAction:(UIPanGestureRecognizer *)panGesture
-{
-    CGPoint point = [panGesture locationInView:self];
-    
-    switch (panGesture.state)
-    {
-        case UIGestureRecognizerStateBegan:
-            [self _startPathAtPoint:point];
-            break;
-            
-        case UIGestureRecognizerStateChanged:
-            [self _extendPathWithPoint:point];
-            break;
-            
-        case UIGestureRecognizerStateEnded:
-            [self _endPathAtPoint:point];
-            break;
-            
-        default:
-            break;
-    }
-}
 
 - (void)_startPathAtPoint:(CGPoint)startPoint
 {
     [self _resetPath];
+    [self.paths addObject:self.path];
     [self.path moveToPoint:startPoint];
     [self.pathPoints addObject:[NSValue valueWithCGPoint:startPoint]];
     [self setNeedsDisplay];
@@ -86,7 +82,9 @@
 {
     [self.path closePath];
     [self.pathPoints addObject:[NSValue valueWithCGPoint:endPoint]];
-    [self.delegate didDrawPath:[self.path CGPath] withPoints:self.pathPoints insideRect:self.path.bounds sender:self];
+    [self.paths replaceObjectAtIndex:self.paths.count - 1
+                          withObject:[self.path copy]];
+
     [self setNeedsDisplayInRect:self.path.bounds];
 }
 
@@ -103,6 +101,9 @@
         self.pathPoints = NSMutableArray.array;
     }
     [self.pathPoints removeAllObjects];
+    if (!self.paths) {
+        self.paths = NSMutableArray.array;
+    }
 }
 
 
@@ -117,13 +118,71 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    //CGContextRef context = UIGraphicsGetCurrentContext();
     [UIColor.redColor setStroke];
     [UIColor.redColor setFill];
-    [self.path fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
 
-   // [self.path fill];
-    [self.path stroke];
+    for (UIBezierPath *aPath in self.paths)
+    {
+        [aPath fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
+        [aPath stroke];
+    }
+}
+
+
+#pragma mark Gesture Recognizers
+- (void)panAction:(UIPanGestureRecognizer *)panGesture
+{
+    CGPoint point = [panGesture locationInView:self];
+    
+    switch (panGesture.state)
+    {
+        case UIGestureRecognizerStateBegan:
+            [self _startPathAtPoint:point];
+            break;
+            
+        case UIGestureRecognizerStateChanged:
+            [self _extendPathWithPoint:point];
+            break;
+            
+        case UIGestureRecognizerStateEnded:
+            [self _endPathAtPoint:point];
+            [self.delegate didDrawPath:[self.path CGPath] withPoints:self.pathPoints insideRect:self.path.bounds sender:self];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)doubleTapAction:(UITapGestureRecognizer *)tapGesture
+{
+    NSInteger pathNo;
+    switch (tapGesture.state)
+    {
+        case UIGestureRecognizerStateRecognized:
+            pathNo = [self _indexOfPathForTapPoint:[tapGesture locationInView:self]];
+            if (pathNo >= 0)
+            {
+                [self.delegate didDoubleTapPathNumber:pathNo];
+            }
+            break;
+            
+            
+        default:
+            break;
+    }
+}
+
+- (NSInteger)_indexOfPathForTapPoint:(CGPoint)tapPoint
+{
+    for (UIBezierPath *aPath in self.paths)
+    {
+        if (CGPathContainsPoint([aPath CGPath], NULL, tapPoint, TRUE))
+        {
+            return [self.paths indexOfObject:aPath];
+        }
+    }
+    return -1;
 }
 
 @end

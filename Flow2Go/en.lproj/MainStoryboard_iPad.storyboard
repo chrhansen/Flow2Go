@@ -205,10 +205,11 @@
                                         </constraints>
                                         <connections>
                                             <outletCollection property="gestureRecognizers" destination="dNI-Fx-YUN" appends="YES" id="c8S-lw-DUK"/>
+                                            <outletCollection property="gestureRecognizers" destination="ckZ-Ph-q8U" appends="YES" id="FTg-Cs-zMv"/>
                                         </connections>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="BbR-6d-RAh" firstAttribute="bottom" secondItem="KT8-Y9-Bvk" secondAttribute="bottom" type="default" id="c95-jg-PtO"/>
                                     <constraint firstItem="BbR-6d-RAh" firstAttribute="trailing" secondItem="KT8-Y9-Bvk" secondAttribute="trailing" type="default" id="jJP-wx-H6f"/>
@@ -247,10 +248,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hti-KS-Tk1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="dNI-Fx-YUN">
                     <connections>
-                        <action selector="panAction:" destination="BbR-6d-RAh" id="zHm-BJ-bdH"/>
+                        <action selector="panAction:" destination="BbR-6d-RAh" id="mni-qL-x6i"/>
                         <outlet property="delegate" destination="BbR-6d-RAh" id="mNx-7O-PPX"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="ckZ-Ph-q8U">
+                    <connections>
+                        <action selector="doubleTapAction:" destination="BbR-6d-RAh" id="eUP-Q9-VDw"/>
+                        <outlet property="delegate" destination="BbR-6d-RAh" id="e2j-4d-oUA"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3346" y="940"/>
         </scene>
@@ -366,6 +373,10 @@
         </class>
         <class className="MarkView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MarkView.h"/>
+            <relationships>
+                <relationship kind="action" name="doubleTapAction:" candidateClass="UITapGestureRecognizer"/>
+                <relationship kind="action" name="panAction:" candidateClass="UIPanGestureRecognizer"/>
+            </relationships>
         </class>
         <class className="MeasurementCollectionViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MeasurementCollectionViewController.h"/>
@@ -379,6 +390,8 @@
         <class className="PlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
             <relationships>
+                <relationship kind="action" name="xAxisTapped:"/>
+                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="graphView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
@@ -396,9 +409,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

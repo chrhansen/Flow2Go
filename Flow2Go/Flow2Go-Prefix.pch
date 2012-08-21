@@ -9,6 +9,7 @@
 #endif
 
 #define MR_SHORTHAND
+#define MR_ENABLE_ACTIVE_RECORD_LOGGING 0
 
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>

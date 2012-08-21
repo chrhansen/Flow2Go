@@ -28,6 +28,8 @@
     
     newGate.xParName = parentNode.xParName;
     newGate.yParName = parentNode.yParName;
+    newGate.xParNumber = parentNode.xParNumber;
+    newGate.yParNumber = parentNode.yParNumber;
     
     return newGate;
 }

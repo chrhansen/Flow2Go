@@ -10,13 +10,19 @@
 
 @protocol MarkViewDelegate <NSObject>
 
+// Datasource methods
+- (NSUInteger)numberOfPathsInMarkView:(id)sender;
+- (NSArray *)verticesForPath:(NSUInteger)pathNo inView:(id)sender;
+
+// Delegate methods
 - (void)didDrawPath:(CGPathRef)pathRef withPoints:(NSArray *)pathPoints insideRect:(CGRect)boundingRect sender:(id)sender;
+- (void)didDoubleTapPathNumber:(NSUInteger)pathNumber;
 
 @end
 
 @interface MarkView : UIView 
 
-- (void)drawPathWithPoints:(NSArray *)pathPoints;
+- (void)drawPaths;
 
 @property (nonatomic, weak) id<MarkViewDelegate> delegate;
 

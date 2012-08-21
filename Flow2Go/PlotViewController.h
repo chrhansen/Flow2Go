@@ -14,6 +14,12 @@
 
 @class Plot;
 @class Gate;
+@class FCSFile;
+
+@protocol PlotViewControllerDelegate <NSObject>
+- (FCSFile *)fcsFile:(id)sender;
+- (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot;
+@end
 
 @interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate>
 {
@@ -25,6 +31,6 @@
 @property (nonatomic, weak) IBOutlet MarkView *markView;
 @property (weak, nonatomic) IBOutlet UIButton *xAxisButton;
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
-
+@property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;
 
 @end

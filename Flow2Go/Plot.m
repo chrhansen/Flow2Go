@@ -14,11 +14,15 @@
 @dynamic xAxisType;
 @dynamic yAxisType;
 
-+ (Plot *)createPlotForAnalysis:(Analysis *)analysis
-
++ (Plot *)createPlotForAnalysis:(Analysis *)analysis parentNode:(Node *)parentNode
 {
     Plot *newPlot = [Plot createInContext:analysis.managedObjectContext];
     newPlot.analysis = analysis;
+    newPlot.parentNode = parentNode;
+    newPlot.xParName = parentNode.xParName;
+    newPlot.yParName = parentNode.yParName;
+    newPlot.xParNumber = parentNode.xParNumber;
+    newPlot.yParNumber = parentNode.yParNumber;
     
     return newPlot;
 }

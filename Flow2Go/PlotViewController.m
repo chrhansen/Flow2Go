@@ -125,8 +125,8 @@
         self.plot.yParName = [FCSFile parameterShortNameForParameterIndex:buttonIndex
                                                                 inFCSFile:self.fcsFile];
     }
-    [self.graph reloadData];
     [self.plot.managedObjectContext save];
+    [self.graph reloadData];
 }
 
 
@@ -198,10 +198,10 @@
         plot = [Plot createEntity];
     }
     self.plot = plot;
-    
-    [self _setAxisIfNeeded];
-    
+        
     self.fcsFile = [self.delegate fcsFile:self];
+    [self _setAxisIfNeeded];
+
     
     Gate *parentGate = (Gate *)self.plot.parentNode;
     
@@ -226,11 +226,15 @@
     if (self.plot.xParNumber.integerValue < 1)
     {
         self.plot.xParNumber = [NSNumber numberWithInteger:1];
+        self.plot.xParName = [FCSFile parameterShortNameForParameterIndex:0
+                                                                inFCSFile:self.fcsFile];
         NSLog(@"setting default x-axis");
     }
     if (self.plot.yParNumber.integerValue < 1)
     {
         self.plot.yParNumber = [NSNumber numberWithInteger:2];
+        self.plot.yParName = [FCSFile parameterShortNameForParameterIndex:1
+                                                                inFCSFile:self.fcsFile];
         NSLog(@"setting default y-axis");
     }
     [self.plot.managedObjectContext save];

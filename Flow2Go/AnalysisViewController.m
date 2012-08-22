@@ -126,6 +126,7 @@
         newPlot.yAxisType = plot.yAxisType;
         [newPlot.managedObjectContext save];
         [self.collectionView reloadData];
+        
         [self _presentPlot:newPlot];
     }];
     

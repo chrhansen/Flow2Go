@@ -15,6 +15,7 @@
 @dynamic name;
 @dynamic type;
 @dynamic vertices;
+@dynamic subSet;
 
 + (Gate *)createChildGateInPlot:(Node *)parentNode
                            type:(GateType)gateType

@@ -19,31 +19,35 @@
     NSInteger _yParIndex;
 }
 
-@property (nonatomic, strong) Plot *plot;
-@property (nonatomic, strong) GateCalculator *gateCalculator;
+@property (nonatomic, strong) GateCalculator *parentGateCalculator;
 @property (nonatomic, strong) CPTXYGraph *graph;
 @property (nonatomic, strong) CPTScatterPlot *scatterPlot;
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) NSOperationQueue *parseQueue;
-@property (nonatomic, strong) Measurement *measurement;
 @property (nonatomic) NSUInteger numberOfEventsToPlot;
-@property (nonatomic, strong) UIActionSheet *xAxisActionSheet;
-@property (nonatomic, strong) UIActionSheet *yAxisActionSheet;
 
 @end
 
 @implementation PlotViewController
 
+#define X_AXIS_SHEET 1
+#define Y_AXIS_SHEET 2
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                         target:self
                                                                                         action:@selector(doneTapped)];
     self.markView.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self _configureButtons];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -51,13 +55,21 @@
     [super viewDidAppear:animated];
     [self _insertGraph];
     [self _insertScatterPlot];
-    [self.markView drawPaths];
+    [self _updateAxisAndPlotRange];
+    [self performSelector:@selector(_drawGates) withObject:self afterDelay:0.25];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)_configureButtons
+{
+    [self.xAxisButton setTitle:self.plot.xParName forState:UIControlStateNormal];
+    [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
 }
 
 - (void)doneTapped
@@ -73,35 +85,31 @@
 
 - (IBAction)xAxisTapped:(id)sender
 {
-    self.xAxisActionSheet = [UIActionSheet.alloc initWithTitle:nil
-                                                      delegate:self
-                                             cancelButtonTitle:nil
-                                        destructiveButtonTitle:nil
-                                             otherButtonTitles:nil];
-    [self _showAxisPicker:self.xAxisActionSheet fromButton:sender];
+    [self _showAxisPicker:X_AXIS_SHEET fromButton:sender];
 }
 
 
 - (IBAction)yAxisTapped:(id)sender
 {
-    self.yAxisActionSheet = [UIActionSheet.alloc initWithTitle:nil
-                                                      delegate:self
-                                             cancelButtonTitle:nil
-                                        destructiveButtonTitle:nil
-                                             otherButtonTitles:nil];
-    [self _showAxisPicker:self.yAxisActionSheet fromButton:sender];
+    [self _showAxisPicker:Y_AXIS_SHEET fromButton:sender];
 }
 
 
-- (void)_showAxisPicker:(UIActionSheet *)actionSheet fromButton:(UIButton *)axisButton
+- (void)_showAxisPicker:(NSInteger)axisNumber fromButton:(UIButton *)axisButton
 {
-    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    UIActionSheet *axisPickerSheet = [UIActionSheet.alloc initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:nil
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:nil];
+    axisPickerSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    axisPickerSheet.tag = axisNumber;
     
     for (NSUInteger parIndex = 0; parIndex < [self.fcsFile.text[@"$PAR"] integerValue]; parIndex++)
     {
-        [actionSheet addButtonWithTitle:[FCSFile parameterNameForParameterIndex:parIndex inFCSFile:self.fcsFile]];
+        [axisPickerSheet addButtonWithTitle:[FCSFile parameterNameForParameterIndex:parIndex inFCSFile:self.fcsFile]];
     }
-    [actionSheet showFromRect:axisButton.frame inView:graphView animated:YES];
+    [axisPickerSheet showFromRect:axisButton.frame inView:self.graphHostingView animated:YES];
 }
 
 
@@ -111,73 +119,46 @@
     {
         return;
     }
-    if (actionSheet == self.xAxisActionSheet)
+    if (actionSheet.tag == X_AXIS_SHEET)
     {
         self.plot.xParNumber = [NSNumber numberWithInteger:buttonIndex + 1];
         _xParIndex = self.plot.xParNumber.integerValue - 1;
         self.plot.xParName = [FCSFile parameterShortNameForParameterIndex:buttonIndex
                                                                 inFCSFile:self.fcsFile];
+        [self.xAxisButton setTitle:self.plot.xParName forState:UIControlStateNormal];
     }
-    else if (actionSheet == self.yAxisActionSheet)
+    else if (actionSheet.tag == Y_AXIS_SHEET)
     {
         self.plot.yParNumber = [NSNumber numberWithInteger:buttonIndex + 1];
         _yParIndex = self.plot.yParNumber.integerValue - 1;
         self.plot.yParName = [FCSFile parameterShortNameForParameterIndex:buttonIndex
                                                                 inFCSFile:self.fcsFile];
+        [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     }
-    [self.plot.managedObjectContext save];
+    [self _updateAxisAndPlotRange];
     [self.graph reloadData];
+    [self.plot.managedObjectContext save];
 }
 
 
-- (void)_insertGraph
+- (void)_drawGates
 {
-    self.graph = [CPTXYGraph.alloc initWithFrame:graphView.frame];
-    CPTTheme *theme = [CPTTheme themeNamed:kCPTDarkGradientTheme];
-    [self.graph applyTheme:theme];
-    
-    CPTGraphHostingView *newHostingView = [CPTGraphHostingView.alloc initWithFrame:graphView.bounds];
-    newHostingView.hostedGraph = _graph;
-    [graphView addSubview:newHostingView];
-    newHostingView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.markView drawPaths];
+}
 
-    [graphView sendSubviewToBack:newHostingView];
-
+- (void)_insertGraph
+{    
+    self.graph = [CPTXYGraph.alloc initWithFrame:self.graphHostingView.bounds];
+    [self.graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
+    self.graphHostingView.hostedGraph = _graph;
 }
 
 - (void)_insertScatterPlot
 {    
     // Add plot space for horizontal bar charts
     self.plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-    self.plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromInteger(0) length:CPTDecimalFromInteger(1024)];
-    self.plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromInteger(0) length:CPTDecimalFromInteger(1024)];
     self.plotSpace.allowsUserInteraction = YES;
     self.plotSpace.delegate = self;
-    
-    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
-    CPTXYAxis *x = axisSet.xAxis;
-    x.axisLineStyle = nil;
-    x.majorTickLineStyle = nil;
-    x.minorTickLineStyle = nil;
-    x.majorIntervalLength = CPTDecimalFromString(@"200");
-    x.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
-    x.title = @"";
-    x.titleOffset = 45.0f;
-    x.titleLocation = CPTDecimalFromFloat(500.0f);
-    x.labelRotation = M_PI/4;
-    x.axisConstraints = [CPTConstraints constraintWithLowerOffset:45.0f];
-    
-    CPTXYAxis *y = axisSet.yAxis;
-    y.axisLineStyle = nil;
-    y.majorTickLineStyle = nil;
-    y.minorTickLineStyle = nil;
-    y.majorIntervalLength = CPTDecimalFromString(@"200");
-    y.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
-    y.title = @"";
-    y.titleOffset = 50.0f;
-    y.titleLocation = CPTDecimalFromFloat(500.0f);
-    y.axisConstraints = [CPTConstraints constraintWithLowerOffset:50.0f];
-
     
     CPTScatterPlot *scatterPlot = [CPTScatterPlot.alloc init];
     scatterPlot.dataSource = self;
@@ -189,35 +170,88 @@
     [self.graph addPlot:scatterPlot toPlotSpace:self.plotSpace];
 }
 
-
-- (void)showPlot:(Plot *)plot forMeasurement:(Measurement *)aMeasurement
+- (void)_updateAxisAndPlotRange
 {
-    if (!plot)
+    NSInteger xParRange = [self.fcsFile rangeOfParameterIndex:self.plot.xParNumber.integerValue - 1];
+    NSInteger yParRange = [self.fcsFile rangeOfParameterIndex:self.plot.yParNumber.integerValue - 1];
+    
+//    NSArray *xAxisComponents = [self.fcsFile amplificationComponentsForParameterIndex:self.plot.xParNumber.integerValue - 1];
+//    if ([xAxisComponents[0] integerValue] == 0)
+//    {
+//        self.plotSpace.xScaleType = CPTScaleTypeLinear;
+//    }
+//    else
+//    {
+//        self.plotSpace.xScaleType = CPTScaleTypeLog;
+//    }
+//    
+//    NSArray *yAxisComponents = [self.fcsFile amplificationComponentsForParameterIndex:self.plot.yParNumber.integerValue - 1];
+//    if ([yAxisComponents[0] integerValue] == 0)
+//    {
+//        self.plotSpace.yScaleType = CPTScaleTypeLinear;
+//    }
+//    else
+//    {
+//        self.plotSpace.yScaleType = CPTScaleTypeLog;
+//    }
+    
+    self.plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromInteger(- xParRange / 20) length:CPTDecimalFromInteger(xParRange + xParRange / 20)];
+    self.plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromInteger(- yParRange / 20) length:CPTDecimalFromInteger(yParRange + yParRange / 20)];
+    
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
+    CPTXYAxis *x = axisSet.xAxis;
+    x.axisLineStyle = nil;
+    x.majorTickLineStyle = nil;
+    x.minorTickLineStyle = nil;
+    x.majorIntervalLength = CPTDecimalFromInteger(xParRange / 5);
+    x.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
+    x.title = self.plot.xParName;
+    x.titleOffset = 0.0;
+    x.titleLocation = CPTDecimalFromFloat(500.0f);
+    x.labelRotation = M_PI/4;
+    x.axisConstraints = [CPTConstraints constraintWithLowerOffset:45.0f];
+    
+    CPTXYAxis *y = axisSet.yAxis;
+    y.axisLineStyle = nil;
+    y.majorTickLineStyle = nil;
+    y.minorTickLineStyle = nil;
+    y.majorIntervalLength = CPTDecimalFromInteger(yParRange / 5);
+    y.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
+    y.title = self.plot.yParName;
+    y.titleOffset = 0.0;
+    y.titleLocation = CPTDecimalFromFloat(500.0f);
+    y.axisConstraints = [CPTConstraints constraintWithLowerOffset:50.0f];
+}
+
+
+- (void)prepareDataForPlot
+{
+    if (!self.plot)
     {
         NSLog(@"plot was nil");
-        plot = [Plot createEntity];
-    }
-    self.plot = plot;
-        
+        return;
+    }        
     self.fcsFile = [self.delegate fcsFile:self];
     [self _setAxisIfNeeded];
 
-    
     Gate *parentGate = (Gate *)self.plot.parentNode;
     
     if (parentGate)
     {
-        self.gateCalculator = [GateCalculator gateWithVertices:parentGate.vertices
-                                                      onEvents:self.fcsFile
-                                                        xParam:self.plot.xParNumber.integerValue - 1
-                                                        yParam:self.plot.yParNumber.integerValue - 1];
+        self.parentGateCalculator = [GateCalculator.alloc init];
+        self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
+        self.parentGateCalculator.numberOfCellsInside = parentGate.cellCount.integerValue;
+        NSData *data = parentGate.subSet;
+        NSUInteger len = [data length];
+        
+        memcpy(self.parentGateCalculator.eventsInside, [data bytes], len);
+        
         self.numberOfEventsToPlot = parentGate.cellCount.integerValue;
     }
     else
     {
         self.numberOfEventsToPlot = self.fcsFile.noOfEvents;
     }
-    [self.graph reloadData];
 }
 
 
@@ -253,17 +287,17 @@
     switch (fieldEnum)
     {
         case CPTCoordinateX:
-            if (self.plot.parentNode)
+            if (self.parentGateCalculator)
             {
-                return (double)self.fcsFile.event[self.gateCalculator.eventsInside[index]][_xParIndex];
+                return (double)self.fcsFile.event[self.parentGateCalculator.eventsInside[index]][_xParIndex];
             }
             return (double)self.fcsFile.event[index][_xParIndex];
             break;
             
         case CPTCoordinateY:
-            if (self.plot.parentNode)
+            if (self.parentGateCalculator)
             {
-                return (double)self.fcsFile.event[self.gateCalculator.eventsInside[index]][_yParIndex];
+                return (double)self.fcsFile.event[self.parentGateCalculator.eventsInside[index]][_yParIndex];
             }
             return (double)self.fcsFile.event[index][_yParIndex];
             break;
@@ -287,15 +321,9 @@ static CPTPlotSymbol *plotSymbol;
         plotSymbol.lineStyle = nil;
         plotSymbol.size = CGSizeMake(1.0, 1.0);
     }
-    
     return plotSymbol;
 }
 
-- (CGPoint)convertYAxis:(CGPoint)aPoint inView:(UIView *)aView
-{
-    aPoint.y = aView.frame.size.height - aPoint.y;
-    return aPoint;
-}
 
 - (NSArray *)viewVerticesFromGateVertices:(NSArray *)gateVertices inView:(UIView *)aView plotSpace:(CPTPlotSpace *)plotSpace
 {
@@ -307,10 +335,10 @@ static CPTPlotSymbol *plotSymbol;
         graphPoint[0] = aPoint.x;
         graphPoint[1] = aPoint.y;
         CGPoint viewPoint = [plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
-        viewPoint = [self convertYAxis:viewPoint inView:aView];
+        viewPoint = [self.markView.layer convertPoint:viewPoint fromLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
+        
         [viewVertices addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
-    [viewVertices removeLastObject];
     return viewVertices;
 }
 
@@ -323,15 +351,12 @@ static CPTPlotSymbol *plotSymbol;
     for (NSValue *aValue in vertices)
     {
         CGPoint pathPoint = aValue.CGPointValue;
-        [self.plotSpace doublePrecisionPlotPoint:graphPoint
-                            forPlotAreaViewPoint:[self convertYAxis:pathPoint inView:aView]];
-        GraphPoint *gateVertex = [GraphPoint pointWithX:(double)graphPoint[0]
-                                                   andY:(double)graphPoint[1]];
-        [gateVertices addObject:gateVertex];
+        pathPoint = [aView.layer convertPoint:pathPoint toLayer:plotSpace.graph.plotAreaFrame.plotArea];
+        [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:pathPoint];
         
-    }
-    [gateVertices addObject:gateVertices[0]];
-    
+        GraphPoint *gateVertex = [GraphPoint pointWithX:(double)graphPoint[0] andY:(double)graphPoint[1]];
+        [gateVertices addObject:gateVertex];
+    }    
     return gateVertices;
 }
 
@@ -341,22 +366,25 @@ static CPTPlotSymbol *plotSymbol;
 {
     NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:sender plotSpace:self.plotSpace];
     
-    GateCalculator *gateContents = [GateCalculator gateWithVertices:gateVertices
-                                                           onEvents:self.fcsFile
-                                                             xParam:self.plot.xParNumber.integerValue - 1
-                                                             yParam:self.plot.yParNumber.integerValue - 1];
+    GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
+                                                               fcsFile:self.fcsFile
+                                                            insidePlot:self.plot
+                                                                subSet:self.parentGateCalculator.eventsInside
+                                                           subSetCount:self.parentGateCalculator.numberOfCellsInside];
+    
     NSLog(@"gateContents count: %i", gateContents.numberOfCellsInside);
     
     UILabel *numberLabel = (UILabel *)[self.view viewWithTag:99];
     numberLabel.textColor = UIColor.whiteColor;
     numberLabel.text = [NSString stringWithFormat:@"%i cells", gateContents.numberOfCellsInside];
-
     
     Gate *gate = [Gate createChildGateInPlot:self.plot
                                         type:kGateTypePolygon
                                     vertices:gateVertices];
+    gate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside
+                                 length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
     gate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
-
+    
     [self.plot.managedObjectContext save];
 }
 
@@ -365,6 +393,26 @@ static CPTPlotSymbol *plotSymbol;
 {
     Gate *gate = [self.plot.childNodes objectAtIndex:pathNumber];
     [self.delegate didSelectGate:gate forPlot:self.plot];
+}
+
+
+- (void)didDoubleTapAtPoint:(CGPoint)point
+{
+    NSLog(@"Tapped    point         :%@", NSStringFromCGPoint(point));
+    
+    point = [self.markView.layer convertPoint:point toLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
+    NSLog(@"Plot Area point         :%@", NSStringFromCGPoint(point));
+
+    double graphPoint[2];
+    [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:point];
+    NSLog(@"Data point              :{%.1f,%.1f}", graphPoint[0], graphPoint[1]);
+    
+    point = [self.plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
+    NSLog(@"Back to plot Area point :%@", NSStringFromCGPoint(point));
+
+    
+    point = [self.markView.layer convertPoint:point fromLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
+    NSLog(@"Back to tapped point    :%@", NSStringFromCGPoint(point));
 }
 
 
@@ -378,9 +426,10 @@ static CPTPlotSymbol *plotSymbol;
 - (NSArray *)verticesForPath:(NSUInteger)pathNo inView:(id)sender
 {
     Gate *gate = [self.plot.childNodes objectAtIndex:pathNo];
-    return [self viewVerticesFromGateVertices:gate.vertices
-                                       inView:self.markView
-                                    plotSpace:self.plotSpace];
+    NSArray *viewArray = [self viewVerticesFromGateVertices:gate.vertices
+                                                     inView:self.markView
+                                                  plotSpace:self.plotSpace];
+    return viewArray;
 }
 
 @end

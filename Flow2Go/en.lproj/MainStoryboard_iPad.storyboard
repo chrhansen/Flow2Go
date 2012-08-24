@@ -148,137 +148,6 @@
             </objects>
             <point key="canvasLocation" x="679" y="-284"/>
         </scene>
-        <!--Plot View Controller-->
-        <scene sceneID="IZU-yv-OIZ">
-            <objects>
-                <viewController storyboardIdentifier="" id="AQ1-mX-YF5" customClass="PlotViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="wYc-tF-Vl9">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="KT8-Y9-Bvk">
-                                <subviews>
-                                    <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="BbR-6d-RAh" customClass="MarkView">
-                                        <subviews>
-                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OdH-12-csR">
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="135" id="W8s-HM-ebe"/>
-                                                    <constraint firstAttribute="width" constant="44" id="Wuk-nL-cwO"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="y-axis">
-                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="yAxisTapped:" destination="AQ1-mX-YF5" eventType="touchUpInside" id="XjO-7v-dlc"/>
-                                                </connections>
-                                            </button>
-                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q9H-Is-Yr9">
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="135" id="Cmu-93-x3h"/>
-                                                    <constraint firstAttribute="height" constant="44" id="DNE-6c-ALU"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="x-axis">
-                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="xAxisTapped:" destination="AQ1-mX-YF5" eventType="touchUpInside" id="ekv-Em-NRw"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstItem="OdH-12-csR" firstAttribute="leading" secondItem="BbR-6d-RAh" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="3mO-6i-VWk"/>
-                                            <constraint firstItem="OdH-12-csR" firstAttribute="top" secondItem="BbR-6d-RAh" secondAttribute="top" constant="412" id="6bd-8u-jaE"/>
-                                            <constraint firstAttribute="bottom" secondItem="Q9H-Is-Yr9" secondAttribute="bottom" constant="6" id="MPl-NK-ga5"/>
-                                            <constraint firstItem="Q9H-Is-Yr9" firstAttribute="centerX" secondItem="BbR-6d-RAh" secondAttribute="centerX" type="default" id="UnD-aU-hCi"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="dNI-Fx-YUN" appends="YES" id="c8S-lw-DUK"/>
-                                            <outletCollection property="gestureRecognizers" destination="ckZ-Ph-q8U" appends="YES" id="FTg-Cs-zMv"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="BbR-6d-RAh" firstAttribute="bottom" secondItem="KT8-Y9-Bvk" secondAttribute="bottom" type="default" id="c95-jg-PtO"/>
-                                    <constraint firstItem="BbR-6d-RAh" firstAttribute="trailing" secondItem="KT8-Y9-Bvk" secondAttribute="trailing" type="default" id="jJP-wx-H6f"/>
-                                    <constraint firstItem="BbR-6d-RAh" firstAttribute="leading" secondItem="KT8-Y9-Bvk" secondAttribute="leading" type="default" id="vE4-TX-k4H"/>
-                                    <constraint firstItem="BbR-6d-RAh" firstAttribute="top" secondItem="KT8-Y9-Bvk" secondAttribute="top" type="default" id="zeq-ia-EGk"/>
-                                </constraints>
-                            </view>
-                            <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="UcF-0J-TOO">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="299" id="2Kw-k3-28O"/>
-                                    <constraint firstAttribute="height" constant="21" id="PQV-bH-jsr"/>
-                                </constraints>
-                                <nil key="highlightedColor"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="27"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="KT8-Y9-Bvk" firstAttribute="bottom" secondItem="wYc-tF-Vl9" secondAttribute="bottom" type="default" id="O3N-4m-Avg"/>
-                            <constraint firstItem="KT8-Y9-Bvk" firstAttribute="leading" secondItem="wYc-tF-Vl9" secondAttribute="leading" type="default" id="XzG-Y1-esl"/>
-                            <constraint firstItem="UcF-0J-TOO" firstAttribute="leading" secondItem="wYc-tF-Vl9" secondAttribute="leading" constant="151" id="afO-qH-OTD"/>
-                            <constraint firstAttribute="bottom" secondItem="UcF-0J-TOO" secondAttribute="bottom" constant="61" id="cSD-mi-mGJ"/>
-                            <constraint firstItem="KT8-Y9-Bvk" firstAttribute="top" secondItem="wYc-tF-Vl9" secondAttribute="top" type="default" id="cto-Tf-uqc"/>
-                            <constraint firstItem="KT8-Y9-Bvk" firstAttribute="trailing" secondItem="wYc-tF-Vl9" secondAttribute="trailing" type="default" id="rGv-1i-DtP"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="wH0-fK-1wg"/>
-                    <connections>
-                        <outlet property="graphView" destination="KT8-Y9-Bvk" id="4xv-8z-45a"/>
-                        <outlet property="markView" destination="BbR-6d-RAh" id="Cpw-XT-Y7t"/>
-                        <outlet property="xAxisButton" destination="Q9H-Is-Yr9" id="Xf9-E3-jde"/>
-                        <outlet property="yAxisButton" destination="OdH-12-csR" id="NBR-AD-yEp"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Hti-KS-Tk1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="dNI-Fx-YUN">
-                    <connections>
-                        <action selector="panAction:" destination="BbR-6d-RAh" id="mni-qL-x6i"/>
-                        <outlet property="delegate" destination="BbR-6d-RAh" id="mNx-7O-PPX"/>
-                    </connections>
-                </panGestureRecognizer>
-                <tapGestureRecognizer numberOfTapsRequired="2" id="ckZ-Ph-q8U">
-                    <connections>
-                        <action selector="doubleTapAction:" destination="BbR-6d-RAh" id="eUP-Q9-VDw"/>
-                        <outlet property="delegate" destination="BbR-6d-RAh" id="e2j-4d-oUA"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="3346" y="940"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="9w0-kL-AVh">
-            <objects>
-                <navigationController storyboardIdentifier="plotViewController" id="oZA-mv-5Dh" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="0e9-RR-6yY">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="AQ1-mX-YF5" kind="relationship" relationship="rootViewController" id="4xZ-Dm-FId"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gNq-hR-jr4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2417" y="940"/>
-        </scene>
         <!--Analysis View Controller-->
         <scene sceneID="U0y-KD-Tn8">
             <objects>
@@ -288,25 +157,35 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="x5z-u3-nyQ" customClass="PinchLayout">
-                            <size key="itemSize" width="150" height="100"/>
+                            <size key="itemSize" width="129" height="90"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="30" minY="30" maxX="30" maxY="30"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Plot Cell" id="Ryg-H8-ckt" customClass="Cell">
-                                <rect key="frame" x="60" y="30" width="150" height="100"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Plot Cell" id="Ryg-H8-ckt" customClass="PlotCell">
+                                <rect key="frame" x="60" y="30" width="129" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="150" height="100"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="129" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="66" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Label" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="p6C-KK-yZH">
+                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Parent" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Dd6-l8-gxH">
                                             <nil key="highlightedColor"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         </label>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="88" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Label" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="lCg-IC-BVT">
+                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="X-name" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="vjh-v4-tyu">
+                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        </label>
+                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Y-name" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="b8s-Nv-4dv">
+                                            <nil key="highlightedColor"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        </label>
+                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Cellcount" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="WmB-tE-ns5">
                                             <nil key="highlightedColor"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -316,15 +195,25 @@
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="lCg-IC-BVT" secondAttribute="bottom" constant="20" type="default" id="9Q6-P1-EiK"/>
-                                    <constraint firstAttribute="trailing" secondItem="p6C-KK-yZH" secondAttribute="trailing" constant="20" type="default" id="Gxg-pH-BN2"/>
-                                    <constraint firstAttribute="trailing" secondItem="lCg-IC-BVT" secondAttribute="trailing" constant="20" type="default" id="PLL-aZ-RL6"/>
-                                    <constraint firstItem="p6C-KK-yZH" firstAttribute="top" secondItem="Ryg-H8-ckt" secondAttribute="top" constant="20" type="default" id="fgg-Zu-kd6"/>
-                                    <constraint firstItem="lCg-IC-BVT" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" constant="20" type="default" id="sCL-5H-i55"/>
-                                    <constraint firstItem="p6C-KK-yZH" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" constant="20" type="default" id="sPP-Wx-6V7"/>
+                                    <constraint firstItem="Dd6-l8-gxH" firstAttribute="top" secondItem="Ryg-H8-ckt" secondAttribute="top" constant="3" id="0un-Oq-jxG"/>
+                                    <constraint firstItem="Dd6-l8-gxH" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="2aY-7J-ul9"/>
+                                    <constraint firstItem="WmB-tE-ns5" firstAttribute="bottom" secondItem="Ryg-H8-ckt" secondAttribute="bottom" type="default" id="I0j-Jy-mr0"/>
+                                    <constraint firstItem="b8s-Nv-4dv" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="Lja-Uw-G8P"/>
+                                    <constraint firstItem="vjh-v4-tyu" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="VCh-iS-i6i"/>
+                                    <constraint firstItem="WmB-tE-ns5" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="VVi-QB-A34"/>
+                                    <constraint firstAttribute="bottom" secondItem="b8s-Nv-4dv" secondAttribute="bottom" constant="21" id="Zce-f3-4Ds"/>
+                                    <constraint firstItem="b8s-Nv-4dv" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="ekV-aw-dpp"/>
+                                    <constraint firstItem="Dd6-l8-gxH" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="gwW-2a-Px1"/>
+                                    <constraint firstItem="vjh-v4-tyu" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="hHO-UM-qsp"/>
+                                    <constraint firstItem="vjh-v4-tyu" firstAttribute="top" secondItem="Ryg-H8-ckt" secondAttribute="top" constant="27" id="ike-hB-fNE"/>
+                                    <constraint firstItem="WmB-tE-ns5" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="vTh-5c-6ZY"/>
                                 </constraints>
+                                <size key="customSize" width="129" height="90"/>
                                 <connections>
-                                    <outlet property="downLoadProgress" destination="lCg-IC-BVT" id="0O6-uz-Rhg"/>
+                                    <outlet property="cellCount" destination="WmB-tE-ns5" id="DnK-JA-S31"/>
+                                    <outlet property="parentGateName" destination="Dd6-l8-gxH" id="V50-ce-KfK"/>
+                                    <outlet property="xAxisName" destination="vjh-v4-tyu" id="d3s-zx-Idh"/>
+                                    <outlet property="yAxisName" destination="b8s-Nv-4dv" id="PaZ-A9-TWj"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -337,7 +226,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="if3-BU-7gG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1488" y="998"/>
+            <point key="canvasLocation" x="1582" y="1046"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vLs-oR-pf4">
@@ -357,10 +246,131 @@
             </objects>
             <point key="canvasLocation" x="551" y="1020"/>
         </scene>
+        <!--Plot View Controller-->
+        <scene sceneID="gbk-Y6-xUc">
+            <objects>
+                <viewController storyboardIdentifier="" id="Suk-IT-K3u" customClass="PlotViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XCE-Ji-0vq">
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="gZF-Qg-W0f" customClass="CPTGraphHostingView">
+                                <subviews>
+                                    <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="4Y6-vR-W5x" customClass="MarkView">
+                                        <subviews>
+                                            <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="zjb-WV-mWT">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="299" id="8mG-ha-bkZ"/>
+                                                    <constraint firstAttribute="height" constant="21" id="RpA-6L-air"/>
+                                                </constraints>
+                                                <nil key="highlightedColor"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="27"/>
+                                            </label>
+                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P5F-po-NHv">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="279" id="ggu-Sq-efx"/>
+                                                    <constraint firstAttribute="height" constant="44" id="xvr-MK-0UC"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="x-axis">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="xAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="5lJ-f3-GrH"/>
+                                                </connections>
+                                            </button>
+                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J3P-ip-Owu">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="74" id="4j8-rL-AMm"/>
+                                                    <constraint firstAttribute="height" constant="170" id="fm5-zs-w1Y"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="y-axis">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="yAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="dvX-5X-ucq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstItem="J3P-ip-Owu" firstAttribute="baseline" secondItem="zjb-WV-mWT" secondAttribute="baseline" type="default" id="2bJ-T1-ng3"/>
+                                            <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="98C-74-oTE"/>
+                                            <constraint firstItem="J3P-ip-Owu" firstAttribute="top" secondItem="4Y6-vR-W5x" secondAttribute="top" constant="392" id="9rZ-db-yfT"/>
+                                            <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="JI7-sm-4zI"/>
+                                            <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="n4G-wm-ExY"/>
+                                            <constraint firstItem="zjb-WV-mWT" firstAttribute="centerY" secondItem="4Y6-vR-W5x" secondAttribute="centerY" type="default" id="rLW-YC-ggG"/>
+                                            <constraint firstItem="zjb-WV-mWT" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="10" id="yEt-B6-6J8"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="top" secondItem="gZF-Qg-W0f" secondAttribute="top" type="default" id="0rQ-Om-AyT"/>
+                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="trailing" secondItem="gZF-Qg-W0f" secondAttribute="trailing" type="default" id="LMM-gU-4Ja"/>
+                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="bottom" secondItem="gZF-Qg-W0f" secondAttribute="bottom" type="default" id="e77-n6-iDz"/>
+                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="leading" secondItem="gZF-Qg-W0f" secondAttribute="leading" type="default" id="lnW-Rr-2xt"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="N17-sT-UEs"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="Uaq-pV-KfS"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="jhe-CF-qdc"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="tT9-ng-2Ao"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="lY7-o6-c94"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="graphHostingView" destination="gZF-Qg-W0f" id="VfW-yJ-BvA"/>
+                        <outlet property="markView" destination="4Y6-vR-W5x" id="1Yq-QV-onk"/>
+                        <outlet property="xAxisButton" destination="P5F-po-NHv" id="VxN-Xy-g1j"/>
+                        <outlet property="yAxisButton" destination="J3P-ip-Owu" id="bC3-L4-6cm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0u8-GL-Xc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3770" y="1046"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="tBN-4a-Hda">
+            <objects>
+                <navigationController storyboardIdentifier="plotViewController" id="wpr-Mq-7qf" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ED0-xd-Ma8">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Suk-IT-K3u" kind="relationship" relationship="rootViewController" id="hjQ-TH-haF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zxS-Iz-n0r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2841" y="1046"/>
+        </scene>
     </scenes>
     <classes>
         <class className="AnalysisViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalysisViewController.h"/>
+        </class>
+        <class className="CPTGraphHostingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
         </class>
         <class className="Cell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/Cell.h"/>
@@ -373,10 +383,6 @@
         </class>
         <class className="MarkView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MarkView.h"/>
-            <relationships>
-                <relationship kind="action" name="doubleTapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="action" name="panAction:" candidateClass="UIPanGestureRecognizer"/>
-            </relationships>
         </class>
         <class className="MeasurementCollectionViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MeasurementCollectionViewController.h"/>
@@ -387,12 +393,19 @@
         <class className="PinchLayout" superclassName="UICollectionViewFlowLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PinchLayout.h"/>
         </class>
+        <class className="PlotCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="cellCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="xAxisName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="yAxisName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
         <class className="PlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
             <relationships>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
-                <relationship kind="outlet" name="graphView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>

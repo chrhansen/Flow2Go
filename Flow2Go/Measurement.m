@@ -9,14 +9,14 @@
 #import "Measurement.h"
 #import "Analysis.h"
 #import <DropboxSDK/DBMetadata.h>
+#import "FCSFile.h"
 
 @implementation Measurement
 
 @dynamic countOfEvents;
 @dynamic filename;
 @dynamic filepath;
-@dynamic lastModificationDate;
-@dynamic measurementDate;
+@dynamic downloadDate;
 @dynamic analyses;
 
 + (Measurement *)createWithDictionary:(NSDictionary *)dictionary
@@ -30,20 +30,13 @@
     }
     
     newMeasurement.filename = metaData.filename;
-    newMeasurement.lastModificationDate = NSDate.date;
     newMeasurement.filepath = dictionary[@"filepath"];
-    
+    newMeasurement.downloadDate = dictionary[@"downloadDate"];
+
+    NSDictionary *fcsKeywords = [FCSFile fcsKeywordsWithFCSFileAtPath:newMeasurement.filepath];
+    newMeasurement.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
     return newMeasurement;
 }
 
-- (Analysis *)lastViewedAnalysis
-{
-    //NSData *date = NSDate.date;
-    Analysis *lastViewed;
-    for (Analysis *anAnalysis in self.analyses) {
-        // <#statements#>
-    }
-    return lastViewed;
-}
 
 @end

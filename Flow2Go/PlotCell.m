@@ -1,7 +1,7 @@
 
 /*
-     File: PinchLayout.m
- Abstract: Simple flow layout to lay out items in a line.
+     File: Cell.m
+ Abstract: Simple collection view cell.
  
   Version: 1.0
  
@@ -92,66 +92,44 @@
  
  */
 
-#import "PinchLayout.h"
+#import "PlotCell.h"
 
-@implementation PinchLayout
+#define GATE_NAME_OFFSET 5.0
+#define X_AXIS_OFFSET 10.0
+#define Y_AXIS_OFFSET 20.0
+#define CELL_COUNT_OFFSET 30.0
 
-- (id)init
+
+@implementation PlotCell
+
+- (id)initWithFrame:(CGRect)frame
 {
-    self = [super init];
-    if (self) {
-        self.itemSize = CGSizeMake(100.0, 100.0);
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        self.backgroundColor = UIColor.whiteColor;
+        self.parentGateName = [self newLabelWithFrame:frame offSet:GATE_NAME_OFFSET];
+        [self.contentView addSubview:_parentGateName];
+        self.xAxisName = [self newLabelWithFrame:frame offSet:X_AXIS_OFFSET];
+        [self.contentView addSubview:_xAxisName];
+        self.yAxisName = [self newLabelWithFrame:frame offSet:Y_AXIS_OFFSET];
+        [self.contentView addSubview:_yAxisName];
+        self.cellCount = [self newLabelWithFrame:frame offSet:CELL_COUNT_OFFSET];
+        [self.contentView addSubview:_cellCount];
     }
     return self;
 }
 
--(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
+
+- (UILabel *)newLabelWithFrame:(CGRect)frame offSet:(CGFloat)offset
 {
-    NSArray* allAttributesInRect = [super layoutAttributesForElementsInRect:rect];
-    
-    for (UICollectionViewLayoutAttributes* cellAttributes in allAttributesInRect)
-    {
-        [self applyPinchToLayoutAttributes:cellAttributes];
-    }
-    
-    return allAttributesInRect;
+    UILabel *label = [UILabel.alloc initWithFrame:CGRectMake(0.0, offset, frame.size.width, frame.size.height)];
+    label.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    label.textAlignment = NSTextAlignmentLeft;
+    label.font = [UIFont boldSystemFontOfSize:14.0];
+    label.backgroundColor = UIColor.underPageBackgroundColor;
+    label.textColor = UIColor.blackColor;
+    return label;
 }
-
--(void)applyPinchToLayoutAttributes:(UICollectionViewLayoutAttributes*)layoutAttributes
-{
-    if ([layoutAttributes.indexPath isEqual:self.pinchedCellPath])
-    {
-        layoutAttributes.transform3D = CATransform3DMakeScale(self.pinchedCellScale, self.pinchedCellScale, 1.0);
-        layoutAttributes.center = self.pinchedCellCenter;
-        layoutAttributes.zIndex = 1;
-    }
-}
-
-
-
--(UICollectionViewLayoutAttributes*)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewLayoutAttributes* attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
-    
-    attributes.size = self.itemSize;
-
-    return attributes;
-    
-    [self applyPinchToLayoutAttributes:attributes];
-
-    return attributes;
-}
-
--(void)setPinchedCellScale:(CGFloat)scale
-{
-    _pinchedCellScale = scale;
-    [self invalidateLayout];
-}
-
-- (void)setPinchedCellCenter:(CGPoint)origin {
-    _pinchedCellCenter = origin;
-    [self invalidateLayout];
-}
-
 
 @end

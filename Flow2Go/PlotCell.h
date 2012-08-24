@@ -1,7 +1,7 @@
 
 /*
-     File: PinchLayout.m
- Abstract: Simple flow layout to lay out items in a line.
+     File: Cell.h
+ Abstract: Simple collection view cell.
  
   Version: 1.0
  
@@ -92,66 +92,14 @@
  
  */
 
-#import "PinchLayout.h"
+#import <UIKit/UIKit.h>
 
-@implementation PinchLayout
+@interface PlotCell : UICollectionViewCell
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        self.itemSize = CGSizeMake(100.0, 100.0);
-    }
-    return self;
-}
-
--(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
-{
-    NSArray* allAttributesInRect = [super layoutAttributesForElementsInRect:rect];
-    
-    for (UICollectionViewLayoutAttributes* cellAttributes in allAttributesInRect)
-    {
-        [self applyPinchToLayoutAttributes:cellAttributes];
-    }
-    
-    return allAttributesInRect;
-}
-
--(void)applyPinchToLayoutAttributes:(UICollectionViewLayoutAttributes*)layoutAttributes
-{
-    if ([layoutAttributes.indexPath isEqual:self.pinchedCellPath])
-    {
-        layoutAttributes.transform3D = CATransform3DMakeScale(self.pinchedCellScale, self.pinchedCellScale, 1.0);
-        layoutAttributes.center = self.pinchedCellCenter;
-        layoutAttributes.zIndex = 1;
-    }
-}
-
-
-
--(UICollectionViewLayoutAttributes*)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewLayoutAttributes* attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
-    
-    attributes.size = self.itemSize;
-
-    return attributes;
-    
-    [self applyPinchToLayoutAttributes:attributes];
-
-    return attributes;
-}
-
--(void)setPinchedCellScale:(CGFloat)scale
-{
-    _pinchedCellScale = scale;
-    [self invalidateLayout];
-}
-
-- (void)setPinchedCellCenter:(CGPoint)origin {
-    _pinchedCellCenter = origin;
-    [self invalidateLayout];
-}
+@property (strong, nonatomic) IBOutlet UILabel* parentGateName;
+@property (strong, nonatomic) IBOutlet UILabel* xAxisName;
+@property (strong, nonatomic) IBOutlet UILabel* yAxisName;
+@property (strong, nonatomic) IBOutlet UILabel* cellCount;
 
 
 @end

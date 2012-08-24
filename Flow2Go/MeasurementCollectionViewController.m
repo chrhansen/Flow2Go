@@ -13,7 +13,6 @@
 #import "DownloadManager.h"
 #import "AnalysisViewController.h"
 #import "Analysis.h"
-#import "Plot.h"
 
 @interface MeasurementCollectionViewController () <DownloadManagerProgressDelegate>
 @end
@@ -32,17 +31,20 @@
     DownloadManager.sharedInstance.progressDelegate = self;
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+
 - (void)configureCell:(Cell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.label.text = [(Measurement *)object valueForKey:@"filename"];
 }
+
 
 #pragma mark - Download Manager progress delegate
 - (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forDestinationPath:(NSString *)destinationPath
@@ -51,17 +53,8 @@
     NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:downloadingMeasurement];
     Cell *downloadCell = (Cell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
     downloadCell.label.text = [NSString stringWithFormat:@"%.2f", progress];
-    //NSLog(@"filename: %@, progress: %F", destinationPath.lastPathComponent, progress);
 }
 
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"Show Plot"])
-    {
-        //
-    }
-}
 
 #pragma mark - Collection View Data source
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -69,6 +62,7 @@
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
     return sectionInfo.numberOfObjects;
 }
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -78,26 +72,22 @@
     return cell;
 }
 
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSLog(@"DOCUMENTS_DIR: %@", DOCUMENTS_DIR);
-    if ([object isKindOfClass:Measurement.class])
+    Measurement *aMeasurement = (Measurement *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
+    AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;
+    
+    if (aMeasurement.analyses.lastObject == nil)
     {
-        Measurement *aMeasurement = (Measurement *)object;
-        UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
-        AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;
-        
-        if (aMeasurement.analyses.lastObject == nil)
-        {
-            Analysis *analysis = [Analysis createAnalysisForMeasurement:aMeasurement];
-            [analysis.managedObjectContext save];
-        }
-        
-        [analysisViewController showAnalysis:aMeasurement.analyses.lastObject forMeasurement:aMeasurement];
-        
-        [self presentViewController:navigationController animated:YES completion:nil];
+        Analysis *analysis = [Analysis createAnalysisForMeasurement:aMeasurement];
+        [analysis.managedObjectContext save];
     }
+    analysisViewController.analysis = aMeasurement.analyses.lastObject;
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 

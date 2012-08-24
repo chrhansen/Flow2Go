@@ -15,13 +15,10 @@
 
 + (Measurement *)createWithDictionary:(NSDictionary *)dictionary;
 
-- (Analysis *)lastViewedAnalysis;
-
 @property (nonatomic, retain) NSNumber * countOfEvents;
 @property (nonatomic, retain) NSString * filename;
 @property (nonatomic, retain) NSString * filepath;
-@property (nonatomic, retain) NSDate * lastModificationDate;
-@property (nonatomic, retain) NSDate * measurementDate;
+@property (nonatomic, retain) NSDate * downloadDate;
 @property (nonatomic, retain) NSOrderedSet *analyses;
 @end
 
@@ -37,4 +34,5 @@
 - (void)removeAnalysesObject:(Analysis *)value;
 - (void)addAnalyses:(NSOrderedSet *)values;
 - (void)removeAnalyses:(NSOrderedSet *)values;
+
 @end

@@ -12,6 +12,6 @@
 
 @interface AnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
-- (void)showAnalysis:(Analysis *)analysis forMeasurement:(Measurement *)measurement;
+@property (nonatomic, strong) Analysis *analysis;
 
 @end

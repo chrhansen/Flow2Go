@@ -156,139 +156,6 @@
             </objects>
             <point key="canvasLocation" x="-1433" y="-1812"/>
         </scene>
-        <!--Plot View Controller-->
-        <scene sceneID="bso-18-xvJ">
-            <objects>
-                <viewController storyboardIdentifier="" id="xbp-bK-LtV" customClass="PlotViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="EjR-rq-srX">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="7ag-hT-TSq">
-                                <subviews>
-                                    <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="dFM-8e-x4N" customClass="MarkView">
-                                        <subviews>
-                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nox-QX-y3r">
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="44" id="htA-Au-9tY"/>
-                                                    <constraint firstAttribute="height" constant="135" id="i1s-P3-ten"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="y-axis">
-                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="yAxisTapped:" destination="xbp-bK-LtV" eventType="touchUpInside" id="zQ9-tc-iqA"/>
-                                                </connections>
-                                            </button>
-                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="X4s-ld-KsG">
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="135" id="SEQ-Qr-OVh"/>
-                                                    <constraint firstAttribute="height" constant="44" id="bTR-w8-x4O"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="x-axis">
-                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="xAxisTapped:" destination="xbp-bK-LtV" eventType="touchUpInside" id="r4B-LD-Mbq"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="X4s-ld-KsG" secondAttribute="bottom" constant="6" id="3uK-S0-nGF"/>
-                                            <constraint firstItem="nox-QX-y3r" firstAttribute="leading" secondItem="dFM-8e-x4N" secondAttribute="leading" constant="5" id="HlJ-q8-uVR"/>
-                                            <constraint firstItem="nox-QX-y3r" firstAttribute="top" secondItem="dFM-8e-x4N" secondAttribute="top" constant="140" id="Qj0-dE-7E5"/>
-                                            <constraint firstItem="X4s-ld-KsG" firstAttribute="centerX" secondItem="dFM-8e-x4N" secondAttribute="centerX" type="default" id="asi-oM-FK9"/>
-                                        </constraints>
-                                        <connections>
-                                            <outletCollection property="gestureRecognizers" destination="5R1-4A-dPP" appends="YES" id="Gaa-Wy-hMo"/>
-                                            <outletCollection property="gestureRecognizers" destination="8Hf-8a-VuR" appends="YES" id="cR9-3s-0nN"/>
-                                        </connections>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="dFM-8e-x4N" firstAttribute="trailing" secondItem="7ag-hT-TSq" secondAttribute="trailing" type="default" id="OM1-tU-BO0"/>
-                                    <constraint firstItem="dFM-8e-x4N" firstAttribute="leading" secondItem="7ag-hT-TSq" secondAttribute="leading" type="default" id="UK6-C0-tYy"/>
-                                    <constraint firstItem="dFM-8e-x4N" firstAttribute="top" secondItem="7ag-hT-TSq" secondAttribute="top" type="default" id="dEu-fW-LyZ"/>
-                                    <constraint firstItem="dFM-8e-x4N" firstAttribute="bottom" secondItem="7ag-hT-TSq" secondAttribute="bottom" type="default" id="pOA-nz-LhL"/>
-                                </constraints>
-                            </view>
-                            <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="nke-oU-rAI">
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="BmF-MA-dfI"/>
-                                    <constraint firstAttribute="width" constant="299" id="XqN-X5-uAR"/>
-                                </constraints>
-                                <nil key="highlightedColor"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="27"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="7ag-hT-TSq" firstAttribute="leading" secondItem="EjR-rq-srX" secondAttribute="leading" type="default" id="00b-Qy-BPa"/>
-                            <constraint firstAttribute="bottom" secondItem="nke-oU-rAI" secondAttribute="bottom" constant="61" id="Bhd-h8-bg7"/>
-                            <constraint firstItem="7ag-hT-TSq" firstAttribute="bottom" secondItem="EjR-rq-srX" secondAttribute="bottom" type="default" id="ZKM-T0-kKN"/>
-                            <constraint firstItem="7ag-hT-TSq" firstAttribute="top" secondItem="EjR-rq-srX" secondAttribute="top" type="default" id="b4G-1Q-iKV"/>
-                            <constraint firstItem="nke-oU-rAI" firstAttribute="leading" secondItem="EjR-rq-srX" secondAttribute="leading" constant="151" id="oEw-tB-og7"/>
-                            <constraint firstItem="7ag-hT-TSq" firstAttribute="trailing" secondItem="EjR-rq-srX" secondAttribute="trailing" type="default" id="p0p-pE-gxj"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="MBv-7k-aPa"/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <connections>
-                        <outlet property="graphView" destination="7ag-hT-TSq" id="5Mv-PW-vMs"/>
-                        <outlet property="markView" destination="dFM-8e-x4N" id="eaJ-rR-5Tq"/>
-                        <outlet property="xAxisButton" destination="X4s-ld-KsG" id="eog-cw-HK2"/>
-                        <outlet property="yAxisButton" destination="nox-QX-y3r" id="Lho-lw-MqD"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UGP-52-OCc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="5R1-4A-dPP">
-                    <connections>
-                        <action selector="panAction:" destination="dFM-8e-x4N" id="05h-lM-Pw1"/>
-                        <outlet property="delegate" destination="dFM-8e-x4N" id="CzJ-92-lPK"/>
-                    </connections>
-                </panGestureRecognizer>
-                <tapGestureRecognizer numberOfTapsRequired="2" id="8Hf-8a-VuR">
-                    <connections>
-                        <action selector="doubleTapAction:" destination="dFM-8e-x4N" id="GT7-72-sBf"/>
-                        <outlet property="delegate" destination="dFM-8e-x4N" id="9Q4-BW-G2e"/>
-                    </connections>
-                </tapGestureRecognizer>
-            </objects>
-            <point key="canvasLocation" x="493" y="-1092"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="4ei-iB-FKP">
-            <objects>
-                <navigationController storyboardIdentifier="plotViewController" id="FBJ-ks-Dhc" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FCc-jA-IXD">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="xbp-bK-LtV" kind="relationship" relationship="rootViewController" id="ZQC-s8-owC"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JmC-ug-7SS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-79" y="-1092"/>
-        </scene>
         <!--Analysis View Controller-->
         <scene sceneID="Gn4-uL-PHb">
             <objects>
@@ -304,7 +171,7 @@
                             <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Plot Cell" id="hod-H3-HaC" customClass="Cell">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="Plot Cell" reuseIdentifier="Plot Cell" id="hod-H3-HaC" customClass="PlotCell">
                                 <rect key="frame" x="10" y="5" width="150" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -370,10 +237,126 @@
             </objects>
             <point key="canvasLocation" x="-1626" y="-1117"/>
         </scene>
+        <!--Plot View Controller-->
+        <scene sceneID="kgo-uU-s8z">
+            <objects>
+                <viewController storyboardIdentifier="" id="Pqz-lh-0Kn" customClass="PlotViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fYh-wO-LwZ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="6bR-gC-XMC" customClass="CPTGraphHostingView">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="Om1-2I-TeJ" customClass="MarkView">
+                                <subviews>
+                                    <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="phU-Ac-yB5">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="299" id="3v6-jX-PyH"/>
+                                            <constraint firstAttribute="height" constant="21" id="K3H-ad-Iwm"/>
+                                        </constraints>
+                                        <nil key="highlightedColor"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="27"/>
+                                    </label>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bkM-aR-sID">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="P1s-so-jSL"/>
+                                            <constraint firstAttribute="width" constant="135" id="RzI-AA-V2H"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="x-axis">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="xAxisTapped:" destination="Pqz-lh-0Kn" eventType="touchUpInside" id="a8w-3s-wrx"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nT3-Tp-dl3">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="LVc-Dr-wez"/>
+                                            <constraint firstAttribute="height" constant="135" id="eeq-WW-hEf"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="y-axis">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="yAxisTapped:" destination="Pqz-lh-0Kn" eventType="touchUpInside" id="Jtb-Mg-7VR"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="phU-Ac-yB5" firstAttribute="centerY" secondItem="Om1-2I-TeJ" secondAttribute="centerY" type="default" id="1we-VU-qHc"/>
+                                    <constraint firstItem="bkM-aR-sID" firstAttribute="top" secondItem="Om1-2I-TeJ" secondAttribute="top" constant="378" id="X0q-Vg-kiB"/>
+                                    <constraint firstItem="nT3-Tp-dl3" firstAttribute="top" secondItem="Om1-2I-TeJ" secondAttribute="top" constant="140" id="Yae-m4-thT"/>
+                                    <constraint firstItem="nT3-Tp-dl3" firstAttribute="leading" secondItem="Om1-2I-TeJ" secondAttribute="leading" constant="6" id="abu-Ot-Q46"/>
+                                    <constraint firstItem="bkM-aR-sID" firstAttribute="centerX" secondItem="Om1-2I-TeJ" secondAttribute="centerX" type="default" id="jGT-i2-yhJ"/>
+                                    <constraint firstItem="phU-Ac-yB5" firstAttribute="leading" secondItem="Om1-2I-TeJ" secondAttribute="leading" constant="10" id="ygw-6U-TSj"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6bR-gC-XMC" firstAttribute="trailing" secondItem="fYh-wO-LwZ" secondAttribute="trailing" type="default" id="1gk-hP-RHX"/>
+                            <constraint firstItem="6bR-gC-XMC" firstAttribute="leading" secondItem="fYh-wO-LwZ" secondAttribute="leading" type="default" id="5jU-EL-ZaV"/>
+                            <constraint firstItem="Om1-2I-TeJ" firstAttribute="bottom" secondItem="fYh-wO-LwZ" secondAttribute="bottom" type="default" id="6zi-ip-hhC"/>
+                            <constraint firstItem="Om1-2I-TeJ" firstAttribute="top" secondItem="fYh-wO-LwZ" secondAttribute="top" type="default" id="BBt-9D-si0"/>
+                            <constraint firstItem="Om1-2I-TeJ" firstAttribute="leading" secondItem="fYh-wO-LwZ" secondAttribute="leading" type="default" id="Fd6-N0-cjf"/>
+                            <constraint firstItem="Om1-2I-TeJ" firstAttribute="trailing" secondItem="fYh-wO-LwZ" secondAttribute="trailing" type="default" id="Gn5-Uw-46b"/>
+                            <constraint firstItem="6bR-gC-XMC" firstAttribute="bottom" secondItem="fYh-wO-LwZ" secondAttribute="bottom" type="default" id="QAx-ab-Tb1"/>
+                            <constraint firstItem="6bR-gC-XMC" firstAttribute="top" secondItem="fYh-wO-LwZ" secondAttribute="top" type="default" id="vmD-tE-bFW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="MlC-Sw-Hhm"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="graphHostingView" destination="6bR-gC-XMC" id="ReQ-ee-b4P"/>
+                        <outlet property="markView" destination="Om1-2I-TeJ" id="Ngi-Of-2m8"/>
+                        <outlet property="xAxisButton" destination="bkM-aR-sID" id="Ugs-EV-EnE"/>
+                        <outlet property="yAxisButton" destination="nT3-Tp-dl3" id="Ezu-xr-WK6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pul-z8-eeE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-177" y="-1054"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="tSb-Eu-ChQ">
+            <objects>
+                <navigationController storyboardIdentifier="plotViewController" id="Tzh-5c-vhi" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="prM-Co-KNw">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Pqz-lh-0Kn" kind="relationship" relationship="rootViewController" id="G5P-UP-a89"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="THe-N9-Rpr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-680" y="-1054"/>
+        </scene>
     </scenes>
     <classes>
         <class className="AnalysisViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalysisViewController.h"/>
+        </class>
+        <class className="CPTGraphHostingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
         </class>
         <class className="Cell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/Cell.h"/>
@@ -386,10 +369,6 @@
         </class>
         <class className="MarkView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MarkView.h"/>
-            <relationships>
-                <relationship kind="action" name="doubleTapAction:" candidateClass="UITapGestureRecognizer"/>
-                <relationship kind="action" name="panAction:" candidateClass="UIPanGestureRecognizer"/>
-            </relationships>
         </class>
         <class className="MeasurementCollectionViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MeasurementCollectionViewController.h"/>
@@ -400,12 +379,20 @@
         <class className="PinchLayout" superclassName="UICollectionViewFlowLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PinchLayout.h"/>
         </class>
+        <class className="PlotCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="cellCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="downLoadProgress" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="xAxisName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="yAxisName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
         <class className="PlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
             <relationships>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
-                <relationship kind="outlet" name="graphView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>

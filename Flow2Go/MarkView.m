@@ -10,24 +10,23 @@
 
 @interface MarkView () <UIGestureRecognizerDelegate>
 
-- (IBAction)panAction:(UIPanGestureRecognizer *)panGesture;
-- (IBAction)doubleTapAction:(UITapGestureRecognizer *)tapGesture;
-
 @property (nonatomic, strong) NSMutableArray *pathPoints;
 @property (nonatomic, strong) UIBezierPath *path;
 @property (nonatomic, strong) NSMutableArray *paths;
+@property (nonatomic) CGPoint firstPoint;
 
 @end
 
 @implementation MarkView
 
-- (id)initWithFrame:(CGRect)frame
+#define REQUIRED_GAP 20.0
+#define FIRSTPOINT_GAP 10.0
+
+- (void)awakeFromNib
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self drawPaths];
-    }
-    return self;
+    [super awakeFromNib];
+    [self setupGestureRecognizers];
+    [self drawPaths];
 }
 
 - (void)drawPaths
@@ -46,26 +45,55 @@
     {
         [self _startPathAtPoint:[pathPoints[0] CGPointValue]];
         
-        for (NSUInteger i = 1; i < pathPoints.count - 1; i++)
+        for (NSUInteger i = 1; i < pathPoints.count; i++)
         {
             [self _extendPathWithPoint:[pathPoints[i] CGPointValue]];
         }
-        
-        [self _endPathAtPoint:[pathPoints.lastObject CGPointValue]];
+        [self _endPath];
     }
+}
+
+
+- (void)_updatePathWithPoint:(CGPoint)point
+{
+    if (self.pathPoints.count == 0)
+    {
+        [self _startPathAtPoint:point];
+        [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
+    }
+    else if (self.pathPoints.count > 2)
+    {
+        CGFloat distance = [self _distanceFrom:self.firstPoint toPoint:point];
+        if (distance < FIRSTPOINT_GAP)
+        {
+            [self.delegate didDrawPath:[self.path CGPath] withPoints:self.pathPoints insideRect:self.path.bounds sender:self];
+            [self _endPath];
+            [self _resetPath];
+        }
+        else
+        {
+            [self _extendPathWithPoint:point];
+            [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
+        }
+    }
+    else
+    {
+        [self _extendPathWithPoint:point];
+        [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
+    }
+    
 }
 
 
 - (void)_startPathAtPoint:(CGPoint)startPoint
 {
     [self _resetPath];
+    self.firstPoint = startPoint;
     [self.paths addObject:self.path];
     [self.path moveToPoint:startPoint];
-    [self.pathPoints addObject:[NSValue valueWithCGPoint:startPoint]];
     [self setNeedsDisplay];
 }
 
-#define REQUIRED_GAP 20.0
 
 - (void)_extendPathWithPoint:(CGPoint)newPoint
 {
@@ -73,18 +101,15 @@
     if (distance > REQUIRED_GAP)
     {
         [self.path addLineToPoint:newPoint];
-        [self.pathPoints addObject:[NSValue valueWithCGPoint:newPoint]];
         [self setNeedsDisplayInRect:self.path.bounds];
     }
 }
 
-- (void)_endPathAtPoint:(CGPoint)endPoint
+- (void)_endPath
 {
     [self.path closePath];
-    [self.pathPoints addObject:[NSValue valueWithCGPoint:endPoint]];
     [self.paths replaceObjectAtIndex:self.paths.count - 1
                           withObject:[self.path copy]];
-
     [self setNeedsDisplayInRect:self.path.bounds];
 }
 
@@ -130,23 +155,13 @@
 
 
 #pragma mark Gesture Recognizers
-- (void)panAction:(UIPanGestureRecognizer *)panGesture
+- (void)singleTapAction:(UITapGestureRecognizer *)singleTapGesture;
 {
-    CGPoint point = [panGesture locationInView:self];
-    
-    switch (panGesture.state)
+    CGPoint point = [singleTapGesture locationInView:self];    
+    switch (singleTapGesture.state)
     {
-        case UIGestureRecognizerStateBegan:
-            [self _startPathAtPoint:point];
-            break;
-            
-        case UIGestureRecognizerStateChanged:
-            [self _extendPathWithPoint:point];
-            break;
-            
-        case UIGestureRecognizerStateEnded:
-            [self _endPathAtPoint:point];
-            [self.delegate didDrawPath:[self.path CGPath] withPoints:self.pathPoints insideRect:self.path.bounds sender:self];
+        case UIGestureRecognizerStateRecognized:
+            [self _updatePathWithPoint:point];
             break;
             
         default:
@@ -157,21 +172,46 @@
 - (void)doubleTapAction:(UITapGestureRecognizer *)tapGesture
 {
     NSInteger pathNo;
+    CGPoint tapPoint = [tapGesture locationInView:self];
     switch (tapGesture.state)
     {
         case UIGestureRecognizerStateRecognized:
-            pathNo = [self _indexOfPathForTapPoint:[tapGesture locationInView:self]];
+            pathNo = [self _indexOfPathForTapPoint:tapPoint];
             if (pathNo >= 0)
             {
                 [self.delegate didDoubleTapPathNumber:pathNo];
+                return;
+            }
+            else
+            {
+                [self.delegate didDoubleTapAtPoint:tapPoint];
             }
             break;
-            
             
         default:
             break;
     }
 }
+
+- (void)setupGestureRecognizers
+{
+    UITapGestureRecognizer *doubleTapGestureRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self
+                                                                                               action:@selector(doubleTapAction:)];
+    
+    doubleTapGestureRecognizer.numberOfTapsRequired = 2;
+    doubleTapGestureRecognizer.delegate = self;
+    [self addGestureRecognizer:doubleTapGestureRecognizer];
+    
+    UITapGestureRecognizer *singleTapGestureRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self
+                                                                                               action:@selector(singleTapAction:)];
+    
+    singleTapGestureRecognizer.numberOfTapsRequired = 1;
+    singleTapGestureRecognizer.delegate = self;
+    [self addGestureRecognizer:singleTapGestureRecognizer];
+    [singleTapGestureRecognizer requireGestureRecognizerToFail: doubleTapGestureRecognizer];
+    [self addGestureRecognizer:singleTapGestureRecognizer];
+}
+
 
 - (NSInteger)_indexOfPathForTapPoint:(CGPoint)tapPoint
 {

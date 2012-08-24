@@ -17,6 +17,8 @@
 // Delegate methods
 - (void)didDrawPath:(CGPathRef)pathRef withPoints:(NSArray *)pathPoints insideRect:(CGRect)boundingRect sender:(id)sender;
 - (void)didDoubleTapPathNumber:(NSUInteger)pathNumber;
+- (void)didDoubleTapAtPoint:(CGPoint)point;
+
 
 @end
 

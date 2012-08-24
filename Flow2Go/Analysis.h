@@ -15,8 +15,6 @@
 
 + (Analysis *)createAnalysisForMeasurement:(Measurement *)aMeasurement;
 
-- (Plot *)createRootPlot;
-
 @property (nonatomic, retain) NSDate * dateModified;
 @property (nonatomic, retain) NSDate * dateViewed;
 @property (nonatomic, retain) NSString * name;
@@ -37,6 +35,7 @@
 - (void)removePlotsObject:(Plot *)value;
 - (void)addPlots:(NSOrderedSet *)values;
 - (void)removePlots:(NSOrderedSet *)values;
+
 - (void)insertObject:(Gate *)value inGatesAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromGatesAtIndex:(NSUInteger)idx;
 - (void)insertGates:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
@@ -47,4 +46,5 @@
 - (void)removeGatesObject:(Gate *)value;
 - (void)addGates:(NSOrderedSet *)values;
 - (void)removeGates:(NSOrderedSet *)values;
+
 @end

@@ -18,7 +18,7 @@ static NSString * const DropboxLinkedNotification = @"DropboxLinkedNotification"
 static NSString * const DropboxFileDownloadedNotification = @"DropboxFileDownloadedNotification";
 static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownloadNotification";
 
-
+static NSString * const AnalysisUpdatedNotification = @"AnalysisUpdatedNotification";
 
 // FCS file specific
 #define HEADER_LENGTH 58

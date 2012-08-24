@@ -10,14 +10,14 @@
 #import "PlotViewController.h"
 #import "Analysis.h"
 #import "FCSFile.h"
-#import "Cell.h"
+#import "PlotCell.h"
+#import "Measurement.h"
 #import "Plot.h"
 #import "Gate.h"
 #import "PinchLayout.h"
 
 @interface AnalysisViewController () <PlotViewControllerDelegate>
 
-@property (nonatomic, strong) Analysis *analysis;
 @property (nonatomic, strong) FCSFile *fcsFile;
 
 @end
@@ -31,11 +31,16 @@
     UIPinchGestureRecognizer* pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self
                                                                                         action:@selector(handlePinchGesture:)];
     [self.collectionView addGestureRecognizer:pinchRecognizer];
-    [self.collectionView registerClass:Cell.class forCellWithReuseIdentifier:@"Plot Cell"];
+    [self.collectionView registerClass:PlotCell.class forCellWithReuseIdentifier:@"Plot Cell"];
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                          target:self
                                                                                          action:@selector(doneTapped)];
+    if (self.analysis.plots.count == 0)
+    {
+        [Plot createPlotForAnalysis:self.analysis parentNode:nil];
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -47,6 +52,12 @@
     }
 }
 
+- (void)viewDidUnload
+{
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+    [super viewDidUnload];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -54,31 +65,38 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)configureCell:(Cell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     Plot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
-    cell.label.text = [plot.parentNode valueForKey:@"name"];
+    Gate *parentGate = (Gate *)plot.parentNode;
+    PlotCell *plotCell = (PlotCell *)cell;
+    plotCell.cellCount.text = [NSString stringWithFormat:@"%i celler", parentGate.cellCount.integerValue];
+    plotCell.parentGateName.text = parentGate.name;
+    
+    if (parentGate == nil)
+    {
+        plotCell.cellCount.text = [NSString stringWithFormat:@"%i cells", self.analysis.measurement.countOfEvents.integerValue];
+        plotCell.parentGateName.text = [NSString stringWithFormat:@"%@", self.analysis.measurement.filename];
+    }
+    
+    plotCell.xAxisName.text = @"test X";
+    plotCell.yAxisName.text = @"test Y";
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)_addObservings
 {
-    if ([segue.identifier isEqualToString:@"Show Plot"])
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_analysisUpdated:) name:AnalysisUpdatedNotification object:nil];
+}
+
+- (void)_analysisUpdated:(NSNotification *)notification
+{
+    if (notification.object == self.analysis)
     {
-        //
+        [self.collectionView reloadData];
     }
 }
 
-
-- (void)showAnalysis:(Analysis *)analysis forMeasurement:(Measurement *)measurement
-{
-    //TODO: define what show analysis requires - read the file again? Just show plot thumbnails?
-    self.analysis = analysis;
-    if (self.analysis.plots.count == 0)
-    {
-        [self.analysis createRootPlot];
-    }
-}
 
 - (void)doneTapped
 {
@@ -104,11 +122,9 @@
     UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
     PlotViewController *plotViewController = (PlotViewController *)navigationController.topViewController;
     plotViewController.delegate = self;
-    [self presentViewController:navigationController animated:YES completion:nil];
-    
-    NSLog(@"xaxis: %@, yaxis: %@", plot.xParName, plot.yParName);
-    
-    [plotViewController showPlot:plot forMeasurement:self.analysis.measurement];
+    plotViewController.plot = plot;
+    [plotViewController prepareDataForPlot];
+    [self presentViewController:navigationController animated:YES completion:nil];    
 }
 
 
@@ -126,11 +142,8 @@
         newPlot.yAxisType = plot.yAxisType;
         [newPlot.managedObjectContext save];
         [self.collectionView reloadData];
-        
         [self _presentPlot:newPlot];
     }];
-    
-    NSLog(@"selected a gate with count: %i", gate.cellCount.integerValue);
 }
 
 #pragma mark - Collection View Data source
@@ -141,8 +154,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Cell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Plot Cell"
-                                                           forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Plot Cell"
+                                                                           forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -152,8 +165,6 @@
     Plot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
     [self _presentPlot:plot];
 }
-
-
 
 
 #pragma mark - Pinch effect
@@ -168,13 +179,11 @@
         pinchLayout.pinchedCellPath = pinchedCellPath;
         
     }
-    
     else if (sender.state == UIGestureRecognizerStateChanged)
     {
         pinchLayout.pinchedCellScale = sender.scale;
         pinchLayout.pinchedCellCenter = [sender locationInView:self.collectionView];
     }
-    
     else
     {
         [self.collectionView performBatchUpdates:^{

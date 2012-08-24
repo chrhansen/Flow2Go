@@ -12,11 +12,15 @@
 @interface FCSFile : NSObject
 
 + (FCSFile *)fcsFileWithPath:(NSString *)path;
++ (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
+
+
 
 + (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FCSFile *)fcsFile;
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;
 + (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;
-
+- (NSInteger)rangeOfParameterIndex:(NSInteger)parameterIndex;
+- (NSArray *)amplificationComponentsForParameterIndex:(NSInteger)parameterIndex;
 
 @property (nonatomic) NSUInteger **event;
 @property (nonatomic, strong) NSDictionary *text;

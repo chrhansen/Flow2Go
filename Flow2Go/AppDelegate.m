@@ -13,39 +13,10 @@
 
 @implementation AppDelegate
 
-- (void)_generateTestData
-{
-    if ([Measurement MR_countOfEntities] > 0)
-        return;
-    
-    
-    // Measurement 1
-    Measurement *measurement1 = [Measurement createEntity];
-    measurement1.filename = @"fcs file 1.fcs";
-    measurement1.lastModificationDate = [NSDate.date dateByAddingTimeInterval:-500];
-    measurement1.measurementDate = [NSDate.date dateByAddingTimeInterval:-100000];
-    
-    // Measurement 2
-    Measurement *measurement2 = [Measurement createEntity];
-    measurement2.filename = @"fcs file 2.fcs";
-    measurement2.lastModificationDate = [NSDate.date dateByAddingTimeInterval:-300];
-    measurement2.measurementDate = [NSDate.date dateByAddingTimeInterval:-200000];
-    
-    // Measurement 3
-    Measurement *measurement3 = [Measurement createEntity];
-    measurement3.filename = @"fcs file 3.fcs";
-    measurement3.lastModificationDate = [NSDate.date dateByAddingTimeInterval:-100];
-    measurement3.measurementDate = [NSDate.date dateByAddingTimeInterval:-200000];
-    
-    [[NSManagedObjectContext MR_defaultContext] MR_save];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Flow2Go.sqlite"];
-    
-    //[self _generateTestData];
-    
+        
     DBSession *dbSession = [DBSession.alloc initWithAppKey:DropboxAppKey
                                                  appSecret:DropboxAppSecret
                                                       root:kDBRootAppFolder];

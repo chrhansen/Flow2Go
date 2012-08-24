@@ -44,6 +44,65 @@ typedef enum
     return newFCSFile;
 }
 
++ (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path
+{
+    FCSFile *newFCSFile = [FCSFile.alloc init];
+    
+    [newFCSFile _parseTextSegmentFromPath:path];
+    
+    return newFCSFile.text;
+}
+
+
+
+
+- (void)_parseTextSegmentFromPath:(NSString *)path
+{
+    NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
+    [fcsFileStream open];
+    
+    kParsingSegment parsingSegment = kParsingSegmentHeader;
+    
+    while ([fcsFileStream hasBytesAvailable])
+    {
+        switch (parsingSegment)
+        {
+            case kParsingSegmentHeader:
+                NSLog(@"CASE: kParsingSegmentHeader");
+                if ([self _readHeaderSegmentFromInputStream:fcsFileStream])
+                {
+                    parsingSegment = kParsingSegmentText;
+                }
+                else
+                {
+                    parsingSegment = kParsingSegmentFailed;
+                }
+                break;
+                
+            case kParsingSegmentText:
+                NSLog(@"CASE: kParsingSegmentText");
+                if ([self _readTextSegmentFromInputStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd])
+                {
+                    [fcsFileStream close];
+                }
+                else
+                {
+                    parsingSegment = kParsingSegmentFailed;
+                }
+                break;
+                
+            case kParsingSegmentFailed:
+                NSLog(@"CASE: kParsingSegmentFailed");
+                [fcsFileStream close];
+                break;
+                
+            default:
+                NSLog(@"no known parsing segment");
+                [fcsFileStream close];
+                break;
+        }
+    }
+}
 
 - (void)_parseFileFromPath:(NSString *)path
 {
@@ -170,7 +229,6 @@ typedef enum
     if (textKeyValuePairs.count > 0)
     {
         self.text = [NSDictionary dictionaryWithDictionary:textKeyValuePairs];
-        //NSLog(@"self.text: \n%@", self.text);
         return YES;
     }
     return NO;
@@ -411,6 +469,21 @@ typedef enum
         return shortName;
     }
     return [@"Parameter" stringByAppendingFormat:@" %i", parameterIndex + 1];
+}
+
+
+- (NSInteger)rangeOfParameterIndex:(NSInteger)parameterIndex
+{
+    NSString *rangeKey = [@"$P" stringByAppendingFormat:@"%iR", parameterIndex + 1];
+    return [self.text[rangeKey] integerValue];
+}
+
+
+- (NSArray *)amplificationComponentsForParameterIndex:(NSInteger)parameterIndex
+{
+    NSString *amplificationKey = [@"$P" stringByAppendingFormat:@"%iE", parameterIndex + 1];
+    NSString *amplificationValue = self.text[amplificationKey];
+    return [amplificationValue componentsSeparatedByString:@","];
 }
 
 @end

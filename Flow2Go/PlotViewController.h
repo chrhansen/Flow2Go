@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Measurement.h"
 #import "CorePlot-CocoaTouch.h"
-#import "CPTGraph.h"
 #import "MarkView.h"
 
+@class Measurement;
 @class Plot;
 @class Gate;
 @class FCSFile;
@@ -22,12 +21,11 @@
 @end
 
 @interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate>
-{
-    IBOutlet UIView *graphView;
-}
 
-- (void)showPlot:(Plot *)plot forMeasurement:(Measurement *)aMeasurement;
+- (void)prepareDataForPlot;
 
+@property (nonatomic, strong) Plot *plot;
+@property (nonatomic, weak) IBOutlet CPTGraphHostingView *graphHostingView;
 @property (nonatomic, weak) IBOutlet MarkView *markView;
 @property (weak, nonatomic) IBOutlet UIButton *xAxisButton;
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;

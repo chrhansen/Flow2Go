@@ -10,22 +10,9 @@
 @class FCSFile;
 @class CPTXYPlotSpace;
 @class Gate;
+@class Plot;
 
 @interface GateCalculator : NSObject
-
-
-
-+ (GateCalculator *)gateWithPath:(CGPathRef)path
-                          inView:(UIView *)aView
-                        onEvents:(FCSFile *)fcsFile
-                          xParam:(NSUInteger)xPar
-                          yParam:(NSUInteger)yPar
-                     inPlotSpace:(CPTXYPlotSpace *)plotSpace;
-
-+ (GateCalculator *)gateWithVertices:(NSArray *)vertices
-                            onEvents:(FCSFile *)fcsFile
-                              xParam:(NSUInteger)xPar
-                              yParam:(NSUInteger)yPar;
 
 + (BOOL)eventInsideGateVertices:(NSArray *)vertices
                        onEvents:(FCSFile *)fcsFile
@@ -33,7 +20,11 @@
                          xParam:(NSUInteger)xPar
                          yParam:(NSUInteger)yPar;
 
-+ (GateCalculator *)eventsIn:(FCSFile *)fcsFile insideGate:(Gate *)gate;
++ (GateCalculator *)eventsInsidePolygon:(NSArray *)vertices
+                                fcsFile:(FCSFile *)fcsFile
+                             insidePlot:(Plot *)plot
+                                 subSet:(NSUInteger *)subSet
+                            subSetCount:(NSUInteger)subSetCount;
 
 @property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;

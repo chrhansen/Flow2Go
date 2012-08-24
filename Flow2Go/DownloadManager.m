@@ -17,23 +17,13 @@
 	if (downloadManager == nil)
 	{
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^ {
-                          downloadManager = [[DownloadManager alloc] init];
+        dispatch_once(&onceToken, ^
+                      {
+                          downloadManager = [DownloadManager.alloc init];
                       });
 	}
 	
 	return downloadManager;
-}
-
-
-- (id)init
-{
-    self = [super init];
-    if (self)
-    {
-
-    }
-    return self;
 }
 
 
@@ -51,17 +41,16 @@
 {
     NSString *targetPath = [DOCUMENTS_DIR stringByAppendingPathComponent:fileMetadata.filename];
     [Measurement createWithDictionary:@{
-    @"metadata" : fileMetadata ,
-    @"filepath" : targetPath}];
+     @"metadata" : fileMetadata ,
+     @"filepath" : targetPath}];
     [NSManagedObjectContext.MR_defaultContext MR_save];
     [self.restClient loadFile:fileMetadata.path intoPath:targetPath];
-
+    
 }
 
 
 
 #pragma mark - Dropbox Delegate methods
-
 #pragma mark Load directory contents
 
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata
@@ -98,9 +87,6 @@
      @"dateDownloaded": NSDate.date ,
      @"filepath" : [DOCUMENTS_DIR stringByAppendingPathComponent:destPath.lastPathComponent]}];
     [NSManagedObjectContext.MR_defaultContext MR_saveInBackgroundCompletion:^{
-        
-        NSLog(@"completed saving \"%@\"", metadata.filename);
-        
     }];
 }
 

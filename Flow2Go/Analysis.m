@@ -33,16 +33,4 @@
 }
 
 
-- (Plot *)createRootPlot
-{
-    if (self.plots.firstObject == nil)
-    {
-        [Plot createPlotForAnalysis:self parentNode:nil];
-        [self.managedObjectContext save];
-        
-        return self.plots.firstObject;
-    }
-    return nil;
-}
-
 @end

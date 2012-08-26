@@ -49,7 +49,7 @@
 #pragma mark - Download Manager progress delegate
 - (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forDestinationPath:(NSString *)destinationPath
 {
-    Measurement *downloadingMeasurement = [Measurement findFirstByAttribute:@"filepath" withValue:destinationPath];
+    Measurement *downloadingMeasurement = [Measurement findFirstByAttribute:@"uniqueID" withValue:destinationPath.lastPathComponent.stringByDeletingPathExtension];
     NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:downloadingMeasurement];
     Cell *downloadCell = (Cell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
     downloadCell.label.text = [NSString stringWithFormat:@"%.2f", progress];
@@ -76,6 +76,16 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     Measurement *aMeasurement = (Measurement *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    if (!aMeasurement.downloadDate) {
+        UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Still Downloading", nil)
+                                                          message:NSLocalizedString(@"Try again in a moment", nil)
+                                                         delegate:nil
+                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                otherButtonTitles:nil];
+        [alertView show];
+        return;
+    }
     
     UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
     AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;

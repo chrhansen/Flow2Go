@@ -10,31 +10,40 @@
 #import "Analysis.h"
 #import <DropboxSDK/DBMetadata.h>
 #import "FCSFile.h"
+#import "NSString+UUID.h"
 
 @implementation Measurement
 
 @dynamic countOfEvents;
 @dynamic filename;
 @dynamic filepath;
+@dynamic uniqueID;
 @dynamic downloadDate;
 @dynamic analyses;
 
 + (Measurement *)createWithDictionary:(NSDictionary *)dictionary
 {
     DBMetadata *metaData = dictionary[@"metadata"];
-    Measurement *newMeasurement = [Measurement findFirstByAttribute:@"filename" withValue:metaData.filename];
+    Measurement *newMeasurement = [Measurement findFirstByAttribute:@"uniqueID" withValue:dictionary[@"uniqueID"]];
+    
+    NSLog(@"filename: %@", metaData.filename);
     
     if (newMeasurement == nil)
     {
         newMeasurement = [Measurement createEntity];
+        newMeasurement.uniqueID = dictionary[@"uniqueID"];
     }
-    
+
     newMeasurement.filename = metaData.filename;
     newMeasurement.filepath = dictionary[@"filepath"];
-    newMeasurement.downloadDate = dictionary[@"downloadDate"];
 
-    NSDictionary *fcsKeywords = [FCSFile fcsKeywordsWithFCSFileAtPath:newMeasurement.filepath];
-    newMeasurement.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
+    if (dictionary[@"downloadDate"])
+    {
+        newMeasurement.downloadDate = dictionary[@"downloadDate"];
+        NSDictionary *fcsKeywords = [FCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:newMeasurement.filepath]];
+        newMeasurement.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
+    }
+
     return newMeasurement;
 }
 

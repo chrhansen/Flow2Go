@@ -8,6 +8,7 @@
 
 #import "DownloadManager.h"
 #import "Measurement.h"
+#import "NSString+UUID.h"
 
 @implementation DownloadManager
 
@@ -22,8 +23,7 @@
                           downloadManager = [DownloadManager.alloc init];
                       });
 	}
-	
-	return downloadManager;
+    return downloadManager;
 }
 
 
@@ -39,13 +39,15 @@
 
 - (void)downloadFile:(DBMetadata *)fileMetadata
 {
-    NSString *targetPath = [DOCUMENTS_DIR stringByAppendingPathComponent:fileMetadata.filename];
+    NSString *uniqueID = [NSString getUUID];
+    NSString *relativePath = [@"tmp" stringByAppendingPathComponent:[uniqueID stringByAppendingPathExtension:fileMetadata.filename.pathExtension]];
+    NSLog(@"relativePath: %@", relativePath);
     [Measurement createWithDictionary:@{
-     @"metadata" : fileMetadata ,
-     @"filepath" : targetPath}];
+     @"metadata" : fileMetadata,
+     @"filepath" : relativePath,
+     @"uniqueID" : uniqueID }];
     [NSManagedObjectContext.MR_defaultContext MR_save];
-    [self.restClient loadFile:fileMetadata.path intoPath:targetPath];
-    
+    [self.restClient loadFile:fileMetadata.path intoPath:[HOME_DIR stringByAppendingPathComponent:relativePath]];
 }
 
 
@@ -81,11 +83,13 @@
     [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification
                                                       object:nil
                                                     userInfo:@{@"metadata" : metadata}];
+    NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
     
     [Measurement createWithDictionary:@{
      @"metadata" : metadata ,
-     @"dateDownloaded": NSDate.date ,
-     @"filepath" : [DOCUMENTS_DIR stringByAppendingPathComponent:destPath.lastPathComponent]}];
+     @"downloadDate": NSDate.date ,
+     @"filepath" : newRelativePath,
+     @"uniqueID" : newRelativePath.lastPathComponent.stringByDeletingPathExtension}];
     [NSManagedObjectContext.MR_defaultContext MR_saveInBackgroundCompletion:^{
     }];
 }
@@ -104,6 +108,45 @@
         [self.progressDelegate downloadManager:self loadProgress:progress forDestinationPath:destPath];
     }
 }
+
+
+- (NSString *)moveToDocumentsAndAvoidBackup:(NSString *)filePath
+{
+    NSFileManager *fileManager = NSFileManager.defaultManager;
+    NSError *error = nil;
+    NSString *relativePath = nil;
+    if ([fileManager fileExistsAtPath:filePath])
+    {
+        relativePath = [@"Documents" stringByAppendingPathComponent:filePath.lastPathComponent];
+        BOOL succes = [fileManager moveItemAtPath:filePath toPath:[HOME_DIR stringByAppendingPathComponent:relativePath] error:&error];
+        
+        if (succes)
+        {
+            [self addSkipBackupAttributeToItemAtFilePath:[HOME_DIR stringByAppendingPathComponent:relativePath]];
+        }
+        else
+        {
+            NSLog(@"Error moving file to doc-dir: %@, error %@", filePath, error);
+        }
+    }
+    return relativePath;
+}
+
+#pragma mark - Skip Back-Up Attribute
+- (BOOL)addSkipBackupAttributeToItemAtFilePath:(NSString *)filePath
+{
+    NSURL *URL = [NSURL fileURLWithPath:filePath];
+    assert([NSFileManager.defaultManager fileExistsAtPath:URL.path]);
+    
+    NSError *error = nil;
+    BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                                  forKey: NSURLIsExcludedFromBackupKey error: &error];
+    if(!success){
+        NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+    }
+    return success;
+}
+
 
 
 @end

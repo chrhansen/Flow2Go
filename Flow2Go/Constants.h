@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#define HOME_DIR [[[NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject path] stringByDeletingLastPathComponent]
+
 #define DOCUMENTS_DIR [[NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject path]
+#define TEMP_DIR [[[[NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"tmp"]
 
 static NSString * const DropboxAppKey = @"9qidbv9e5zj4tsn";
 static NSString * const DropboxAppSecret = @"ym32wv0jzsitbba";

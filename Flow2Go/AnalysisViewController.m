@@ -48,7 +48,7 @@
     [super viewDidAppear:animated];
     if (!_fcsFile)
     {
-        self.fcsFile = [FCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename]];
+        self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath]];
     }
 }
 

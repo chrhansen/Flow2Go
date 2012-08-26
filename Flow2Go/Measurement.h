@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSNumber * countOfEvents;
 @property (nonatomic, retain) NSString * filename;
 @property (nonatomic, retain) NSString * filepath;
+@property (nonatomic, retain) NSString * uniqueID;
 @property (nonatomic, retain) NSDate * downloadDate;
 @property (nonatomic, retain) NSOrderedSet *analyses;
 @end

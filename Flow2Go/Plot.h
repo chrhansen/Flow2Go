@@ -21,6 +21,8 @@
                        xAxisName:(NSString *)xAxisName
                        yAxisName:(NSString *)yAxisName;
 
+- (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber;
+
 @property (nonatomic, retain) NSNumber * xAxisType;
 @property (nonatomic, retain) NSNumber * yAxisType;
 

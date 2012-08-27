@@ -9,7 +9,8 @@
 #import "Node.h"
 #import "Analysis.h"
 #import "Node.h"
-
+#import "Measurement.h"
+#import "Keyword.h"
 
 @implementation Node
 
@@ -20,5 +21,36 @@
 @dynamic analysis;
 @dynamic childNodes;
 @dynamic parentNode;
+
+
+- (void)setXParNumber:(NSNumber *)newXParNumber
+{
+    if (newXParNumber.integerValue != self.xParNumber.integerValue)
+    {
+        [self willChangeValueForKey:@"xParNumber"];
+        [self setPrimitiveValue:newXParNumber forKey:@"xParNumber"];
+        [self didChangeValueForKey:@"xParNumber"];
+        
+        NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", newXParNumber.integerValue];
+        Keyword *parNameKeyword = [self.analysis.measurement keywordWithKey:shortNameKey];
+        self.xParName = parNameKeyword.value;
+    }
+}
+
+
+- (void)setYParNumber:(NSNumber *)newYParNumber
+{
+    if (newYParNumber.integerValue != self.yParNumber.integerValue)
+    {
+        [self willChangeValueForKey:@"yParNumber"];
+        [self setPrimitiveValue:newYParNumber forKey:@"yParNumber"];
+        [self didChangeValueForKey:@"yParNumber"];
+        
+        NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", newYParNumber.integerValue];
+        Keyword *parNameKeyword = [self.analysis.measurement keywordWithKey:shortNameKey];
+        self.yParName = parNameKeyword.value;
+    }
+}
+
 
 @end

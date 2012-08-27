@@ -13,6 +13,8 @@
 @property (nonatomic, strong) NSMutableArray *pathPoints;
 @property (nonatomic, strong) UIBezierPath *path;
 @property (nonatomic, strong) NSMutableArray *paths;
+@property (nonatomic, strong) NSMutableArray *dots;
+
 @property (nonatomic) CGPoint firstPoint;
 
 @end
@@ -26,11 +28,14 @@
 {
     [super awakeFromNib];
     [self setupGestureRecognizers];
-    [self drawPaths];
+    [self reloadPaths];
 }
 
-- (void)drawPaths
+- (void)reloadPaths
 {
+    [self.paths removeAllObjects];
+    [self _resetPath];
+    [self setNeedsDisplay];
     NSUInteger numberOfPaths = [self.delegate numberOfPathsInMarkView:self];
     for (NSUInteger pathNo = 0; pathNo < numberOfPaths; pathNo++)
     {
@@ -90,6 +95,7 @@
     [self _resetPath];
     self.firstPoint = startPoint;
     [self.paths addObject:self.path];
+    [self addDotAtPoint:startPoint];
     [self.path moveToPoint:startPoint];
     [self setNeedsDisplay];
 }
@@ -101,7 +107,8 @@
     if (distance > REQUIRED_GAP)
     {
         [self.path addLineToPoint:newPoint];
-        [self setNeedsDisplayInRect:self.path.bounds];
+        [self addDotAtPoint:newPoint];
+        [self setNeedsDisplay];
     }
 }
 
@@ -110,7 +117,26 @@
     [self.path closePath];
     [self.paths replaceObjectAtIndex:self.paths.count - 1
                           withObject:[self.path copy]];
-    [self setNeedsDisplayInRect:self.path.bounds];
+    [self setNeedsDisplay];
+}
+
+#define DOT_SIZE 15.0
+
+- (void)setDots:(NSMutableArray *)dots
+{
+    _dots = dots;
+}
+
+
+- (void)addDotAtPoint:(CGPoint)point
+{
+    UIBezierPath *dot = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(point.x - DOT_SIZE / 2.0, point.y - DOT_SIZE / 2.0, DOT_SIZE, DOT_SIZE)];
+    if (!self.dots)
+    {
+        self.dots = NSMutableArray.array;
+    }
+    [self.dots addObject:dot];
+    [self setNeedsDisplay];
 }
 
 
@@ -151,6 +177,12 @@
         [aPath fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
         [aPath stroke];
     }
+    for (UIBezierPath *aDot in self.dots)
+    {
+        [aDot fillWithBlendMode:kCGBlendModeNormal alpha:1.0];
+        [aDot stroke];
+    }
+    
 }
 
 
@@ -193,23 +225,76 @@
     }
 }
 
+
+- (void)longPressAction:(UILongPressGestureRecognizer *)longPressGesture
+{
+    NSInteger dotNo;
+    UIBezierPath *pressedDot = nil;
+    CGPoint pressPoint = [longPressGesture locationInView:self];
+    switch (longPressGesture.state)
+    {
+        case UIGestureRecognizerStateBegan:
+            dotNo = [self _indexOfDotForPoint:pressPoint];
+            if (dotNo >= 0)
+            {
+                //pressedDot = self.dots[dotNo];
+                UIBezierPath *dot = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(pressPoint.x - 3.0 * DOT_SIZE / 2.0, pressPoint.y - 3.0 * DOT_SIZE / 2.0, 3.0 * DOT_SIZE, 3.0 * DOT_SIZE)];
+                [self.dots replaceObjectAtIndex:dotNo withObject:dot];
+                [self setNeedsDisplay];
+                return;
+            }
+            break;
+            
+        case UIGestureRecognizerStateChanged | UIGestureRecognizerStateEnded:
+            dotNo = [self _indexOfDotForPoint:pressPoint];
+            if (dotNo >= 0)
+            {
+                UIBezierPath *dot = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(pressPoint.x - DOT_SIZE / 2.0, pressPoint.y - DOT_SIZE / 2.0, DOT_SIZE, DOT_SIZE)];
+                [self.dots replaceObjectAtIndex:dotNo withObject:dot];
+                [self setNeedsDisplay];
+                return;
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 - (void)setupGestureRecognizers
 {
     UITapGestureRecognizer *doubleTapGestureRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self
                                                                                                action:@selector(doubleTapAction:)];
-    
     doubleTapGestureRecognizer.numberOfTapsRequired = 2;
     doubleTapGestureRecognizer.delegate = self;
     [self addGestureRecognizer:doubleTapGestureRecognizer];
     
+    
     UITapGestureRecognizer *singleTapGestureRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self
                                                                                                action:@selector(singleTapAction:)];
-    
     singleTapGestureRecognizer.numberOfTapsRequired = 1;
     singleTapGestureRecognizer.delegate = self;
     [self addGestureRecognizer:singleTapGestureRecognizer];
     [singleTapGestureRecognizer requireGestureRecognizerToFail: doubleTapGestureRecognizer];
     [self addGestureRecognizer:singleTapGestureRecognizer];
+    
+    
+    UILongPressGestureRecognizer *longPressGestureRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self
+                                                                                                           action:@selector(longPressAction:)];
+    
+    //longPressGestureRecognizer.numberOfTapsRequired = 1;
+    longPressGestureRecognizer.delegate = self;
+    
+    [self addGestureRecognizer:longPressGestureRecognizer];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if ([otherGestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class])
+    {
+        return NO;
+    }
+    return YES;
 }
 
 
@@ -224,5 +309,19 @@
     }
     return -1;
 }
+
+
+- (NSInteger)_indexOfDotForPoint:(CGPoint)point
+{
+    for (UIBezierPath *aPath in self.dots)
+    {
+        if (CGPathContainsPoint([aPath CGPath], NULL, point, TRUE))
+        {
+            return [self.dots indexOfObject:aPath];
+        }
+    }
+    return -1;
+}
+
 
 @end

@@ -2,50 +2,92 @@
 //  Measurement.m
 //  Flow2Go
 //
-//  Created by Christian Hansen on 21/08/12.
+//  Created by Christian Hansen on 26/08/12.
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
 #import "Measurement.h"
 #import "Analysis.h"
+#import "Keyword.h"
 #import <DropboxSDK/DBMetadata.h>
 #import "FCSFile.h"
 #import "NSString+UUID.h"
+#import "NSData+MD5.h"
 
 @implementation Measurement
 
 @dynamic countOfEvents;
+@dynamic downloadDate;
 @dynamic filename;
 @dynamic filepath;
+@dynamic lastModificationDate;
 @dynamic uniqueID;
-@dynamic downloadDate;
 @dynamic analyses;
+@dynamic keywords;
+
 
 + (Measurement *)createWithDictionary:(NSDictionary *)dictionary
 {
     DBMetadata *metaData = dictionary[@"metadata"];
     Measurement *newMeasurement = [Measurement findFirstByAttribute:@"uniqueID" withValue:dictionary[@"uniqueID"]];
     
-    NSLog(@"filename: %@", metaData.filename);
-    
     if (newMeasurement == nil)
     {
         newMeasurement = [Measurement createEntity];
         newMeasurement.uniqueID = dictionary[@"uniqueID"];
     }
-
+    
     newMeasurement.filename = metaData.filename;
     newMeasurement.filepath = dictionary[@"filepath"];
-
+    
     if (dictionary[@"downloadDate"])
     {
         newMeasurement.downloadDate = dictionary[@"downloadDate"];
         NSDictionary *fcsKeywords = [FCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:newMeasurement.filepath]];
         newMeasurement.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
+        [newMeasurement _addKeywordsWithDictionary:fcsKeywords];
     }
-
+    
     return newMeasurement;
 }
 
+
+- (NSString *)md5OfFile:(NSString *)filePath
+{
+    NSURL *URL = [NSURL URLWithString:filePath relativeToURL:HOME_URL];
+    NSData *data = [NSData dataWithContentsOfURL:URL];
+    return [data md5];
+}
+
+
+- (void)_addKeywordsWithDictionary:(NSDictionary *)dictionary
+{
+    for (NSString *key in dictionary.allKeys)
+    {
+        Keyword *aKeyword = [Keyword createWithValue:dictionary[key] forKey:key];
+        if (aKeyword)
+        {
+            Keyword *existingKeyword = [self keywordWithKey:aKeyword.key];
+            if (existingKeyword)
+            {
+                [self removeKeywordsObject:existingKeyword];
+            }
+            [self addKeywordsObject:aKeyword];
+        }
+    }
+}
+
+
+- (Keyword *)keywordWithKey:(NSString *)key
+{
+    for (Keyword *aKeyword in self.keywords)
+    {
+        if ([aKeyword.key isEqualToString:key])
+        {
+            return aKeyword;
+        }
+    }
+    return nil;
+}
 
 @end

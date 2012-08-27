@@ -27,6 +27,7 @@
     newGate.vertices = vertices;
     newGate.parentNode = parentNode;
     
+    newGate.analysis = parentNode.analysis;
     newGate.xParName = parentNode.xParName;
     newGate.yParName = parentNode.yParName;
     newGate.xParNumber = parentNode.xParNumber;

@@ -41,7 +41,7 @@
 {
     NSString *uniqueID = [NSString getUUID];
     NSString *relativePath = [@"tmp" stringByAppendingPathComponent:[uniqueID stringByAppendingPathExtension:fileMetadata.filename.pathExtension]];
-    NSLog(@"relativePath: %@", relativePath);
+
     [Measurement createWithDictionary:@{
      @"metadata" : fileMetadata,
      @"filepath" : relativePath,

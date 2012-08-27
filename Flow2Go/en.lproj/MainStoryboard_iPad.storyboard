@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2829" systemVersion="12A269" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4Ff-fm-7dO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2829" systemVersion="12B19" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="4Ff-fm-7dO">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1914"/>
     </dependencies>
@@ -255,80 +255,76 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="gZF-Qg-W0f" customClass="CPTGraphHostingView">
-                                <subviews>
-                                    <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="4Y6-vR-W5x" customClass="MarkView">
-                                        <subviews>
-                                            <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="zjb-WV-mWT">
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="299" id="8mG-ha-bkZ"/>
-                                                    <constraint firstAttribute="height" constant="21" id="RpA-6L-air"/>
-                                                </constraints>
-                                                <nil key="highlightedColor"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="27"/>
-                                            </label>
-                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P5F-po-NHv">
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="279" id="ggu-Sq-efx"/>
-                                                    <constraint firstAttribute="height" constant="44" id="xvr-MK-0UC"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="x-axis">
-                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="xAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="5lJ-f3-GrH"/>
-                                                </connections>
-                                            </button>
-                                            <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J3P-ip-Owu">
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="74" id="4j8-rL-AMm"/>
-                                                    <constraint firstAttribute="height" constant="170" id="fm5-zs-w1Y"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="y-axis">
-                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="yAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="dvX-5X-ucq"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstItem="J3P-ip-Owu" firstAttribute="baseline" secondItem="zjb-WV-mWT" secondAttribute="baseline" type="default" id="2bJ-T1-ng3"/>
-                                            <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="98C-74-oTE"/>
-                                            <constraint firstItem="J3P-ip-Owu" firstAttribute="top" secondItem="4Y6-vR-W5x" secondAttribute="top" constant="392" id="9rZ-db-yfT"/>
-                                            <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="JI7-sm-4zI"/>
-                                            <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="n4G-wm-ExY"/>
-                                            <constraint firstItem="zjb-WV-mWT" firstAttribute="centerY" secondItem="4Y6-vR-W5x" secondAttribute="centerY" type="default" id="rLW-YC-ggG"/>
-                                            <constraint firstItem="zjb-WV-mWT" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="10" id="yEt-B6-6J8"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                            <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="4Y6-vR-W5x" customClass="MarkView">
+                                <subviews>
+                                    <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="zjb-WV-mWT">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="299" id="8mG-ha-bkZ"/>
+                                            <constraint firstAttribute="height" constant="22" id="ozJ-aC-QSD"/>
+                                        </constraints>
+                                        <nil key="highlightedColor"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="27"/>
+                                    </label>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P5F-po-NHv">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="279" id="ggu-Sq-efx"/>
+                                            <constraint firstAttribute="height" constant="44" id="xvr-MK-0UC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="x-axis">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="xAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="5lJ-f3-GrH"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J3P-ip-Owu">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="74" id="4j8-rL-AMm"/>
+                                            <constraint firstAttribute="height" constant="170" id="fm5-zs-w1Y"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="y-axis">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="yAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="dvX-5X-ucq"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="top" secondItem="gZF-Qg-W0f" secondAttribute="top" type="default" id="0rQ-Om-AyT"/>
-                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="trailing" secondItem="gZF-Qg-W0f" secondAttribute="trailing" type="default" id="LMM-gU-4Ja"/>
-                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="bottom" secondItem="gZF-Qg-W0f" secondAttribute="bottom" type="default" id="e77-n6-iDz"/>
-                                    <constraint firstItem="4Y6-vR-W5x" firstAttribute="leading" secondItem="gZF-Qg-W0f" secondAttribute="leading" type="default" id="lnW-Rr-2xt"/>
+                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="baseline" secondItem="zjb-WV-mWT" secondAttribute="baseline" type="default" id="2bJ-T1-ng3"/>
+                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="top" secondItem="4Y6-vR-W5x" secondAttribute="top" constant="360" id="4Dh-LX-L3d"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="98C-74-oTE"/>
+                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="gy2-oW-TN2"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="kgL-aW-eDY"/>
+                                    <constraint firstItem="zjb-WV-mWT" firstAttribute="centerY" secondItem="4Y6-vR-W5x" secondAttribute="centerY" type="default" id="rLW-YC-ggG"/>
+                                    <constraint firstItem="zjb-WV-mWT" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="10" id="yEt-B6-6J8"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="N17-sT-UEs"/>
                             <constraint firstItem="gZF-Qg-W0f" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="Uaq-pV-KfS"/>
-                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="jhe-CF-qdc"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="Ubf-cE-mDy"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="W7Y-S0-hzN"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="Zjc-26-maM"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="gG6-Ew-wDP"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="qMW-y6-EgW"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="tMD-ST-Be1"/>
                             <constraint firstItem="gZF-Qg-W0f" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="tT9-ng-2Ao"/>
                         </constraints>
                     </view>
@@ -405,6 +401,8 @@
         <class className="PlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
             <relationships>
+                <relationship kind="action" name="xAxisTapped:"/>
+                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
@@ -422,6 +420,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

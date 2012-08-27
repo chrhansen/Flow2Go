@@ -41,13 +41,14 @@
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                         target:self
                                                                                         action:@selector(doneTapped)];
-    self.markView.delegate = self;
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self _configureButtons];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -56,7 +57,8 @@
     [self _insertGraph];
     [self _insertScatterPlot];
     [self _updateAxisAndPlotRange];
-    [self performSelector:@selector(_drawGates) withObject:self afterDelay:0.25];
+    self.markView.delegate = self;
+    [self.markView reloadPaths];
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,28 +125,20 @@
     {
         self.plot.xParNumber = [NSNumber numberWithInteger:buttonIndex + 1];
         _xParIndex = self.plot.xParNumber.integerValue - 1;
-        self.plot.xParName = [FCSFile parameterShortNameForParameterIndex:buttonIndex
-                                                                inFCSFile:self.fcsFile];
         [self.xAxisButton setTitle:self.plot.xParName forState:UIControlStateNormal];
     }
     else if (actionSheet.tag == Y_AXIS_SHEET)
     {
         self.plot.yParNumber = [NSNumber numberWithInteger:buttonIndex + 1];
         _yParIndex = self.plot.yParNumber.integerValue - 1;
-        self.plot.yParName = [FCSFile parameterShortNameForParameterIndex:buttonIndex
-                                                                inFCSFile:self.fcsFile];
         [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     }
     [self _updateAxisAndPlotRange];
     [self.graph reloadData];
+    [self.markView reloadPaths];
     [self.plot.managedObjectContext save];
 }
 
-
-- (void)_drawGates
-{
-    [self.markView drawPaths];
-}
 
 - (void)_insertGraph
 {    
@@ -205,9 +199,7 @@
     x.minorTickLineStyle = nil;
     x.majorIntervalLength = CPTDecimalFromInteger(xParRange / 5);
     x.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
-    x.title = self.plot.xParName;
-    x.titleOffset = 0.0;
-    x.titleLocation = CPTDecimalFromFloat(500.0f);
+    x.title = nil;
     x.labelRotation = M_PI/4;
     x.axisConstraints = [CPTConstraints constraintWithLowerOffset:45.0f];
     
@@ -217,9 +209,7 @@
     y.minorTickLineStyle = nil;
     y.majorIntervalLength = CPTDecimalFromInteger(yParRange / 5);
     y.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
-    y.title = self.plot.yParName;
-    y.titleOffset = 0.0;
-    y.titleLocation = CPTDecimalFromFloat(500.0f);
+    y.title = nil;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:50.0f];
 }
 
@@ -233,7 +223,9 @@
     }        
     self.fcsFile = [self.delegate fcsFile:self];
     [self _setAxisIfNeeded];
-
+    _xParIndex = self.plot.xParNumber.integerValue - 1;
+    _yParIndex = self.plot.yParNumber.integerValue - 1;
+    
     Gate *parentGate = (Gate *)self.plot.parentNode;
     
     if (parentGate)
@@ -260,20 +252,12 @@
     if (self.plot.xParNumber.integerValue < 1)
     {
         self.plot.xParNumber = [NSNumber numberWithInteger:1];
-        self.plot.xParName = [FCSFile parameterShortNameForParameterIndex:0
-                                                                inFCSFile:self.fcsFile];
-        NSLog(@"setting default x-axis");
     }
     if (self.plot.yParNumber.integerValue < 1)
     {
         self.plot.yParNumber = [NSNumber numberWithInteger:2];
-        self.plot.yParName = [FCSFile parameterShortNameForParameterIndex:1
-                                                                inFCSFile:self.fcsFile];
-        NSLog(@"setting default y-axis");
     }
     [self.plot.managedObjectContext save];
-    _xParIndex = self.plot.xParNumber.integerValue - 1;
-    _yParIndex = self.plot.yParNumber.integerValue - 1;
 }
 
 #pragma mark - CPT Plot Data Source
@@ -384,8 +368,11 @@ static CPTPlotSymbol *plotSymbol;
     gate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside
                                  length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
     gate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
-    
+    //[gate.managedObjectContext save];
+    //gate.parentNode = self.plot;
+
     [self.plot.managedObjectContext save];
+    
 }
 
 
@@ -419,17 +406,30 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark Mark View Datasource
 - (NSUInteger)numberOfPathsInMarkView:(id)sender
 {
-    return self.plot.childNodes.count;
+    NSArray *relevantGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
+                                          andYPar:self.plot.yParNumber.integerValue];
+    return relevantGates.count;
 }
 
 
 - (NSArray *)verticesForPath:(NSUInteger)pathNo inView:(id)sender
 {
-    Gate *gate = [self.plot.childNodes objectAtIndex:pathNo];
-    NSArray *viewArray = [self viewVerticesFromGateVertices:gate.vertices
-                                                     inView:self.markView
-                                                  plotSpace:self.plotSpace];
-    return viewArray;
+    NSArray *relevantGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
+                                                  andYPar:self.plot.yParNumber.integerValue];
+    Gate *gate = relevantGates[pathNo];
+
+    if (gate.xParNumber.integerValue == self.plot.xParNumber.integerValue)
+    {
+        return [self viewVerticesFromGateVertices:gate.vertices
+                                           inView:self.markView
+                                        plotSpace:self.plotSpace];
+    }
+    else
+    {
+        return [self viewVerticesFromGateVertices:[GraphPoint switchXandYForGraphpoints:gate.vertices]
+                                           inView:self.markView
+                                        plotSpace:self.plotSpace];
+    }
 }
 
 @end

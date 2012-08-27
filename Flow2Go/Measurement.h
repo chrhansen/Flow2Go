@@ -2,25 +2,29 @@
 //  Measurement.h
 //  Flow2Go
 //
-//  Created by Christian Hansen on 21/08/12.
+//  Created by Christian Hansen on 26/08/12.
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Analysis;
+@class Analysis, Keyword;
 
 @interface Measurement : NSManagedObject
 
 + (Measurement *)createWithDictionary:(NSDictionary *)dictionary;
 
+- (Keyword *)keywordWithKey:(NSString *)key;
+
 @property (nonatomic, retain) NSNumber * countOfEvents;
+@property (nonatomic, retain) NSDate * downloadDate;
 @property (nonatomic, retain) NSString * filename;
 @property (nonatomic, retain) NSString * filepath;
+@property (nonatomic, retain) NSDate * lastModificationDate;
 @property (nonatomic, retain) NSString * uniqueID;
-@property (nonatomic, retain) NSDate * downloadDate;
 @property (nonatomic, retain) NSOrderedSet *analyses;
+@property (nonatomic, retain) NSSet *keywords;
 @end
 
 @interface Measurement (CoreDataGeneratedAccessors)
@@ -35,5 +39,10 @@
 - (void)removeAnalysesObject:(Analysis *)value;
 - (void)addAnalyses:(NSOrderedSet *)values;
 - (void)removeAnalyses:(NSOrderedSet *)values;
+
+- (void)addKeywordsObject:(Keyword *)value;
+- (void)removeKeywordsObject:(Keyword *)value;
+- (void)addKeywords:(NSSet *)values;
+- (void)removeKeywords:(NSSet *)values;
 
 @end

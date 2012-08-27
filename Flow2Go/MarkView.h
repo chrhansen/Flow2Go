@@ -24,7 +24,7 @@
 
 @interface MarkView : UIView 
 
-- (void)drawPaths;
+- (void)reloadPaths;
 
 @property (nonatomic, weak) id<MarkViewDelegate> delegate;
 

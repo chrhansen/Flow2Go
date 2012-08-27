@@ -12,6 +12,8 @@
 
 + (GraphPoint *)pointWithX:(double)xValue andY:(double)yValue;
 
++ (NSArray *)switchXandYForGraphpoints:(NSArray *)vertices;
+
 @property (nonatomic) double x;
 @property (nonatomic) double y;
 

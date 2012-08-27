@@ -70,7 +70,7 @@
     Plot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
     Gate *parentGate = (Gate *)plot.parentNode;
     PlotCell *plotCell = (PlotCell *)cell;
-    plotCell.cellCount.text = [NSString stringWithFormat:@"%i celler", parentGate.cellCount.integerValue];
+    plotCell.cellCount.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
     plotCell.parentGateName.text = parentGate.name;
     
     if (parentGate == nil)

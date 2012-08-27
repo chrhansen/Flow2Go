@@ -19,6 +19,17 @@
     return newPoint;
 }
 
+
++ (NSArray *)switchXandYForGraphpoints:(NSArray *)vertices
+{
+    NSMutableArray *switchedArray = [NSMutableArray arrayWithCapacity:vertices.count];
+    for (GraphPoint *aGraphPoint in vertices)
+    {
+        [switchedArray addObject:[GraphPoint pointWithX:aGraphPoint.y andY:aGraphPoint.x]];
+    }
+    return switchedArray;
+}
+
 - (void) encodeWithCoder:(NSCoder *)encoder
 {
     //[super encodeWithCoder:encoder] as the first statement.

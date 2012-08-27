@@ -19,10 +19,10 @@
     Plot *newPlot = [Plot createInContext:analysis.managedObjectContext];
     newPlot.analysis = analysis;
     newPlot.parentNode = parentNode;
-    newPlot.xParName = parentNode.xParName;
-    newPlot.yParName = parentNode.yParName;
-    newPlot.xParNumber = parentNode.xParNumber;
-    newPlot.yParNumber = parentNode.yParNumber;
+    
+    Plot *parentPlot = (Plot *)parentNode.parentNode;
+    newPlot.xParNumber = parentPlot.xParNumber;
+    newPlot.yParNumber = parentPlot.yParNumber;
     
     return newPlot;
 }
@@ -58,6 +58,14 @@
     newPlot.yParName = yAxisName;
     
     return newPlot;
+}
+
+
+- (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self.xParNumber.integerValue == %i AND self.yParNumber.integerValue == %i) || (self.yParNumber.integerValue == %i AND self.xParNumber.integerValue == %i)", xParNumber, yParNumber, xParNumber, yParNumber];
+    NSSet *filteredSet = [self.childNodes.set filteredSetUsingPredicate:predicate];
+    return filteredSet.allObjects;
 }
 
 @end

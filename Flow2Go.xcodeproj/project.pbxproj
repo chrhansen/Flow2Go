@@ -13,6 +13,8 @@
 		E511FD7915CC36C200637D39 /* icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7815CC36C200637D39 /* icon_72.png */; };
 		E511FDDA15CC6C4800637D39 /* PlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* PlotViewController.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
+		E5208C9115EAA12600EBAE47 /* Keyword.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C9015EAA12600EBAE47 /* Keyword.m */; };
+		E5208C9515EAA17200EBAE47 /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C9415EAA17200EBAE47 /* Measurement.m */; };
 		E52BECB715DE63EA002A3819 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* GraphPoint.m */; };
 		E53FA66615CB0CC0000B048C /* MeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */; };
 		E53FA6A215CBC1C5000B048C /* PinchLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA69F15CBBD87000B048C /* PinchLayout.m */; };
@@ -23,13 +25,13 @@
 		E567CCEE15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = E567CCED15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.m */; };
 		E57659E515D9982E005D662F /* MarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = E57659E415D9982E005D662F /* MarkView.m */; };
 		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
+		E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = E59417EB15EB68E9008D979F /* NSData+MD5.m */; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
 		E59D2E3515E365FF00944789 /* AnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3415E365FF00944789 /* AnalysisViewController.m */; };
 		E59D2E3915E37D8800944789 /* Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3815E37D8800944789 /* Analysis.m */; };
 		E59D2E3C15E37DE500944789 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3B15E37DE400944789 /* Node.m */; };
 		E59D2E3F15E37E2100944789 /* Plot.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3E15E37E2000944789 /* Plot.m */; };
 		E59D2E4215E37E7100944789 /* Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E4115E37E7100944789 /* Gate.m */; };
-		E59D2E4515E37ED900944789 /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E4415E37ED900944789 /* Measurement.m */; };
 		E5E55B9B15D7E6CE0077EFA8 /* FCSGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E55B9A15D7E6CE0077EFA8 /* FCSGraphView.m */; };
 		E5EA2EDA15E664C000F2F086 /* PlotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EA2ED915E664C000F2F086 /* PlotCell.m */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
@@ -84,6 +86,10 @@
 		E511FDD915CC6C4800637D39 /* PlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotViewController.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
+		E5208C8F15EAA12600EBAE47 /* Keyword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keyword.h; sourceTree = "<group>"; };
+		E5208C9015EAA12600EBAE47 /* Keyword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Keyword.m; sourceTree = "<group>"; };
+		E5208C9315EAA17200EBAE47 /* Measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measurement.h; sourceTree = "<group>"; };
+		E5208C9415EAA17200EBAE47 /* Measurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measurement.m; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* GraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* GraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphPoint.m; sourceTree = "<group>"; };
 		E53FA66415CB0CC0000B048C /* MeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementCollectionViewController.h; sourceTree = "<group>"; };
@@ -182,6 +188,8 @@
 		E57659E415D9982E005D662F /* MarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkView.m; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* GateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GateCalculator.h; path = Flow2Go/GateCalculator.h; sourceTree = SOURCE_ROOT; };
 		E579564815DAFE6800B77795 /* GateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GateCalculator.m; path = Flow2Go/GateCalculator.m; sourceTree = SOURCE_ROOT; };
+		E59417EA15EB68E9008D979F /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		E59417EB15EB68E9008D979F /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		E599D2D715E1635A0036F2DC /* NSArrayValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayValueTransformer.h; sourceTree = "<group>"; };
 		E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayValueTransformer.m; sourceTree = "<group>"; };
 		E59D2E3315E365FF00944789 /* AnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisViewController.h; sourceTree = "<group>"; };
@@ -194,8 +202,6 @@
 		E59D2E3E15E37E2000944789 /* Plot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Plot.m; sourceTree = "<group>"; };
 		E59D2E4015E37E7100944789 /* Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gate.h; sourceTree = "<group>"; };
 		E59D2E4115E37E7100944789 /* Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gate.m; sourceTree = "<group>"; };
-		E59D2E4315E37ED900944789 /* Measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measurement.h; sourceTree = "<group>"; };
-		E59D2E4415E37ED900944789 /* Measurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measurement.m; sourceTree = "<group>"; };
 		E5E55B9915D7E6CE0077EFA8 /* FCSGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSGraphView.h; sourceTree = "<group>"; };
 		E5E55B9A15D7E6CE0077EFA8 /* FCSGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSGraphView.m; sourceTree = "<group>"; };
 		E5EA2ED815E664C000F2F086 /* PlotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotCell.h; sourceTree = "<group>"; };
@@ -446,6 +452,8 @@
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E59417EA15EB68E9008D979F /* NSData+MD5.h */,
+				E59417EB15EB68E9008D979F /* NSData+MD5.m */,
 				E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */,
 				E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */,
 				E567CCEC15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.h */,
@@ -633,10 +641,12 @@
 			isa = PBXGroup;
 			children = (
 				E5FC6F6215CA7E8E0047A3DD /* Flow2Go.xcdatamodeld */,
-				E59D2E4315E37ED900944789 /* Measurement.h */,
-				E59D2E4415E37ED900944789 /* Measurement.m */,
+				E5208C9315EAA17200EBAE47 /* Measurement.h */,
+				E5208C9415EAA17200EBAE47 /* Measurement.m */,
 				E59D2E3715E37D8800944789 /* Analysis.h */,
 				E59D2E3815E37D8800944789 /* Analysis.m */,
+				E5208C8F15EAA12600EBAE47 /* Keyword.h */,
+				E5208C9015EAA12600EBAE47 /* Keyword.m */,
 				E59D2E3A15E37DE300944789 /* Node.h */,
 				E59D2E3B15E37DE400944789 /* Node.m */,
 				E59D2E3D15E37E2000944789 /* Plot.h */,
@@ -781,10 +791,12 @@
 				E59D2E3C15E37DE500944789 /* Node.m in Sources */,
 				E59D2E3F15E37E2100944789 /* Plot.m in Sources */,
 				E59D2E4215E37E7100944789 /* Gate.m in Sources */,
-				E59D2E4515E37ED900944789 /* Measurement.m in Sources */,
 				E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */,
 				E5EA2EDA15E664C000F2F086 /* PlotCell.m in Sources */,
 				E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */,
+				E5208C9115EAA12600EBAE47 /* Keyword.m in Sources */,
+				E5208C9515EAA17200EBAE47 /* Measurement.m in Sources */,
+				E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

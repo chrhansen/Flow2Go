@@ -13,6 +13,7 @@
 
 @interface Node : NSManagedObject
 
+@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * xParName;
 @property (nonatomic, retain) NSNumber * xParNumber;
 @property (nonatomic, retain) NSString * yParName;

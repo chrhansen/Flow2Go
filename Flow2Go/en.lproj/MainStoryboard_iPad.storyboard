@@ -511,6 +511,166 @@
             </objects>
             <point key="canvasLocation" x="4676" y="1046"/>
         </scene>
+        <!--Plot Detail Table View Controller-->
+        <scene sceneID="UYo-wQ-XQR">
+            <objects>
+                <tableViewController storyboardIdentifier="" id="Iwb-1K-gEi" customClass="PlotDetailTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="5be-IW-5rO">
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="IZn-Dn-Cno">
+                            <rect key="frame" x="0.0" y="174" width="768" height="120"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zI9-6k-KWM">
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="300" id="0FN-oF-CPt"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="Delete Plot">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="deletePlotTapped:" destination="Iwb-1K-gEi" eventType="touchUpInside" id="gaI-uE-7tH"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="zI9-6k-KWM" firstAttribute="top" secondItem="IZn-Dn-Cno" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Q9w-uR-FZg"/>
+                                <constraint firstItem="zI9-6k-KWM" firstAttribute="centerX" secondItem="IZn-Dn-Cno" secondAttribute="centerX" type="default" id="shZ-SV-uML"/>
+                            </constraints>
+                        </view>
+                        <sections>
+                            <tableViewSection id="T3l-OX-O4n">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" id="B9A-aB-Itc">
+                                        <rect key="frame" x="0.0" y="30" width="768" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="45" y="1" width="678" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Plot Name" minimumFontSize="17" text="" id="yyL-Kg-YXX">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="395" id="89K-eR-K0j"/>
+                                                        <constraint firstAttribute="height" constant="30" id="FUw-eD-Ks6"/>
+                                                    </constraints>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="Iwb-1K-gEi" id="Vlv-Q1-WpX"/>
+                                                    </connections>
+                                                </textField>
+                                                <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Name" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="hB4-IV-ISn">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="gIP-S4-i0s"/>
+                                                        <constraint firstAttribute="width" constant="46" id="pKg-Gd-THW"/>
+                                                    </constraints>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="top" secondItem="B9A-aB-Itc" secondAttribute="top" constant="8" id="Qfp-mG-Jfw"/>
+                                            <constraint firstItem="hB4-IV-ISn" firstAttribute="centerY" secondItem="B9A-aB-Itc" secondAttribute="centerY" type="default" id="jhm-I6-BKN"/>
+                                            <constraint firstItem="hB4-IV-ISn" firstAttribute="leading" secondItem="B9A-aB-Itc" secondAttribute="leading" constant="41" id="xjo-g1-0ln"/>
+                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="leading" secondItem="B9A-aB-Itc" secondAttribute="leading" constant="93" id="y4p-lU-oML"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" textLabel="A6O-dc-Wi2" detailTextLabel="gkD-WP-VOF" style="IBUITableViewCellStyleValue2" id="nPy-R0-Cbl">
+                                        <rect key="frame" x="0.0" y="75" width="768" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="45" y="0.0" width="678" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Cell Count" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="A6O-dc-Wi2">
+                                                    <rect key="frame" x="10" y="15" width="67" height="15"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Plot Count" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="gkD-WP-VOF">
+                                                    <rect key="frame" x="83" y="12" width="76" height="19"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" textLabel="eAe-8h-lq2" detailTextLabel="jjD-VN-ZJG" style="IBUITableViewCellStyleValue2" id="bJE-tW-E4E">
+                                        <rect key="frame" x="0.0" y="119" width="768" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="45" y="0.0" width="678" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Parent " textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="eAe-8h-lq2">
+                                                    <rect key="frame" x="10" y="15" width="67" height="15"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Parent Gate Name" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="jjD-VN-ZJG">
+                                                    <rect key="frame" x="83" y="12" width="130" height="19"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="Iwb-1K-gEi" id="1IR-JU-h3y"/>
+                            <outlet property="delegate" destination="Iwb-1K-gEi" id="A60-uO-QU8"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="ZuQ-jH-hlg"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
+                    <connections>
+                        <outlet property="deletePlotButton" destination="zI9-6k-KWM" id="vDx-tj-Bzh"/>
+                        <outlet property="parentGateName" destination="jjD-VN-ZJG" id="kww-Gx-sqI"/>
+                        <outlet property="plotCount" destination="gkD-WP-VOF" id="Vl2-Sw-B10"/>
+                        <outlet property="plotNameTextField" destination="yyL-Kg-YXX" id="MHS-Tq-aIw"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cnX-Tk-gjM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3754" y="2344"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Zir-65-4TQ">
+            <objects>
+                <navigationController storyboardIdentifier="plotDetailTableViewController" id="5tR-Xf-qan" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mTQ-iE-twy">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Iwb-1K-gEi" kind="relationship" relationship="rootViewController" id="VIB-3O-kp3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UFk-IZ-hNA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2780" y="2344"/>
+        </scene>
     </scenes>
     <classes>
         <class className="AnalysisViewController" superclassName="UICollectionViewController">
@@ -558,9 +718,20 @@
                 <relationship kind="outlet" name="yAxisName" candidateClass="UILabel"/>
             </relationships>
         </class>
+        <class className="PlotDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
         <class className="PlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
             <relationships>
+                <relationship kind="action" name="xAxisTapped:"/>
+                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
@@ -578,6 +749,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

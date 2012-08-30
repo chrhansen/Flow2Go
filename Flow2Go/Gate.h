@@ -19,7 +19,6 @@
 
 
 @property (nonatomic, retain) NSNumber * cellCount;
-@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * type;
 @property (nonatomic, retain) NSArray *vertices;
 @property (nonatomic, retain) NSData *subSet;

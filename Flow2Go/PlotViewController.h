@@ -18,9 +18,11 @@
 @protocol PlotViewControllerDelegate <NSObject>
 - (FCSFile *)fcsFile:(id)sender;
 - (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot;
+- (void)didDeletePlot:(Plot *)plot;
+
 @end
 
-@interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate, UIPopoverControllerDelegate>
+@interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate>
 
 - (void)prepareDataForPlot;
 

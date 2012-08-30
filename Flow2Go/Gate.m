@@ -12,7 +12,6 @@
 @implementation Gate
 
 @dynamic cellCount;
-@dynamic name;
 @dynamic type;
 @dynamic vertices;
 @dynamic subSet;

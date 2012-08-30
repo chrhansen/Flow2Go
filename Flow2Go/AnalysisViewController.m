@@ -209,6 +209,26 @@
     }];
 }
 
+
+- (void)didDeletePlot:(Plot *)plot
+{
+    __weak Plot *plotToBeDeleted = plot;
+    [self dismissViewControllerAnimated:YES completion:^{
+        BOOL success = [plotToBeDeleted deleteInContext:self.analysis.managedObjectContext];
+        [self.analysis.managedObjectContext save];
+        [self.collectionView reloadData];
+        if (!success)
+        {
+            UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
+                                                              message:[NSLocalizedString(@"Could not delete plot \"", nil) stringByAppendingFormat:@"%@\"", plotToBeDeleted.name]
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                    otherButtonTitles: nil];
+            [alertView show];
+        }
+    }];
+}
+
 #pragma mark - Collection View Data source
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {

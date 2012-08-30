@@ -1,23 +1,25 @@
 //
-//  GateTableViewController.m
+//  PlotDetailTableViewController.m
 //  Flow2Go
 //
 //  Created by Christian Hansen on 30/08/12.
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "GateTableViewController.h"
+#import "PlotDetailTableViewController.h"
+#import "Plot.h"
 #import "Gate.h"
 
-@interface GateTableViewController () <UITextFieldDelegate, UIActionSheetDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *gateName;
-@property (weak, nonatomic) IBOutlet UILabel *gateCount;
-@property (weak, nonatomic) IBOutlet UIButton *createNewPlotButton;
-@property (weak, nonatomic) IBOutlet UIButton *deleteGateButton;
+@interface PlotDetailTableViewController () <UIActionSheetDelegate, UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *plotNameTextField;
+@property (weak, nonatomic) IBOutlet UILabel *plotCount;
+@property (weak, nonatomic) IBOutlet UIButton *deletePlotButton;
+@property (weak, nonatomic) IBOutlet UILabel *parentGateName;
 
 @end
 
-@implementation GateTableViewController
+@implementation PlotDetailTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -38,22 +40,23 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.title = self.gate.name;
+    self.title = self.plot.name;
+    [self _enableDeleteButtonUnlessRootPlot:NO];
     [self _configureLabels];
 }
-
-- (void)_configureLabels
-{
-    self.gateName.text = self.gate.name;
-    self.gateCount.text = self.gate.cellCount.stringValue;
-}
-
 
 - (void)_addDoneButton
 {
     [self.navigationItem setLeftBarButtonItem: [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_doneTapped)] animated:YES];
 }
 
+- (void)_configureLabels
+{
+    self.plotNameTextField.text = self.plot.name;
+    Gate *parentGate = (Gate *)self.plot.parentNode;
+    self.plotCount.text = parentGate.cellCount.stringValue;
+    self.parentGateName.text = parentGate.name;
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -62,24 +65,34 @@
 }
 
 
+- (void)_enableDeleteButtonUnlessRootPlot:(BOOL)enable
+{
+    if (!self.plot.parentNode)
+    {
+        self.deletePlotButton.alpha = 0.5;
+        self.deletePlotButton.enabled = NO;
+        return;
+    }
+    self.deletePlotButton.enabled = enable;
+}
+
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
-    self.createNewPlotButton.enabled = !editing;
-    self.deleteGateButton.enabled = !editing;
-    [self.gateName setUserInteractionEnabled:editing];
-    
+    [self.plotNameTextField setUserInteractionEnabled:editing];
+    [self _enableDeleteButtonUnlessRootPlot:!editing];
     if (editing) {
         [self.editButtonItem setTitle:NSLocalizedString(@"Save", nil)];
-            self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
-        [self.gateName becomeFirstResponder];
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
+        [self.plotNameTextField becomeFirstResponder];
     }
     else
     {
-        self.gate.name = self.gateName.text;
-        self.title = self.gate.name;
-        [self.gate.managedObjectContext save];
-        [self.gateName resignFirstResponder];
+        self.plot.name = self.plotNameTextField.text;
+        self.title = self.plot.name;
+        [self.plot.managedObjectContext save];
+        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+        [self.plotNameTextField resignFirstResponder];
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
             [self.navigationItem setLeftBarButtonItem:nil animated:YES];
         }
@@ -87,7 +100,6 @@
         {
             [self _addDoneButton];
         }
-        
     }
 }
 
@@ -98,18 +110,14 @@
 
 - (void)_cancelTapped
 {
-    self.gateName.text = self.gate.name;
+    self.plotNameTextField.text = self.plot.name;
     [self setEditing:NO animated:YES];
 }
 
-- (IBAction)newGateTapped:(id)sender
-{
-    [self.delegate didTapNewPlot:self];
-}
 
-- (IBAction)deleteGateTapped:(id)sender
+- (IBAction)deletePlotTapped:(id)sender
 {
-    UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:NSLocalizedString(@"Delete Gate?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Delete", nil) otherButtonTitles:nil];
+    UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:NSLocalizedString(@"Delete Plot?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Delete", nil) otherButtonTitles:nil];
     [actionSheet showInView:self.tableView];
 }
 
@@ -118,7 +126,7 @@
 {
     if (buttonIndex == actionSheet.destructiveButtonIndex)
     {
-        [self.delegate didTapDeleteGate:self];
+        [self.delegate didTapDeletePlot:self];
     }
 }
 
@@ -128,7 +136,6 @@
 {
     return YES;
 }
-
 
 #pragma mark - TableView delegates
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
@@ -140,5 +147,6 @@
 {
     return NO;
 }
+
 
 @end

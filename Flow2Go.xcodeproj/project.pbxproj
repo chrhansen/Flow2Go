@@ -28,6 +28,7 @@
 		E57BA89315ED8D94008EA346 /* DensityPlotData.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* DensityPlotData.m */; };
 		E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = E59417EB15EB68E9008D979F /* NSData+MD5.m */; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
+		E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */; };
 		E59D2E3515E365FF00944789 /* AnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3415E365FF00944789 /* AnalysisViewController.m */; };
 		E59D2E3915E37D8800944789 /* Analysis.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3815E37D8800944789 /* Analysis.m */; };
 		E59D2E3C15E37DE500944789 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3B15E37DE400944789 /* Node.m */; };
@@ -196,6 +197,8 @@
 		E59417EB15EB68E9008D979F /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		E599D2D715E1635A0036F2DC /* NSArrayValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayValueTransformer.h; sourceTree = "<group>"; };
 		E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayValueTransformer.m; sourceTree = "<group>"; };
+		E59A074B15EF8A0E006AE343 /* PlotDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotDetailTableViewController.h; sourceTree = "<group>"; };
+		E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotDetailTableViewController.m; sourceTree = "<group>"; };
 		E59D2E3315E365FF00944789 /* AnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisViewController.h; sourceTree = "<group>"; };
 		E59D2E3415E365FF00944789 /* AnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisViewController.m; sourceTree = "<group>"; };
 		E59D2E3715E37D8800944789 /* Analysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analysis.h; sourceTree = "<group>"; };
@@ -680,6 +683,8 @@
 				E5FC703715CAA79A0047A3DD /* DropboxViewController.m */,
 				E511FDD815CC6C4800637D39 /* PlotViewController.h */,
 				E511FDD915CC6C4800637D39 /* PlotViewController.m */,
+				E59A074B15EF8A0E006AE343 /* PlotDetailTableViewController.h */,
+				E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */,
 				E5B480AE15EF597D00BB6BAC /* GateTableViewController.h */,
 				E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */,
 			);
@@ -809,6 +814,7 @@
 				E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */,
 				E57BA89315ED8D94008EA346 /* DensityPlotData.m in Sources */,
 				E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */,
+				E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

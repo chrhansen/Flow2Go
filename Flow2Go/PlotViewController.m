@@ -15,8 +15,9 @@
 #import "Plot.h"
 #import "DensityPlotData.h"
 #import "GateTableViewController.h"
+#import "PlotDetailTableViewController.h"
 
-@interface PlotViewController () <GateTableViewControllerDelegate> {
+@interface PlotViewController () <GateTableViewControllerDelegate, PlotDetailTableViewControllerDelegate> {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
 }
@@ -27,7 +28,7 @@
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) DensityPlotData *densityPlotData;
-@property (nonatomic, strong) UIPopoverController *gatePopoverController;
+@property (nonatomic, strong) UIPopoverController *detailPopoverController;
 
 @end
 
@@ -50,7 +51,6 @@
 {
     [super viewWillAppear:animated];
     [self _configureButtons];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -63,6 +63,13 @@
     [self.markView performSelector:@selector(reloadPaths) withObject:nil afterDelay:0.05];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.detailPopoverController dismissPopoverAnimated:YES];
+    [super viewWillDisappear:animated];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -74,15 +81,51 @@
 {
     [self.xAxisButton setTitle:self.plot.xParName forState:UIControlStateNormal];
     [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [infoButton addTarget:self action:@selector(_toggleInfo:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem  = [UIBarButtonItem.alloc initWithCustomView: infoButton];
 }
 
 - (void)doneTapped
+{
+    [self _removeSubviews];
+    [self.detailPopoverController dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)_removeSubviews
 {
     for (UIView *aSubView in self.view.subviews)
     {
         [aSubView removeFromSuperview];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)_toggleInfo:(id)sender
+{
+    UINavigationController *plotNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"plotDetailTableViewController"];
+    PlotDetailTableViewController *plotTVC = (PlotDetailTableViewController *)plotNavigationVC.topViewController;
+    plotTVC.delegate = self;
+    plotTVC.plot = self.plot;
+    if (self.detailPopoverController.isPopoverVisible) {
+        UINavigationController *navCon = (UINavigationController *)self.detailPopoverController.contentViewController;
+        [self.detailPopoverController dismissPopoverAnimated:YES];
+        if ([navCon.topViewController isKindOfClass:PlotDetailTableViewController.class]) {
+            return;
+        }
+    }
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:plotNavigationVC];
+        [self.detailPopoverController presentPopoverFromBarButtonItem:self.navigationItem.leftBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [self presentViewController:plotNavigationVC animated:YES completion:nil];
+    }
+    [plotTVC setEditing:NO animated:YES];
 }
 
 
@@ -102,7 +145,7 @@
 {
     UIActionSheet *axisPickerSheet = [UIActionSheet.alloc initWithTitle:nil
                                                                delegate:self
-                                                      cancelButtonTitle:nil
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                                  destructiveButtonTitle:nil
                                                       otherButtonTitles:nil];
     axisPickerSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
@@ -118,19 +161,19 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex < 0)
+    if (buttonIndex <= 0)
     {
         return;
     }
     if (actionSheet.tag == X_AXIS_SHEET)
     {
-        self.plot.xParNumber = [NSNumber numberWithInteger:buttonIndex + 1];
+        self.plot.xParNumber = [NSNumber numberWithInteger:buttonIndex];
         _xParIndex = self.plot.xParNumber.integerValue - 1;
         [self.xAxisButton setTitle:self.plot.xParName forState:UIControlStateNormal];
     }
     else if (actionSheet.tag == Y_AXIS_SHEET)
     {
-        self.plot.yParNumber = [NSNumber numberWithInteger:buttonIndex + 1];
+        self.plot.yParNumber = [NSNumber numberWithInteger:buttonIndex];
         _yParIndex = self.plot.yParNumber.integerValue - 1;
         [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     }
@@ -478,12 +521,20 @@ static NSArray *plotSymbols;
     GateTableViewController *gateTVC = (GateTableViewController *)gateNavigationVC.topViewController;
     gateTVC.delegate = self;
     gateTVC.gate = gate;
-    if (self.gatePopoverController.isPopoverVisible) {
-        [self.gatePopoverController dismissPopoverAnimated:YES];
+    
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        if (self.detailPopoverController.isPopoverVisible)
+        {
+            [self.detailPopoverController dismissPopoverAnimated:YES];
+        }
+        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:gateNavigationVC];
+        [self.detailPopoverController presentPopoverFromRect:anchorFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        [gateTVC setEditing:editOn animated:YES];
+        return;
     }
-    self.gatePopoverController = [UIPopoverController.alloc initWithContentViewController:gateNavigationVC];
-    self.gatePopoverController.delegate = self;
-    [self.gatePopoverController presentPopoverFromRect:anchorFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    [self presentViewController:gateNavigationVC animated:YES completion:nil];
     [gateTVC setEditing:editOn animated:YES];
 }
 
@@ -501,7 +552,7 @@ static NSArray *plotSymbols;
 }
 
 
-#pragma mark Mark View Datasource
+#pragma mark - Mark View Datasource
 - (NSUInteger)numberOfPathsInMarkView:(id)sender
 {
     NSArray *relevantGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
@@ -530,19 +581,30 @@ static NSArray *plotSymbols;
     }
 }
 
+#pragma mark - Plot Table View Controller delegate
+- (void)didTapDeletePlot:(PlotDetailTableViewController *)sender
+{
+    [self.delegate didDeletePlot:sender.plot];
+}
 
+
+#pragma mark - Gate Table View Controller delegate
 - (void)didTapNewPlot:(GateTableViewController *)sender
 {
-    if (self.gatePopoverController.isPopoverVisible) {
-        [self.gatePopoverController dismissPopoverAnimated:YES];
+    if (self.detailPopoverController.isPopoverVisible) {
+        [self.detailPopoverController dismissPopoverAnimated:YES];
     }
     [self.delegate didSelectGate:sender.gate forPlot:self.plot];
 }
 
 - (void)didTapDeleteGate:(GateTableViewController *)sender
 {
-    if (self.gatePopoverController.isPopoverVisible) {
-        [self.gatePopoverController dismissPopoverAnimated:YES];
+    if (self.detailPopoverController.isPopoverVisible) {
+        [self.detailPopoverController dismissPopoverAnimated:YES];
+    }
+    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     Gate *gateToBeDeleted = sender.gate;
     

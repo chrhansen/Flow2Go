@@ -24,42 +24,16 @@
     newPlot.xParNumber = parentPlot.xParNumber;
     newPlot.yParNumber = parentPlot.yParNumber;
     
+    newPlot.name = [newPlot defaultPlotName];
+
     return newPlot;
 }
 
-+ (Plot *)createChildPlotForGate:(Node *)parentNode
-                       xAxisType:(AxisType)xAxisType
-                       yAxisType:(AxisType)yAxisType
-                       xAxisName:(NSString *)xAxisName
-                       yAxisName:(NSString *)yAxisName
+
+- (NSString *)defaultPlotName
 {
-    Plot *newPlot;
-    
-    if (parentNode == nil)
-    {
-        // Root node
-        newPlot = [Plot createInContext:NSManagedObjectContext.MR_defaultContext];
-    }
-    else
-    {
-        newPlot = [Plot createInContext:parentNode.managedObjectContext];
-    }
-    
-    newPlot.xAxisType = [NSNumber numberWithInteger:xAxisType];
-    newPlot.yAxisType = [NSNumber numberWithInteger:yAxisType];
-    
-    newPlot.parentNode = parentNode;
-    
-    newPlot.xParName = xAxisName;
-    if (!yAxisName)
-    {
-        yAxisName = @"";
-    }
-    newPlot.yParName = yAxisName;
-    
-    return newPlot;
+    return [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"Plot of ", nil), self.parentNode.name];
 }
-
 
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber
 {

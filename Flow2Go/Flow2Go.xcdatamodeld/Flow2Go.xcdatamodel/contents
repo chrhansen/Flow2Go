@@ -10,7 +10,6 @@
     </entity>
     <entity name="Gate" representedClassName="Gate" parentEntity="Node" syncable="YES">
         <attribute name="cellCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subSet" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="vertices" optional="YES" attributeType="Transformable" valueTransformerName="NSArrayValueTransformer" syncable="YES"/>
@@ -32,6 +31,7 @@
         <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keyword" inverseName="measurement" inverseEntity="Keyword" syncable="YES"/>
     </entity>
     <entity name="Node" representedClassName="Node" isAbstract="YES" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="xParName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="xParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="yParName" optional="YES" attributeType="String" syncable="YES"/>
@@ -46,10 +46,10 @@
     </entity>
     <elements>
         <element name="Analysis" positionX="0" positionY="0" width="128" height="133"/>
-        <element name="Gate" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Gate" positionX="0" positionY="0" width="128" height="120"/>
         <element name="Keyword" positionX="0" positionY="0" width="128" height="88"/>
         <element name="Measurement" positionX="0" positionY="0" width="128" height="163"/>
-        <element name="Node" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Node" positionX="0" positionY="0" width="128" height="150"/>
         <element name="Plot" positionX="0" positionY="0" width="128" height="90"/>
     </elements>
 </model>

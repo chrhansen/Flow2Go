@@ -21,6 +21,7 @@
 @dynamic analysis;
 @dynamic childNodes;
 @dynamic parentNode;
+@dynamic name;
 
 
 - (void)setXParNumber:(NSNumber *)newXParNumber

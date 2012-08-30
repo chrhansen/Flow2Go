@@ -15,12 +15,6 @@
 
 + (Plot *)createPlotForAnalysis:(Analysis *)analysis parentNode:(Node *)parentNode;
 
-+ (Plot *)createChildPlotForGate:(Node *)parentNode
-                       xAxisType:(AxisType)xAxisType
-                       yAxisType:(AxisType)yAxisType
-                       xAxisName:(NSString *)xAxisName
-                       yAxisName:(NSString *)yAxisName;
-
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber;
 
 - (NSInteger)countOfParentGates;

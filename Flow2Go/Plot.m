@@ -63,9 +63,29 @@
 
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(self.xParNumber.integerValue == %i AND self.yParNumber.integerValue == %i) || (self.yParNumber.integerValue == %i AND self.xParNumber.integerValue == %i)", xParNumber, yParNumber, xParNumber, yParNumber];
-    NSSet *filteredSet = [self.childNodes.set filteredSetUsingPredicate:predicate];
-    return filteredSet.allObjects;
+    NSMutableArray *relevantGates = NSMutableArray.array;
+    for (Node *aGate in self.childNodes)
+    {
+        if ((aGate.xParNumber.integerValue == xParNumber && aGate.yParNumber.integerValue == yParNumber)
+            || (aGate.yParNumber.integerValue == xParNumber && aGate.xParNumber.integerValue == yParNumber))
+        {
+            [relevantGates addObject:aGate];
+        }
+    }
+    return relevantGates;
+}
+
+
+- (NSInteger)countOfParentGates
+{
+    Node *parentNode = self.parentNode;
+    NSInteger countOfParentGates = 0;
+    while (parentNode)
+    {
+        countOfParentGates += 1;
+        parentNode = parentNode.parentNode.parentNode;
+    }
+    return countOfParentGates;
 }
 
 @end

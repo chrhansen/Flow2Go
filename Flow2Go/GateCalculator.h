@@ -26,8 +26,15 @@
                                  subSet:(NSUInteger *)subSet
                             subSetCount:(NSUInteger)subSetCount;
 
++ (GateCalculator *)densityForPointsygonInFcsFile:(FCSFile *)fcsFile
+                                       insidePlot:(Plot *)plot
+                                           subSet:(NSUInteger *)subSet
+                                      subSetCount:(NSUInteger)subSetCount;
+
 @property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;
+@property (nonatomic) NSUInteger numberOfDensityPoints;
+@property (nonatomic) DensityPoint *densityPoints;
 @property (nonatomic, strong) NSArray *gateVertices;
 
 @end

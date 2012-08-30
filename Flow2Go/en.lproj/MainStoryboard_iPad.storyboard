@@ -339,7 +339,140 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0u8-GL-Xc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3770" y="1046"/>
+            <point key="canvasLocation" x="3682" y="1046"/>
+        </scene>
+        <!--Gate Table View Controller-->
+        <scene sceneID="qKN-kD-0hf">
+            <objects>
+                <tableViewController storyboardIdentifier="" id="D7n-B2-8pS" customClass="GateTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="fTT-lt-F2W">
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="AOx-tY-0e8">
+                            <rect key="frame" x="0.0" y="130" width="768" height="120"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bjZ-23-4IH">
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="Delete Gate">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="deleteGateTapped:" destination="D7n-B2-8pS" eventType="touchUpInside" id="SLv-He-rMu"/>
+                                    </connections>
+                                </button>
+                                <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fTw-3v-Qcw">
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="300" id="tHR-hV-tjI"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="New Plot">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="newGateTapped:" destination="D7n-B2-8pS" eventType="touchUpInside" id="BxQ-6x-MAl"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="fTw-3v-Qcw" firstAttribute="leading" secondItem="bjZ-23-4IH" secondAttribute="leading" type="default" id="Xsp-nR-2i3"/>
+                                <constraint firstItem="bjZ-23-4IH" firstAttribute="top" secondItem="fTw-3v-Qcw" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="fx9-mt-ymf"/>
+                                <constraint firstItem="bjZ-23-4IH" firstAttribute="trailing" secondItem="fTw-3v-Qcw" secondAttribute="trailing" type="default" id="iEl-yj-KrU"/>
+                                <constraint firstItem="fTw-3v-Qcw" firstAttribute="top" secondItem="AOx-tY-0e8" secondAttribute="top" constant="13" id="mSO-7Y-07x"/>
+                                <constraint firstItem="bjZ-23-4IH" firstAttribute="centerX" secondItem="AOx-tY-0e8" secondAttribute="centerX" type="default" id="vDn-o6-1Vz"/>
+                            </constraints>
+                        </view>
+                        <sections>
+                            <tableViewSection id="7rY-Km-anP">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" id="q8T-KP-FgM">
+                                        <rect key="frame" x="0.0" y="30" width="768" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="45" y="1" width="678" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gate Name" minimumFontSize="17" text="" id="1AF-kN-NgT">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="395" id="Q7M-mM-Nnc"/>
+                                                        <constraint firstAttribute="height" constant="30" id="jaK-Zp-lV3"/>
+                                                    </constraints>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="D7n-B2-8pS" id="XbT-qx-1wC"/>
+                                                    </connections>
+                                                </textField>
+                                                <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Name" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="But-SJ-6op">
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="46" id="egA-hs-Uo7"/>
+                                                        <constraint firstAttribute="height" constant="21" id="lXO-rR-kt4"/>
+                                                    </constraints>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="1AF-kN-NgT" firstAttribute="top" secondItem="q8T-KP-FgM" secondAttribute="top" constant="8" id="2Kq-e7-124"/>
+                                            <constraint firstItem="1AF-kN-NgT" firstAttribute="leading" secondItem="q8T-KP-FgM" secondAttribute="leading" constant="93" id="N5z-z8-GpN"/>
+                                            <constraint firstItem="But-SJ-6op" firstAttribute="centerY" secondItem="q8T-KP-FgM" secondAttribute="centerY" type="default" id="cMe-Kh-P0k"/>
+                                            <constraint firstItem="But-SJ-6op" firstAttribute="leading" secondItem="q8T-KP-FgM" secondAttribute="leading" constant="41" id="nVQ-hu-C2p"/>
+                                        </constraints>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" textLabel="Abo-Cv-783" detailTextLabel="DpP-ul-5Ny" style="IBUITableViewCellStyleValue2" id="KlN-db-88m">
+                                        <rect key="frame" x="0.0" y="75" width="768" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="45" y="0.0" width="678" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Cell Count" textAlignment="right" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Abo-Cv-783">
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.32156862745098042" green="0.40000000000000002" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                </label>
+                                                <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Gate Count" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="DpP-ul-5Ny">
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="D7n-B2-8pS" id="m6E-ix-cQg"/>
+                            <outlet property="delegate" destination="D7n-B2-8pS" id="cqD-Ar-6hU"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="a8j-n6-zor"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
+                    <connections>
+                        <outlet property="createNewPlotButton" destination="fTw-3v-Qcw" id="3eu-XX-uwA"/>
+                        <outlet property="deleteGateButton" destination="bjZ-23-4IH" id="K9N-6l-scA"/>
+                        <outlet property="gateCount" destination="DpP-ul-5Ny" id="iY8-2c-M2Y"/>
+                        <outlet property="gateName" destination="1AF-kN-NgT" id="FuA-oQ-vE6"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RlL-8L-rXA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5650" y="1046"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tBN-4a-Hda">
@@ -360,6 +493,24 @@
             </objects>
             <point key="canvasLocation" x="2841" y="1046"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="SZs-To-ocG">
+            <objects>
+                <navigationController storyboardIdentifier="gateDetailTableViewController" id="3c5-jP-Kp4" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lXx-ub-bQF">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="D7n-B2-8pS" kind="relationship" relationship="rootViewController" id="AJn-78-GxN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OIp-4v-8US" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4676" y="1046"/>
+        </scene>
     </scenes>
     <classes>
         <class className="AnalysisViewController" superclassName="UICollectionViewController">
@@ -376,6 +527,15 @@
         </class>
         <class className="DropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxViewController.h"/>
+        </class>
+        <class className="GateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gateCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
+            </relationships>
         </class>
         <class className="MarkView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MarkView.h"/>
@@ -401,8 +561,6 @@
         <class className="PlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
             <relationships>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
@@ -420,9 +578,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

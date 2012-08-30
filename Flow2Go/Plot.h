@@ -23,6 +23,8 @@
 
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber;
 
+- (NSInteger)countOfParentGates;
+
 @property (nonatomic, retain) NSNumber * xAxisType;
 @property (nonatomic, retain) NSNumber * yAxisType;
 

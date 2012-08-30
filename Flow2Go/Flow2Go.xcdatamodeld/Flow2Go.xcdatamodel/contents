@@ -50,6 +50,6 @@
         <element name="Keyword" positionX="0" positionY="0" width="128" height="88"/>
         <element name="Measurement" positionX="0" positionY="0" width="128" height="163"/>
         <element name="Node" positionX="0" positionY="0" width="128" height="133"/>
-        <element name="Plot" positionX="0" positionY="0" width="128" height="88"/>
+        <element name="Plot" positionX="0" positionY="0" width="128" height="90"/>
     </elements>
 </model>

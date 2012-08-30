@@ -13,8 +13,10 @@
 #import "Gate.h"
 #import "GraphPoint.h"
 #import "Plot.h"
+#import "DensityPlotData.h"
+#import "GateTableViewController.h"
 
-@interface PlotViewController () {
+@interface PlotViewController () <GateTableViewControllerDelegate> {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
 }
@@ -24,8 +26,8 @@
 @property (nonatomic, strong) CPTScatterPlot *scatterPlot;
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) FCSFile *fcsFile;
-@property (nonatomic, strong) NSOperationQueue *parseQueue;
-@property (nonatomic) NSUInteger numberOfEventsToPlot;
+@property (nonatomic, strong) DensityPlotData *densityPlotData;
+@property (nonatomic, strong) UIPopoverController *gatePopoverController;
 
 @end
 
@@ -58,7 +60,7 @@
     [self _insertScatterPlot];
     [self _updateAxisAndPlotRange];
     self.markView.delegate = self;
-    [self.markView reloadPaths];
+    [self.markView performSelector:@selector(reloadPaths) withObject:nil afterDelay:0.05];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,7 +78,6 @@
 
 - (void)doneTapped
 {
-    [self.parseQueue cancelAllOperations];
     for (UIView *aSubView in self.view.subviews)
     {
         [aSubView removeFromSuperview];
@@ -134,6 +135,9 @@
         [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     }
     [self _updateAxisAndPlotRange];
+#warning refactor to have central place where data is prepared after changes
+    [self prepareDataForPlot];
+    
     [self.graph reloadData];
     [self.markView reloadPaths];
     [self.plot.managedObjectContext save];
@@ -143,12 +147,12 @@
 - (void)_insertGraph
 {    
     self.graph = [CPTXYGraph.alloc initWithFrame:self.graphHostingView.bounds];
-    [self.graph applyTheme:[CPTTheme themeNamed:kCPTDarkGradientTheme]];
+    [self.graph applyTheme:[CPTTheme themeNamed:kCPTSlateTheme]];
     self.graphHostingView.hostedGraph = _graph;
 }
 
 - (void)_insertScatterPlot
-{    
+{
     // Add plot space for horizontal bar charts
     self.plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
     self.plotSpace.allowsUserInteraction = YES;
@@ -237,13 +241,13 @@
         NSUInteger len = [data length];
         
         memcpy(self.parentGateCalculator.eventsInside, [data bytes], len);
-        
-        self.numberOfEventsToPlot = parentGate.cellCount.integerValue;
     }
-    else
-    {
-        self.numberOfEventsToPlot = self.fcsFile.noOfEvents;
-    }
+    
+    self.densityPlotData = [DensityPlotData densityForPointsygonInFcsFile:self.fcsFile
+                                                               insidePlot:self.plot
+                                                                   subSet:self.parentGateCalculator.eventsInside
+                                                              subSetCount:self.parentGateCalculator.numberOfCellsInside];
+    [self.graph reloadData];
 }
 
 
@@ -263,7 +267,16 @@
 #pragma mark - CPT Plot Data Source
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
-    return self.numberOfEventsToPlot;
+    if (self.densityPlotData)
+    {
+        return self.densityPlotData.numberOfPoints;
+    }
+    else if (self.parentGateCalculator)
+    {
+        return self.parentGateCalculator.numberOfCellsInside;
+    }
+
+    return self.fcsFile.noOfEvents;
 }
 
 - (double)doubleForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
@@ -271,6 +284,11 @@
     switch (fieldEnum)
     {
         case CPTCoordinateX:
+            if (self.densityPlotData)
+            {
+                return self.densityPlotData.points[index].xVal;
+
+            }
             if (self.parentGateCalculator)
             {
                 return (double)self.fcsFile.event[self.parentGateCalculator.eventsInside[index]][_xParIndex];
@@ -279,6 +297,11 @@
             break;
             
         case CPTCoordinateY:
+            if (self.densityPlotData)
+            {
+                return self.densityPlotData.points[index].yVal;
+
+            }
             if (self.parentGateCalculator)
             {
                 return (double)self.fcsFile.event[self.parentGateCalculator.eventsInside[index]][_yParIndex];
@@ -295,17 +318,90 @@
 #pragma mark - Scatter Plot Delegate
 static CPTPlotSymbol *plotSymbol;
 
+static NSArray *plotSymbols;
+
 #pragma mark - Scatter Plot Datasource
 -(CPTPlotSymbol *)symbolForScatterPlot:(CPTScatterPlot *)plot recordIndex:(NSUInteger)index
 {
+    if (self.densityPlotData)
+    {
+        if (!plotSymbols)
+        {
+            plotSymbols = [self plotSymbols];
+        }
+        
+        //NSInteger cellCount = self.densityPlotData.points[index].count;
+        NSInteger cellCount = self.densityPlotData.points[index].count;
+        
+        if (cellCount == 0) {
+            return nil;
+        }
+        if (cellCount < self.densityPlotData.countForMaxBin * 0.01) {
+            return plotSymbols[0];
+        }
+        if (cellCount < self.densityPlotData.countForMaxBin * 0.2) {
+            return plotSymbols[1];
+        }
+        if (cellCount < self.densityPlotData.countForMaxBin * 0.5) {
+            return plotSymbols[2];
+        }
+        if (cellCount < self.densityPlotData.countForMaxBin * 0.7) {
+            return plotSymbols[3];
+        }
+        if (cellCount >= self.densityPlotData.countForMaxBin * 0.85) {
+            return plotSymbols[4];
+        }
+    }
+    
     if (!plotSymbol)
     {
         plotSymbol = [CPTPlotSymbol rectanglePlotSymbol];
         plotSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.7 green:0.7 blue:0.7 alpha:1.0]];
         plotSymbol.lineStyle = nil;
-        plotSymbol.size = CGSizeMake(1.0, 1.0);
+        plotSymbol.size = CGSizeMake(2.0, 2.0);
     }
     return plotSymbol;
+    
+}
+
+#define COLOR_LEVELS 4
+
+- (NSArray *)plotSymbols
+{
+    NSMutableArray *symbols = NSMutableArray.array;
+
+    CPTPlotSymbol *blueSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    blueSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:0.0 blue:1.0 alpha:1.0]];
+    blueSymbol.lineStyle = nil;
+    blueSymbol.size = CGSizeMake(4.0, 4.0);
+        
+    CPTPlotSymbol *greenSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    greenSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:50.0/255.0 green:205.0/255.0 blue:50.0/255.0 alpha:1.0]];
+    greenSymbol.lineStyle = nil;
+    greenSymbol.size = CGSizeMake(4.0, 4.0);
+    
+    CPTPlotSymbol *yellowSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    yellowSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:1.0 blue:0.0 alpha:1.0]];
+    yellowSymbol.lineStyle = nil;
+    yellowSymbol.size = CGSizeMake(4.0, 4.0);
+    
+    CPTPlotSymbol *orangeSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    orangeSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0]];
+    orangeSymbol.lineStyle = nil;
+    orangeSymbol.size = CGSizeMake(4.0, 4.0);
+    
+    CPTPlotSymbol *redSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    redSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
+    redSymbol.lineStyle = nil;
+    redSymbol.size = CGSizeMake(4.0, 4.0);
+    
+    [symbols addObject:blueSymbol];
+    [symbols addObject:greenSymbol];
+    [symbols addObject:yellowSymbol];
+    [symbols addObject:orangeSymbol];
+    [symbols addObject:redSymbol];
+    
+    return symbols;
 }
 
 
@@ -346,7 +442,7 @@ static CPTPlotSymbol *plotSymbol;
 
 
 #pragma mark - Mark View Delegate
-- (void)didDrawPath:(CGPathRef)pathRef withPoints:(NSArray *)pathPoints insideRect:(CGRect)boundingRect sender:(id)sender
+- (void)didDrawPathWithPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton sender:(id)sender
 {
     NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:sender plotSpace:self.plotSpace];
     
@@ -355,51 +451,53 @@ static CPTPlotSymbol *plotSymbol;
                                                             insidePlot:self.plot
                                                                 subSet:self.parentGateCalculator.eventsInside
                                                            subSetCount:self.parentGateCalculator.numberOfCellsInside];
-    
-    NSLog(@"gateContents count: %i", gateContents.numberOfCellsInside);
-    
-    UILabel *numberLabel = (UILabel *)[self.view viewWithTag:99];
-    numberLabel.textColor = UIColor.whiteColor;
-    numberLabel.text = [NSString stringWithFormat:@"%i cells", gateContents.numberOfCellsInside];
-    
+       
     Gate *gate = [Gate createChildGateInPlot:self.plot
                                         type:kGateTypePolygon
                                     vertices:gateVertices];
-    gate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside
-                                 length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
+    gate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
     gate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
-    //[gate.managedObjectContext save];
-    //gate.parentNode = self.plot;
 
     [self.plot.managedObjectContext save];
     
+    [self showDetailPopoverForGate:gate inRect:infoButton.frame editMode:YES];
 }
+
+
+- (void)didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber
+{
+    NSArray *displayedGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
+                                                   andYPar:self.plot.yParNumber.integerValue];
+    [self showDetailPopoverForGate:displayedGates[buttonWithTagNumber.tag] inRect:buttonWithTagNumber.frame editMode:NO];
+}
+
+
+- (void)showDetailPopoverForGate:(Gate *)gate inRect:(CGRect)anchorFrame editMode:(BOOL)editOn
+{
+    UINavigationController *gateNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gateDetailTableViewController"];
+    GateTableViewController *gateTVC = (GateTableViewController *)gateNavigationVC.topViewController;
+    gateTVC.delegate = self;
+    gateTVC.gate = gate;
+    if (self.gatePopoverController.isPopoverVisible) {
+        [self.gatePopoverController dismissPopoverAnimated:YES];
+    }
+    self.gatePopoverController = [UIPopoverController.alloc initWithContentViewController:gateNavigationVC];
+    self.gatePopoverController.delegate = self;
+    [self.gatePopoverController presentPopoverFromRect:anchorFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [gateTVC setEditing:editOn animated:YES];
+}
+
 
 
 - (void)didDoubleTapPathNumber:(NSUInteger)pathNumber
 {
-    Gate *gate = [self.plot.childNodes objectAtIndex:pathNumber];
-    [self.delegate didSelectGate:gate forPlot:self.plot];
+
 }
 
 
 - (void)didDoubleTapAtPoint:(CGPoint)point
 {
-    NSLog(@"Tapped    point         :%@", NSStringFromCGPoint(point));
-    
-    point = [self.markView.layer convertPoint:point toLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
-    NSLog(@"Plot Area point         :%@", NSStringFromCGPoint(point));
-
-    double graphPoint[2];
-    [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:point];
-    NSLog(@"Data point              :{%.1f,%.1f}", graphPoint[0], graphPoint[1]);
-    
-    point = [self.plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
-    NSLog(@"Back to plot Area point :%@", NSStringFromCGPoint(point));
-
-    
-    point = [self.markView.layer convertPoint:point fromLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
-    NSLog(@"Back to tapped point    :%@", NSStringFromCGPoint(point));
+    //Do nothing
 }
 
 
@@ -429,6 +527,39 @@ static CPTPlotSymbol *plotSymbol;
         return [self viewVerticesFromGateVertices:[GraphPoint switchXandYForGraphpoints:gate.vertices]
                                            inView:self.markView
                                         plotSpace:self.plotSpace];
+    }
+}
+
+
+- (void)didTapNewPlot:(GateTableViewController *)sender
+{
+    if (self.gatePopoverController.isPopoverVisible) {
+        [self.gatePopoverController dismissPopoverAnimated:YES];
+    }
+    [self.delegate didSelectGate:sender.gate forPlot:self.plot];
+}
+
+- (void)didTapDeleteGate:(GateTableViewController *)sender
+{
+    if (self.gatePopoverController.isPopoverVisible) {
+        [self.gatePopoverController dismissPopoverAnimated:YES];
+    }
+    Gate *gateToBeDeleted = sender.gate;
+    
+    BOOL success = [gateToBeDeleted deleteInContext:gateToBeDeleted.managedObjectContext];
+    [self.plot.managedObjectContext save];
+    if (!success)
+    {
+        UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
+                                                          message:[NSLocalizedString(@"Could not delete gate \"", nil) stringByAppendingFormat:@"%@\"", gateToBeDeleted.name]
+                                                         delegate:nil
+                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                otherButtonTitles: nil];
+        [alertView show];
+    }
+    else
+    {
+        [self.markView reloadPaths];
     }
 }
 

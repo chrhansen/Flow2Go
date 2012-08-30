@@ -15,10 +15,10 @@
 - (NSArray *)verticesForPath:(NSUInteger)pathNo inView:(id)sender;
 
 // Delegate methods
-- (void)didDrawPath:(CGPathRef)pathRef withPoints:(NSArray *)pathPoints insideRect:(CGRect)boundingRect sender:(id)sender;
+- (void)didDrawPathWithPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton sender:(id)sender;
 - (void)didDoubleTapPathNumber:(NSUInteger)pathNumber;
 - (void)didDoubleTapAtPoint:(CGPoint)point;
-
+- (void)didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber;
 
 @end
 

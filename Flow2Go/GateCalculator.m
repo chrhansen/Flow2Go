@@ -12,6 +12,9 @@
 #import "GraphPoint.h"
 #import "Gate.h"
 #import "Plot.h"
+#import "Analysis.h"
+#import "Measurement.h"
+#import "Keyword.h"
 
 @implementation GateCalculator
 
@@ -91,6 +94,96 @@
         }
     }
     return gateCalculator;
+}
+
+
+#define BIN_COUNT 256
+
++ (GateCalculator *)densityForPointsygonInFcsFile:(FCSFile *)fcsFile
+                                       insidePlot:(Plot *)plot
+                                           subSet:(NSUInteger *)subSet
+                                      subSetCount:(NSUInteger)subSetCount
+{    
+    NSInteger eventsInside = subSetCount;
+    
+    if (!subSet)
+    {
+        eventsInside = fcsFile.noOfEvents;
+    }
+    
+    NSInteger xPar = plot.xParNumber.integerValue - 1;
+    NSInteger yPar = plot.yParNumber.integerValue - 1;
+    
+    NSString *rangeKey = [@"$P" stringByAppendingFormat:@"%iR", plot.xParNumber.integerValue];
+    Keyword *rangeKeyword = [plot.analysis.measurement keywordWithKey:rangeKey];
+    double xRange = rangeKeyword.value.doubleValue;
+    rangeKey = [@"$P" stringByAppendingFormat:@"%iR", plot.yParNumber.integerValue];
+    rangeKeyword = [plot.analysis.measurement keywordWithKey:rangeKey];
+    double yRange = rangeKeyword.value.doubleValue;
+    
+    double maxIndex = (double)(BIN_COUNT - 1);
+    
+    PlotPoint plotPoint;
+    NSUInteger **binValues = calloc(BIN_COUNT, sizeof(NSUInteger *));
+    for (NSUInteger i = 0; i < BIN_COUNT; i++)
+    {
+        binValues[i] = calloc(BIN_COUNT, sizeof(NSUInteger));
+    }
+    
+    if (subSet)
+    {
+        for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
+        {
+            NSUInteger eventNo = subSet[subSetNo];
+            
+            plotPoint.x = (double)fcsFile.event[eventNo][xPar];
+            plotPoint.y = (double)fcsFile.event[eventNo][yPar];
+            
+            NSUInteger row = (plotPoint.x / xRange) * maxIndex;
+            NSUInteger col = (plotPoint.y / yRange) * maxIndex;
+
+            binValues[col][row] += 1;
+        }
+    }
+    else
+    {
+        for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
+        {
+            plotPoint.x = fcsFile.event[eventNo][xPar];
+            plotPoint.y = fcsFile.event[eventNo][yPar];
+            
+            NSUInteger row = (plotPoint.x / xRange) * maxIndex;
+            NSUInteger col = (plotPoint.y / yRange) * maxIndex;
+            
+            binValues[col][row] += 1;
+        }
+    }
+    
+    GateCalculator *gateCalculator = [GateCalculator.alloc init];
+    gateCalculator.numberOfDensityPoints = BIN_COUNT * BIN_COUNT;
+    
+    gateCalculator.densityPoints = calloc(BIN_COUNT * BIN_COUNT, sizeof(DensityPoint));
+    NSUInteger recordNo = 0;
+    
+    for (NSUInteger rowNo = 0; rowNo < BIN_COUNT; rowNo++)
+    {
+        for (NSUInteger colNo = 0; colNo < BIN_COUNT; colNo++)
+        {
+            gateCalculator.densityPoints[recordNo].xVal = (double)colNo * xRange / maxIndex;
+            gateCalculator.densityPoints[recordNo].yVal = (double)rowNo * yRange / maxIndex;
+            gateCalculator.densityPoints[recordNo].count = binValues[colNo][rowNo];
+            
+            recordNo++;
+        }
+    }
+    
+    return gateCalculator;
+}
+
+- (NSUInteger)binNumberForPlotPoint:(PlotPoint)point
+{
+    // Create logic that determines which bin a point belongs to
+    return 0;
 }
 
 

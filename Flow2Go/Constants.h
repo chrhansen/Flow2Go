@@ -43,11 +43,12 @@ struct PlotPoint {
 };
 typedef struct PlotPoint PlotPoint;
 
-struct BoundingBox {
-    PlotPoint lower;
-    PlotPoint upper;
+struct DensityPoint {
+    double xVal;
+    double yVal;
+    NSUInteger count;
 };
-typedef struct BoundingBox BoundingBox;
+typedef struct DensityPoint DensityPoint;
 
 typedef NS_ENUM(NSInteger, GateType)
 {

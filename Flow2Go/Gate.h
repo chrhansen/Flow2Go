@@ -17,6 +17,7 @@
                            type:(GateType)gateType
                        vertices:(NSArray *)vertices;
 
+
 @property (nonatomic, retain) NSNumber * cellCount;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * type;

@@ -19,6 +19,7 @@
 @interface AnalysisViewController () <PlotViewControllerDelegate>
 
 @property (nonatomic, strong) FCSFile *fcsFile;
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -50,6 +51,22 @@
     {
         self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath]];
     }
+//    
+//    NSLog(@"sections: %i", self.fetchedResultsController.sections.count);
+//    for (id <NSFetchedResultsSectionInfo> sectionInfo in self.fetchedResultsController.sections)
+//    {
+//        NSLog(@"numberOfObjects: %i", [sectionInfo numberOfObjects]);
+//        for (id object in sectionInfo.objects)
+//        {
+//            if ([object isKindOfClass:Plot.class]) {
+//                NSLog(@"%@, #level: %i", (Plot *)object, [(Plot *)object countOfParentGates]);
+//            }
+//            else
+//            {
+//                NSLog(@"Not plot %@", [object class]);
+//            }
+//        }
+//    }
 }
 
 - (void)viewDidUnload
@@ -125,6 +142,52 @@
     plotViewController.plot = plot;
     [plotViewController prepareDataForPlot];
     [self presentViewController:navigationController animated:YES completion:nil];    
+}
+
+#pragma mark - Fetched results controller
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest.alloc init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Plot"
+                                      inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+    
+    // Set the batch size to a suitable number.
+    fetchRequest.fetchBatchSize = 50;
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"analysis == %@", self.analysis];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor.alloc initWithKey:@"parentNode"
+                                                                 ascending:YES];
+    
+    NSArray *sortDescriptors = @[sortDescriptor];
+    
+    fetchRequest.sortDescriptors = sortDescriptors;
+    
+
+    
+    // Edit the section name key path and cache name if appropriate.
+    // nil for section name key path means "no sections".
+    NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
+                                                                                              managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
+                                                                                                sectionNameKeyPath:@"parentNode.name"
+                                                                                                         cacheName:nil];
+    
+    aFetchedResultsController.delegate = self;
+    self.fetchedResultsController = aFetchedResultsController;
+    
+	NSError *error = nil;
+	if (![self.fetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    return _fetchedResultsController;
 }
 
 

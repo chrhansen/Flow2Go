@@ -20,7 +20,7 @@
 - (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot;
 @end
 
-@interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate>
+@interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate, UIPopoverControllerDelegate>
 
 - (void)prepareDataForPlot;
 

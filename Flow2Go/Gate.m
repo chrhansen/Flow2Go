@@ -33,7 +33,15 @@
     newGate.xParNumber = parentNode.xParNumber;
     newGate.yParNumber = parentNode.yParNumber;
     
+    newGate.name = [newGate defaultGateName];
+    
     return newGate;
+}
+
+
+- (NSString *)defaultGateName
+{
+    return [NSString stringWithFormat:@"#%i: %@, %@", self.parentNode.childNodes.count, self.xParName, self.yParName];
 }
 
 @end

@@ -10,7 +10,7 @@
 @class Analysis;
 @class Measurement;
 
-@interface AnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface AnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) Analysis *analysis;
 

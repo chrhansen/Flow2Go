@@ -21,26 +21,53 @@
 
 @implementation MarkView
 
-#define REQUIRED_GAP 20.0
-#define FIRSTPOINT_GAP 10.0
+#define REQUIRED_GAP 30.0
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     [self setupGestureRecognizers];
-    [self reloadPaths];
 }
 
 - (void)reloadPaths
 {
     [self.paths removeAllObjects];
     [self _resetPath];
+    [self _removeInfoButtons];
     [self setNeedsDisplay];
     NSUInteger numberOfPaths = [self.delegate numberOfPathsInMarkView:self];
     for (NSUInteger pathNo = 0; pathNo < numberOfPaths; pathNo++)
     {
-        [self _drawPathWithPoints:[self.delegate verticesForPath:pathNo inView:self]];
+        NSArray *vertices = [self.delegate verticesForPath:pathNo inView:self];
+        [self _drawPathWithPoints:vertices];
+        [self _addInfoButtonToPath:pathNo atPoint:[vertices[0] CGPointValue]];
     }
+}
+
+- (void)_removeInfoButtons
+{
+    for (UIView *aView in self.subviews)
+    {
+        if ([aView isKindOfClass:UIButton.class])
+        {
+            UIButton *button = (UIButton *)aView;
+            if (button.buttonType == UIButtonTypeInfoLight)
+            {
+                [aView removeFromSuperview];
+            }
+        }
+    }
+}
+
+
+- (UIButton *)_addInfoButtonToPath:(NSInteger)pathNo atPoint:(CGPoint)location
+{
+    UIButton* infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [infoButton setCenter:location];
+    [self addSubview:infoButton];
+    infoButton.tag = pathNo;
+    [infoButton addTarget:self.delegate action:@selector(didTapInfoButtonForPath:) forControlEvents:UIControlEventTouchUpInside];
+    return infoButton;
 }
 
 
@@ -59,43 +86,12 @@
 }
 
 
-- (void)_updatePathWithPoint:(CGPoint)point
-{
-    if (self.pathPoints.count == 0)
-    {
-        [self _startPathAtPoint:point];
-        [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
-    }
-    else if (self.pathPoints.count > 2)
-    {
-        CGFloat distance = [self _distanceFrom:self.firstPoint toPoint:point];
-        if (distance < FIRSTPOINT_GAP)
-        {
-            [self.delegate didDrawPath:[self.path CGPath] withPoints:self.pathPoints insideRect:self.path.bounds sender:self];
-            [self _endPath];
-            [self _resetPath];
-        }
-        else
-        {
-            [self _extendPathWithPoint:point];
-            [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
-        }
-    }
-    else
-    {
-        [self _extendPathWithPoint:point];
-        [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
-    }
-    
-}
-
-
 - (void)_startPathAtPoint:(CGPoint)startPoint
 {
     [self _resetPath];
     self.firstPoint = startPoint;
     [self.paths addObject:self.path];
-    [self addDotAtPoint:startPoint];
+    //[self addDotAtPoint:startPoint];
     [self.path moveToPoint:startPoint];
     [self setNeedsDisplay];
 }
@@ -107,7 +103,7 @@
     if (distance > REQUIRED_GAP)
     {
         [self.path addLineToPoint:newPoint];
-        [self addDotAtPoint:newPoint];
+        //[self addDotAtPoint:newPoint];
         [self setNeedsDisplay];
     }
 }
@@ -115,8 +111,7 @@
 - (void)_endPath
 {
     [self.path closePath];
-    [self.paths replaceObjectAtIndex:self.paths.count - 1
-                          withObject:[self.path copy]];
+    [self.paths replaceObjectAtIndex:self.paths.count - 1 withObject:[self.path copy]];
     [self setNeedsDisplay];
 }
 
@@ -151,6 +146,7 @@
     if (!self.pathPoints) {
         self.pathPoints = NSMutableArray.array;
     }
+    
     [self.pathPoints removeAllObjects];
     if (!self.paths) {
         self.paths = NSMutableArray.array;
@@ -179,7 +175,7 @@
     }
     for (UIBezierPath *aDot in self.dots)
     {
-        [aDot fillWithBlendMode:kCGBlendModeNormal alpha:1.0];
+        [aDot fillWithBlendMode:kCGBlendModeNormal alpha:0.5];
         [aDot stroke];
     }
     
@@ -187,13 +183,29 @@
 
 
 #pragma mark Gesture Recognizers
-- (void)singleTapAction:(UITapGestureRecognizer *)singleTapGesture;
+- (void)panAction:(UIPanGestureRecognizer *)panGesture;
 {
-    CGPoint point = [singleTapGesture locationInView:self];    
-    switch (singleTapGesture.state)
+    CGPoint point = [panGesture locationInView:self];    
+    switch (panGesture.state)
     {
-        case UIGestureRecognizerStateRecognized:
-            [self _updatePathWithPoint:point];
+        case UIGestureRecognizerStateBegan:
+            [self _startPathAtPoint:point];
+            [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
+            break;
+            
+        case UIGestureRecognizerStateChanged:
+            [self _extendPathWithPoint:point];
+            [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
+            break;
+            
+        case UIGestureRecognizerStateEnded:
+            [self.delegate didDrawPathWithPoints:self.pathPoints
+                                      infoButton:[self _addInfoButtonToPath:self.paths.count - 1 atPoint:[self.pathPoints[0] CGPointValue]]
+                                          sender:self];
+            
+            [self _endPath];
+            [self _resetPath];
+
             break;
             
         default:
@@ -270,19 +282,14 @@
     [self addGestureRecognizer:doubleTapGestureRecognizer];
     
     
-    UITapGestureRecognizer *singleTapGestureRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self
-                                                                                               action:@selector(singleTapAction:)];
-    singleTapGestureRecognizer.numberOfTapsRequired = 1;
-    singleTapGestureRecognizer.delegate = self;
-    [self addGestureRecognizer:singleTapGestureRecognizer];
-    [singleTapGestureRecognizer requireGestureRecognizerToFail: doubleTapGestureRecognizer];
-    [self addGestureRecognizer:singleTapGestureRecognizer];
-    
+    UIPanGestureRecognizer *panGestureRecognizer = [UIPanGestureRecognizer.alloc initWithTarget:self
+                                                                                         action:@selector(panAction:)];
+    panGestureRecognizer.delegate = self;
+    [self addGestureRecognizer:panGestureRecognizer];
     
     UILongPressGestureRecognizer *longPressGestureRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self
                                                                                                            action:@selector(longPressAction:)];
     
-    //longPressGestureRecognizer.numberOfTapsRequired = 1;
     longPressGestureRecognizer.delegate = self;
     
     [self addGestureRecognizer:longPressGestureRecognizer];
@@ -290,10 +297,6 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    if ([otherGestureRecognizer isKindOfClass:UILongPressGestureRecognizer.class])
-    {
-        return NO;
-    }
     return YES;
 }
 

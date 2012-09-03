@@ -18,4 +18,13 @@
     return uuidStr;
 }
 
+
++ (NSString *)percentageAsString:(NSInteger)subsetCount ofAll:(NSInteger)totalCount
+{
+    double subset = (double)subsetCount;
+    double total = (double)totalCount;
+    
+    return [NSString stringWithFormat:@"%.1f%%", 100.0*subset/total];
+}
+
 @end

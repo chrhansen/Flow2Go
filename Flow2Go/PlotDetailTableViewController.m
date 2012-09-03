@@ -9,6 +9,9 @@
 #import "PlotDetailTableViewController.h"
 #import "Plot.h"
 #import "Gate.h"
+#import "Analysis.h"
+#import "Measurement.h"
+#import "NSString+UUID.h"
 
 @interface PlotDetailTableViewController () <UIActionSheetDelegate, UITextFieldDelegate>
 
@@ -34,6 +37,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self _enableDeleteButtonUnlessRootPlot:NO];
     [self _addDoneButton];
 }
 
@@ -41,7 +45,6 @@
 {
     [super viewWillAppear:animated];
     self.title = self.plot.name;
-    [self _enableDeleteButtonUnlessRootPlot:NO];
     [self _configureLabels];
 }
 
@@ -52,11 +55,27 @@
 
 - (void)_configureLabels
 {
-    self.plotNameTextField.text = self.plot.name;
     Gate *parentGate = (Gate *)self.plot.parentNode;
-    self.plotCount.text = parentGate.cellCount.stringValue;
-    self.parentGateName.text = parentGate.name;
+    NSString *percentageString;
+    if (!parentGate)
+    {
+        self.plotNameTextField.text = self.plot.analysis.measurement.filename;
+        percentageString = [NSString percentageAsString:self.plot.analysis.measurement.countOfEvents.integerValue
+                                                            ofAll:self.plot.analysis.measurement.countOfEvents.integerValue];
+        self.plotCount.text = [NSString stringWithFormat:@"%@ (%@)", self.plot.analysis.measurement.countOfEvents, percentageString];
+        self.parentGateName.text = NSLocalizedString(@"no parent", nil);
+        self.parentGateName.alpha = 0.5;
+    }
+    else
+    {
+        self.plotNameTextField.text = self.plot.name;
+        percentageString = [NSString percentageAsString:parentGate.cellCount.integerValue
+                                                  ofAll:self.plot.analysis.measurement.countOfEvents.integerValue];
+        self.plotCount.text = [NSString stringWithFormat:@"%@ (%@)", parentGate.cellCount, percentageString];
+        self.parentGateName.text = parentGate.name;
+    }
 }
+
 
 - (void)didReceiveMemoryWarning
 {

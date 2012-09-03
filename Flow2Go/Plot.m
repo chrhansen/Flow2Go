@@ -8,6 +8,7 @@
 
 #import "Plot.h"
 #import "Analysis.h"
+#import "Measurement.h"
 
 @implementation Plot
 
@@ -32,7 +33,11 @@
 
 - (NSString *)defaultPlotName
 {
-    return [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"Plot of ", nil), self.parentNode.name];
+    NSString *sourceName = nil;
+    sourceName = self.parentNode.name;
+    if (self.parentNode.name == nil) sourceName = self.analysis.measurement.filename;
+
+    return [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"Plot of ", nil), sourceName];
 }
 
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber

@@ -8,6 +8,9 @@
 
 #import "GateTableViewController.h"
 #import "Gate.h"
+#import "Analysis.h"
+#import "Measurement.h"
+#import "NSString+UUID.h"
 
 @interface GateTableViewController () <UITextFieldDelegate, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *gateName;
@@ -46,6 +49,10 @@
 {
     self.gateName.text = self.gate.name;
     self.gateCount.text = self.gate.cellCount.stringValue;
+    
+    NSString *percentageString = [NSString percentageAsString:self.gate.cellCount.integerValue
+                                              ofAll:self.gate.analysis.measurement.countOfEvents.integerValue];
+    self.gateCount.text = [NSString stringWithFormat:@"%@ (%@)", self.gate.cellCount, percentageString];
 }
 
 
@@ -80,7 +87,8 @@
         self.title = self.gate.name;
         [self.gate.managedObjectContext save];
         [self.gateName resignFirstResponder];
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        {
             [self.navigationItem setLeftBarButtonItem:nil animated:YES];
         }
         else
@@ -102,7 +110,7 @@
     [self setEditing:NO animated:YES];
 }
 
-- (IBAction)newGateTapped:(id)sender
+- (IBAction)newPlotTapped:(id)sender
 {
     [self.delegate didTapNewPlot:self];
 }

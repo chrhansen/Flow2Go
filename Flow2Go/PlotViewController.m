@@ -44,6 +44,8 @@
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                         target:self
                                                                                         action:@selector(doneTapped)];
+    
+    self.title = self.plot.name;
 }
 
 
@@ -486,7 +488,7 @@ static NSArray *plotSymbols;
 
 #pragma mark - Mark View Delegate
 - (void)didDrawPathWithPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton sender:(id)sender
-{
+{ 
     NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:sender plotSpace:self.plotSpace];
     
     GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
@@ -539,19 +541,6 @@ static NSArray *plotSymbols;
 }
 
 
-
-- (void)didDoubleTapPathNumber:(NSUInteger)pathNumber
-{
-
-}
-
-
-- (void)didDoubleTapAtPoint:(CGPoint)point
-{
-    //Do nothing
-}
-
-
 #pragma mark - Mark View Datasource
 - (NSUInteger)numberOfPathsInMarkView:(id)sender
 {
@@ -591,7 +580,8 @@ static NSArray *plotSymbols;
 #pragma mark - Gate Table View Controller delegate
 - (void)didTapNewPlot:(GateTableViewController *)sender
 {
-    if (self.detailPopoverController.isPopoverVisible) {
+    if (self.detailPopoverController.isPopoverVisible)
+    {
         [self.detailPopoverController dismissPopoverAnimated:YES];
     }
     [self.delegate didSelectGate:sender.gate forPlot:self.plot];
@@ -623,6 +613,7 @@ static NSArray *plotSymbols;
     {
         [self.markView reloadPaths];
     }
+    [self.delegate didDeleteGate:gateToBeDeleted];
 }
 
 @end

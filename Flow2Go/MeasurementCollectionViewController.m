@@ -25,7 +25,8 @@
     UIPinchGestureRecognizer* pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self
                                                                                         action:@selector(handlePinchGesture:)];
     [self.collectionView addGestureRecognizer:pinchRecognizer];
-    [self.collectionView registerClass:Cell.class forCellWithReuseIdentifier:@"Measurement Cell"];
+    UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
+    [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
     DownloadManager.sharedInstance.progressDelegate = self;
@@ -39,10 +40,33 @@
 }
 
 
+- (void)infoButtonTapped:(UIButton *)infoButton
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:infoButton.center];
+    NSLog(@"indexPath: %@", indexPath);
+}
+
+
 - (void)configureCell:(Cell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.label.text = [(Measurement *)object valueForKey:@"filename"];
+    Measurement *measurement = (Measurement *)object;
+    //cell.label.text = [(Measurement *)object valueForKey:@"filename"];
+    UILabel *label1 = (UILabel *)[cell viewWithTag:1];
+    label1.text = measurement.filename;
+    
+    UILabel *label2 = (UILabel *)[cell viewWithTag:2];
+    label2.text = [NSDateFormatter localizedStringFromDate:measurement.downloadDate
+                                                 dateStyle:kCFDateFormatterMediumStyle
+                                                 timeStyle:kCFDateFormatterMediumStyle];
+        
+    UILabel *label3 = (UILabel *)[cell viewWithTag:3];
+    label3.text = measurement.countOfEvents.stringValue;
+    
+    UIButton *infoButton = (UIButton *)[cell viewWithTag:4];
+    [infoButton addTarget:self
+                   action:@selector(infoButtonTapped:)
+         forControlEvents:UIControlEventTouchUpInside];
 }
 
 
@@ -51,8 +75,9 @@
 {
     Measurement *downloadingMeasurement = [Measurement findFirstByAttribute:@"uniqueID" withValue:destinationPath.lastPathComponent.stringByDeletingPathExtension];
     NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:downloadingMeasurement];
-    Cell *downloadCell = (Cell *)[self.collectionView cellForItemAtIndexPath:downloadIndex];
-    downloadCell.label.text = [NSString stringWithFormat:@"%.2f", progress];
+    UICollectionViewCell *downloadCell = [self.collectionView cellForItemAtIndexPath:downloadIndex];
+    UILabel *progressLabel = (UILabel *)[downloadCell viewWithTag:2];
+    progressLabel.text = [NSString stringWithFormat:@"%.2f", progress];
 }
 
 

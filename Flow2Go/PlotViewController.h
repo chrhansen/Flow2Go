@@ -19,6 +19,7 @@
 - (FCSFile *)fcsFile:(id)sender;
 - (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot;
 - (void)didDeletePlot:(Plot *)plot;
+- (void)didDeleteGate:(Gate *)gate;
 
 @end
 

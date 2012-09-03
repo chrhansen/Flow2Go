@@ -36,7 +36,7 @@
         <attribute name="xParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="yParName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="yParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="childNodes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Node" inverseName="parentNode" inverseEntity="Node" syncable="YES"/>
+        <relationship name="childNodes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Node" inverseName="parentNode" inverseEntity="Node" syncable="YES"/>
         <relationship name="parentNode" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Node" inverseName="childNodes" inverseEntity="Node" syncable="YES"/>
     </entity>
     <entity name="Plot" representedClassName="Plot" parentEntity="Node" syncable="YES">
@@ -45,7 +45,7 @@
         <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Analysis" inverseName="plots" inverseEntity="Analysis" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Analysis" positionX="0" positionY="0" width="128" height="133"/>
+        <element name="Analysis" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Gate" positionX="0" positionY="0" width="128" height="120"/>
         <element name="Keyword" positionX="0" positionY="0" width="128" height="88"/>
         <element name="Measurement" positionX="0" positionY="0" width="128" height="163"/>

@@ -58,43 +58,9 @@
                             <size key="itemSize" width="150" height="100"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="30" minY="30" maxX="30" maxY="30"/>
+                            <inset key="sectionInset" minX="30" minY="20" maxX="30" maxY="20"/>
                         </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Measurement Cell" id="i4u-8J-gLL" customClass="Cell">
-                                <rect key="frame" x="60" y="30" width="150" height="100"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="150" height="100"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="66" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Label" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="shN-3C-099">
-                                            <nil key="highlightedColor"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        </label>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="88" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Label" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="hTJ-gd-FZ2">
-                                            <nil key="highlightedColor"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="hTJ-gd-FZ2" firstAttribute="leading" secondItem="i4u-8J-gLL" secondAttribute="leading" constant="20" type="default" id="4Bb-QG-fbP"/>
-                                    <constraint firstItem="shN-3C-099" firstAttribute="top" secondItem="i4u-8J-gLL" secondAttribute="top" constant="20" type="default" id="FYo-ka-qDf"/>
-                                    <constraint firstAttribute="trailing" secondItem="shN-3C-099" secondAttribute="trailing" constant="20" type="default" id="Ngs-dt-qi4"/>
-                                    <constraint firstAttribute="trailing" secondItem="hTJ-gd-FZ2" secondAttribute="trailing" constant="20" type="default" id="lZT-Dx-JKx"/>
-                                    <constraint firstAttribute="bottom" secondItem="hTJ-gd-FZ2" secondAttribute="bottom" constant="20" type="default" id="qBf-Ej-xfW"/>
-                                    <constraint firstItem="shN-3C-099" firstAttribute="leading" secondItem="i4u-8J-gLL" secondAttribute="leading" constant="20" type="default" id="vxw-Z4-Ryi"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="downLoadProgress" destination="hTJ-gd-FZ2" id="d4d-qf-mHz"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
+                        <cells/>
                         <connections>
                             <outlet property="dataSource" destination="neh-VR-elu" id="OqD-RN-aSn"/>
                             <outlet property="delegate" destination="neh-VR-elu" id="Bt6-WE-EY6"/>
@@ -379,7 +345,7 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="newGateTapped:" destination="D7n-B2-8pS" eventType="touchUpInside" id="BxQ-6x-MAl"/>
+                                        <action selector="newPlotTapped:" destination="D7n-B2-8pS" eventType="touchUpInside" id="EoQ-hs-7cB"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -678,12 +644,6 @@
         </class>
         <class className="CPTGraphHostingView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
-        </class>
-        <class className="Cell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/Cell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="downLoadProgress" candidateClass="UILabel"/>
-            </relationships>
         </class>
         <class className="DropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxViewController.h"/>

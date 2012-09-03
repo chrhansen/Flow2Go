@@ -15,7 +15,7 @@
 
 @implementation DensityPlotData
 
-#define BIN_COUNT 128
+#define BIN_COUNT 256
 
 + (DensityPlotData *)densityForPointsygonInFcsFile:(FCSFile *)fcsFile
                                        insidePlot:(Plot *)plot
@@ -57,8 +57,8 @@
             plotPoint.x = (double)fcsFile.event[eventNo][xPar];
             plotPoint.y = (double)fcsFile.event[eventNo][yPar];
             
-            NSUInteger row = (plotPoint.x / xRange) * maxIndex;
-            NSUInteger col = (plotPoint.y / yRange) * maxIndex;
+            NSUInteger col = (plotPoint.x / xRange) * maxIndex;
+            NSUInteger row = (plotPoint.y / yRange) * maxIndex;
             
             binValues[col][row] += 1;
         }
@@ -70,8 +70,8 @@
             plotPoint.x = fcsFile.event[eventNo][xPar];
             plotPoint.y = fcsFile.event[eventNo][yPar];
             
-            NSUInteger row = (plotPoint.x / xRange) * maxIndex;
-            NSUInteger col = (plotPoint.y / yRange) * maxIndex;
+            NSUInteger col = (plotPoint.x / xRange) * maxIndex;
+            NSUInteger row = (plotPoint.y / yRange) * maxIndex;
             
             binValues[col][row] += 1;
         }

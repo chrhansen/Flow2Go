@@ -37,11 +37,15 @@
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                          target:self
                                                                                          action:@selector(doneTapped)];
+    self.title = self.analysis.name;
+
     if (self.analysis.plots.count == 0)
     {
         [Plot createPlotForAnalysis:self.analysis parentNode:nil];
     }
-    
+    NSLog(@"plot count: %i", [Plot findAll].count);
+    NSLog(@"gate count: %i", [Gate findAll].count);
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -209,6 +213,11 @@
     }];
 }
 
+
+- (void)didDeleteGate:(Gate *)gate
+{
+    [self.collectionView reloadData];
+}
 
 - (void)didDeletePlot:(Plot *)plot
 {

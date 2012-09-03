@@ -16,8 +16,6 @@
 
 // Delegate methods
 - (void)didDrawPathWithPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton sender:(id)sender;
-- (void)didDoubleTapPathNumber:(NSUInteger)pathNumber;
-- (void)didDoubleTapAtPoint:(CGPoint)point;
 - (void)didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber;
 
 @end

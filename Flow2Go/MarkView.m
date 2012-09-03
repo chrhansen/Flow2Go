@@ -213,35 +213,11 @@
     }
 }
 
-- (void)doubleTapAction:(UITapGestureRecognizer *)tapGesture
-{
-    NSInteger pathNo;
-    CGPoint tapPoint = [tapGesture locationInView:self];
-    switch (tapGesture.state)
-    {
-        case UIGestureRecognizerStateRecognized:
-            pathNo = [self _indexOfPathForTapPoint:tapPoint];
-            if (pathNo >= 0)
-            {
-                [self.delegate didDoubleTapPathNumber:pathNo];
-                return;
-            }
-            else
-            {
-                [self.delegate didDoubleTapAtPoint:tapPoint];
-            }
-            break;
-            
-        default:
-            break;
-    }
-}
-
 
 - (void)longPressAction:(UILongPressGestureRecognizer *)longPressGesture
 {
     NSInteger dotNo;
-    UIBezierPath *pressedDot = nil;
+    //UIBezierPath *pressedDot = nil;
     CGPoint pressPoint = [longPressGesture locationInView:self];
     switch (longPressGesture.state)
     {
@@ -275,13 +251,6 @@
 
 - (void)setupGestureRecognizers
 {
-    UITapGestureRecognizer *doubleTapGestureRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self
-                                                                                               action:@selector(doubleTapAction:)];
-    doubleTapGestureRecognizer.numberOfTapsRequired = 2;
-    doubleTapGestureRecognizer.delegate = self;
-    [self addGestureRecognizer:doubleTapGestureRecognizer];
-    
-    
     UIPanGestureRecognizer *panGestureRecognizer = [UIPanGestureRecognizer.alloc initWithTarget:self
                                                                                          action:@selector(panAction:)];
     panGestureRecognizer.delegate = self;

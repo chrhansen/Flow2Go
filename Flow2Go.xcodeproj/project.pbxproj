@@ -22,7 +22,6 @@
 		E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FCSFile.m */; };
 		E5457E9F15D2B01C00678CB7 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5457E9E15D2B01C00678CB7 /* libCorePlot-CocoaTouch.a */; };
 		E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FCSHeader.m */; };
-		E567CCEE15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.m in Sources */ = {isa = PBXBuildFile; fileRef = E567CCED15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.m */; };
 		E57659E515D9982E005D662F /* MarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = E57659E415D9982E005D662F /* MarkView.m */; };
 		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
 		E57BA89315ED8D94008EA346 /* DensityPlotData.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* DensityPlotData.m */; };
@@ -37,6 +36,7 @@
 		E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */; };
 		E5E55B9B15D7E6CE0077EFA8 /* FCSGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E55B9A15D7E6CE0077EFA8 /* FCSGraphView.m */; };
 		E5EA2EDA15E664C000F2F086 /* PlotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EA2ED915E664C000F2F086 /* PlotCell.m */; };
+		E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
 		E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E5FC6F4D15CA7E8E0047A3DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4C15CA7E8E0047A3DD /* CoreGraphics.framework */; };
@@ -185,8 +185,6 @@
 		E5457E9E15D2B01C00678CB7 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCorePlot-CocoaTouch.a"; path = "CorePlot/libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
 		E5659AEE15E56A87006D23B0 /* FCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSHeader.h; sourceTree = "<group>"; };
 		E5659AEF15E56A87006D23B0 /* FCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSHeader.m; sourceTree = "<group>"; };
-		E567CCEC15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DBMetaData.h"; sourceTree = "<group>"; };
-		E567CCED15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DBMetaData.m"; sourceTree = "<group>"; };
 		E57659E315D9982E005D662F /* MarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkView.h; sourceTree = "<group>"; };
 		E57659E415D9982E005D662F /* MarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkView.m; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* GateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GateCalculator.h; path = Flow2Go/GateCalculator.h; sourceTree = SOURCE_ROOT; };
@@ -215,6 +213,7 @@
 		E5E55B9A15D7E6CE0077EFA8 /* FCSGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSGraphView.m; sourceTree = "<group>"; };
 		E5EA2ED815E664C000F2F086 /* PlotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotCell.h; sourceTree = "<group>"; };
 		E5EA2ED915E664C000F2F086 /* PlotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotCell.m; sourceTree = "<group>"; };
+		E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeasurementView.xib; sourceTree = "<group>"; };
 		E5FC6F4415CA7E8E0047A3DD /* Flow2Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flow2Go.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -360,6 +359,7 @@
 				E53FA6A115CBC015000B048C /* Cell.m */,
 				E5EA2ED815E664C000F2F086 /* PlotCell.h */,
 				E5EA2ED915E664C000F2F086 /* PlotCell.m */,
+				E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -467,8 +467,6 @@
 				E59417EB15EB68E9008D979F /* NSData+MD5.m */,
 				E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */,
 				E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */,
-				E567CCEC15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.h */,
-				E567CCED15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -749,6 +747,7 @@
 				E511FD7515CC367F00637D39 /* icon_57.png in Resources */,
 				E511FD7715CC36BD00637D39 /* icon_144.png in Resources */,
 				E511FD7915CC36C200637D39 /* icon_72.png in Resources */,
+				E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,7 +792,6 @@
 				E5FC701F15CA997C0047A3DD /* DownloadManager.m in Sources */,
 				E5FC703815CAA79B0047A3DD /* DropboxViewController.m in Sources */,
 				E53FA66615CB0CC0000B048C /* MeasurementCollectionViewController.m in Sources */,
-				E567CCEE15CBD10E00CBF7D8 /* NSDictionary+DBMetaData.m in Sources */,
 				E511FDDA15CC6C4800637D39 /* PlotViewController.m in Sources */,
 				E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */,
 				E5E55B9B15D7E6CE0077EFA8 /* FCSGraphView.m in Sources */,

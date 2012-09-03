@@ -388,7 +388,7 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="newGateTapped:" destination="mxv-GV-UYN" eventType="touchUpInside" id="ggf-Q5-fwd"/>
+                                        <action selector="newPlotTapped:" destination="mxv-GV-UYN" eventType="touchUpInside" id="bRI-2R-EeZ"/>
                                     </connections>
                                 </button>
                             </subviews>

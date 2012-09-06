@@ -78,6 +78,66 @@
             </objects>
             <point key="canvasLocation" x="1616" y="-306"/>
         </scene>
+        <!--Keyword Table View Controller-->
+        <scene sceneID="Zfl-Ig-ZJz">
+            <objects>
+                <tableViewController storyboardIdentifier="measurementDetailViewController" id="ai2-ry-ICz" customClass="KeywordTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tMZ-Gy-9wk">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Keyword Cell" id="0Vc-bj-dtF">
+                                <rect key="frame" x="0.0" y="22" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" text="Title" textAlignment="right" id="3l6-BC-iPq">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="oPa-CC-MV5"/>
+                                                <constraint firstAttribute="width" constant="169" id="tKi-T3-Nzx"/>
+                                            </constraints>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="ai2-ry-ICz" id="E4P-fz-3D2"/>
+                                            </connections>
+                                        </textField>
+                                        <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" text="Description" id="nuA-TL-zPI">
+                                            <textInputTraits key="textInputTraits"/>
+                                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="ai2-ry-ICz" id="aaO-eS-oXj"/>
+                                            </connections>
+                                        </textField>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="nuA-TL-zPI" secondAttribute="trailing" constant="20" type="default" id="0g1-0n-CES"/>
+                                    <constraint firstItem="nuA-TL-zPI" firstAttribute="leading" secondItem="3l6-BC-iPq" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="UdU-9e-sh5"/>
+                                    <constraint firstItem="3l6-BC-iPq" firstAttribute="bottom" secondItem="nuA-TL-zPI" secondAttribute="bottom" type="default" id="oGj-EN-eGF"/>
+                                    <constraint firstItem="3l6-BC-iPq" firstAttribute="top" secondItem="nuA-TL-zPI" secondAttribute="top" type="default" id="uDA-he-uZO"/>
+                                    <constraint firstItem="3l6-BC-iPq" firstAttribute="centerY" secondItem="0Vc-bj-dtF" secondAttribute="centerY" type="default" id="yMO-pb-40d"/>
+                                    <constraint firstItem="3l6-BC-iPq" firstAttribute="leading" secondItem="0Vc-bj-dtF" secondAttribute="leading" constant="20" type="default" id="zzy-lz-HwP"/>
+                                </constraints>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ai2-ry-ICz" id="a8k-5l-HEO"/>
+                            <outlet property="delegate" destination="ai2-ry-ICz" id="TQU-nK-fi0"/>
+                        </connections>
+                    </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="400" height="400"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pGV-gH-7My" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2686" y="-1141"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="oXO-NZ-Lew">
             <objects>
@@ -122,67 +182,13 @@
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="x5z-u3-nyQ" customClass="PinchLayout">
-                            <size key="itemSize" width="129" height="90"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="x5z-u3-nyQ" customClass="PinchLayout">
+                            <size key="itemSize" width="200" height="130"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="30" minY="30" maxX="30" maxY="30"/>
+                            <inset key="sectionInset" minX="30" minY="20" maxX="30" maxY="20"/>
                         </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Plot Cell" id="Ryg-H8-ckt" customClass="PlotCell">
-                                <rect key="frame" x="60" y="30" width="129" height="90"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="129" height="90"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Parent" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="Dd6-l8-gxH">
-                                            <nil key="highlightedColor"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        </label>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="X-name" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="vjh-v4-tyu">
-                                            <nil key="highlightedColor"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        </label>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Y-name" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="b8s-Nv-4dv">
-                                            <nil key="highlightedColor"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        </label>
-                                        <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="Cellcount" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="WmB-tE-ns5">
-                                            <nil key="highlightedColor"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="Dd6-l8-gxH" firstAttribute="top" secondItem="Ryg-H8-ckt" secondAttribute="top" constant="3" id="0un-Oq-jxG"/>
-                                    <constraint firstItem="Dd6-l8-gxH" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="2aY-7J-ul9"/>
-                                    <constraint firstItem="WmB-tE-ns5" firstAttribute="bottom" secondItem="Ryg-H8-ckt" secondAttribute="bottom" type="default" id="I0j-Jy-mr0"/>
-                                    <constraint firstItem="b8s-Nv-4dv" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="Lja-Uw-G8P"/>
-                                    <constraint firstItem="vjh-v4-tyu" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="VCh-iS-i6i"/>
-                                    <constraint firstItem="WmB-tE-ns5" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="VVi-QB-A34"/>
-                                    <constraint firstAttribute="bottom" secondItem="b8s-Nv-4dv" secondAttribute="bottom" constant="21" id="Zce-f3-4Ds"/>
-                                    <constraint firstItem="b8s-Nv-4dv" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="ekV-aw-dpp"/>
-                                    <constraint firstItem="Dd6-l8-gxH" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="gwW-2a-Px1"/>
-                                    <constraint firstItem="vjh-v4-tyu" firstAttribute="leading" secondItem="Ryg-H8-ckt" secondAttribute="leading" type="default" id="hHO-UM-qsp"/>
-                                    <constraint firstItem="vjh-v4-tyu" firstAttribute="top" secondItem="Ryg-H8-ckt" secondAttribute="top" constant="27" id="ike-hB-fNE"/>
-                                    <constraint firstItem="WmB-tE-ns5" firstAttribute="trailing" secondItem="Ryg-H8-ckt" secondAttribute="trailing" type="default" id="vTh-5c-6ZY"/>
-                                </constraints>
-                                <size key="customSize" width="129" height="90"/>
-                                <connections>
-                                    <outlet property="cellCount" destination="WmB-tE-ns5" id="DnK-JA-S31"/>
-                                    <outlet property="parentGateName" destination="Dd6-l8-gxH" id="V50-ce-KfK"/>
-                                    <outlet property="xAxisName" destination="vjh-v4-tyu" id="d3s-zx-Idh"/>
-                                    <outlet property="yAxisName" destination="b8s-Nv-4dv" id="PaZ-A9-TWj"/>
-                                </connections>
-                            </collectionViewCell>
-                        </cells>
+                        <cells/>
                         <connections>
                             <outlet property="dataSource" destination="zuU-X3-QSh" id="Ktg-kU-zD9"/>
                             <outlet property="delegate" destination="zuU-X3-QSh" id="6lr-ew-JqX"/>
@@ -651,17 +657,25 @@
         <class className="GateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="deleteGateTapped:"/>
+                <relationship kind="action" name="newPlotTapped:"/>
                 <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gateCount" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
             </relationships>
         </class>
+        <class className="KeywordTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/KeywordTableViewController.h"/>
+        </class>
         <class className="MarkView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MarkView.h"/>
         </class>
         <class className="MeasurementCollectionViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MeasurementCollectionViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="infoButtonTapped:" candidateClass="UIButton"/>
+            </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
@@ -669,18 +683,10 @@
         <class className="PinchLayout" superclassName="UICollectionViewFlowLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PinchLayout.h"/>
         </class>
-        <class className="PlotCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="cellCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="xAxisName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="yAxisName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
         <class className="PlotDetailTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="deletePlotTapped:"/>
                 <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
@@ -697,12 +703,6 @@
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
             </relationships>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
         </class>
         <class className="UICollectionViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>

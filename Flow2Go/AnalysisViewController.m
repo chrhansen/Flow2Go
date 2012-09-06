@@ -10,16 +10,18 @@
 #import "PlotViewController.h"
 #import "Analysis.h"
 #import "FCSFile.h"
-#import "PlotCell.h"
 #import "Measurement.h"
 #import "Plot.h"
 #import "Gate.h"
 #import "PinchLayout.h"
+#import "PlotDetailTableViewController.h"
 
-@interface AnalysisViewController () <PlotViewControllerDelegate>
+
+@interface AnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) UIPopoverController *detailPopoverController;
 
 @end
 
@@ -32,21 +34,28 @@
     UIPinchGestureRecognizer* pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self
                                                                                         action:@selector(handlePinchGesture:)];
     [self.collectionView addGestureRecognizer:pinchRecognizer];
-    [self.collectionView registerClass:PlotCell.class forCellWithReuseIdentifier:@"Plot Cell"];
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                          target:self
                                                                                          action:@selector(doneTapped)];
+    UINib *cellNib = [UINib nibWithNibName:@"PlotCellView" bundle:NSBundle.mainBundle];
+    [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Plot Cell"];
+
     self.title = self.analysis.name;
 
     if (self.analysis.plots.count == 0)
     {
         [Plot createPlotForAnalysis:self.analysis parentNode:nil];
     }
-    NSLog(@"plot count: %i", [Plot findAll].count);
-    NSLog(@"gate count: %i", [Gate findAll].count);
-
 }
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self _configureButtons];
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -55,23 +64,8 @@
     {
         self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath]];
     }
-//    
-//    NSLog(@"sections: %i", self.fetchedResultsController.sections.count);
-//    for (id <NSFetchedResultsSectionInfo> sectionInfo in self.fetchedResultsController.sections)
-//    {
-//        NSLog(@"numberOfObjects: %i", [sectionInfo numberOfObjects]);
-//        for (id object in sectionInfo.objects)
-//        {
-//            if ([object isKindOfClass:Plot.class]) {
-//                NSLog(@"%@, #level: %i", (Plot *)object, [(Plot *)object countOfParentGates]);
-//            }
-//            else
-//            {
-//                NSLog(@"Not plot %@", [object class]);
-//            }
-//        }
-//    }
 }
+
 
 - (void)viewDidUnload
 {
@@ -86,38 +80,79 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)_configureButtons
+{
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [infoButton addTarget:self action:@selector(_toggleAnalysisInfo:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem  = [UIBarButtonItem.alloc initWithCustomView: infoButton];
+}
+
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    Plot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
+    
+    Plot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
     Gate *parentGate = (Gate *)plot.parentNode;
-    PlotCell *plotCell = (PlotCell *)cell;
-    plotCell.cellCount.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
-    plotCell.parentGateName.text = parentGate.name;
+    
+    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
+    nameLabel.text = plot.name;
+
+    UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
+    countLabel.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
+
+    UILabel *xParName = (UILabel *)[cell viewWithTag:3];
+    xParName.text = plot.xParName;
+
+    UILabel *yParName = (UILabel *)[cell viewWithTag:4];
+    yParName.text = plot.yParName;
+    
+    UIButton *infoButton = (UIButton *)[cell viewWithTag:5];
+    [infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     if (parentGate == nil)
     {
-        plotCell.cellCount.text = [NSString stringWithFormat:@"%i cells", self.analysis.measurement.countOfEvents.integerValue];
-        plotCell.parentGateName.text = [NSString stringWithFormat:@"%@", self.analysis.measurement.filename];
+        nameLabel.text = [NSString stringWithFormat:@"%@", self.analysis.measurement.filename];
+        countLabel.text = [NSString stringWithFormat:@"%i cells", self.analysis.measurement.countOfEvents.integerValue];
     }
+}
+
+
+- (void)infoButtonTapped:(UIButton *)infoButton
+{
+    UICollectionViewCell *cell = (UICollectionViewCell *)infoButton.superview.superview;
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     
-    plotCell.xAxisName.text = @"test X";
-    plotCell.yAxisName.text = @"test Y";
-}
-
-
-- (void)_addObservings
-{
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(_analysisUpdated:) name:AnalysisUpdatedNotification object:nil];
-}
-
-- (void)_analysisUpdated:(NSNotification *)notification
-{
-    if (notification.object == self.analysis)
+    UINavigationController *plotNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"plotDetailTableViewController"];
+    PlotDetailTableViewController *plotTVC = (PlotDetailTableViewController *)plotNavigationVC.topViewController;
+    plotTVC.delegate = self;
+    plotTVC.plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    if (self.detailPopoverController.isPopoverVisible)
     {
-        [self.collectionView reloadData];
+        UINavigationController *navCon = (UINavigationController *)self.detailPopoverController.contentViewController;
+        [self.detailPopoverController dismissPopoverAnimated:YES];
+        if ([navCon.topViewController isKindOfClass:PlotDetailTableViewController.class])
+        {
+            return;
+        }
     }
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:plotNavigationVC];
+        self.detailPopoverController.delegate = self;
+        [self.detailPopoverController presentPopoverFromRect:infoButton.frame inView:cell.contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [self presentViewController:plotNavigationVC animated:YES completion:nil];
+    }
+    [plotTVC setEditing:NO animated:YES];
 }
 
+
+- (void)_toggleAnalysisInfo:(id)sender
+{
+    NSLog(@"Toggle Analysis info");
+}
 
 - (void)doneTapped
 {
@@ -148,6 +183,13 @@
     [self presentViewController:navigationController animated:YES completion:nil];    
 }
 
+#pragma mark - Popover Controller Delegate
+- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
+{
+    UINavigationController *navigationController = (UINavigationController *)popoverController.contentViewController;
+    return !navigationController.topViewController.editing;
+}
+
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController *)fetchedResultsController
@@ -159,26 +201,15 @@
     NSFetchRequest *fetchRequest = [NSFetchRequest.alloc init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"Plot"
                                       inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-    
-    // Set the batch size to a suitable number.
     fetchRequest.fetchBatchSize = 50;
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"analysis == %@", self.analysis];
     
     // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor.alloc initWithKey:@"parentNode"
-                                                                 ascending:YES];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor.alloc initWithKey:@"dateCreated" ascending:YES]];
     
-    NSArray *sortDescriptors = @[sortDescriptor];
-    
-    fetchRequest.sortDescriptors = sortDescriptors;
-    
-
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
     NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
                                                                                               managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
-                                                                                                sectionNameKeyPath:@"parentNode.name"
+                                                                                                sectionNameKeyPath:nil
                                                                                                          cacheName:nil];
     
     aFetchedResultsController.delegate = self;
@@ -195,6 +226,44 @@
 }
 
 
+#pragma mark - Fetched Resultscontroller delegate
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+//    You can always write your own mechanism for -beginUpdates/endUpdates. Where you would have called -beginUpdates before, just set some flag on your object, and start collection your updates into an array. When you would have called -endUpdates before, go ahead and submit all those updates to the collection view.
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    UICollectionView *collectionView = self.collectionView;
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:(UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    //self.collectionView performBatchUpdates:<#^(void)updates#> completion:<#^(BOOL finished)completion#>
+}
+
 #pragma mark - PlotViewController delegate
 - (FCSFile *)fcsFile:(id)sender
 {
@@ -208,7 +277,6 @@
         newPlot.xAxisType = plot.xAxisType;
         newPlot.yAxisType = plot.yAxisType;
         [newPlot.managedObjectContext save];
-        [self.collectionView reloadData];
         [self _presentPlot:newPlot];
     }];
 }
@@ -216,38 +284,62 @@
 
 - (void)didDeleteGate:(Gate *)gate
 {
-    [self.collectionView reloadData];
+    // do nothing FRC handles update
 }
 
-- (void)didDeletePlot:(Plot *)plot
+
+- (void)deletePlot:(Plot *)plotToBeDeleted
 {
-    __weak Plot *plotToBeDeleted = plot;
-    [self dismissViewControllerAnimated:YES completion:^{
-        BOOL success = [plotToBeDeleted deleteInContext:self.analysis.managedObjectContext];
-        [self.analysis.managedObjectContext save];
-        [self.collectionView reloadData];
-        if (!success)
-        {
-            UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
-                                                              message:[NSLocalizedString(@"Could not delete plot \"", nil) stringByAppendingFormat:@"%@\"", plotToBeDeleted.name]
-                                                             delegate:nil
-                                                    cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                    otherButtonTitles: nil];
-            [alertView show];
-        }
-    }];
+    BOOL success = [plotToBeDeleted deleteInContext:self.analysis.managedObjectContext];
+    [self.analysis.managedObjectContext save];
+    if (!success)
+    {
+        UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
+                                                          message:[NSLocalizedString(@"Could not delete plot \"", nil) stringByAppendingFormat:@"%@\"", plotToBeDeleted.name]
+                                                         delegate:nil
+                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                otherButtonTitles: nil];
+        [alertView show];
+    }
+
+}
+
+#pragma mark - Plot Table View Controller delegate
+
+- (void)didTapDeletePlot:(PlotDetailTableViewController *)sender
+{
+    __weak Plot *plotToBeDeleted = sender.plot;
+    
+    if ([self.presentedViewController isKindOfClass:PlotViewController.class])
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self deletePlot:plotToBeDeleted];
+        }];
+    }
+    else
+    {
+        [self.detailPopoverController dismissPopoverAnimated:YES];
+        [self deletePlot:plotToBeDeleted];
+    }
 }
 
 #pragma mark - Collection View Data source
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return self.fetchedResultsController.sections.count;
+}
+
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.analysis.plots.count;
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    return sectionInfo.numberOfObjects;
 }
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Plot Cell"
-                                                                           forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Plot Cell" forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }

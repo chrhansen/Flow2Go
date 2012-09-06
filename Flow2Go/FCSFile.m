@@ -30,6 +30,7 @@ typedef enum
 
 @property (nonatomic) FCSHeader *header;
 @property (nonatomic) NSUInteger bitsPerEvent;
+@property (nonatomic, strong) NSCharacterSet *seperatorCharacterset;
 
 @end
 
@@ -52,8 +53,6 @@ typedef enum
     
     return newFCSFile.text;
 }
-
-
 
 
 - (void)_parseTextSegmentFromPath:(NSString *)path
@@ -213,8 +212,8 @@ typedef enum
         return NO;
     }
     
-    NSCharacterSet *seperatorCharacterset = [NSCharacterSet characterSetWithCharactersInString:[textString substringToIndex:1]];
-    NSArray *textSeparated = [[textString substringFromIndex:1] componentsSeparatedByCharactersInSet:seperatorCharacterset];
+    self.seperatorCharacterset = [NSCharacterSet characterSetWithCharactersInString:[textString substringToIndex:1]];
+    NSArray *textSeparated = [[textString substringFromIndex:1] componentsSeparatedByCharactersInSet:self.seperatorCharacterset];
     
     NSMutableDictionary *textKeyValuePairs = [NSMutableDictionary dictionary];
     
@@ -248,11 +247,7 @@ typedef enum
         return NO;
     }
 
-    self.event = calloc(_noOfEvents, sizeof(NSUInteger *));
-    for (NSUInteger i = 0; i < _noOfEvents; i++)
-    {
-        self.event[i] = calloc(noOfParams, sizeof(NSUInteger));
-    }
+    [self allocateDataArrayWithType:self.text[@"$DATATYPE"] forParameters:noOfParams];
     
     kParSize *parSizes = [self _getParameterSizes:noOfParams];
     
@@ -330,9 +325,66 @@ typedef enum
         return NO;
     }
     
-    //TODO: read analysis segment
+    [self _setInputStream:inputStream toPosition:firstByte];
     
-    return YES;
+    uint8_t buffer[lastByte-firstByte];
+    NSUInteger bytesRead = [inputStream read:buffer maxLength:sizeof(buffer)];
+    NSString *analysisString = [NSString.alloc initWithBytes:buffer
+                                                  length:bytesRead
+                                                encoding:NSASCIIStringEncoding];
+    
+    if (!analysisString)
+    {
+        NSLog(@"analysis string not valid");
+        return NO;
+    }
+    
+    if (!self.seperatorCharacterset)
+    {
+        NSLog(@"self.seperatorCharacterset in Analysis Segment not set");
+    }
+    NSArray *textSeparated = [[analysisString substringFromIndex:1] componentsSeparatedByCharactersInSet:self.seperatorCharacterset];
+    
+    NSMutableDictionary *analysisKeyValuePairs = [NSMutableDictionary dictionary];
+    
+    for (int i = 0; i < textSeparated.count; i += 2)
+    {
+        if (i + 1 < textSeparated.count)
+        {
+            [analysisKeyValuePairs setObject:textSeparated[i+1] forKey:[textSeparated[i] uppercaseString]];
+        }
+    }
+    
+    if (analysisKeyValuePairs.count > 0)
+    {
+        self.analysis = [NSDictionary dictionaryWithDictionary:analysisKeyValuePairs];
+        return YES;
+    }
+    return NO;
+}
+
+
+- (void)allocateDataArrayWithType:(NSString *)dataTypeString forParameters:(NSUInteger)noOfParams
+{
+    if ([dataTypeString isEqualToString: @"I"])
+    {
+        self.event = calloc(_noOfEvents, sizeof(NSUInteger *));
+        for (NSUInteger i = 0; i < _noOfEvents; i++)
+        {
+            self.event[i] = calloc(noOfParams, sizeof(NSUInteger));
+        }
+        return;
+    }
+    
+    if ([dataTypeString isEqualToString: @"F"])
+    {
+        self.event = calloc(_noOfEvents, sizeof(NSUInteger *));
+        for (NSUInteger i = 0; i < _noOfEvents; i++)
+        {
+            self.event[i] = calloc(noOfParams, sizeof(float));
+        }
+        return;
+    }
 }
 
 

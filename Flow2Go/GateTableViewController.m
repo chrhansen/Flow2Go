@@ -41,7 +41,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.title = self.gate.name;
     [self _configureLabels];
 }
 
@@ -77,25 +76,22 @@
     [self.gateName setUserInteractionEnabled:editing];
     
     if (editing) {
-        [self.editButtonItem setTitle:NSLocalizedString(@"Save", nil)];
-            self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
         [self.gateName becomeFirstResponder];
     }
     else
     {
         self.gate.name = self.gateName.text;
-        self.title = self.gate.name;
         [self.gate.managedObjectContext save];
         [self.gateName resignFirstResponder];
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         {
-            [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+            [self.navigationItem setLeftBarButtonItem:nil animated:NO];
         }
         else
         {
             [self _addDoneButton];
         }
-        
     }
 }
 

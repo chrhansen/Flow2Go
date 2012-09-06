@@ -24,6 +24,7 @@
 
 @property (nonatomic) NSUInteger **event;
 @property (nonatomic, strong) NSDictionary *text;
+@property (nonatomic, strong) NSDictionary *analysis;
 @property (nonatomic) NSUInteger noOfEvents;
 
 @end

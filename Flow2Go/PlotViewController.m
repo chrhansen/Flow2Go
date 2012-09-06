@@ -17,7 +17,8 @@
 #import "GateTableViewController.h"
 #import "PlotDetailTableViewController.h"
 
-@interface PlotViewController () <GateTableViewControllerDelegate, PlotDetailTableViewControllerDelegate> {
+@interface PlotViewController () <GateTableViewControllerDelegate, UIPopoverControllerDelegate>
+{
     NSInteger _xParIndex;
     NSInteger _yParIndex;
 }
@@ -109,28 +110,38 @@
 {
     UINavigationController *plotNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"plotDetailTableViewController"];
     PlotDetailTableViewController *plotTVC = (PlotDetailTableViewController *)plotNavigationVC.topViewController;
-    plotTVC.delegate = self;
+    plotTVC.delegate = self.delegate;
     plotTVC.plot = self.plot;
-    if (self.detailPopoverController.isPopoverVisible) {
-        UINavigationController *navCon = (UINavigationController *)self.detailPopoverController.contentViewController;
-        [self.detailPopoverController dismissPopoverAnimated:YES];
-        if ([navCon.topViewController isKindOfClass:PlotDetailTableViewController.class]) {
-            return;
+    [plotTVC setEditing:NO animated:NO];
+    if (self.detailPopoverController.isPopoverVisible)
+    {
+        UINavigationController *navigationController = (UINavigationController *)self.detailPopoverController.contentViewController;
+        if (!navigationController.topViewController.editing)
+        {
+            [self.detailPopoverController dismissPopoverAnimated:YES];
         }
+        return;
     }
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
     {
         self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:plotNavigationVC];
         [self.detailPopoverController presentPopoverFromBarButtonItem:self.navigationItem.leftBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.detailPopoverController.delegate = self;
     }
-    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     {
-        [self presentViewController:plotNavigationVC animated:YES completion:nil];
+        [self presentViewController:plotNavigationVC animated:NO completion:nil];
     }
-    [plotTVC setEditing:NO animated:YES];
 }
 
+#pragma mark - Popover Controller Delegate
+- (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
+{
+    UINavigationController *navigationController = (UINavigationController *)popoverController.contentViewController;
+    return !navigationController.topViewController.editing;
+}
 
+#pragma mark - Axis Picking
 - (IBAction)xAxisTapped:(id)sender
 {
     [self _showAxisPicker:X_AXIS_SHEET fromButton:sender];
@@ -400,7 +411,7 @@ static NSArray *plotSymbols;
     
     if (!plotSymbol)
     {
-        plotSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+        plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
         plotSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.7 green:0.7 blue:0.7 alpha:1.0]];
         plotSymbol.lineStyle = nil;
         plotSymbol.size = CGSizeMake(2.0, 2.0);
@@ -415,27 +426,27 @@ static NSArray *plotSymbols;
 {
     NSMutableArray *symbols = NSMutableArray.array;
 
-    CPTPlotSymbol *blueSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    CPTPlotSymbol *blueSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     blueSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:0.0 blue:1.0 alpha:1.0]];
     blueSymbol.lineStyle = nil;
     blueSymbol.size = CGSizeMake(4.0, 4.0);
         
-    CPTPlotSymbol *greenSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    CPTPlotSymbol *greenSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     greenSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:50.0/255.0 green:205.0/255.0 blue:50.0/255.0 alpha:1.0]];
     greenSymbol.lineStyle = nil;
     greenSymbol.size = CGSizeMake(4.0, 4.0);
     
-    CPTPlotSymbol *yellowSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    CPTPlotSymbol *yellowSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     yellowSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:1.0 blue:0.0 alpha:1.0]];
     yellowSymbol.lineStyle = nil;
     yellowSymbol.size = CGSizeMake(4.0, 4.0);
     
-    CPTPlotSymbol *orangeSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    CPTPlotSymbol *orangeSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     orangeSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0]];
     orangeSymbol.lineStyle = nil;
     orangeSymbol.size = CGSizeMake(4.0, 4.0);
     
-    CPTPlotSymbol *redSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+    CPTPlotSymbol *redSymbol = [CPTPlotSymbol ellipsePlotSymbol];
     redSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
     redSymbol.lineStyle = nil;
     redSymbol.size = CGSizeMake(4.0, 4.0);
@@ -524,7 +535,7 @@ static NSArray *plotSymbols;
     gateTVC.delegate = self;
     gateTVC.gate = gate;
     
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
     {
         if (self.detailPopoverController.isPopoverVisible)
         {
@@ -532,12 +543,13 @@ static NSArray *plotSymbols;
         }
         self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:gateNavigationVC];
         [self.detailPopoverController presentPopoverFromRect:anchorFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        [gateTVC setEditing:editOn animated:YES];
+        self.detailPopoverController.delegate = self;
+        [gateTVC setEditing:editOn animated:NO];
+        
         return;
     }
-    
     [self presentViewController:gateNavigationVC animated:YES completion:nil];
-    [gateTVC setEditing:editOn animated:YES];
+    [gateTVC setEditing:editOn animated:NO];
 }
 
 
@@ -570,20 +582,13 @@ static NSArray *plotSymbols;
     }
 }
 
-#pragma mark - Plot Table View Controller delegate
-- (void)didTapDeletePlot:(PlotDetailTableViewController *)sender
-{
-    [self.delegate didDeletePlot:sender.plot];
-}
-
 
 #pragma mark - Gate Table View Controller delegate
 - (void)didTapNewPlot:(GateTableViewController *)sender
 {
-    if (self.detailPopoverController.isPopoverVisible)
-    {
-        [self.detailPopoverController dismissPopoverAnimated:YES];
-    }
+    
+    [self.detailPopoverController dismissPopoverAnimated:YES];
+    
     [self.delegate didSelectGate:sender.gate forPlot:self.plot];
 }
 

@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
+- (IBAction)infoButtonTapped:(UIButton *)sender;
+
 @end

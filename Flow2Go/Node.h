@@ -21,6 +21,8 @@
 @property (nonatomic, retain) Analysis *analysis;
 @property (nonatomic, retain) NSOrderedSet *childNodes;
 @property (nonatomic, retain) Node *parentNode;
+@property (nonatomic, retain) NSDate *dateCreated;
+
 @end
 
 @interface Node (CoreDataGeneratedAccessors)

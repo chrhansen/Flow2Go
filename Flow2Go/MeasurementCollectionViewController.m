@@ -8,13 +8,16 @@
 
 #import "MeasurementCollectionViewController.h"
 #import "Measurement.h"
-#import "Cell.h"
 #import "PinchLayout.h"
 #import "DownloadManager.h"
 #import "AnalysisViewController.h"
 #import "Analysis.h"
+#import "KeywordTableViewController.h"
 
 @interface MeasurementCollectionViewController () <DownloadManagerProgressDelegate>
+
+@property (nonatomic, strong) UIPopoverController *detailPopoverController;
+
 @end
 
 @implementation MeasurementCollectionViewController
@@ -40,33 +43,54 @@
 }
 
 
-- (void)infoButtonTapped:(UIButton *)infoButton
+- (IBAction)infoButtonTapped:(UIButton *)infoButton
 {
-    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:infoButton.center];
-    NSLog(@"indexPath: %@", indexPath);
+    UICollectionViewCell *cell = (UICollectionViewCell *)infoButton.superview.superview;
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    
+    KeywordTableViewController *keywordTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"measurementDetailViewController"];
+    keywordTVC.measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        if (self.detailPopoverController.isPopoverVisible)
+        {
+            [self.detailPopoverController dismissPopoverAnimated:YES];
+        }
+        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:keywordTVC];
+        [self.detailPopoverController presentPopoverFromRect:infoButton.frame inView:cell.contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [self presentViewController:keywordTVC animated:YES completion:nil];
+    }
 }
 
 
-- (void)configureCell:(Cell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     Measurement *measurement = (Measurement *)object;
-    //cell.label.text = [(Measurement *)object valueForKey:@"filename"];
-    UILabel *label1 = (UILabel *)[cell viewWithTag:1];
-    label1.text = measurement.filename;
     
-    UILabel *label2 = (UILabel *)[cell viewWithTag:2];
-    label2.text = [NSDateFormatter localizedStringFromDate:measurement.downloadDate
-                                                 dateStyle:kCFDateFormatterMediumStyle
-                                                 timeStyle:kCFDateFormatterMediumStyle];
-        
-    UILabel *label3 = (UILabel *)[cell viewWithTag:3];
-    label3.text = measurement.countOfEvents.stringValue;
+    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
+    nameLabel.text = measurement.filename;
     
     UIButton *infoButton = (UIButton *)[cell viewWithTag:4];
-    [infoButton addTarget:self
-                   action:@selector(infoButtonTapped:)
-         forControlEvents:UIControlEventTouchUpInside];
+
+    if (measurement.downloadDate)
+    {
+        UILabel *dateLabel = (UILabel *)[cell viewWithTag:2];
+        dateLabel.text = [NSDateFormatter localizedStringFromDate:measurement.downloadDate dateStyle:kCFDateFormatterMediumStyle timeStyle:kCFDateFormatterMediumStyle];
+        
+        UILabel *countLabel = (UILabel *)[cell viewWithTag:3];
+        countLabel.text = measurement.countOfEvents.stringValue;
+        
+        infoButton.enabled = YES;
+    }
+    else
+    {
+        infoButton.enabled = NO;
+    }
 }
 
 
@@ -91,7 +115,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Cell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Measurement Cell"
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Measurement Cell"
                                                            forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
@@ -186,7 +210,7 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:(Cell *)[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self configureCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
             break;
             
         case NSFetchedResultsChangeMove:

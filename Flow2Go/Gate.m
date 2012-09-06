@@ -7,7 +7,7 @@
 //
 
 #import "Gate.h"
-
+#import "Analysis.h"
 
 @implementation Gate
 
@@ -40,7 +40,7 @@
 
 - (NSString *)defaultGateName
 {
-    return [NSString stringWithFormat:@"#%i: %@, %@", self.parentNode.childNodes.count, self.xParName, self.yParName];
+    return [NSString stringWithFormat:@"#%i: %@, %@", self.analysis.gates.count, self.xParName, self.yParName];
 }
 
 @end

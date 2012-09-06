@@ -22,7 +22,7 @@
 @dynamic childNodes;
 @dynamic parentNode;
 @dynamic name;
-
+@dynamic dateCreated;
 
 - (void)setXParNumber:(NSNumber *)newXParNumber
 {

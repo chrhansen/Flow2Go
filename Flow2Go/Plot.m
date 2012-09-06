@@ -7,13 +7,14 @@
 //
 
 #import "Plot.h"
-#import "Analysis.h"
 #import "Measurement.h"
+#import "Analysis.h"
 
 @implementation Plot
 
 @dynamic xAxisType;
 @dynamic yAxisType;
+@dynamic countOfParentGates;
 
 + (Plot *)createPlotForAnalysis:(Analysis *)analysis parentNode:(Node *)parentNode
 {
@@ -24,7 +25,13 @@
     Plot *parentPlot = (Plot *)parentNode.parentNode;
     newPlot.xParNumber = parentPlot.xParNumber;
     newPlot.yParNumber = parentPlot.yParNumber;
+    if (parentPlot == nil)
+    {
+        newPlot.xParNumber = @1;
+        newPlot.yParNumber = @2;
+    }
     
+    newPlot.dateCreated = NSDate.date;
     newPlot.name = [newPlot defaultPlotName];
 
     return newPlot;
@@ -33,8 +40,7 @@
 
 - (NSString *)defaultPlotName
 {
-    NSString *sourceName = nil;
-    sourceName = self.parentNode.name;
+    NSString *sourceName = self.parentNode.name;
     if (self.parentNode.name == nil) sourceName = self.analysis.measurement.filename;
 
     return [NSString stringWithFormat:@"%@%@", NSLocalizedString(@"Plot of ", nil), sourceName];
@@ -66,5 +72,12 @@
     }
     return countOfParentGates;
 }
+
+- (NSString *)plotSectionName
+{
+    NSString *parentCountString = [NSString stringWithFormat:@"%i", [self countOfParentGates]];
+    return parentCountString;
+}
+
 
 @end

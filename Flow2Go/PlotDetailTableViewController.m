@@ -36,21 +36,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    [self _enableDeleteButtonUnlessRootPlot:NO];
+    [self _enableEditModeUnlessRootPlot:NO];
     [self _addDoneButton];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.title = self.plot.name;
     [self _configureLabels];
 }
 
 - (void)_addDoneButton
 {
-    [self.navigationItem setLeftBarButtonItem: [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_doneTapped)] animated:YES];
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [self.navigationItem setLeftBarButtonItem: [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(_doneTapped)] animated:YES];
+    }
 }
 
 - (void)_configureLabels
@@ -84,36 +86,40 @@
 }
 
 
-- (void)_enableDeleteButtonUnlessRootPlot:(BOOL)enable
+- (void)_enableEditModeUnlessRootPlot:(BOOL)enable
 {
     if (!self.plot.parentNode)
     {
         self.deletePlotButton.alpha = 0.5;
         self.deletePlotButton.enabled = NO;
+        self.editButtonItem.enabled = NO;
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
         return;
     }
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.deletePlotButton.enabled = enable;
 }
+
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
     [self.plotNameTextField setUserInteractionEnabled:editing];
-    [self _enableDeleteButtonUnlessRootPlot:!editing];
-    if (editing) {
-        [self.editButtonItem setTitle:NSLocalizedString(@"Save", nil)];
+    [self _enableEditModeUnlessRootPlot:!editing];
+    if (editing)
+    {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
         [self.plotNameTextField becomeFirstResponder];
     }
     else
     {
         self.plot.name = self.plotNameTextField.text;
-        self.title = self.plot.name;
         [self.plot.managedObjectContext save];
-        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+        [self.navigationItem setLeftBarButtonItem:nil animated:animated];
         [self.plotNameTextField resignFirstResponder];
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-            [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+        {
+            [self.navigationItem setLeftBarButtonItem:nil animated:animated];
         }
         else
         {

@@ -33,6 +33,7 @@
     <entity name="Node" representedClassName="Node" isAbstract="YES" syncable="YES">
         <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="needsUpdate" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="xParName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="xParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="yParName" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,16 +42,17 @@
         <relationship name="parentNode" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Node" inverseName="childNodes" inverseEntity="Node" syncable="YES"/>
     </entity>
     <entity name="Plot" representedClassName="Plot" parentEntity="Node" syncable="YES">
+        <attribute name="plotType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="xAxisType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="yAxisType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Analysis" inverseName="plots" inverseEntity="Analysis" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Analysis" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Gate" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Keyword" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Measurement" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Node" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Plot" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Analysis" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="Gate" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="Keyword" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="Measurement" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Node" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="Plot" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>

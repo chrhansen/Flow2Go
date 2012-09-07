@@ -14,6 +14,7 @@
 
 @dynamic xAxisType;
 @dynamic yAxisType;
+@dynamic plotType;
 @dynamic countOfParentGates;
 
 + (Plot *)createPlotForAnalysis:(Analysis *)analysis parentNode:(Node *)parentNode
@@ -25,10 +26,12 @@
     Plot *parentPlot = (Plot *)parentNode.parentNode;
     newPlot.xParNumber = parentPlot.xParNumber;
     newPlot.yParNumber = parentPlot.yParNumber;
+    newPlot.plotType = parentPlot.plotType;
     if (parentPlot == nil)
     {
         newPlot.xParNumber = @1;
         newPlot.yParNumber = @2;
+        newPlot.plotType = [NSNumber numberWithInteger:kPlotTypeDensity];
     }
     
     newPlot.dateCreated = NSDate.date;
@@ -73,11 +76,11 @@
     return countOfParentGates;
 }
 
+
 - (NSString *)plotSectionName
 {
     NSString *parentCountString = [NSString stringWithFormat:@"%i", [self countOfParentGates]];
     return parentCountString;
 }
-
 
 @end

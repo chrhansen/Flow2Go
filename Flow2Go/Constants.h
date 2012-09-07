@@ -37,18 +37,31 @@ struct Event
 typedef struct Event Event;
 typedef Event* EventPtr;
 
-struct PlotPoint {
-    double x;
-    double y;
+
+struct PlotPoint
+{
+    double xVal;
+    double yVal;
 };
 typedef struct PlotPoint PlotPoint;
 
-struct DensityPoint {
+
+struct DensityPoint
+{
     double xVal;
     double yVal;
     NSUInteger count;
 };
 typedef struct DensityPoint DensityPoint;
+
+
+struct HistogramPoint
+{
+    double xVal;
+    NSUInteger count;
+};
+typedef struct HistogramPoint HistogramPoint;
+
 
 typedef NS_ENUM(NSInteger, GateType)
 {
@@ -57,9 +70,17 @@ typedef NS_ENUM(NSInteger, GateType)
     kGateTypeRange
 };
 
+
 typedef NS_ENUM(NSInteger, AxisType)
 {
     kAxisTypeLinear,
     kAxisTypeLogarithmic,
     kAxisTypeHistogram
+};
+
+typedef NS_ENUM(NSInteger, PlotType)
+{
+    kPlotTypeDot,
+    kPlotTypeDensity,
+    kPlotTypeHistogram
 };

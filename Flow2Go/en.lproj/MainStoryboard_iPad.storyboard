@@ -300,11 +300,26 @@
                             <constraint firstItem="gZF-Qg-W0f" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="tT9-ng-2Ao"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="lY7-o6-c94"/>
+                    <navigationItem key="navigationItem" id="lY7-o6-c94">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9Kd-be-Bh0">
+                            <rect key="frame" x="230" y="7" width="307" height="31"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Dot"/>
+                                <segment title="Density"/>
+                                <segment title="Histogram"/>
+                            </segments>
+                            <connections>
+                                <action selector="plotTypeChanged:" destination="Suk-IT-K3u" eventType="valueChanged" id="oGs-CX-W8h"/>
+                            </connections>
+                        </segmentedControl>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
                         <outlet property="graphHostingView" destination="gZF-Qg-W0f" id="VfW-yJ-BvA"/>
                         <outlet property="markView" destination="4Y6-vR-W5x" id="1Yq-QV-onk"/>
+                        <outlet property="plotTypeSegmentedControl" destination="9Kd-be-Bh0" id="xUd-Oy-zgX"/>
                         <outlet property="xAxisButton" destination="P5F-po-NHv" id="VxN-Xy-g1j"/>
                         <outlet property="yAxisButton" destination="J3P-ip-Owu" id="bC3-L4-6cm"/>
                     </connections>
@@ -644,76 +659,6 @@
             <point key="canvasLocation" x="2780" y="2344"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="AnalysisViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalysisViewController.h"/>
-        </class>
-        <class className="CPTGraphHostingView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
-        </class>
-        <class className="DropboxViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxViewController.h"/>
-        </class>
-        <class className="GateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="deleteGateTapped:"/>
-                <relationship kind="action" name="newPlotTapped:"/>
-                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="gateCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="KeywordTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/KeywordTableViewController.h"/>
-        </class>
-        <class className="MarkView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MarkView.h"/>
-        </class>
-        <class className="MeasurementCollectionViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MeasurementCollectionViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="infoButtonTapped:" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PinchLayout" superclassName="UICollectionViewFlowLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PinchLayout.h"/>
-        </class>
-        <class className="PlotDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="deletePlotTapped:"/>
-                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="PlotViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
-                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
-                <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
-                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="UICollectionViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

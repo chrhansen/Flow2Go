@@ -13,7 +13,7 @@
 #import "Gate.h"
 #import "GraphPoint.h"
 #import "Plot.h"
-#import "DensityPlotData.h"
+#import "PlotDataCalculator.h"
 #import "GateTableViewController.h"
 #import "PlotDetailTableViewController.h"
 
@@ -25,11 +25,12 @@
 
 @property (nonatomic, strong) GateCalculator *parentGateCalculator;
 @property (nonatomic, strong) CPTXYGraph *graph;
-@property (nonatomic, strong) CPTScatterPlot *scatterPlot;
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) FCSFile *fcsFile;
-@property (nonatomic, strong) DensityPlotData *densityPlotData;
+@property (nonatomic, strong) PlotDataCalculator *plotData;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
+
 
 @end
 
@@ -62,6 +63,8 @@
     [self _insertGraph];
     [self _insertScatterPlot];
     [self _updateAxisAndPlotRange];
+    [self _configureLineAndSymbol];
+    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
     self.markView.delegate = self;
     [self.markView performSelector:@selector(reloadPaths) withObject:nil afterDelay:0.05];
 }
@@ -87,6 +90,19 @@
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(_toggleInfo:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem  = [UIBarButtonItem.alloc initWithCustomView: infoButton];
+    self.plotTypeSegmentedControl.selectedSegmentIndex = self.plot.plotType.integerValue;
+}
+
+
+- (IBAction)plotTypeChanged:(UISegmentedControl *)sender
+{
+    self.plot.plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
+    [self prepareDataForPlot];
+    [self _updateAxisAndPlotRange];
+    [self _configureLineAndSymbol];
+    [self.graph reloadData];
+    [self.markView reloadPaths];
+    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
 }
 
 - (void)doneTapped
@@ -191,10 +207,11 @@
         [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     }
     [self _updateAxisAndPlotRange];
-#warning refactor to have central place where data is prepared after changes
     [self prepareDataForPlot];
-    
+    [self _updateAxisAndPlotRange];
     [self.graph reloadData];
+    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
+
     [self.markView reloadPaths];
     [self.plot.managedObjectContext save];
 }
@@ -218,7 +235,7 @@
     scatterPlot.dataSource = self;
     scatterPlot.delegate = self;
     scatterPlot.identifier = @"Scatter Plot 1";
-    scatterPlot.dataLineStyle = nil;
+    //scatterPlot.dataLineStyle = nil;
     scatterPlot.plotSymbolMarginForHitDetection = 5.0;
     
     [self.graph addPlot:scatterPlot toPlotSpace:self.plotSpace];
@@ -271,6 +288,36 @@
     y.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
     y.title = nil;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:50.0f];
+    
+}
+
+
+- (void)_configureLineAndSymbol
+{
+    CPTScatterPlot *scatterPlot = (CPTScatterPlot *)[self.graph plotWithIdentifier:@"Scatter Plot 1"];
+    
+    if (self.plot.plotType.integerValue == kPlotTypeDot
+        || self.plot.plotType.integerValue == kPlotTypeDensity)
+    {
+        scatterPlot.dataLineStyle = nil;
+        scatterPlot.plotSymbol = nil;
+    }
+    else if (self.plot.plotType.integerValue == kPlotTypeHistogram)
+    {
+        CPTMutableLineStyle *histogramLineStyle = [CPTMutableLineStyle lineStyle];
+        histogramLineStyle.lineWidth = 2.5;
+        CPTColor *lineColor = [CPTColor blackColor];
+        histogramLineStyle.lineColor = [CPTColor blackColor];
+        scatterPlot.dataLineStyle = histogramLineStyle;
+        CPTMutableLineStyle *histogramSymbolLineStyle = [CPTMutableLineStyle lineStyle];
+        histogramSymbolLineStyle.lineColor = lineColor;
+
+        CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+        aaplSymbol.fill = [CPTFill fillWithColor:lineColor];
+        aaplSymbol.lineStyle = histogramSymbolLineStyle;
+        aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
+        scatterPlot.plotSymbol = aaplSymbol;   
+    }
 }
 
 
@@ -288,9 +335,10 @@
     
     Gate *parentGate = (Gate *)self.plot.parentNode;
     
-    if (parentGate)
+    if (parentGate
+        && self.parentGateCalculator == nil)
     {
-        self.parentGateCalculator = [GateCalculator.alloc init];
+        self.parentGateCalculator = GateCalculator.alloc.init;
         self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
         self.parentGateCalculator.numberOfCellsInside = parentGate.cellCount.integerValue;
         NSData *data = parentGate.subSet;
@@ -299,11 +347,32 @@
         memcpy(self.parentGateCalculator.eventsInside, [data bytes], len);
     }
     
-    self.densityPlotData = [DensityPlotData densityForPointsygonInFcsFile:self.fcsFile
-                                                               insidePlot:self.plot
-                                                                   subSet:self.parentGateCalculator.eventsInside
-                                                              subSetCount:self.parentGateCalculator.numberOfCellsInside];
-    [self.graph reloadData];
+    switch (self.plot.plotType.integerValue)
+    {
+        case kPlotTypeDot:
+            self.plotData = [PlotDataCalculator dotDataForFCSFile:self.fcsFile
+                                                       insidePlot:self.plot
+                                                           subset:self.parentGateCalculator.eventsInside
+                                                      subsetCount:self.parentGateCalculator.numberOfCellsInside];
+            break;
+            
+        case kPlotTypeDensity:
+            self.plotData = [PlotDataCalculator densityDataForFCSFile:self.fcsFile
+                                                           insidePlot:self.plot
+                                                               subset:self.parentGateCalculator.eventsInside
+                                                          subsetCount:self.parentGateCalculator.numberOfCellsInside];
+            break;
+         
+        case kPlotTypeHistogram:
+            self.plotData = [PlotDataCalculator histogramForFCSFile:self.fcsFile
+                                                         insidePlot:self.plot
+                                                             subset:self.parentGateCalculator.eventsInside
+                                                        subsetCount:self.parentGateCalculator.numberOfCellsInside];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
@@ -323,9 +392,9 @@
 #pragma mark - CPT Plot Data Source
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
-    if (self.densityPlotData)
+    if (self.plotData)
     {
-        return self.densityPlotData.numberOfPoints;
+        return self.plotData.numberOfPoints;
     }
     else if (self.parentGateCalculator)
     {
@@ -335,34 +404,17 @@
     return self.fcsFile.noOfEvents;
 }
 
+
 - (double)doubleForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index
 {
     switch (fieldEnum)
     {
         case CPTCoordinateX:
-            if (self.densityPlotData)
-            {
-                return self.densityPlotData.points[index].xVal;
-
-            }
-            if (self.parentGateCalculator)
-            {
-                return (double)self.fcsFile.event[self.parentGateCalculator.eventsInside[index]][_xParIndex];
-            }
-            return (double)self.fcsFile.event[index][_xParIndex];
+            return self.plotData.points[index].xVal;
             break;
             
         case CPTCoordinateY:
-            if (self.densityPlotData)
-            {
-                return self.densityPlotData.points[index].yVal;
-
-            }
-            if (self.parentGateCalculator)
-            {
-                return (double)self.fcsFile.event[self.parentGateCalculator.eventsInside[index]][_yParIndex];
-            }
-            return (double)self.fcsFile.event[index][_yParIndex];
+            return self.plotData.points[index].yVal;
             break;
             
         default:
@@ -379,7 +431,7 @@ static NSArray *plotSymbols;
 #pragma mark - Scatter Plot Datasource
 -(CPTPlotSymbol *)symbolForScatterPlot:(CPTScatterPlot *)plot recordIndex:(NSUInteger)index
 {
-    if (self.densityPlotData)
+    if (self.plotTypeSegmentedControl.selectedSegmentIndex == kPlotTypeDensity)
     {
         if (!plotSymbols)
         {
@@ -387,37 +439,39 @@ static NSArray *plotSymbols;
         }
         
         //NSInteger cellCount = self.densityPlotData.points[index].count;
-        NSInteger cellCount = self.densityPlotData.points[index].count;
+        NSInteger cellCount = self.plotData.points[index].count;
         
         if (cellCount == 0) {
             return nil;
         }
-        if (cellCount < self.densityPlotData.countForMaxBin * 0.01) {
+        if (cellCount < self.plotData.countForMaxBin * 0.01) {
             return plotSymbols[0];
         }
-        if (cellCount < self.densityPlotData.countForMaxBin * 0.2) {
+        if (cellCount < self.plotData.countForMaxBin * 0.2) {
             return plotSymbols[1];
         }
-        if (cellCount < self.densityPlotData.countForMaxBin * 0.5) {
+        if (cellCount < self.plotData.countForMaxBin * 0.5) {
             return plotSymbols[2];
         }
-        if (cellCount < self.densityPlotData.countForMaxBin * 0.7) {
+        if (cellCount < self.plotData.countForMaxBin * 0.7) {
             return plotSymbols[3];
         }
-        if (cellCount >= self.densityPlotData.countForMaxBin * 0.85) {
+        if (cellCount >= self.plotData.countForMaxBin * 0.85) {
             return plotSymbols[4];
         }
     }
-    
-    if (!plotSymbol)
+    if (self.plotTypeSegmentedControl.selectedSegmentIndex == kPlotTypeDot)
     {
-        plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-        plotSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.7 green:0.7 blue:0.7 alpha:1.0]];
-        plotSymbol.lineStyle = nil;
-        plotSymbol.size = CGSizeMake(2.0, 2.0);
+        if (!plotSymbol)
+        {
+            plotSymbol = [CPTPlotSymbol rectanglePlotSymbol];
+            plotSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.7 green:0.7 blue:0.7 alpha:1.0]];
+            plotSymbol.lineStyle = nil;
+            plotSymbol.size = CGSizeMake(2.0, 2.0);
+        }
+        return plotSymbol;
     }
-    return plotSymbol;
-    
+    return nil;
 }
 
 #define COLOR_LEVELS 4
@@ -426,27 +480,27 @@ static NSArray *plotSymbols;
 {
     NSMutableArray *symbols = NSMutableArray.array;
 
-    CPTPlotSymbol *blueSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    CPTPlotSymbol *blueSymbol = [CPTPlotSymbol rectanglePlotSymbol];
     blueSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:0.0 blue:1.0 alpha:1.0]];
     blueSymbol.lineStyle = nil;
     blueSymbol.size = CGSizeMake(4.0, 4.0);
         
-    CPTPlotSymbol *greenSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    CPTPlotSymbol *greenSymbol = [CPTPlotSymbol rectanglePlotSymbol];
     greenSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:50.0/255.0 green:205.0/255.0 blue:50.0/255.0 alpha:1.0]];
     greenSymbol.lineStyle = nil;
     greenSymbol.size = CGSizeMake(4.0, 4.0);
     
-    CPTPlotSymbol *yellowSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    CPTPlotSymbol *yellowSymbol = [CPTPlotSymbol rectanglePlotSymbol];
     yellowSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:1.0 blue:0.0 alpha:1.0]];
     yellowSymbol.lineStyle = nil;
     yellowSymbol.size = CGSizeMake(4.0, 4.0);
     
-    CPTPlotSymbol *orangeSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    CPTPlotSymbol *orangeSymbol = [CPTPlotSymbol rectanglePlotSymbol];
     orangeSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0]];
     orangeSymbol.lineStyle = nil;
     orangeSymbol.size = CGSizeMake(4.0, 4.0);
     
-    CPTPlotSymbol *redSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+    CPTPlotSymbol *redSymbol = [CPTPlotSymbol rectanglePlotSymbol];
     redSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
     redSymbol.lineStyle = nil;
     redSymbol.size = CGSizeMake(4.0, 4.0);
@@ -499,7 +553,7 @@ static NSArray *plotSymbols;
 
 #pragma mark - Mark View Delegate
 - (void)didDrawPathWithPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton sender:(id)sender
-{ 
+{
     NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:sender plotSpace:self.plotSpace];
     
     GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
@@ -507,13 +561,11 @@ static NSArray *plotSymbols;
                                                             insidePlot:self.plot
                                                                 subSet:self.parentGateCalculator.eventsInside
                                                            subSetCount:self.parentGateCalculator.numberOfCellsInside];
-       
-    Gate *gate = [Gate createChildGateInPlot:self.plot
-                                        type:kGateTypePolygon
-                                    vertices:gateVertices];
+    
+    Gate *gate = [Gate createChildGateInPlot:self.plot type:kGateTypePolygon vertices:gateVertices];
     gate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
     gate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
-
+    
     [self.plot.managedObjectContext save];
     
     [self showDetailPopoverForGate:gate inRect:infoButton.frame editMode:YES];

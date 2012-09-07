@@ -22,6 +22,7 @@
 @property (nonatomic, retain) NSOrderedSet *childNodes;
 @property (nonatomic, retain) Node *parentNode;
 @property (nonatomic, retain) NSDate *dateCreated;
+@property (nonatomic, retain) NSNumber *needsUpdate;
 
 @end
 

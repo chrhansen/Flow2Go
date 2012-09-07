@@ -21,6 +21,7 @@
 
 @property (nonatomic, retain) NSNumber * xAxisType;
 @property (nonatomic, retain) NSNumber * yAxisType;
+@property (nonatomic, retain) NSNumber * plotType;
 @property (nonatomic, readonly) NSInteger countOfParentGates;
 @property (nonatomic, readonly) NSString *plotSectionName;
 

@@ -128,7 +128,6 @@
 }
 
 
-
 -(UICollectionViewLayoutAttributes*)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewLayoutAttributes* attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
@@ -153,5 +152,35 @@
     [self invalidateLayout];
 }
 
+
+#pragma mark - Batch updates
+//- (void)prepareForCollectionViewUpdates:(NSArray*)updates
+//{
+//    [super prepareForCollectionViewUpdates:updates];
+//    for (UICollectionViewUpdateItem* updateItem in updates) {
+//        if (updateItem.updateAction == UICollectionUpdateActionInsert) {
+//            [insertedIndexPaths addObject:updateItem.indexPathAfterUpdate];
+//        }
+//        else if (updateItem.updateAction == UICollectionUpdateActionDelete) {
+//            [deletedIndexPaths addObject:updateItem.indexPathBeforeUpdate];
+//        }
+//    }
+//}
+//
+//- (UICollectionViewLayoutAttributes*)initialLayoutAttributesForAppearingItemAtIndexPath:(NSIndexPath*)indexPath
+//{
+//    return [insertedIndexPaths containsObject:indexPath] ? [self myCoolInsertAnimationAttributesForIndexPath:indexPath] : [super initialLayoutAttributesForAppearingItemAtIndexPath:indexPath];
+//}
+//
+//- (UICollectionViewLayoutAttributes*)finalLayoutAttributesForDisappearingItemAtIndexPath:(NSIndexPath*)indexPath
+//{
+//    return [deletedIndexPaths containsObject:indexPath] ? [self myCoolDeleteAnimationAttributesForIndexPath:indexPath] : [super finalLayoutAttributesForDisappearingItemAtIndexPath:indexPath];
+//}
+//
+//- (void)finalizeCollectionViewUpdates
+//{
+//    [insertedIndexPaths removeAllObjects];
+//    [deletedIndexPaths removeAllObjects];
+//}
 
 @end

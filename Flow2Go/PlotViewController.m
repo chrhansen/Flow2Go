@@ -16,11 +16,13 @@
 #import "PlotDataCalculator.h"
 #import "GateTableViewController.h"
 #import "PlotDetailTableViewController.h"
+#import "PlotHelper.h"
 
 @interface PlotViewController () <GateTableViewControllerDelegate, UIPopoverControllerDelegate>
 {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
+    PlotType _currentPlotType;
 }
 
 @property (nonatomic, strong) GateCalculator *parentGateCalculator;
@@ -28,6 +30,7 @@
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) PlotDataCalculator *plotData;
+@property (nonatomic, strong) PlotHelper *plotHelper;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
 
@@ -42,7 +45,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                         target:self
                                                                                         action:@selector(doneTapped)];
@@ -62,9 +64,7 @@
     [super viewDidAppear:animated];
     [self _insertGraph];
     [self _insertScatterPlot];
-    [self _updateAxisAndPlotRange];
-    [self _configureLineAndSymbol];
-    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
+    [self _reloadPlotDataAndLayout];
     self.markView.delegate = self;
     [self.markView performSelector:@selector(reloadPaths) withObject:nil afterDelay:0.05];
 }
@@ -97,12 +97,8 @@
 - (IBAction)plotTypeChanged:(UISegmentedControl *)sender
 {
     self.plot.plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
-    [self prepareDataForPlot];
-    [self _updateAxisAndPlotRange];
-    [self _configureLineAndSymbol];
-    [self.graph reloadData];
+    [self _reloadPlotDataAndLayout];
     [self.markView reloadPaths];
-    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
 }
 
 - (void)doneTapped
@@ -206,12 +202,7 @@
         _yParIndex = self.plot.yParNumber.integerValue - 1;
         [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     }
-    [self _updateAxisAndPlotRange];
-    [self prepareDataForPlot];
-    [self _updateAxisAndPlotRange];
-    [self.graph reloadData];
-    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
-
+    [self _reloadPlotDataAndLayout];
     [self.markView reloadPaths];
     [self.plot.managedObjectContext save];
 }
@@ -226,7 +217,6 @@
 
 - (void)_insertScatterPlot
 {
-    // Add plot space for horizontal bar charts
     self.plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
     self.plotSpace.allowsUserInteraction = YES;
     self.plotSpace.delegate = self;
@@ -235,10 +225,19 @@
     scatterPlot.dataSource = self;
     scatterPlot.delegate = self;
     scatterPlot.identifier = @"Scatter Plot 1";
-    //scatterPlot.dataLineStyle = nil;
     scatterPlot.plotSymbolMarginForHitDetection = 5.0;
     
-    [self.graph addPlot:scatterPlot toPlotSpace:self.plotSpace];
+    [self.graph addPlot:scatterPlot toPlotSpace:self.graph.defaultPlotSpace];
+}
+
+
+- (void)_reloadPlotDataAndLayout
+{
+    [self prepareDataForPlot];
+    [self _configureLineAndSymbol];
+    [self _updateAxisAndPlotRange];
+    [self.graph reloadData];
+    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
 }
 
 - (void)_updateAxisAndPlotRange
@@ -332,12 +331,14 @@
     [self _setAxisIfNeeded];
     _xParIndex = self.plot.xParNumber.integerValue - 1;
     _yParIndex = self.plot.yParNumber.integerValue - 1;
+    _currentPlotType = self.plot.plotType.integerValue;
     
     Gate *parentGate = (Gate *)self.plot.parentNode;
     
     if (parentGate
         && self.parentGateCalculator == nil)
     {
+        NSLog(@"reading parent gate data");
         self.parentGateCalculator = GateCalculator.alloc.init;
         self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
         self.parentGateCalculator.numberOfCellsInside = parentGate.cellCount.integerValue;
@@ -347,7 +348,9 @@
         memcpy(self.parentGateCalculator.eventsInside, [data bytes], len);
     }
     
-    switch (self.plot.plotType.integerValue)
+    [self.plotData  cleanUpPlotData];
+    
+    switch (_currentPlotType)
     {
         case kPlotTypeDot:
             self.plotData = [PlotDataCalculator dotDataForFCSFile:self.fcsFile
@@ -426,92 +429,42 @@
 #pragma mark - Scatter Plot Delegate
 static CPTPlotSymbol *plotSymbol;
 
-static NSArray *plotSymbols;
+#define COLOR_LEVELS 15
+#define PLOTSYMBOL_SIZE 2.0
 
 #pragma mark - Scatter Plot Datasource
 -(CPTPlotSymbol *)symbolForScatterPlot:(CPTScatterPlot *)plot recordIndex:(NSUInteger)index
 {
-    if (self.plotTypeSegmentedControl.selectedSegmentIndex == kPlotTypeDensity)
+    if (_currentPlotType == kPlotTypeDensity)
     {
-        if (!plotSymbols)
+        if (!self.plotHelper)
         {
-            plotSymbols = [self plotSymbols];
+            self.plotHelper = [PlotHelper coloredPlotSymbols:COLOR_LEVELS ofSize:CGSizeMake(PLOTSYMBOL_SIZE, PLOTSYMBOL_SIZE)];
         }
         
-        //NSInteger cellCount = self.densityPlotData.points[index].count;
         NSInteger cellCount = self.plotData.points[index].count;
-        
-        if (cellCount == 0) {
-            return nil;
-        }
-        if (cellCount < self.plotData.countForMaxBin * 0.01) {
-            return plotSymbols[0];
-        }
-        if (cellCount < self.plotData.countForMaxBin * 0.2) {
-            return plotSymbols[1];
-        }
-        if (cellCount < self.plotData.countForMaxBin * 0.5) {
-            return plotSymbols[2];
-        }
-        if (cellCount < self.plotData.countForMaxBin * 0.7) {
-            return plotSymbols[3];
-        }
-        if (cellCount >= self.plotData.countForMaxBin * 0.85) {
-            return plotSymbols[4];
+        if (cellCount > 0)
+        {
+            NSInteger colorLevel = COLOR_LEVELS * (float)cellCount / (float)self.plotData.countForMaxBin;
+            if (colorLevel > -1
+                && colorLevel < COLOR_LEVELS)
+            {
+                return self.plotHelper.plotSymbols[colorLevel];
+            }
         }
     }
-    if (self.plotTypeSegmentedControl.selectedSegmentIndex == kPlotTypeDot)
+    else if (_currentPlotType == kPlotTypeDot)
     {
         if (!plotSymbol)
         {
-            plotSymbol = [CPTPlotSymbol rectanglePlotSymbol];
-            plotSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.7 green:0.7 blue:0.7 alpha:1.0]];
+            plotSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+            plotSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:0.0 blue:0.0 alpha:1.0]];
             plotSymbol.lineStyle = nil;
-            plotSymbol.size = CGSizeMake(2.0, 2.0);
+            plotSymbol.size = CGSizeMake(PLOTSYMBOL_SIZE, PLOTSYMBOL_SIZE);
         }
         return plotSymbol;
     }
     return nil;
-}
-
-#define COLOR_LEVELS 4
-
-- (NSArray *)plotSymbols
-{
-    NSMutableArray *symbols = NSMutableArray.array;
-
-    CPTPlotSymbol *blueSymbol = [CPTPlotSymbol rectanglePlotSymbol];
-    blueSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:0.0 green:0.0 blue:1.0 alpha:1.0]];
-    blueSymbol.lineStyle = nil;
-    blueSymbol.size = CGSizeMake(4.0, 4.0);
-        
-    CPTPlotSymbol *greenSymbol = [CPTPlotSymbol rectanglePlotSymbol];
-    greenSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:50.0/255.0 green:205.0/255.0 blue:50.0/255.0 alpha:1.0]];
-    greenSymbol.lineStyle = nil;
-    greenSymbol.size = CGSizeMake(4.0, 4.0);
-    
-    CPTPlotSymbol *yellowSymbol = [CPTPlotSymbol rectanglePlotSymbol];
-    yellowSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:1.0 blue:0.0 alpha:1.0]];
-    yellowSymbol.lineStyle = nil;
-    yellowSymbol.size = CGSizeMake(4.0, 4.0);
-    
-    CPTPlotSymbol *orangeSymbol = [CPTPlotSymbol rectanglePlotSymbol];
-    orangeSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:165.0/255.0 blue:0.0 alpha:1.0]];
-    orangeSymbol.lineStyle = nil;
-    orangeSymbol.size = CGSizeMake(4.0, 4.0);
-    
-    CPTPlotSymbol *redSymbol = [CPTPlotSymbol rectanglePlotSymbol];
-    redSymbol.fill = [CPTFill fillWithColor:[CPTColor colorWithComponentRed:1.0 green:0.0 blue:0.0 alpha:1.0]];
-    redSymbol.lineStyle = nil;
-    redSymbol.size = CGSizeMake(4.0, 4.0);
-    
-    [symbols addObject:blueSymbol];
-    [symbols addObject:greenSymbol];
-    [symbols addObject:yellowSymbol];
-    [symbols addObject:orangeSymbol];
-    [symbols addObject:redSymbol];
-    
-    return symbols;
 }
 
 
@@ -646,10 +599,11 @@ static NSArray *plotSymbols;
 
 - (void)didTapDeleteGate:(GateTableViewController *)sender
 {
-    if (self.detailPopoverController.isPopoverVisible) {
+    if (self.detailPopoverController.isPopoverVisible)
+    {
         [self.detailPopoverController dismissPopoverAnimated:YES];
     }
-    else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     {
         [self dismissViewControllerAnimated:YES completion:nil];
     }

@@ -29,7 +29,7 @@
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount;
 
-
+- (void)cleanUpPlotData;
 
 @property (nonatomic) NSUInteger numberOfPoints;
 @property (nonatomic) DensityPoint *points;

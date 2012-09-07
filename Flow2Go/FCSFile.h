@@ -11,10 +11,10 @@
 
 @interface FCSFile : NSObject
 
-+ (FCSFile *)fcsFileWithPath:(NSString *)path;
++ (FCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error;
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
 
-
+- (void)cleanUpEventsForFCSFile;
 
 + (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FCSFile *)fcsFile;
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;
@@ -26,5 +26,6 @@
 @property (nonatomic, strong) NSDictionary *text;
 @property (nonatomic, strong) NSDictionary *analysis;
 @property (nonatomic) NSUInteger noOfEvents;
+@property (nonatomic) NSUInteger noOfParams;
 
 @end

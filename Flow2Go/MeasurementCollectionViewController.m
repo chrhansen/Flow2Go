@@ -126,13 +126,8 @@
 {
     Measurement *aMeasurement = (Measurement *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    if (!aMeasurement.downloadDate) {
-        UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Still Downloading", nil)
-                                                          message:NSLocalizedString(@"Try again in a moment", nil)
-                                                         delegate:nil
-                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                otherButtonTitles:nil];
-        [alertView show];
+    if (!aMeasurement.downloadDate)
+    {
         return;
     }
     

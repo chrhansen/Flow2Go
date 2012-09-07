@@ -18,10 +18,14 @@
 
 
 @interface AnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate>
-
+{
+    NSMutableArray *_sectionChanges;
+    NSMutableArray *_objectChanges;
+}
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
+@property (nonatomic, strong) NSMutableArray *objectChanges;
 
 @end
 
@@ -60,10 +64,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (!_fcsFile)
-    {
-        self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath]];
-    }
+    [self _loadFCSFile];
 }
 
 
@@ -78,6 +79,20 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)_loadFCSFile
+{
+    if (!_fcsFile)
+    {
+        NSError *error;
+        self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath] error:&error];
+        if (self.fcsFile == nil)
+        {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }
 }
 
 
@@ -160,7 +175,9 @@
     {
         [aSubView removeFromSuperview];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.fcsFile cleanUpEventsForFCSFile];
+    }];
 }
 
 
@@ -168,7 +185,8 @@
 {
     if (!_fcsFile)
     {
-        _fcsFile = [FCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename]];
+        NSError *error;
+        _fcsFile = [FCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename] error:&error];
     }
     return _fcsFile;
 }
@@ -179,7 +197,6 @@
     PlotViewController *plotViewController = (PlotViewController *)navigationController.topViewController;
     plotViewController.delegate = self;
     plotViewController.plot = plot;
-    [plotViewController prepareDataForPlot];
     [self presentViewController:navigationController animated:YES completion:nil];    
 }
 
@@ -229,46 +246,144 @@
 #pragma mark - Fetched Resultscontroller delegate
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
+    self.objectChanges = NSMutableArray.array;
+    if (!_sectionChanges) {
+        _sectionChanges = NSMutableArray.array;
+    }
+    if (!_objectChanges) {
+        _objectChanges = NSMutableArray.array;
+    }
 //    You can always write your own mechanism for -beginUpdates/endUpdates. Where you would have called -beginUpdates before, just set some flag on your object, and start collection your updates into an array. When you would have called -endUpdates before, go ahead and submit all those updates to the collection view.
 }
 
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath
+//- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+//       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+//      newIndexPath:(NSIndexPath *)newIndexPath
+//{
+//    UICollectionView *collectionView = self.collectionView;
+//    
+//    if (self.objectChanges == nil)
+//    {
+//        switch(type)
+//        {
+//            case NSFetchedResultsChangeInsert:
+//                [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+//                break;
+//                
+//            case NSFetchedResultsChangeDelete:
+//                [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+//                break;
+//                
+//            case NSFetchedResultsChangeUpdate:
+//                [self configureCell:(UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+//                break;
+//                
+//            case NSFetchedResultsChangeMove:
+//                [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+//                [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+//                break;
+//        }
+//    }
+//    else
+//    {
+//        //[self.objectChanges addObject:@{@"NSFetchedResultsChangeInsert" : <#object, ...#>}];
+//    }
+//
+//}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UICollectionView *collectionView = self.collectionView;
-    
-    switch(type) {
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
         case NSFetchedResultsChangeInsert:
-            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            change[@(type)] = newIndexPath;
             break;
-            
         case NSFetchedResultsChangeDelete:
-            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            change[@(type)] = indexPath;
             break;
-            
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:(UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            change[@(type)] = indexPath;
             break;
-            
         case NSFetchedResultsChangeMove:
-            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
-            [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            change[@(type)] = @[indexPath, newIndexPath];
             break;
     }
+    [_objectChanges addObject:change];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    //self.collectionView performBatchUpdates:<#^(void)updates#> completion:<#^(BOOL finished)completion#>
+{    
+    if ([_sectionChanges count] > 0)
+    {
+        [self.collectionView performBatchUpdates:^{
+            
+            for (NSDictionary *change in _sectionChanges)
+            {
+                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                    
+                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                    switch (type)
+                    {
+                        case NSFetchedResultsChangeInsert:
+                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                        case NSFetchedResultsChangeDelete:
+                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                        case NSFetchedResultsChangeUpdate:
+                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                    }
+                }];
+            }
+        } completion:nil];
+    }
+    
+    if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+    {
+        [self.collectionView performBatchUpdates:^{
+            
+            for (NSDictionary *change in _objectChanges)
+            {
+                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                    
+                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                    switch (type)
+                    {
+                        case NSFetchedResultsChangeInsert:
+                            [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                            break;
+                        case NSFetchedResultsChangeDelete:
+                            [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                            break;
+                        case NSFetchedResultsChangeUpdate:
+                            [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                            break;
+                        case NSFetchedResultsChangeMove:
+                            [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                            break;
+                    }
+                }];
+            }
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    
+    [_sectionChanges removeAllObjects];
+    [_objectChanges removeAllObjects];
 }
+
 
 #pragma mark - PlotViewController delegate
 - (FCSFile *)fcsFile:(id)sender
 {
     return self.fcsFile;
 }
+
 
 - (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot
 {
@@ -284,7 +399,7 @@
 
 - (void)didDeleteGate:(Gate *)gate
 {
-    // do nothing FRC handles update
+    [self.analysis.managedObjectContext save];
 }
 
 

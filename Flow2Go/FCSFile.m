@@ -36,13 +36,22 @@ typedef enum
 
 @implementation FCSFile
 
-+ (FCSFile *)fcsFileWithPath:(NSString *)path
++ (FCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error
 {
     FCSFile *newFCSFile = [FCSFile.alloc init];
     
-    [newFCSFile _parseFileFromPath:path];
+    BOOL succes = [newFCSFile _parseFileFromPath:path];
     
-    return newFCSFile;
+    if (succes) {
+        return newFCSFile;
+    }
+    
+    if (error != NULL)
+    {
+        NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey : NSLocalizedString(@"FCS file could not be read", nil)};
+        *error = [[NSError alloc] initWithDomain:FCSFile_Error_Domain code:-1 userInfo:errorDictionary];
+    }
+    return nil;
 }
 
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path
@@ -103,7 +112,7 @@ typedef enum
     }
 }
 
-- (void)_parseFileFromPath:(NSString *)path
+- (BOOL)_parseFileFromPath:(NSString *)path
 {
     NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
     [fcsFileStream open];
@@ -160,6 +169,7 @@ typedef enum
             case kParsingSegmentFailed:
                 NSLog(@"CASE: kParsingSegmentFailed");
                 [fcsFileStream close];
+                return NO;
                 break;
                 
             default:
@@ -168,7 +178,9 @@ typedef enum
                 break;
         }
     }
+    return YES;
 }
+
 
 - (BOOL)_readHeaderSegmentFromInputStream:(NSInputStream *)inputStream
 {
@@ -240,7 +252,8 @@ typedef enum
     
     _noOfEvents = [self.text[@"$TOT"] integerValue];
     NSUInteger noOfParams = [self.text[@"$PAR"] integerValue];
-        
+    self.noOfParams = noOfParams;
+    
     if (_noOfEvents == 0
         || noOfParams == 0)
     {
@@ -311,6 +324,10 @@ typedef enum
         }
         eventNo++;
     }
+    
+    if (parSizes) free(parSizes);
+    
+    [self convertChannelValuesToScaleValues:self.event];
     
     //[self _printOut:100 forPars:noOfParams];
     
@@ -440,6 +457,56 @@ typedef enum
 }
 
 
+- (void)convertChannelValuesToScaleValues:(NSUInteger **)eventsAsChannelValues
+{
+    for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
+    {
+        NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parNo + 1]];
+        if (!scaleString) {
+            NSLog(@"Required scale Value for par %i not found.", parNo + 1);
+        }
+        NSArray *scaleComponents = [scaleString componentsSeparatedByString:@","];
+        CGFloat f1 = [scaleComponents[0] floatValue];
+        CGFloat f2 = [scaleComponents[1] floatValue];
+        CGFloat g = 1.0f;
+        CGFloat range = [self.text[[@"$P" stringByAppendingFormat:@"%iR", parNo + 1]] floatValue];
+        if (f1 <= 0.0f)
+        {
+            // Linear values, ignore f2
+            // Check of G (amplifier gain) is present for linear scaling
+            NSString *gString = self.text[[@"$P" stringByAppendingFormat:@"%iG", parNo + 1]];
+            if (gString) g = gString.floatValue;
+            if (g == 0.0f) NSLog(@"Amplifier gain value for parameter %i is zero (g = %f).", parNo + 1, g);
+        }
+        else if (f1 > 0.0f)
+        {
+            // Logarithmic values, make sure f2 is interpreted as 1.0 if set to zero.
+            if (f2 == 0.0f) f2 = 1.0f;
+        }
+        
+        
+        for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
+        {
+            eventsAsChannelValues[eventNo][parNo] = [self _scaleChannelValue:eventsAsChannelValues[eventNo][parNo] byF1:f1 f2:f2 g:g andRange:range];
+        }
+    }
+}
+
+
+- (NSUInteger)_scaleChannelValue:(NSUInteger)channelValue byF1:(CGFloat)f1 f2:(CGFloat)f2 g:(CGFloat)g andRange:(CGFloat)range
+{
+    if (f1 <= 0.0f)
+    {
+        return channelValue / g;
+    }
+    else if (f1 > 0.0f)
+    {
+        return pow(10, f1 * channelValue / range) * f2;
+    }
+    return 0.0f;
+}
+
+
 - (void)_printOut:(NSUInteger)noOfEvents forPars:(NSUInteger)noOfParams
 {
     for (NSUInteger i = 0; i < noOfEvents; i++)
@@ -477,6 +544,8 @@ typedef enum
     return CFByteOrderUnknown;
 }
 
+
+#pragma mark - Public methods
 
 + (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FCSFile *)fcsFile
 {
@@ -536,6 +605,15 @@ typedef enum
     NSString *amplificationKey = [@"$P" stringByAppendingFormat:@"%iE", parameterIndex + 1];
     NSString *amplificationValue = self.text[amplificationKey];
     return [amplificationValue componentsSeparatedByString:@","];
+}
+
+- (void)cleanUpEventsForFCSFile
+{
+    for (NSUInteger i = 0; i < _noOfEvents; i++)
+    {
+        free(self.event[i]);
+    }
+    free(self.event);
 }
 
 @end

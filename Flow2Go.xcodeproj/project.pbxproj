@@ -12,6 +12,7 @@
 		E511FD7715CC36BD00637D39 /* icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7615CC36BD00637D39 /* icon_144.png */; };
 		E511FD7915CC36C200637D39 /* icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7815CC36C200637D39 /* icon_72.png */; };
 		E511FDDA15CC6C4800637D39 /* PlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* PlotViewController.m */; };
+		E5203E4F15F9EAAD00169EC7 /* PlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* PlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E5208C9115EAA12600EBAE47 /* Keyword.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C9015EAA12600EBAE47 /* Keyword.m */; };
 		E5208C9515EAA17200EBAE47 /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C9415EAA17200EBAE47 /* Measurement.m */; };
@@ -87,6 +88,8 @@
 		E511FD7815CC36C200637D39 /* icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_72.png; path = ../icon_72.png; sourceTree = "<group>"; };
 		E511FDD815CC6C4800637D39 /* PlotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotViewController.h; sourceTree = "<group>"; };
 		E511FDD915CC6C4800637D39 /* PlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotViewController.m; sourceTree = "<group>"; };
+		E5203E4D15F9EAAD00169EC7 /* PlotHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotHelper.h; sourceTree = "<group>"; };
+		E5203E4E15F9EAAD00169EC7 /* PlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotHelper.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		E5208C8F15EAA12600EBAE47 /* Keyword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keyword.h; sourceTree = "<group>"; };
@@ -337,6 +340,8 @@
 			children = (
 				E57BA89115ED8D94008EA346 /* PlotDataCalculator.h */,
 				E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */,
+				E5203E4D15F9EAAD00169EC7 /* PlotHelper.h */,
+				E5203E4E15F9EAAD00169EC7 /* PlotHelper.m */,
 				E579564715DAFE6800B77795 /* GateCalculator.h */,
 				E579564815DAFE6800B77795 /* GateCalculator.m */,
 				E52BECB515DE63E9002A3819 /* GraphPoint.h */,
@@ -811,6 +816,7 @@
 				E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */,
 				E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */,
 				E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */,
+				E5203E4F15F9EAAD00169EC7 /* PlotHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

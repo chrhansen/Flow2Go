@@ -15,7 +15,7 @@
 
 @implementation PlotDataCalculator
 
-#define BIN_COUNT 256
+#define BIN_COUNT 512
 #define HISTOGRAM_COUNT 256
 
 
@@ -223,6 +223,11 @@
     free(histogramValues);
     
     return histogramPlotData;
+}
+
+- (void)cleanUpPlotData
+{
+    free(self.points);
 }
 
 

@@ -25,9 +25,11 @@ static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownl
 
 static NSString * const AnalysisUpdatedNotification = @"AnalysisUpdatedNotification";
 
+static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
+
+
 // FCS file specific
 #define HEADER_LENGTH 58
-
 
 // Structs
 struct Event

@@ -24,7 +24,7 @@
 
 @interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate>
 
-- (void)prepareDataForPlot;
+- (void)preparePlotData;
 
 @property (nonatomic, strong) Plot *plot;
 @property (nonatomic, weak) IBOutlet CPTGraphHostingView *graphHostingView;

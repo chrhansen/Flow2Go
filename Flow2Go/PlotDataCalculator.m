@@ -18,6 +18,32 @@
 #define BIN_COUNT 512
 #define HISTOGRAM_COUNT 256
 
++ (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
+                                insidePlot:(Plot *)plot
+                                    subset:(NSUInteger *)subset
+                               subsetCount:(NSUInteger)subsetCount
+{
+    switch (plot.plotType.integerValue)
+    {
+        case kPlotTypeDot:
+            return [PlotDataCalculator dotDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            break;
+            
+        case kPlotTypeDensity:
+            return [PlotDataCalculator densityDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            break;
+            
+        case kPlotTypeHistogram:
+            return [PlotDataCalculator histogramForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            break;
+            
+        default:
+            break;
+    }
+    return nil;
+}
+
+
 
 + (PlotDataCalculator *)dotDataForFCSFile:(FCSFile *)fcsFile
                                insidePlot:(Plot *)plot
@@ -43,16 +69,16 @@
         {
             NSUInteger eventNo = subset[subsetNo];
             
-            dotPlotData.points[subsetNo].xVal = (double)fcsFile.event[eventNo][xPar];
-            dotPlotData.points[subsetNo].yVal = (double)fcsFile.event[eventNo][yPar];
+            dotPlotData.points[subsetNo].xVal = (double)fcsFile.events[eventNo][xPar];
+            dotPlotData.points[subsetNo].yVal = (double)fcsFile.events[eventNo][yPar];
         }
     }
     else
     {
         for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
         {            
-            dotPlotData.points[eventNo].xVal = (double)fcsFile.event[eventNo][xPar];
-            dotPlotData.points[eventNo].yVal = (double)fcsFile.event[eventNo][yPar];
+            dotPlotData.points[eventNo].xVal = (double)fcsFile.events[eventNo][xPar];
+            dotPlotData.points[eventNo].yVal = (double)fcsFile.events[eventNo][yPar];
         }
     }
 
@@ -77,12 +103,12 @@
     NSInteger xPar = plot.xParNumber.integerValue - 1;
     NSInteger yPar = plot.yParNumber.integerValue - 1;
     
-    NSString *rangeKey = [@"$P" stringByAppendingFormat:@"%iR", plot.xParNumber.integerValue];
-    Keyword *rangeKeyword = [plot.analysis.measurement keywordWithKey:rangeKey];
-    double xRange = rangeKeyword.value.doubleValue;
-    rangeKey = [@"$P" stringByAppendingFormat:@"%iR", plot.yParNumber.integerValue];
-    rangeKeyword = [plot.analysis.measurement keywordWithKey:rangeKey];
-    double yRange = rangeKeyword.value.doubleValue;
+    double xRange = fcsFile.actualRanges[xPar].maxValue;
+    double yRange = fcsFile.actualRanges[yPar].maxValue;
+    
+    // if log-scale create bin intervals with same relative spacing
+    // assure the correct column and row is picked depending on data value
+    
     
     double maxIndex = (double)(BIN_COUNT - 1);
     
@@ -99,8 +125,8 @@
         {
             NSUInteger eventNo = subset[subsetNo];
             
-            plotPoint.xVal = (double)fcsFile.event[eventNo][xPar];
-            plotPoint.yVal = (double)fcsFile.event[eventNo][yPar];
+            plotPoint.xVal = fcsFile.events[eventNo][xPar];
+            plotPoint.yVal = fcsFile.events[eventNo][yPar];
             
             NSUInteger col = (plotPoint.xVal / xRange) * maxIndex;
             NSUInteger row = (plotPoint.yVal / yRange) * maxIndex;
@@ -112,8 +138,8 @@
     {
         for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
         {
-            plotPoint.xVal = fcsFile.event[eventNo][xPar];
-            plotPoint.yVal = fcsFile.event[eventNo][yPar];
+            plotPoint.xVal = fcsFile.events[eventNo][xPar];
+            plotPoint.yVal = fcsFile.events[eventNo][yPar];
             
             NSUInteger col = (plotPoint.xVal / xRange) * maxIndex;
             NSUInteger row = (plotPoint.yVal / yRange) * maxIndex;
@@ -123,7 +149,7 @@
     }
     
     PlotDataCalculator *densityPlotData = [PlotDataCalculator.alloc init];
-    densityPlotData.numberOfPoints = BIN_COUNT * BIN_COUNT;
+    
     
     densityPlotData.points = calloc(BIN_COUNT * BIN_COUNT, sizeof(DensityPoint));
     NSUInteger recordNo = 0;
@@ -132,15 +158,21 @@
     {
         for (NSUInteger colNo = 0; colNo < BIN_COUNT; colNo++)
         {
-            densityPlotData.points[recordNo].xVal = (double)colNo * (xRange / maxIndex);
-            densityPlotData.points[recordNo].yVal = (double)rowNo * (yRange / maxIndex);
             count = binValues[colNo][rowNo];
-            densityPlotData.points[recordNo].count = count;
-            [densityPlotData _checkForMaxCount:densityPlotData.points[recordNo].count];
-            
-            recordNo++;
+            if (count > 0)
+            {
+                densityPlotData.points[recordNo].count = count;
+                densityPlotData.points[recordNo].xVal = (double)colNo * (xRange / maxIndex);
+                densityPlotData.points[recordNo].yVal = (double)rowNo * (yRange / maxIndex);
+                
+                [densityPlotData _checkForMaxCount:densityPlotData.points[recordNo].count];
+                
+                recordNo++;
+            }
+
         }
     }
+    densityPlotData.numberOfPoints = recordNo;
     
     for (NSUInteger i = 0; i < BIN_COUNT; i++)
     {
@@ -191,7 +223,7 @@
         for (NSUInteger subSetNo = 0; subSetNo < subsetCount; subSetNo++)
         {
             NSUInteger eventNo = subset[subSetNo];
-            dataPoint = (double)fcsFile.event[eventNo][xPar];
+            dataPoint = (double)fcsFile.events[eventNo][xPar];
             NSUInteger col = (dataPoint / xRange) * maxIndex;
             
             histogramValues[col] += 1;
@@ -201,7 +233,7 @@
     {
         for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
         {
-            dataPoint = (double)fcsFile.event[eventNo][xPar];
+            dataPoint = (double)fcsFile.events[eventNo][xPar];
             NSUInteger col = (dataPoint / xRange) * maxIndex;
             
             histogramValues[col] += 1;

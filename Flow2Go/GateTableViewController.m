@@ -50,7 +50,7 @@
     self.gateCount.text = self.gate.cellCount.stringValue;
     
     NSString *percentageString = [NSString percentageAsString:self.gate.cellCount.integerValue
-                                              ofAll:self.gate.analysis.measurement.countOfEvents.integerValue];
+                                                        ofAll:self.gate.analysis.measurement.countOfEvents.integerValue];
     self.gateCount.text = [NSString stringWithFormat:@"%@ (%@)", self.gate.cellCount, percentageString];
 }
 
@@ -102,6 +102,7 @@
 
 - (void)_cancelTapped
 {
+    // consider deleting the gate and removing its path if user taps cancel directly after drawing the gate
     self.gateName.text = self.gate.name;
     [self setEditing:NO animated:YES];
 }
@@ -113,7 +114,11 @@
 
 - (IBAction)deleteGateTapped:(id)sender
 {
-    UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:NSLocalizedString(@"Delete Gate?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Delete", nil) otherButtonTitles:nil];
+    UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:NSLocalizedString(@"Delete Gate?", nil)
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                             destructiveButtonTitle:NSLocalizedString(@"Delete", nil)
+                                                  otherButtonTitles:nil];
     [actionSheet showInView:self.tableView];
 }
 

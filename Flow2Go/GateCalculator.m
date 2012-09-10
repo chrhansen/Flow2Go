@@ -27,8 +27,8 @@
 {
     PlotPoint plotPoint;
     
-    plotPoint.xVal = fcsFile.event[eventNo][xPar];
-    plotPoint.yVal = fcsFile.event[eventNo][yPar];
+    plotPoint.xVal = fcsFile.events[eventNo][xPar];
+    plotPoint.yVal = fcsFile.events[eventNo][yPar];
     
     if ([self _point:plotPoint insidePolygon:vertices])
     {
@@ -69,8 +69,8 @@
         {
             NSUInteger eventNo = subSet[subSetNo];
             
-            plotPoint.xVal = (double)fcsFile.event[eventNo][xPar];
-            plotPoint.yVal = (double)fcsFile.event[eventNo][yPar];
+            plotPoint.xVal = (double)fcsFile.events[eventNo][xPar];
+            plotPoint.yVal = (double)fcsFile.events[eventNo][yPar];
             
             if ([self _point:plotPoint insidePolygon:vertices])
             {
@@ -83,8 +83,8 @@
     {
         for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
         {
-            plotPoint.xVal = fcsFile.event[eventNo][xPar];
-            plotPoint.yVal = fcsFile.event[eventNo][yPar];
+            plotPoint.xVal = fcsFile.events[eventNo][xPar];
+            plotPoint.yVal = fcsFile.events[eventNo][yPar];
             
             if ([self _point:plotPoint insidePolygon:vertices])
             {

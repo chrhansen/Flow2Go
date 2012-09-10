@@ -232,22 +232,14 @@
                             </view>
                             <view translatesAutoresizingMaskIntoConstraints="NO" contentMode="scaleToFill" id="4Y6-vR-W5x" customClass="MarkView">
                                 <subviews>
-                                    <label translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="left" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" text="" adjustsFontSizeToFit="NO" autoshrinkMode="none" id="zjb-WV-mWT">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P5F-po-NHv">
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="299" id="8mG-ha-bkZ"/>
-                                            <constraint firstAttribute="height" constant="22" id="ozJ-aC-QSD"/>
-                                        </constraints>
-                                        <nil key="highlightedColor"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="27"/>
-                                    </label>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="P5F-po-NHv">
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="279" id="ggu-Sq-efx"/>
+                                            <constraint firstAttribute="width" constant="280" id="MWY-V5-G97"/>
                                             <constraint firstAttribute="height" constant="44" id="xvr-MK-0UC"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="x-axis">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <state key="normal">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -258,13 +250,14 @@
                                             <action selector="xAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="5lJ-f3-GrH"/>
                                         </connections>
                                     </button>
-                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J3P-ip-Owu">
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J3P-ip-Owu">
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="74" id="4j8-rL-AMm"/>
-                                            <constraint firstAttribute="height" constant="170" id="fm5-zs-w1Y"/>
+                                            <constraint firstAttribute="height" constant="44" id="qg9-og-ose"/>
+                                            <constraint firstAttribute="width" constant="280" id="rPt-Z0-FkX"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="y-axis">
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <state key="normal">
                                             <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -279,26 +272,25 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="baseline" secondItem="zjb-WV-mWT" secondAttribute="baseline" type="default" id="2bJ-T1-ng3"/>
-                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="top" secondItem="4Y6-vR-W5x" secondAttribute="top" constant="360" id="4Dh-LX-L3d"/>
-                                    <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="98C-74-oTE"/>
-                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="gy2-oW-TN2"/>
-                                    <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="kgL-aW-eDY"/>
-                                    <constraint firstItem="zjb-WV-mWT" firstAttribute="centerY" secondItem="4Y6-vR-W5x" secondAttribute="centerY" type="default" id="rLW-YC-ggG"/>
-                                    <constraint firstItem="zjb-WV-mWT" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="10" id="yEt-B6-6J8"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="B3H-0u-JKb"/>
+                                    <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="E9j-sA-Ipk"/>
+                                    <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="feK-Ou-y2T"/>
+                                    <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="jjr-E0-fNg"/>
+                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="x68-V9-M0T"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="286" id="znO-HS-4Ae"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="Uaq-pV-KfS"/>
-                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="Ubf-cE-mDy"/>
-                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="W7Y-S0-hzN"/>
-                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="Zjc-26-maM"/>
-                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="gG6-Ew-wDP"/>
-                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="qMW-y6-EgW"/>
-                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="tMD-ST-Be1"/>
-                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="tT9-ng-2Ao"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="Kg1-fz-moJ"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="OgT-g0-wy7"/>
+                            <constraint firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" constant="100" id="bA0-Jn-ZFg"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="gll-0l-ub6"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="bottom" secondItem="gZF-Qg-W0f" secondAttribute="bottom" type="default" id="mXC-PV-9Wx"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="mrc-pQ-998"/>
+                            <constraint firstItem="gZF-Qg-W0f" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="x2y-3b-2gb"/>
+                            <constraint firstItem="4Y6-vR-W5x" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="xFw-16-g1v"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lY7-o6-c94">
@@ -389,9 +381,9 @@
                                             <rect key="frame" x="45" y="1" width="678" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gate Name" minimumFontSize="17" text="" id="1AF-kN-NgT">
+                                                <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gate Name" minimumFontSize="17" clearButtonMode="whileEditing" text="" id="1AF-kN-NgT">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="395" id="Q7M-mM-Nnc"/>
+                                                        <constraint firstAttribute="width" constant="239" id="Ev2-Pg-oyR"/>
                                                         <constraint firstAttribute="height" constant="30" id="jaK-Zp-lV3"/>
                                                     </constraints>
                                                     <textInputTraits key="textInputTraits"/>
@@ -543,7 +535,7 @@
                                             <rect key="frame" x="45" y="1" width="678" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Plot Name" minimumFontSize="17" text="" id="yyL-Kg-YXX">
+                                                <textField translatesAutoresizingMaskIntoConstraints="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Plot Name" minimumFontSize="17" clearButtonMode="whileEditing" text="" id="yyL-Kg-YXX">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="395" id="89K-eR-K0j"/>
                                                         <constraint firstAttribute="height" constant="30" id="FUw-eD-Ks6"/>
@@ -673,6 +665,8 @@
         <class className="GateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="deleteGateTapped:"/>
+                <relationship kind="action" name="newPlotTapped:"/>
                 <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gateCount" candidateClass="UILabel"/>
@@ -700,6 +694,7 @@
         <class className="PlotDetailTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="deletePlotTapped:"/>
                 <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
@@ -709,6 +704,9 @@
         <class className="PlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
             <relationships>
+                <relationship kind="action" name="plotTypeChanged:" candidateClass="UISegmentedControl"/>
+                <relationship kind="action" name="xAxisTapped:"/>
+                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="markView" candidateClass="MarkView"/>
                 <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>

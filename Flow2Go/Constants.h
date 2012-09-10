@@ -57,6 +57,14 @@ struct DensityPoint
 typedef struct DensityPoint DensityPoint;
 
 
+struct Range
+{
+    double minValue;
+    double maxValue;
+};
+typedef struct Range Range;
+
+
 struct HistogramPoint
 {
     double xVal;
@@ -75,9 +83,9 @@ typedef NS_ENUM(NSInteger, GateType)
 
 typedef NS_ENUM(NSInteger, AxisType)
 {
+    kAxisTypeUnknown,
     kAxisTypeLinear,
-    kAxisTypeLogarithmic,
-    kAxisTypeHistogram
+    kAxisTypeLogarithmic
 };
 
 typedef NS_ENUM(NSInteger, PlotType)

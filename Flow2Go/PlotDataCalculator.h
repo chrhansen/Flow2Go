@@ -29,6 +29,13 @@
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount;
 
+
++ (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
+                                insidePlot:(Plot *)plot
+                                    subset:(NSUInteger *)subset
+                               subsetCount:(NSUInteger)subsetCount;
+
+
 - (void)cleanUpPlotData;
 
 @property (nonatomic) NSUInteger numberOfPoints;

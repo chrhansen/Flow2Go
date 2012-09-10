@@ -48,7 +48,12 @@
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                         target:self
                                                                                         action:@selector(doneTapped)];
-    
+    if (!self.plot)
+    {
+        NSLog(@"plot was nil");
+        return;
+    }
+    self.fcsFile = [self.delegate fcsFile:self];
     self.title = self.plot.name;
 }
 
@@ -62,7 +67,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self _insertGraph];
+    [self _createGraphAndConfigurePlotSpace];
     [self _insertScatterPlot];
     [self _reloadPlotDataAndLayout];
     self.markView.delegate = self;
@@ -76,6 +81,13 @@
 }
 
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.plotData cleanUpPlotData];
+    [super viewDidDisappear:animated];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -85,27 +97,11 @@
 
 - (void)_configureButtons
 {
-    [self.xAxisButton setTitle:self.plot.xParName forState:UIControlStateNormal];
-    [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(_toggleInfo:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem  = [UIBarButtonItem.alloc initWithCustomView: infoButton];
     self.plotTypeSegmentedControl.selectedSegmentIndex = self.plot.plotType.integerValue;
-}
-
-
-- (IBAction)plotTypeChanged:(UISegmentedControl *)sender
-{
-    self.plot.plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
-    [self _reloadPlotDataAndLayout];
-    [self.markView reloadPaths];
-}
-
-- (void)doneTapped
-{
-    [self _removeSubviews];
-    [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.yAxisButton setTransform:CGAffineTransformMakeRotation(-M_PI / 2)];
 }
 
 
@@ -115,6 +111,25 @@
     {
         [aSubView removeFromSuperview];
     }
+}
+
+
+#pragma mark - Actions
+
+- (IBAction)plotTypeChanged:(UISegmentedControl *)sender
+{
+    self.plot.plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
+    [self.plot.managedObjectContext save];
+    [self _reloadPlotDataAndLayout];
+    [self.markView reloadPaths];
+}
+
+
+- (void)doneTapped
+{
+    [self _removeSubviews];
+    [self.detailPopoverController dismissPopoverAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -178,8 +193,9 @@
     
     for (NSUInteger parIndex = 0; parIndex < [self.fcsFile.text[@"$PAR"] integerValue]; parIndex++)
     {
-        [axisPickerSheet addButtonWithTitle:[FCSFile parameterNameForParameterIndex:parIndex inFCSFile:self.fcsFile]];
+        [axisPickerSheet addButtonWithTitle:[self _titleForParameter:parIndex + 1]];
     }
+    [axisPickerSheet addButtonWithTitle:nil];
     [axisPickerSheet showFromRect:axisButton.frame inView:self.graphHostingView animated:YES];
 }
 
@@ -193,14 +209,10 @@
     if (actionSheet.tag == X_AXIS_SHEET)
     {
         self.plot.xParNumber = [NSNumber numberWithInteger:buttonIndex];
-        _xParIndex = self.plot.xParNumber.integerValue - 1;
-        [self.xAxisButton setTitle:self.plot.xParName forState:UIControlStateNormal];
     }
     else if (actionSheet.tag == Y_AXIS_SHEET)
     {
         self.plot.yParNumber = [NSNumber numberWithInteger:buttonIndex];
-        _yParIndex = self.plot.yParNumber.integerValue - 1;
-        [self.yAxisButton setTitle:self.plot.yParName forState:UIControlStateNormal];
     }
     [self _reloadPlotDataAndLayout];
     [self.markView reloadPaths];
@@ -208,86 +220,106 @@
 }
 
 
-- (void)_insertGraph
+#pragma mark - Graph and Plots
+#pragma mark Insert Graph and Scatter plot
+- (void)_createGraphAndConfigurePlotSpace
 {    
     self.graph = [CPTXYGraph.alloc initWithFrame:self.graphHostingView.bounds];
     [self.graph applyTheme:[CPTTheme themeNamed:kCPTSlateTheme]];
+    self.graph.title = self.plot.name;
     self.graphHostingView.hostedGraph = _graph;
-}
-
-- (void)_insertScatterPlot
-{
+    self.graph.paddingLeft = 0.0f;
+    self.graph.paddingRight = 0.0f;
+    self.graph.paddingTop = 0.0f;
+    self.graph.paddingBottom = 0.0f;
+    self.graph.plotAreaFrame.paddingLeft = 100.0;
+    self.graph.plotAreaFrame.paddingRight = 20.0;
+    self.graph.plotAreaFrame.paddingBottom = 70.0;
+    self.graph.plotAreaFrame.paddingTop = 40.0;
+    self.graph.plotAreaFrame.borderLineStyle = nil;
+    
     self.plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
     self.plotSpace.allowsUserInteraction = YES;
     self.plotSpace.delegate = self;
-    
+}
+
+
+- (void)_insertScatterPlot
+{    
     CPTScatterPlot *scatterPlot = [CPTScatterPlot.alloc init];
     scatterPlot.dataSource = self;
     scatterPlot.delegate = self;
     scatterPlot.identifier = @"Scatter Plot 1";
     scatterPlot.plotSymbolMarginForHitDetection = 5.0;
+    scatterPlot.borderWidth = 2.0f;
+    scatterPlot.borderColor = [self _currentThemeLineColor];
     
     [self.graph addPlot:scatterPlot toPlotSpace:self.graph.defaultPlotSpace];
 }
 
 
-- (void)_reloadPlotDataAndLayout
+- (void)_insertBarPlot
 {
-    [self prepareDataForPlot];
-    [self _configureLineAndSymbol];
-    [self _updateAxisAndPlotRange];
-    [self.graph reloadData];
-    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
+    CPTBarPlot *barPlot = [CPTBarPlot.alloc init];
+    barPlot.dataSource = self;
+    barPlot.delegate = self;
+    barPlot.identifier = @"Bar Plot 1";
+    barPlot.borderWidth = 2.0f;
+    barPlot.borderColor = [self _currentThemeLineColor];
+    
+    [self.graph addPlot:barPlot toPlotSpace:self.graph.defaultPlotSpace];
 }
 
-- (void)_updateAxisAndPlotRange
+
+#pragma mark Reloading plot
+- (void)_reloadPlotDataAndLayout
 {
-    NSInteger xParRange = [self.fcsFile rangeOfParameterIndex:self.plot.xParNumber.integerValue - 1];
-    NSInteger yParRange = [self.fcsFile rangeOfParameterIndex:self.plot.yParNumber.integerValue - 1];
+    [self preparePlotData];
+    [self _updateAxisTitleButtons];
+    [self _configureLineAndSymbol];
+    [self _updateAxisAndAxisLabels];
+    [self.graph reloadData];
+    [self _adjustPlotRangeToFitData];
+}
+
+
+- (void)preparePlotData
+{
+    _xParIndex = self.plot.xParNumber.integerValue - 1;
+    _yParIndex = self.plot.yParNumber.integerValue - 1;
+    _currentPlotType = self.plot.plotType.integerValue;
     
-//    NSArray *xAxisComponents = [self.fcsFile amplificationComponentsForParameterIndex:self.plot.xParNumber.integerValue - 1];
-//    if ([xAxisComponents[0] integerValue] == 0)
-//    {
-//        self.plotSpace.xScaleType = CPTScaleTypeLinear;
-//    }
-//    else
-//    {
-//        self.plotSpace.xScaleType = CPTScaleTypeLog;
-//    }
-//    
-//    NSArray *yAxisComponents = [self.fcsFile amplificationComponentsForParameterIndex:self.plot.yParNumber.integerValue - 1];
-//    if ([yAxisComponents[0] integerValue] == 0)
-//    {
-//        self.plotSpace.yScaleType = CPTScaleTypeLinear;
-//    }
-//    else
-//    {
-//        self.plotSpace.yScaleType = CPTScaleTypeLog;
-//    }
+    Gate *parentGate = (Gate *)self.plot.parentNode;
     
-    self.plotSpace.xRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromInteger(- xParRange / 20) length:CPTDecimalFromInteger(xParRange + xParRange / 20)];
-    self.plotSpace.yRange = [CPTPlotRange plotRangeWithLocation:CPTDecimalFromInteger(- yParRange / 20) length:CPTDecimalFromInteger(yParRange + yParRange / 20)];
-    
-    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
-    CPTXYAxis *x = axisSet.xAxis;
-    x.axisLineStyle = nil;
-    x.majorTickLineStyle = nil;
-    x.minorTickLineStyle = nil;
-    x.majorIntervalLength = CPTDecimalFromInteger(xParRange / 5);
-    x.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
-    x.title = nil;
-    x.labelRotation = M_PI/4;
-    x.axisConstraints = [CPTConstraints constraintWithLowerOffset:45.0f];
-    
-    CPTXYAxis *y = axisSet.yAxis;
-    y.axisLineStyle = nil;
-    y.majorTickLineStyle = nil;
-    y.minorTickLineStyle = nil;
-    y.majorIntervalLength = CPTDecimalFromInteger(yParRange / 5);
-    y.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
-    y.title = nil;
-    y.axisConstraints = [CPTConstraints constraintWithLowerOffset:50.0f];
-    
+    if (parentGate
+        && self.parentGateCalculator == nil)
+    {
+        NSLog(@"Loading parent gate data");
+        self.parentGateCalculator = GateCalculator.alloc.init;
+        self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
+        self.parentGateCalculator.numberOfCellsInside = parentGate.cellCount.integerValue;
+        memcpy(self.parentGateCalculator.eventsInside, [parentGate.subSet bytes], [parentGate.subSet length]);
+    }
+    [self.plotData cleanUpPlotData];
+    self.plotData = nil;
+    self.plotData = [PlotDataCalculator plotDataForFCSFile:self.fcsFile
+                                                insidePlot:self.plot
+                                                    subset:self.parentGateCalculator.eventsInside
+                                               subsetCount:self.parentGateCalculator.numberOfCellsInside];
+}
+
+
+- (void)_updateAxisTitleButtons
+{
+    [self.xAxisButton setTitle:[self _titleForParameter:self.plot.xParNumber.integerValue] forState:UIControlStateNormal];
+    if (self.plot.plotType.integerValue == kPlotTypeHistogram)
+    {
+        [self.yAxisButton setTitle:NSLocalizedString(@"Count #", nil) forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.yAxisButton setTitle:[self _titleForParameter:self.plot.yParNumber.integerValue] forState:UIControlStateNormal];
+    }
 }
 
 
@@ -300,6 +332,9 @@
     {
         scatterPlot.dataLineStyle = nil;
         scatterPlot.plotSymbol = nil;
+        //scatterPlot.interpolation = CPTScatterPlotInterpolationHistogram;
+        scatterPlot.areaFill = nil;
+
     }
     else if (self.plot.plotType.integerValue == kPlotTypeHistogram)
     {
@@ -310,67 +345,103 @@
         scatterPlot.dataLineStyle = histogramLineStyle;
         CPTMutableLineStyle *histogramSymbolLineStyle = [CPTMutableLineStyle lineStyle];
         histogramSymbolLineStyle.lineColor = lineColor;
+        //scatterPlot.interpolation = CPTScatterPlotInterpolationHistogram;
+        CPTColor *gradientBeginColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];
+        CPTColor *gradientEndColor = [CPTColor colorWithCGColor:[UIColor whiteColor].CGColor];
 
-        CPTPlotSymbol *aaplSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-        aaplSymbol.fill = [CPTFill fillWithColor:lineColor];
-        aaplSymbol.lineStyle = histogramSymbolLineStyle;
-        aaplSymbol.size = CGSizeMake(6.0f, 6.0f);
-        scatterPlot.plotSymbol = aaplSymbol;   
+        CPTGradient *fillGradient = [CPTGradient gradientWithBeginningColor:gradientBeginColor endingColor:gradientEndColor];
+        scatterPlot.areaFill = [CPTFill fillWithGradient:fillGradient];
+        scatterPlot.areaBaseValue = [[NSDecimalNumber zero] decimalValue];
+        
+        CPTPlotSymbol *ellipseSymbol = [CPTPlotSymbol ellipsePlotSymbol];
+        ellipseSymbol.fill = [CPTFill fillWithColor:lineColor];
+        ellipseSymbol.lineStyle = histogramSymbolLineStyle;
+        ellipseSymbol.size = CGSizeMake(6.0f, 6.0f);
+        scatterPlot.plotSymbol = ellipseSymbol;
     }
 }
 
 
-- (void)prepareDataForPlot
+- (void)_updateAxisAndAxisLabels
 {
-    if (!self.plot)
-    {
-        NSLog(@"plot was nil");
-        return;
-    }        
-    self.fcsFile = [self.delegate fcsFile:self];
-    [self _setAxisIfNeeded];
-    _xParIndex = self.plot.xParNumber.integerValue - 1;
-    _yParIndex = self.plot.yParNumber.integerValue - 1;
-    _currentPlotType = self.plot.plotType.integerValue;
+    self.plot.xAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
+    self.plot.yAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
     
-    Gate *parentGate = (Gate *)self.plot.parentNode;
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
+    CPTXYAxis *x = axisSet.xAxis;
+    CPTXYAxis *y = axisSet.yAxis;
+    CPTColor *themeColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];
     
-    if (parentGate
-        && self.parentGateCalculator == nil)
-    {
-        NSLog(@"reading parent gate data");
-        self.parentGateCalculator = GateCalculator.alloc.init;
-        self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
-        self.parentGateCalculator.numberOfCellsInside = parentGate.cellCount.integerValue;
-        NSData *data = parentGate.subSet;
-        NSUInteger len = [data length];
+    
+    NSNumberFormatter *logarithmicLabelFormatter = NSNumberFormatter.alloc.init;
+    [logarithmicLabelFormatter setGeneratesDecimalNumbers:NO];
+    [logarithmicLabelFormatter setNumberStyle:kCFNumberFormatterScientificStyle];
+    [logarithmicLabelFormatter setExponentSymbol:@"e"];
+    
+    NSNumberFormatter *linearLabelFormatter = NSNumberFormatter.alloc.init;
+    [linearLabelFormatter setGeneratesDecimalNumbers:NO];
+    [linearLabelFormatter setNumberStyle:kCFNumberFormatterDecimalStyle];
         
-        memcpy(self.parentGateCalculator.eventsInside, [data bytes], len);
-    }
+    CPTMutableLineStyle *minorTickLineStyle = [x.minorTickLineStyle mutableCopy];
+    minorTickLineStyle.lineColor = themeColor;
     
-    [self.plotData  cleanUpPlotData];
+    CPTMutableTextStyle *labelTextStyle = [x.labelTextStyle mutableCopy];
+    labelTextStyle.color = themeColor;
+    x.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
+    x.preferredNumberOfMajorTicks = 10;
+    x.minorTickLineStyle = minorTickLineStyle;
+    x.tickDirection = CPTSignNegative;
+    x.labelTextStyle = labelTextStyle;
+    x.axisLineStyle = nil;
+
+    y.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
+    y.preferredNumberOfMajorTicks = 10;
+    y.minorTickLineStyle = minorTickLineStyle;
+    y.tickDirection = CPTSignNegative;
+    y.labelTextStyle = labelTextStyle;
+    y.axisLineStyle = nil;
     
-    switch (_currentPlotType)
+    x.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
+    x.title = nil;
+    x.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0f];
+    
+    y.orthogonalCoordinateDecimal = CPTDecimalFromString(@"0");
+    y.title = nil;
+    y.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0f];
+    
+    switch (self.plot.xAxisType.integerValue)
     {
-        case kPlotTypeDot:
-            self.plotData = [PlotDataCalculator dotDataForFCSFile:self.fcsFile
-                                                       insidePlot:self.plot
-                                                           subset:self.parentGateCalculator.eventsInside
-                                                      subsetCount:self.parentGateCalculator.numberOfCellsInside];
+        case kAxisTypeLinear:
+            self.plotSpace.xScaleType = CPTScaleTypeLinear;
+            x.labelFormatter = linearLabelFormatter;
             break;
             
-        case kPlotTypeDensity:
-            self.plotData = [PlotDataCalculator densityDataForFCSFile:self.fcsFile
-                                                           insidePlot:self.plot
-                                                               subset:self.parentGateCalculator.eventsInside
-                                                          subsetCount:self.parentGateCalculator.numberOfCellsInside];
+        case kAxisTypeLogarithmic:
+            self.plotSpace.xScaleType = CPTScaleTypeLog;
+            x.labelFormatter = logarithmicLabelFormatter;
             break;
-         
-        case kPlotTypeHistogram:
-            self.plotData = [PlotDataCalculator histogramForFCSFile:self.fcsFile
-                                                         insidePlot:self.plot
-                                                             subset:self.parentGateCalculator.eventsInside
-                                                        subsetCount:self.parentGateCalculator.numberOfCellsInside];
+            
+        default:
+            break;
+    }
+    
+    if (self.plot.plotType.integerValue == kPlotTypeHistogram)
+    {
+        self.plotSpace.yScaleType = CPTScaleTypeLinear;
+        y.labelFormatter = linearLabelFormatter;
+        return;
+    }
+    
+    switch (self.plot.yAxisType.integerValue)
+    {
+        case kAxisTypeLinear:
+            self.plotSpace.yScaleType = CPTScaleTypeLinear;
+            y.labelFormatter = linearLabelFormatter;
+            break;
+            
+        case kAxisTypeLogarithmic:
+            self.plotSpace.yScaleType = CPTScaleTypeLog;
+            y.labelFormatter = logarithmicLabelFormatter;
             break;
             
         default:
@@ -378,19 +449,54 @@
     }
 }
 
-
-- (void)_setAxisIfNeeded
+NSDecimal CPDecimalFromString(NSString *stringRepresentation)
 {
-    if (self.plot.xParNumber.integerValue < 1)
-    {
-        self.plot.xParNumber = [NSNumber numberWithInteger:1];
-    }
-    if (self.plot.yParNumber.integerValue < 1)
-    {
-        self.plot.yParNumber = [NSNumber numberWithInteger:2];
-    }
-    [self.plot.managedObjectContext save];
+    NSDecimal result;
+    NSScanner *theScanner = [NSScanner.alloc initWithString:stringRepresentation];
+    [theScanner scanDecimal:&result];
+    
+    return result;
 }
+
+- (void)_adjustPlotRangeToFitData
+{
+    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
+    
+    CPTMutablePlotRange *xRange = [self.plotSpace.xRange mutableCopy];
+	[xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
+    if (self.plot.xAxisType.integerValue == kAxisTypeLogarithmic
+        && xRange.locationDouble <= 0.0) {
+        xRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].minValue]) length:xRange.length];
+    }
+    self.plotSpace.xRange = xRange;
+
+    CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
+	[yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
+    if (self.plot.yAxisType.integerValue == kAxisTypeLogarithmic
+        && yRange.locationDouble <= 0.0) {
+        yRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]) length:yRange.length];
+    }
+	self.plotSpace.yRange = yRange;
+}
+
+
+- (CGColorRef)_currentThemeLineColor
+{
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
+    return axisSet.xAxis.majorTickLineStyle.lineColor.cgColor;
+}
+
+
+- (NSString *)_titleForParameter:(NSInteger)parNumber
+{
+    NSString *unitName = self.fcsFile.calibrationUnitNames[[NSString stringWithFormat:@"%i", parNumber]];
+    if (!unitName) 
+    {
+        return [FCSFile parameterShortNameForParameterIndex:parNumber - 1 inFCSFile:self.fcsFile];
+    }
+    return [[FCSFile parameterShortNameForParameterIndex:parNumber - 1 inFCSFile:self.fcsFile] stringByAppendingFormat:@" %@", unitName];
+}
+
 
 #pragma mark - CPT Plot Data Source
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
@@ -518,9 +624,7 @@ static CPTPlotSymbol *plotSymbol;
     Gate *gate = [Gate createChildGateInPlot:self.plot type:kGateTypePolygon vertices:gateVertices];
     gate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
     gate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
-    
     [self.plot.managedObjectContext save];
-    
     [self showDetailPopoverForGate:gate inRect:infoButton.frame editMode:YES];
 }
 
@@ -553,6 +657,7 @@ static CPTPlotSymbol *plotSymbol;
         
         return;
     }
+    // if UIUserInterfaceIdiomPhone:
     [self presentViewController:gateNavigationVC animated:YES completion:nil];
     [gateTVC setEditing:editOn animated:NO];
 }

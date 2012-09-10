@@ -20,9 +20,13 @@
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;
 + (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;
 - (NSInteger)rangeOfParameterIndex:(NSInteger)parameterIndex;
-- (NSArray *)amplificationComponentsForParameterIndex:(NSInteger)parameterIndex;
+- (AxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex;
 
-@property (nonatomic) NSUInteger **event;
+@property (nonatomic) double **events;
+@property (nonatomic) Range *ranges;
+@property (nonatomic) Range *actualRanges;
+
+@property (nonatomic, strong) NSDictionary *calibrationUnitNames;
 @property (nonatomic, strong) NSDictionary *text;
 @property (nonatomic, strong) NSDictionary *analysis;
 @property (nonatomic) NSUInteger noOfEvents;

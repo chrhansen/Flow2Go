@@ -196,7 +196,7 @@ typedef enum
         NSLog(@"header string not valid");
         return NO;
     }
-    self.header = [FCSHeader.alloc init];
+    self.header = FCSHeader.alloc.init;
     self.header.textBegin     = [[headerString substringWithRange:NSMakeRange(10, 8)] integerValue];
     self.header.textEnd       = [[headerString substringWithRange:NSMakeRange(18, 8)] integerValue];
     self.header.dataBegin     = [[headerString substringWithRange:NSMakeRange(26, 8)] integerValue];
@@ -285,18 +285,18 @@ typedef enum
                 switch (parSizes[parNo])
                 {
                     case kParSize8:
-                        self.event[eventNo][parNo] = bufferOneEvent[byteOffset];
+                        self.events[eventNo][parNo] = (double)bufferOneEvent[byteOffset];
                         byteOffset += 1;
                         break;
                         
                     case kParSize16:
                         if (byteOrder == CFByteOrderBigEndian)
                         {
-                            self.event[eventNo][parNo] = (bufferOneEvent[byteOffset] << 8) | bufferOneEvent[byteOffset + 1];
+                            self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset] << 8) | bufferOneEvent[byteOffset + 1]);
                         }
                         else
                         {
-                            self.event[eventNo][parNo] = (bufferOneEvent[byteOffset + 1] << 8) | bufferOneEvent[byteOffset];
+                            self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset + 1] << 8) | bufferOneEvent[byteOffset]);
                         }
                         byteOffset += 2;
                         break;
@@ -304,11 +304,11 @@ typedef enum
                     case kParSize32:
                         if (byteOrder == CFByteOrderBigEndian)
                         {
-                            self.event[eventNo][parNo] = (bufferOneEvent[byteOffset] << 24) | (bufferOneEvent[byteOffset + 1]  << 16) | (bufferOneEvent[byteOffset + 2]  << 8) | bufferOneEvent[byteOffset + 3];
+                            self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset] << 24) | (bufferOneEvent[byteOffset + 1]  << 16) | (bufferOneEvent[byteOffset + 2]  << 8) | bufferOneEvent[byteOffset + 3]);
                         }
                         else
                         {
-                            self.event[eventNo][parNo] = (bufferOneEvent[byteOffset + 3] << 24) | (bufferOneEvent[byteOffset + 2]  << 16) | (bufferOneEvent[byteOffset + 1]  << 8) | bufferOneEvent[byteOffset];
+                            self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset + 3] << 24) | (bufferOneEvent[byteOffset + 2]  << 16) | (bufferOneEvent[byteOffset + 1]  << 8) | bufferOneEvent[byteOffset]);
                         }
                         byteOffset += 4;
                         break;
@@ -327,9 +327,11 @@ typedef enum
     
     if (parSizes) free(parSizes);
     
-    [self convertChannelValuesToScaleValues:self.event];
-    
+    [self _convertChannelValuesToScaleValues:self.events];
+    [self _applyCompensationToScaleValues:self.events];
+    [self _applyCalibrationToScaledValues:self.events];
     //[self _printOut:100 forPars:noOfParams];
+    [self _printOutScaledMinMax];
     
     return YES;
 }
@@ -385,20 +387,31 @@ typedef enum
 {
     if ([dataTypeString isEqualToString: @"I"])
     {
-        self.event = calloc(_noOfEvents, sizeof(NSUInteger *));
+        self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
         for (NSUInteger i = 0; i < _noOfEvents; i++)
         {
-            self.event[i] = calloc(noOfParams, sizeof(NSUInteger));
+            self.events[i] = calloc(noOfParams, sizeof(double));
         }
         return;
     }
     
     if ([dataTypeString isEqualToString: @"F"])
     {
-        self.event = calloc(_noOfEvents, sizeof(NSUInteger *));
+        NSLog(@"allocating float type: %@", dataTypeString);
+        self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
         for (NSUInteger i = 0; i < _noOfEvents; i++)
         {
-            self.event[i] = calloc(noOfParams, sizeof(float));
+            self.events[i] = calloc(noOfParams, sizeof(double));
+        }
+        return;
+    }
+    if ([dataTypeString isEqualToString: @"D"])
+    {
+        NSLog(@"allocating double type: %@", dataTypeString);
+        self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
+        for (NSUInteger i = 0; i < _noOfEvents; i++)
+        {
+            self.events[i] = calloc(noOfParams, sizeof(double));
         }
         return;
     }
@@ -457,53 +470,183 @@ typedef enum
 }
 
 
-- (void)convertChannelValuesToScaleValues:(NSUInteger **)eventsAsChannelValues
+- (void)_convertChannelValuesToScaleValues:(double **)eventsAsChannelValues
 {
+    self.ranges = calloc(_noOfParams, sizeof(Range));
+    self.actualRanges = calloc(_noOfParams, sizeof(Range));
+
     for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
     {
         NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parNo + 1]];
-        if (!scaleString) {
-            NSLog(@"Required scale Value for par %i not found.", parNo + 1);
-        }
+        if (!scaleString) NSLog(@"Required scale Value for par %i not found.", parNo + 1);
+        
         NSArray *scaleComponents = [scaleString componentsSeparatedByString:@","];
-        CGFloat f1 = [scaleComponents[0] floatValue];
-        CGFloat f2 = [scaleComponents[1] floatValue];
-        CGFloat g = 1.0f;
-        CGFloat range = [self.text[[@"$P" stringByAppendingFormat:@"%iR", parNo + 1]] floatValue];
-        if (f1 <= 0.0f)
+        double f1 = [scaleComponents[0] doubleValue];
+        double f2 = [scaleComponents[1] doubleValue];
+        double g = [self _gainValueWithString:self.text[[@"$P" stringByAppendingFormat:@"%iG", parNo + 1]]];
+        double range = [self.text[[@"$P" stringByAppendingFormat:@"%iR", parNo + 1]] doubleValue] - 1.0;
+        AxisType valueType;
+        if (f1 <= 0.0)
         {
-            // Linear values, ignore f2
-            // Check of G (amplifier gain) is present for linear scaling
-            NSString *gString = self.text[[@"$P" stringByAppendingFormat:@"%iG", parNo + 1]];
-            if (gString) g = gString.floatValue;
-            if (g == 0.0f) NSLog(@"Amplifier gain value for parameter %i is zero (g = %f).", parNo + 1, g);
+            valueType = kAxisTypeLinear;
+            self.ranges[parNo].minValue = 0.0;
+            self.ranges[parNo].maxValue = range / g;
         }
-        else if (f1 > 0.0f)
+        else if (f1 > 0.0)
         {
-            // Logarithmic values, make sure f2 is interpreted as 1.0 if set to zero.
-            if (f2 == 0.0f) f2 = 1.0f;
+            valueType = kAxisTypeLogarithmic;
+            if (f2 == 0.0) f2 = 1.0; // some files has f2 for log-values errouneously set to 0
+            
+            self.ranges[parNo].minValue = f2;
+            self.ranges[parNo].maxValue = pow(10, f1 + log10(f2));
         }
         
+        // Initialize min/max with an actual value
+        switch (valueType)
+        {
+            case kAxisTypeLinear:
+                self.actualRanges[parNo].minValue = self.actualRanges[parNo].maxValue = eventsAsChannelValues[0][parNo] / g;
+                break;
+                
+            case kAxisTypeLogarithmic:
+                self.actualRanges[parNo].minValue = self.actualRanges[parNo].maxValue = pow(10, f1 * eventsAsChannelValues[0][parNo] / range) * f2;
+                break;
+                
+            default:
+                break;
+        }
         
+        NSLog(@"Par%i,(f1,f2)=(%f,%f), g= %f, RangeValue (value=%f) (%f,%f)", parNo + 1, f1, f2, g, range + 1.0,self.ranges[parNo].minValue, self.ranges[parNo].maxValue);
         for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
         {
-            eventsAsChannelValues[eventNo][parNo] = [self _scaleChannelValue:eventsAsChannelValues[eventNo][parNo] byF1:f1 f2:f2 g:g andRange:range];
+            switch (valueType)
+            {
+                case kAxisTypeLinear:
+                    eventsAsChannelValues[eventNo][parNo] = eventsAsChannelValues[eventNo][parNo] / g;
+                    break;
+                    
+                case kAxisTypeLogarithmic:
+                    eventsAsChannelValues[eventNo][parNo] = pow(10, f1 * eventsAsChannelValues[eventNo][parNo] / range) * f2;
+                    break;
+                    
+                default:
+                    NSLog(@"neither linear or logarithmic, for parameter %i", parNo + 1);
+                    break;
+            }
+            [self _checkExtrema:eventsAsChannelValues[eventNo][parNo] forParameter:parNo];
         }
     }
 }
 
 
-- (NSUInteger)_scaleChannelValue:(NSUInteger)channelValue byF1:(CGFloat)f1 f2:(CGFloat)f2 g:(CGFloat)g andRange:(CGFloat)range
+- (void)_checkExtrema:(double)scaleValue forParameter:(NSUInteger)parIndex
 {
-    if (f1 <= 0.0f)
+    if (scaleValue > _actualRanges[parIndex].maxValue)
     {
-        return channelValue / g;
+        _actualRanges[parIndex].maxValue = scaleValue;
     }
-    else if (f1 > 0.0f)
+    else if (scaleValue < _actualRanges[parIndex].minValue)
     {
-        return pow(10, f1 * channelValue / range) * f2;
+        _actualRanges[parIndex].minValue = scaleValue;
     }
-    return 0.0f;
+}
+
+
+- (double)_gainValueWithString:(NSString *)gString
+{
+    // default is 1.0 if $PiG is not present
+    if (gString)
+    {
+        double g = gString.doubleValue;
+        if (g == 0.0)
+        {
+            NSLog(@"Amplifier gain value is zero (g = %f).", g);
+        }
+        else
+        {
+            return g;
+        }
+    }
+    return 1.0;
+}
+
+
+- (void)_applyCompensationToScaleValues:(double **)eventsAsScaledValues
+{
+    NSString *spillOverString = self.text[@"$SPILLOVER"];
+    if (spillOverString == nil)
+    {
+        return;
+    }
+    NSLog(@"Alert! ----------- Found spillover/compensation ----------");
+
+    NSArray *spillOverArray = [spillOverString componentsSeparatedByString:@","];
+    if (spillOverArray.count == 0)
+    {
+        NSLog(@"Error: No spill over components found: %@", spillOverString);
+        return;
+    }
+    NSUInteger n = [spillOverArray[0] unsignedIntegerValue];
+    if (spillOverArray.count < 1 + n + n * n) {
+        NSLog(@"Error: Not all required spill over parameters found: %@", spillOverString);
+        return;
+    }
+
+    double spillOverMatrix[n*n];
+    for (NSUInteger i = 0; i < n * n; n++)
+    {
+        spillOverMatrix[i] = [spillOverArray[1 + n + (i + 1)] doubleValue];
+    }
+    
+    NSLog(@"Spill over string: %@", spillOverString);
+    for (NSUInteger i = 0; i < n * n; i++)
+    {
+        NSLog(@"(%i): %f", i, spillOverMatrix[i]);
+    }
+    // construct row vector of one event, e
+    
+    // invert spill over matrix
+    
+    // multiply, e x S-1 to get compensated value
+    
+}
+
+
+- (void)_applyCalibrationToScaledValues:(double **)eventsAsScaledValues
+{
+    NSMutableDictionary *unitNames = nil;
+    for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
+    {
+        NSString *calibrationString = self.text[[@"$P" stringByAppendingFormat:@"%iCALIBRATION", parNo + 1]];
+        if (calibrationString)
+        {
+            NSLog(@"Alert! ----------- Found calibration for parameter %i. ----------", parNo + 1);
+
+            NSArray *calibrationComponents = [calibrationString componentsSeparatedByString:@","];
+            if (calibrationComponents.count < 2)
+            {
+                NSLog(@"Error: Not enough calibration components for parameter %i.", parNo + 1);
+                break;
+            }
+            if (!unitNames)
+            {
+                unitNames = NSMutableArray.array;
+            }
+            double f = [calibrationComponents[0] doubleValue];
+            NSString *unitNameWithBraces = [@"[" stringByAppendingFormat:@"%@]", calibrationComponents[1]];
+            [unitNames setObject:unitNameWithBraces forKey:[NSString stringWithFormat:@"%i", parNo + 1]];
+            for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
+            {
+                eventsAsScaledValues[eventNo][parNo] = eventsAsScaledValues[eventNo][parNo] * f;
+            }
+            self.ranges[parNo].minValue = self.ranges[parNo].minValue * f;
+            self.ranges[parNo].maxValue = self.ranges[parNo].maxValue * f;
+        }
+    }
+    if (unitNames)
+    {
+        self.calibrationUnitNames = [NSDictionary dictionaryWithDictionary:unitNames];
+    }
 }
 
 
@@ -514,8 +657,28 @@ typedef enum
         NSLog(@"eventNo:(%i)", i);
         for (NSUInteger j = 0; j < noOfParams; j++)
         {
-            NSLog(@"parNo:(%i) , value: %i", j, self.event[i][j]);
+            NSLog(@"parNo:(%i) , value: %f", j, self.events[i][j]);
         }
+    }
+}
+- (void)_printOutScaledMinMax
+{
+    for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
+    {
+        double maxValue = 0.0;
+        double minValue = 500.0;
+        for (NSUInteger eventNo = 0; eventNo < self.noOfEvents; eventNo++)
+        {
+            if (self.events[eventNo][parNo] > maxValue)
+            {
+                maxValue = self.events[eventNo][parNo];
+            }
+            if (self.events[eventNo][parNo] < minValue)
+            {
+                minValue = self.events[eventNo][parNo];
+            }
+        }
+        NSLog(@"Actual Par %i, min: %f, max: %f", parNo + 1, minValue, maxValue);
     }
 }
 
@@ -600,20 +763,31 @@ typedef enum
 }
 
 
-- (NSArray *)amplificationComponentsForParameterIndex:(NSInteger)parameterIndex
+- (AxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex
 {
-    NSString *amplificationKey = [@"$P" stringByAppendingFormat:@"%iE", parameterIndex + 1];
-    NSString *amplificationValue = self.text[amplificationKey];
-    return [amplificationValue componentsSeparatedByString:@","];
+    NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parameterIndex + 1]];
+    if (!scaleString) NSLog(@"Required scale Value for par %i not found.", parameterIndex + 1);
+    
+    NSArray *scaleComponents = [scaleString componentsSeparatedByString:@","];
+    double f1 = [scaleComponents[0] doubleValue];
+    if (f1 <= 0.0)
+    {
+        return kAxisTypeLinear;
+    }
+    else
+    {
+        return kAxisTypeLogarithmic;
+    }
 }
 
 - (void)cleanUpEventsForFCSFile
 {
     for (NSUInteger i = 0; i < _noOfEvents; i++)
     {
-        free(self.event[i]);
+        free(self.events[i]);
     }
-    free(self.event);
+    free(self.events);
+    free(self.ranges);
 }
 
 @end

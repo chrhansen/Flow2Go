@@ -10,10 +10,11 @@
 
 @interface MarkView () <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) NSMutableArray *pathPoints;
-@property (nonatomic, strong) UIBezierPath *path;
-@property (nonatomic, strong) NSMutableArray *paths;
-@property (nonatomic, strong) NSMutableArray *dots;
+@property (nonatomic, strong) NSMutableArray *polygonPathPoints;
+@property (nonatomic, strong) UIBezierPath *polygonPath;
+@property (nonatomic, strong) NSMutableArray *polygonPaths;
+@property (nonatomic, strong) NSMutableArray *polygonDots;
+@property (nonatomic) GateType currentGateState;
 
 @property (nonatomic) CGPoint firstPoint;
 
@@ -31,17 +32,23 @@
 
 - (void)reloadPaths
 {
-    [self.paths removeAllObjects];
-    [self _resetPath];
+    [self.polygonPaths removeAllObjects];
+    [self _resetCurrentPolygonPath];
     [self _removeInfoButtons];
     [self setNeedsDisplay];
     NSUInteger numberOfPaths = [self.delegate numberOfPathsInMarkView:self];
     for (NSUInteger pathNo = 0; pathNo < numberOfPaths; pathNo++)
     {
         NSArray *vertices = [self.delegate verticesForPath:pathNo inView:self];
-        [self _drawPathWithPoints:vertices];
+        [self _drawPolygonPathWithPoints:vertices];
         [self _addInfoButtonToPath:pathNo atPoint:[vertices[0] CGPointValue]];
     }
+}
+
+
+- (void)setReadyForGateOfType:(GateType)gateType
+{
+    self.currentGateState = gateType;
 }
 
 - (void)_removeInfoButtons
@@ -66,90 +73,98 @@
     [infoButton setCenter:location];
     [self addSubview:infoButton];
     infoButton.tag = pathNo;
-    [infoButton addTarget:self.delegate action:@selector(didTapInfoButtonForPath:) forControlEvents:UIControlEventTouchUpInside];
+    [infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     return infoButton;
 }
 
 
-- (void)_drawPathWithPoints:(NSArray *)pathPoints
+- (void)infoButtonTapped:(UIButton *)sender
+{
+    [self.delegate markView:self didTapInfoButtonForPath:sender];
+}
+
+
+- (void)_drawPolygonPathWithPoints:(NSArray *)pathPoints
 {
     if (pathPoints.count > 2)
     {
-        [self _startPathAtPoint:[pathPoints[0] CGPointValue]];
+        [self _startPolygonPathAtPoint:[pathPoints[0] CGPointValue]];
         
         for (NSUInteger i = 1; i < pathPoints.count; i++)
         {
-            [self _extendPathWithPoint:[pathPoints[i] CGPointValue]];
+            [self _extendPolygonPathWithPoint:[pathPoints[i] CGPointValue]];
         }
         [self _endPath];
     }
 }
 
 
-- (void)_startPathAtPoint:(CGPoint)startPoint
+- (void)_startPolygonPathAtPoint:(CGPoint)startPoint
 {
-    [self _resetPath];
+    [self _resetCurrentPolygonPath];
     self.firstPoint = startPoint;
-    [self.paths addObject:self.path];
+    [self.polygonPaths addObject:self.polygonPath];
     //[self addDotAtPoint:startPoint];
-    [self.path moveToPoint:startPoint];
+    [self.polygonPath moveToPoint:startPoint];
     [self setNeedsDisplay];
 }
 
 
-- (void)_extendPathWithPoint:(CGPoint)newPoint
+- (void)_extendPolygonPathWithPoint:(CGPoint)newPoint
 {
-    CGFloat distance = [self _distanceFrom:self.path.currentPoint toPoint:newPoint];
+    CGFloat distance = [self _distanceFrom:self.polygonPath.currentPoint toPoint:newPoint];
     if (distance > REQUIRED_GAP)
     {
-        [self.path addLineToPoint:newPoint];
+        [self.polygonPath addLineToPoint:newPoint];
         //[self addDotAtPoint:newPoint];
+        [self.polygonPathPoints addObject:[NSValue valueWithCGPoint:newPoint]];
+
         [self setNeedsDisplay];
     }
 }
 
 - (void)_endPath
 {
-    [self.path closePath];
-    [self.paths replaceObjectAtIndex:self.paths.count - 1 withObject:[self.path copy]];
+    [self.polygonPath closePath];
+    [self.polygonPaths replaceObjectAtIndex:self.polygonPaths.count - 1 withObject:[self.polygonPath copy]];
     [self setNeedsDisplay];
 }
 
 #define DOT_SIZE 15.0
 
-- (void)setDots:(NSMutableArray *)dots
+- (void)setPolygonDots:(NSMutableArray *)polygonDots
 {
-    _dots = dots;
+    _polygonDots = polygonDots;
 }
 
 
 - (void)addDotAtPoint:(CGPoint)point
 {
     UIBezierPath *dot = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(point.x - DOT_SIZE / 2.0, point.y - DOT_SIZE / 2.0, DOT_SIZE, DOT_SIZE)];
-    if (!self.dots)
+    if (!self.polygonDots)
     {
-        self.dots = NSMutableArray.array;
+        self.polygonDots = NSMutableArray.array;
     }
-    [self.dots addObject:dot];
+    [self.polygonDots addObject:dot];
     [self setNeedsDisplay];
 }
 
 
-- (void)_resetPath
+- (void)_resetCurrentPolygonPath
 {
-    if (!self.path) {
-        self.path = [UIBezierPath bezierPath];
-        self.path.lineWidth = 2.0;
-        self.path.lineCapStyle = kCGLineCapRound;
+    if (!self.polygonPath) {
+        self.polygonPath = [UIBezierPath bezierPath];
+        self.polygonPath.lineWidth = 2.0;
+        self.polygonPath.lineCapStyle = kCGLineCapRound;
     }
-    [self.path removeAllPoints];
-    if (!self.pathPoints) {
-        self.pathPoints = NSMutableArray.array;
+    [self.polygonPath removeAllPoints];
+    if (!self.polygonPathPoints) {
+        self.polygonPathPoints = NSMutableArray.array;
     }
     
-    [self.pathPoints removeAllObjects];
-    if (!self.paths) {
-        self.paths = NSMutableArray.array;
+    [self.polygonPathPoints removeAllObjects];
+    if (!self.polygonPaths) {
+        self.polygonPaths = NSMutableArray.array;
     }
 }
 
@@ -158,7 +173,6 @@
 {
     CGFloat dX = point2.x - point1.x;
     CGFloat dY = point2.y - point1.y;
-    
     return sqrtf(dX * dX + dY * dY);
 }
 
@@ -168,49 +182,70 @@
     [UIColor.redColor setStroke];
     [UIColor.redColor setFill];
 
-    for (UIBezierPath *aPath in self.paths)
+    for (UIBezierPath *aPath in self.polygonPaths)
     {
         [aPath fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
         [aPath stroke];
     }
-    for (UIBezierPath *aDot in self.dots)
+    for (UIBezierPath *aDot in self.polygonDots)
     {
         [aDot fillWithBlendMode:kCGBlendModeNormal alpha:0.5];
         [aDot stroke];
     }
-    
 }
 
 
 #pragma mark Gesture Recognizers
 - (void)panAction:(UIPanGestureRecognizer *)panGesture;
 {
-    CGPoint point = [panGesture locationInView:self];    
+    switch (self.currentGateState)
+    {
+        case kGateTypePolygon:
+            [self _updatePolygonPathWithPanGesture:panGesture];
+            break;
+        
+        case kGateTypeSingleRange:
+            [self _updateSingleRangePathWithPanGesture:panGesture];
+            break;
+            
+
+        default:
+            break;
+    }
+}
+
+
+- (void)_updatePolygonPathWithPanGesture:(UIPanGestureRecognizer *)panGesture
+{
+    CGPoint point = [panGesture locationInView:self];
     switch (panGesture.state)
     {
         case UIGestureRecognizerStateBegan:
-            [self _startPathAtPoint:point];
-            [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
+            [self _startPolygonPathAtPoint:point];
+            [self.polygonPathPoints addObject:[NSValue valueWithCGPoint:point]];
             break;
             
         case UIGestureRecognizerStateChanged:
-            [self _extendPathWithPoint:point];
-            [self.pathPoints addObject:[NSValue valueWithCGPoint:point]];
+            [self _extendPolygonPathWithPoint:point];
             break;
             
         case UIGestureRecognizerStateEnded:
-            [self.delegate didDrawPathWithPoints:self.pathPoints
-                                      infoButton:[self _addInfoButtonToPath:self.paths.count - 1 atPoint:[self.pathPoints[0] CGPointValue]]
-                                          sender:self];
+            [self.delegate markView:self didDrawGate:kGateTypePolygon withPoints:self.polygonPathPoints infoButton:[self _addInfoButtonToPath:self.polygonPaths.count - 1 atPoint:[self.polygonPathPoints[0] CGPointValue]]];
             
             [self _endPath];
-            [self _resetPath];
-
+            [self _resetCurrentPolygonPath];
+            
             break;
             
         default:
             break;
     }
+}
+
+
+- (void)_updateSingleRangePathWithPanGesture:(UIPanGestureRecognizer *)panGesture
+{
+    
 }
 
 
@@ -227,7 +262,7 @@
             {
                 //pressedDot = self.dots[dotNo];
                 UIBezierPath *dot = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(pressPoint.x - 3.0 * DOT_SIZE / 2.0, pressPoint.y - 3.0 * DOT_SIZE / 2.0, 3.0 * DOT_SIZE, 3.0 * DOT_SIZE)];
-                [self.dots replaceObjectAtIndex:dotNo withObject:dot];
+                [self.polygonDots replaceObjectAtIndex:dotNo withObject:dot];
                 [self setNeedsDisplay];
                 return;
             }
@@ -238,7 +273,7 @@
             if (dotNo >= 0)
             {
                 UIBezierPath *dot = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(pressPoint.x - DOT_SIZE / 2.0, pressPoint.y - DOT_SIZE / 2.0, DOT_SIZE, DOT_SIZE)];
-                [self.dots replaceObjectAtIndex:dotNo withObject:dot];
+                [self.polygonDots replaceObjectAtIndex:dotNo withObject:dot];
                 [self setNeedsDisplay];
                 return;
             }
@@ -270,26 +305,13 @@
 }
 
 
-- (NSInteger)_indexOfPathForTapPoint:(CGPoint)tapPoint
-{
-    for (UIBezierPath *aPath in self.paths)
-    {
-        if (CGPathContainsPoint([aPath CGPath], NULL, tapPoint, TRUE))
-        {
-            return [self.paths indexOfObject:aPath];
-        }
-    }
-    return -1;
-}
-
-
 - (NSInteger)_indexOfDotForPoint:(CGPoint)point
 {
-    for (UIBezierPath *aPath in self.dots)
+    for (UIBezierPath *aPath in self.polygonDots)
     {
         if (CGPathContainsPoint([aPath CGPath], NULL, point, TRUE))
         {
-            return [self.dots indexOfObject:aPath];
+            return [self.polygonDots indexOfObject:aPath];
         }
     }
     return -1;

@@ -77,9 +77,11 @@ typedef NS_ENUM(NSInteger, GateType)
 {
     kGateTypePolygon,
     kGateTypeRectangle,
-    kGateTypeRange
+    kGateTypeSingleRange,
+    kGateTypeTripleRange,
+    kGateTypeQuadrant,
+    kGateTypeEllipse
 };
-
 
 typedef NS_ENUM(NSInteger, AxisType)
 {

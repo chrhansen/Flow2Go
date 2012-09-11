@@ -48,7 +48,7 @@ typedef enum
     
     if (error != NULL)
     {
-        NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey : NSLocalizedString(@"FCS file could not be read", nil)};
+        NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey : NSLocalizedString(@"Error: FCS file could not be read", nil)};
         *error = [[NSError alloc] initWithDomain:FCSFile_Error_Domain code:-1 userInfo:errorDictionary];
     }
     return nil;
@@ -189,11 +189,10 @@ typedef enum
     NSString *headerString = [NSString.alloc initWithBytes:buffer
                                                     length:bytesRead
                                                   encoding:NSASCIIStringEncoding];
-    NSLog(@"headerString: %@", headerString);
     
     if (!headerString || headerString.length < HEADER_LENGTH)
     {
-        NSLog(@"header string not valid");
+        NSLog(@"Error: Header string not valid");
         return NO;
     }
     self.header = FCSHeader.alloc.init;
@@ -220,7 +219,7 @@ typedef enum
     
     if (!textString)
     {
-        NSLog(@"text string not valid");
+        NSLog(@"Error: Text string not valid");
         return NO;
     }
     
@@ -331,7 +330,7 @@ typedef enum
     [self _applyCompensationToScaleValues:self.events];
     [self _applyCalibrationToScaledValues:self.events];
     //[self _printOut:100 forPars:noOfParams];
-    [self _printOutScaledMinMax];
+    //[self _printOutScaledMinMax];
     
     return YES;
 }
@@ -349,8 +348,8 @@ typedef enum
     uint8_t buffer[lastByte-firstByte];
     NSUInteger bytesRead = [inputStream read:buffer maxLength:sizeof(buffer)];
     NSString *analysisString = [NSString.alloc initWithBytes:buffer
-                                                  length:bytesRead
-                                                encoding:NSASCIIStringEncoding];
+                                                      length:bytesRead
+                                                    encoding:NSASCIIStringEncoding];
     
     if (!analysisString)
     {
@@ -426,7 +425,6 @@ typedef enum
     for (NSUInteger parNO = 0; parNO < numberOfParameters; parNO++)
     {
         NSString *key = [@"$P" stringByAppendingFormat:@"%iB", parNO + 1];
-        //NSLog(@"par size (%i): %@ , %@", parNO, key, self.text[key]);
         switch ([self.text[key] integerValue])
         {
             case 8:
@@ -448,9 +446,7 @@ typedef enum
                 parameterSizes[parNO] = kParSizeUnknown;
                 break;
         }
-    }
-    NSLog(@"self.bitsPerEvent: %i", _bitsPerEvent);
-    
+    }    
     return parameterSizes;
 }
 
@@ -473,7 +469,6 @@ typedef enum
 - (void)_convertChannelValuesToScaleValues:(double **)eventsAsChannelValues
 {
     self.ranges = calloc(_noOfParams, sizeof(Range));
-    self.actualRanges = calloc(_noOfParams, sizeof(Range));
 
     for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
     {
@@ -500,22 +495,7 @@ typedef enum
             self.ranges[parNo].minValue = f2;
             self.ranges[parNo].maxValue = pow(10, f1 + log10(f2));
         }
-        
-        // Initialize min/max with an actual value
-        switch (valueType)
-        {
-            case kAxisTypeLinear:
-                self.actualRanges[parNo].minValue = self.actualRanges[parNo].maxValue = eventsAsChannelValues[0][parNo] / g;
-                break;
-                
-            case kAxisTypeLogarithmic:
-                self.actualRanges[parNo].minValue = self.actualRanges[parNo].maxValue = pow(10, f1 * eventsAsChannelValues[0][parNo] / range) * f2;
-                break;
-                
-            default:
-                break;
-        }
-        
+    
         NSLog(@"Par%i,(f1,f2)=(%f,%f), g= %f, RangeValue (value=%f) (%f,%f)", parNo + 1, f1, f2, g, range + 1.0,self.ranges[parNo].minValue, self.ranges[parNo].maxValue);
         for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
         {
@@ -533,23 +513,10 @@ typedef enum
                     NSLog(@"neither linear or logarithmic, for parameter %i", parNo + 1);
                     break;
             }
-            [self _checkExtrema:eventsAsChannelValues[eventNo][parNo] forParameter:parNo];
         }
     }
 }
 
-
-- (void)_checkExtrema:(double)scaleValue forParameter:(NSUInteger)parIndex
-{
-    if (scaleValue > _actualRanges[parIndex].maxValue)
-    {
-        _actualRanges[parIndex].maxValue = scaleValue;
-    }
-    else if (scaleValue < _actualRanges[parIndex].minValue)
-    {
-        _actualRanges[parIndex].minValue = scaleValue;
-    }
-}
 
 
 - (double)_gainValueWithString:(NSString *)gString
@@ -575,7 +542,7 @@ typedef enum
 {
     NSString *spillOverString = self.text[@"$SPILLOVER"];
     if (spillOverString == nil)
-    {
+    {        
         return;
     }
     NSLog(@"Alert! ----------- Found spillover/compensation ----------");
@@ -646,6 +613,10 @@ typedef enum
     if (unitNames)
     {
         self.calibrationUnitNames = [NSDictionary dictionaryWithDictionary:unitNames];
+    }
+    else
+    {
+        NSLog(@"No calibration keyword");
     }
 }
 

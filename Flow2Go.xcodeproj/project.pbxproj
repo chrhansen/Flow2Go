@@ -25,6 +25,7 @@
 		E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FCSHeader.m */; };
 		E57659E515D9982E005D662F /* MarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = E57659E415D9982E005D662F /* MarkView.m */; };
 		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
+		E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */; };
 		E57BA89315ED8D94008EA346 /* PlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */; };
 		E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */; };
 		E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = E59417EB15EB68E9008D979F /* NSData+MD5.m */; };
@@ -191,6 +192,8 @@
 		E57659E415D9982E005D662F /* MarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkView.m; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* GateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GateCalculator.h; path = Flow2Go/GateCalculator.h; sourceTree = SOURCE_ROOT; };
 		E579564815DAFE6800B77795 /* GateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GateCalculator.m; path = Flow2Go/GateCalculator.m; sourceTree = SOURCE_ROOT; };
+		E57AD84315FF7E0000A6815C /* AddGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddGateTableViewController.h; sourceTree = "<group>"; };
+		E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddGateTableViewController.m; sourceTree = "<group>"; };
 		E57BA89115ED8D94008EA346 /* PlotDataCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotDataCalculator.h; sourceTree = "<group>"; };
 		E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotDataCalculator.m; sourceTree = "<group>"; };
 		E580999A15F79C8B000E0B34 /* KeywordTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeywordTableViewController.h; sourceTree = "<group>"; };
@@ -686,6 +689,8 @@
 				E511FDD915CC6C4800637D39 /* PlotViewController.m */,
 				E59A074B15EF8A0E006AE343 /* PlotDetailTableViewController.h */,
 				E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */,
+				E57AD84315FF7E0000A6815C /* AddGateTableViewController.h */,
+				E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */,
 				E5B480AE15EF597D00BB6BAC /* GateTableViewController.h */,
 				E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */,
 			);
@@ -817,6 +822,7 @@
 				E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */,
 				E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */,
 				E5203E4F15F9EAAD00169EC7 /* PlotHelper.m in Sources */,
+				E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

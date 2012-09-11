@@ -24,7 +24,6 @@
 
 @property (nonatomic) double **events;
 @property (nonatomic) Range *ranges;
-@property (nonatomic) Range *actualRanges;
 
 @property (nonatomic, strong) NSDictionary *calibrationUnitNames;
 @property (nonatomic, strong) NSDictionary *text;

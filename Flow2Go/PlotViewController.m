@@ -17,8 +17,9 @@
 #import "GateTableViewController.h"
 #import "PlotDetailTableViewController.h"
 #import "PlotHelper.h"
+#import "AddGateTableViewController.h"
 
-@interface PlotViewController () <GateTableViewControllerDelegate, UIPopoverControllerDelegate>
+@interface PlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate>
 {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
@@ -99,7 +100,9 @@
 {
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(_toggleInfo:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem  = [UIBarButtonItem.alloc initWithCustomView: infoButton];
+    UIBarButtonItem *infoBarButton = [UIBarButtonItem.alloc initWithCustomView: infoButton];
+    UIBarButtonItem *addGateButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(_addGateButtonTapped:)];
+    self.navigationItem.leftBarButtonItems = @[infoBarButton, addGateButton];
     self.plotTypeSegmentedControl.selectedSegmentIndex = self.plot.plotType.integerValue;
     [self.yAxisButton setTransform:CGAffineTransformMakeRotation(-M_PI / 2)];
 }
@@ -161,11 +164,53 @@
     }
 }
 
+
+- (void)_addGateButtonTapped:(id)sender
+{
+    AddGateTableViewController *addGateTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addGateTableViewController"];
+    addGateTVC.delegate = self;
+    
+    if (self.detailPopoverController.isPopoverVisible)
+    {
+        [self.detailPopoverController dismissPopoverAnimated:YES];
+    }
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:addGateTVC];
+        [self.detailPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.detailPopoverController.delegate = self;
+    }
+    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
+    {
+        [self presentViewController:addGateTVC animated:NO completion:nil];
+    }
+}
+
+
+#pragma mark - Add Gate Table View Controller Delegate
+- (NSArray *)validGatesForCurrentPlot:(id)sender
+{
+    return nil;
+}
+
+
+- (void)addGateTableViewController:(id)sender didSelectGate:(GateType)gateType
+{
+    [self.markView setReadyForGateOfType:gateType];
+    NSLog(@"gateType: %i", gateType);
+}
+
+
 #pragma mark - Popover Controller Delegate
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
 {
-    UINavigationController *navigationController = (UINavigationController *)popoverController.contentViewController;
-    return !navigationController.topViewController.editing;
+    id object = popoverController.contentViewController;
+    if ([object isKindOfClass:UINavigationController.class])
+    {
+        UINavigationController *navigationController = (UINavigationController *)object;
+        return !navigationController.topViewController.editing;
+    }
+    return YES;
 }
 
 #pragma mark - Axis Picking
@@ -226,7 +271,6 @@
 {    
     self.graph = [CPTXYGraph.alloc initWithFrame:self.graphHostingView.bounds];
     [self.graph applyTheme:[CPTTheme themeNamed:kCPTSlateTheme]];
-    self.graph.title = self.plot.name;
     self.graphHostingView.hostedGraph = _graph;
     self.graph.paddingLeft = 0.0f;
     self.graph.paddingRight = 0.0f;
@@ -341,15 +385,15 @@
     else if (self.plot.plotType.integerValue == kPlotTypeHistogram)
     {
         CPTMutableLineStyle *histogramLineStyle = [CPTMutableLineStyle lineStyle];
-        histogramLineStyle.lineWidth = 2.5;
+        histogramLineStyle.lineWidth = 1.5;
         CPTColor *lineColor = [CPTColor blackColor];
         histogramLineStyle.lineColor = [CPTColor blackColor];
         scatterPlot.dataLineStyle = histogramLineStyle;
         CPTMutableLineStyle *histogramSymbolLineStyle = [CPTMutableLineStyle lineStyle];
         histogramSymbolLineStyle.lineColor = lineColor;
-        //scatterPlot.interpolation = CPTScatterPlotInterpolationHistogram;
+        scatterPlot.interpolation = CPTScatterPlotInterpolationLinear;
         CPTColor *gradientBeginColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];
-        CPTColor *gradientEndColor = [CPTColor colorWithCGColor:[UIColor whiteColor].CGColor];
+        CPTColor *gradientEndColor = [CPTColor colorWithCGColor:UIColor.whiteColor.CGColor];
 
         CPTGradient *fillGradient = [CPTGradient gradientWithBeginningColor:gradientBeginColor endingColor:gradientEndColor];
         scatterPlot.areaFill = [CPTFill fillWithGradient:fillGradient];
@@ -370,7 +414,6 @@
     CPTXYAxis *x = axisSet.xAxis;
     CPTXYAxis *y = axisSet.yAxis;
     CPTColor *themeColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];
-    
     
     NSNumberFormatter *logarithmicLabelFormatter = NSNumberFormatter.alloc.init;
     [logarithmicLabelFormatter setGeneratesDecimalNumbers:NO];
@@ -430,6 +473,7 @@
     {
         self.plotSpace.yScaleType = CPTScaleTypeLinear;
         y.labelFormatter = linearLabelFormatter;
+        
         return;
     }
     
@@ -467,6 +511,14 @@ NSDecimal CPDecimalFromString(NSString *stringRepresentation)
     self.plotSpace.xRange = xRange;
     
     CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
+
+    if (self.plot.plotType.integerValue == kPlotTypeHistogram)
+    {
+        yRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", 0.0]);
+        yRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.plotData.countForMaxBin * 1.1]);
+        self.plotSpace.yRange = yRange;
+        return;
+    }
     yRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
     yRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
     self.plotSpace.yRange = yRange;
@@ -617,6 +669,7 @@ static CPTPlotSymbol *plotSymbol;
         [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:pathPoint];
         
         GraphPoint *gateVertex = [GraphPoint pointWithX:(double)graphPoint[0] andY:(double)graphPoint[1]];
+        NSLog(@"gateVertex: (%f, %f)", gateVertex.x, gateVertex.y);
         [gateVertices addObject:gateVertex];
     }    
     return gateVertices;
@@ -624,9 +677,9 @@ static CPTPlotSymbol *plotSymbol;
 
 
 #pragma mark - Mark View Delegate
-- (void)didDrawPathWithPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton sender:(id)sender
+- (void)markView:(MarkView *)markView didDrawGate:(GateType)gateType withPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton
 {
-    NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:sender plotSpace:self.plotSpace];
+    NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:markView plotSpace:self.plotSpace];
     
     GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
                                                                fcsFile:self.fcsFile
@@ -642,7 +695,7 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
-- (void)didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber
+- (void)markView:(MarkView *)markView didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber
 {
     NSArray *displayedGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
                                                    andYPar:self.plot.yParNumber.integerValue];

@@ -8,21 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol MarkViewDelegate <NSObject>
+@class MarkView;
 
+@protocol MarkViewDelegate <NSObject>
 // Datasource methods
 - (NSUInteger)numberOfPathsInMarkView:(id)sender;
 - (NSArray *)verticesForPath:(NSUInteger)pathNo inView:(id)sender;
 
 // Delegate methods
-- (void)didDrawPathWithPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton sender:(id)sender;
-- (void)didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber;
+- (void)markView:(MarkView *)markView didDrawGate:(GateType)gateType withPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton;
+- (void)markView:(MarkView *)markView didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber;
 
 @end
 
 @interface MarkView : UIView 
 
 - (void)reloadPaths;
+
+- (void)setReadyForGateOfType:(GateType)gateType;
 
 @property (nonatomic, weak) id<MarkViewDelegate> delegate;
 

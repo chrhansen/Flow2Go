@@ -16,7 +16,7 @@
 @implementation PlotDataCalculator
 
 #define BIN_COUNT 512
-#define HISTOGRAM_COUNT 256
+#define HISTOGRAM_AVERAGING 20
 
 + (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
                                 insidePlot:(Plot *)plot
@@ -95,6 +95,8 @@
 {
     NSInteger eventsInside = subsetCount;
     
+    NSLog(@"start calculating density");
+    
     if (!subset)
     {
         eventsInside = fcsFile.noOfEvents;
@@ -103,16 +105,32 @@
     NSInteger xPar = plot.xParNumber.integerValue - 1;
     NSInteger yPar = plot.yParNumber.integerValue - 1;
     
-    double xRange = fcsFile.actualRanges[xPar].maxValue;
-    double yRange = fcsFile.actualRanges[yPar].maxValue;
+    AxisType xAxisType = plot.xAxisType.integerValue;
+    AxisType yAxisType = plot.yAxisType.integerValue;
     
-    // if log-scale create bin intervals with same relative spacing
-    // assure the correct column and row is picked depending on data value
+    double xMin = fcsFile.ranges[xPar].minValue;
+    double xMax = fcsFile.ranges[xPar].maxValue;
+
+    double yMin = fcsFile.ranges[yPar].minValue;
+    double yMax = fcsFile.ranges[yPar].maxValue;
+    
+    double xFactor = pow(xMin/xMax, 1.0/BIN_COUNT);
+    double yFactor = pow(yMin/yMax, 1.0/BIN_COUNT);
+    
+    double log10XFactor = log10(xFactor);
+    double log10YFactor = log10(yFactor);
+    
+    double log10XMin = log10(xMin);
+    double log10YMin = log10(yMin);
+
     
     
     double maxIndex = (double)(BIN_COUNT - 1);
     
     PlotPoint plotPoint;
+    NSUInteger col = 0;
+    NSUInteger row = 0;
+    
     NSUInteger **binValues = calloc(BIN_COUNT, sizeof(NSUInteger *));
     for (NSUInteger i = 0; i < BIN_COUNT; i++)
     {
@@ -128,8 +146,34 @@
             plotPoint.xVal = fcsFile.events[eventNo][xPar];
             plotPoint.yVal = fcsFile.events[eventNo][yPar];
             
-            NSUInteger col = (plotPoint.xVal / xRange) * maxIndex;
-            NSUInteger row = (plotPoint.yVal / yRange) * maxIndex;
+            switch (xAxisType)
+            {
+                case kAxisTypeLinear:
+                    col = (plotPoint.xVal / xMax) * maxIndex;
+                    break;
+                    
+                case kAxisTypeLogarithmic:
+                    col = (log10(xMin) - log10(plotPoint.xVal))/log10(xFactor);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            switch (yAxisType)
+            {
+                case kAxisTypeLinear:
+                    row = (plotPoint.yVal / yMax) * maxIndex;
+                    break;
+                    
+                case kAxisTypeLogarithmic:
+                    row = (log10(yMin) - log10(plotPoint.yVal))/log10(yFactor);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
             
             binValues[col][row] += 1;
         }
@@ -141,8 +185,33 @@
             plotPoint.xVal = fcsFile.events[eventNo][xPar];
             plotPoint.yVal = fcsFile.events[eventNo][yPar];
             
-            NSUInteger col = (plotPoint.xVal / xRange) * maxIndex;
-            NSUInteger row = (plotPoint.yVal / yRange) * maxIndex;
+            switch (xAxisType)
+            {
+                case kAxisTypeLinear:
+                    col = (plotPoint.xVal / xMax) * maxIndex;
+                    break;
+                    
+                case kAxisTypeLogarithmic:
+                    col = (log10(xMin) - log10(plotPoint.xVal))/log10(xFactor);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            switch (yAxisType)
+            {
+                case kAxisTypeLinear:
+                    row = (plotPoint.yVal / yMax) * maxIndex;
+                    break;
+                    
+                case kAxisTypeLogarithmic:
+                    row = (log10(yMin) - log10(plotPoint.yVal))/log10(yFactor);
+                    break;
+                    
+                default:
+                    break;
+            }
             
             binValues[col][row] += 1;
         }
@@ -162,14 +231,37 @@
             if (count > 0)
             {
                 densityPlotData.points[recordNo].count = count;
-                densityPlotData.points[recordNo].xVal = (double)colNo * (xRange / maxIndex);
-                densityPlotData.points[recordNo].yVal = (double)rowNo * (yRange / maxIndex);
-                
                 [densityPlotData _checkForMaxCount:densityPlotData.points[recordNo].count];
+                
+                switch (xAxisType)
+                {
+                    case kAxisTypeLinear:
+                        densityPlotData.points[recordNo].xVal = (double)colNo * (xMax / maxIndex);
+                        break;
+                        
+                    case kAxisTypeLogarithmic:
+                        densityPlotData.points[recordNo].xVal = pow(10, log10(xMin) - log10(xFactor)*(double)colNo);
+                        break;
+                        
+                    default:
+                        break;
+                }
+                switch (yAxisType)
+                {
+                    case kAxisTypeLinear:
+                        densityPlotData.points[recordNo].yVal = (double)rowNo * (yMax / maxIndex);
+                        break;
+                        
+                    case kAxisTypeLogarithmic:
+                        densityPlotData.points[recordNo].yVal = pow(10, log10(yMin) - log10(yFactor)*(double)rowNo);
+                        break;
+                        
+                    default:
+                        break;
+                }
                 
                 recordNo++;
             }
-
         }
     }
     densityPlotData.numberOfPoints = recordNo;
@@ -181,6 +273,7 @@
     free(binValues);
     
     NSLog(@"Max count:  %i", densityPlotData.countForMaxBin);
+    NSLog(@"finished calculating density");
 
     return densityPlotData;
 }
@@ -212,19 +305,18 @@
     Keyword *rangeKeyword = [plot.analysis.measurement keywordWithKey:rangeKey];
     double xRange = rangeKeyword.value.doubleValue;
         
-    double maxIndex = (double)(HISTOGRAM_COUNT - 1);
+    NSUInteger maxIndex = (NSUInteger)(xRange - 1.0);
     
     double dataPoint;
-    NSUInteger *histogramValues = calloc(HISTOGRAM_COUNT, sizeof(NSUInteger));
-
+    NSUInteger *histogramValues = calloc((NSUInteger)xRange, sizeof(NSUInteger));
     
     if (subset)
     {
         for (NSUInteger subSetNo = 0; subSetNo < subsetCount; subSetNo++)
         {
             NSUInteger eventNo = subset[subSetNo];
-            dataPoint = (double)fcsFile.events[eventNo][xPar];
-            NSUInteger col = (dataPoint / xRange) * maxIndex;
+            dataPoint = fcsFile.events[eventNo][xPar];
+            NSUInteger col = dataPoint;
             
             histogramValues[col] += 1;
         }
@@ -233,22 +325,28 @@
     {
         for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
         {
-            dataPoint = (double)fcsFile.events[eventNo][xPar];
-            NSUInteger col = (dataPoint / xRange) * maxIndex;
+            dataPoint = fcsFile.events[eventNo][xPar];
+            NSUInteger col = dataPoint;
             
             histogramValues[col] += 1;
         }
     }
     
     PlotDataCalculator *histogramPlotData = PlotDataCalculator.alloc.init;
-    histogramPlotData.numberOfPoints = HISTOGRAM_COUNT;
+    histogramPlotData.numberOfPoints = maxIndex + 1;
+    histogramPlotData.points = calloc(maxIndex + 1, sizeof(DensityPoint));
     
-    histogramPlotData.points = calloc(HISTOGRAM_COUNT, sizeof(DensityPoint));
+    double runningSum = 0.0;
     
-    for (NSUInteger recordNo = 0; recordNo < HISTOGRAM_COUNT; recordNo++)
+    for (NSUInteger recordNo = 0; recordNo < maxIndex + 1; recordNo++)
     {
-        histogramPlotData.points[recordNo].xVal = (double)recordNo * (xRange / maxIndex);
-        histogramPlotData.points[recordNo].yVal = (double)histogramValues[recordNo];
+        if (recordNo >= HISTOGRAM_AVERAGING)
+        {
+            runningSum -= (double)histogramValues[recordNo - HISTOGRAM_AVERAGING];
+        }
+        runningSum += (double)histogramValues[recordNo];
+        histogramPlotData.points[recordNo].xVal = (double)recordNo;
+        histogramPlotData.points[recordNo].yVal = runningSum / HISTOGRAM_AVERAGING;
         [histogramPlotData _checkForMaxCount:histogramValues[recordNo]];
     }
     

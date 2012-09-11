@@ -288,6 +288,8 @@
     _xParIndex = self.plot.xParNumber.integerValue - 1;
     _yParIndex = self.plot.yParNumber.integerValue - 1;
     _currentPlotType = self.plot.plotType.integerValue;
+    self.plot.xAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
+    self.plot.yAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
     
     Gate *parentGate = (Gate *)self.plot.parentNode;
     
@@ -364,9 +366,6 @@
 
 - (void)_updateAxisAndAxisLabels
 {
-    self.plot.xAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
-    self.plot.yAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
-    
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
     CPTXYAxis *x = axisSet.xAxis;
     CPTXYAxis *y = axisSet.yAxis;
@@ -375,7 +374,8 @@
     
     NSNumberFormatter *logarithmicLabelFormatter = NSNumberFormatter.alloc.init;
     [logarithmicLabelFormatter setGeneratesDecimalNumbers:NO];
-    [logarithmicLabelFormatter setNumberStyle:kCFNumberFormatterScientificStyle];
+    //[logarithmicLabelFormatter setNumberStyle:kCFNumberFormatterScientificStyle];
+    [logarithmicLabelFormatter setNumberStyle:kCFNumberFormatterDecimalStyle];
     [logarithmicLabelFormatter setExponentSymbol:@"e"];
     
     NSNumberFormatter *linearLabelFormatter = NSNumberFormatter.alloc.init;
@@ -393,6 +393,7 @@
     x.tickDirection = CPTSignNegative;
     x.labelTextStyle = labelTextStyle;
     x.axisLineStyle = nil;
+    
 
     y.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
     y.preferredNumberOfMajorTicks = 10;
@@ -460,23 +461,35 @@ NSDecimal CPDecimalFromString(NSString *stringRepresentation)
 
 - (void)_adjustPlotRangeToFitData
 {
-    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
-    
     CPTMutablePlotRange *xRange = [self.plotSpace.xRange mutableCopy];
-	[xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
-    if (self.plot.xAxisType.integerValue == kAxisTypeLogarithmic
-        && xRange.locationDouble <= 0.0) {
-        xRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].minValue]) length:xRange.length];
-    }
+    xRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].minValue]);
+    xRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].maxValue-self.fcsFile.ranges[_xParIndex].minValue]);
     self.plotSpace.xRange = xRange;
-
+    
     CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
-	[yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
-    if (self.plot.yAxisType.integerValue == kAxisTypeLogarithmic
-        && yRange.locationDouble <= 0.0) {
-        yRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]) length:yRange.length];
-    }
-	self.plotSpace.yRange = yRange;
+    yRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
+    yRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
+    self.plotSpace.yRange = yRange;
+    
+// Switch to section below (comment out above) to have the range exactly where there exist values
+//    
+//    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
+//    
+//    CPTMutablePlotRange *xRange = [self.plotSpace.xRange mutableCopy];
+//	[xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
+//    if (self.plot.xAxisType.integerValue == kAxisTypeLogarithmic
+//        && xRange.locationDouble <= 0.0) {
+//        xRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].minValue]) length:xRange.length];
+//    }
+//    self.plotSpace.xRange = xRange;
+//
+//    CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
+//	[yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
+//    if (self.plot.yAxisType.integerValue == kAxisTypeLogarithmic
+//        && yRange.locationDouble <= 0.0) {
+//        yRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]) length:yRange.length];
+//    }
+//	self.plotSpace.yRange = yRange;
 }
 
 

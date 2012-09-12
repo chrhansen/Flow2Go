@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "CPTGraphHostingView.h"
 #import "CorePlot-CocoaTouch.h"
+#import "CPTGraphHostingView.h"
 #import "CPTGraph.h"
 
 @interface FCSGraphView : UIView

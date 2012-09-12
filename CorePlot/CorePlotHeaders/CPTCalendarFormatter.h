@@ -1,15 +1,17 @@
 #import <Foundation/Foundation.h>
 
-/// @file
-
-@interface CPTTimeFormatter : NSNumberFormatter {
+@interface CPTCalendarFormatter : NSNumberFormatter {
     @private
     NSDateFormatter *dateFormatter;
     NSDate *referenceDate;
+    NSCalendar *referenceCalendar;
+    NSCalendarUnit referenceCalendarUnit;
 }
 
 @property (nonatomic, readwrite, retain) NSDateFormatter *dateFormatter;
 @property (nonatomic, readwrite, copy) NSDate *referenceDate;
+@property (nonatomic, readwrite, copy) NSCalendar *referenceCalendar;
+@property (nonatomic, readwrite, assign) NSCalendarUnit referenceCalendarUnit;
 
 /// @name Initialization
 /// @{

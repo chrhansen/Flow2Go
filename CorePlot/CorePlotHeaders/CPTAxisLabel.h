@@ -5,12 +5,12 @@
 @class CPTTextStyle;
 
 @interface CPTAxisLabel : NSObject<NSCoding> {
-	@private
-	CPTLayer *contentLayer;
-	CGFloat offset;
-	CGFloat rotation;
-	CPTAlignment alignment;
-	NSDecimal tickLocation;
+    @private
+    CPTLayer *contentLayer;
+    CGFloat offset;
+    CGFloat rotation;
+    CPTAlignment alignment;
+    NSDecimal tickLocation;
 }
 
 @property (nonatomic, readwrite, retain) CPTLayer *contentLayer;
@@ -23,12 +23,12 @@
 /// @{
 -(id)initWithText:(NSString *)newText textStyle:(CPTTextStyle *)style;
 -(id)initWithContentLayer:(CPTLayer *)layer;
-///	@}
+/// @}
 
 /// @name Layout
 /// @{
 -(void)positionRelativeToViewPoint:(CGPoint)point forCoordinate:(CPTCoordinate)coordinate inDirection:(CPTSign)direction;
 -(void)positionBetweenViewPoint:(CGPoint)firstPoint andViewPoint:(CGPoint)secondPoint forCoordinate:(CPTCoordinate)coordinate inDirection:(CPTSign)direction;
-///	@}
+/// @}
 
 @end

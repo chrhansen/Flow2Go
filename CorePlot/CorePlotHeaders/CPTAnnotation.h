@@ -6,12 +6,12 @@
 @class CPTLayer;
 
 @interface CPTAnnotation : NSObject<NSCoding> {
-	@private
-	__cpt_weak CPTAnnotationHostLayer *annotationHostLayer;
-	CPTLayer *contentLayer;
-	CGPoint contentAnchorPoint;
-	CGPoint displacement;
-	CGFloat rotation;
+    @private
+    __cpt_weak CPTAnnotationHostLayer *annotationHostLayer;
+    CPTLayer *contentLayer;
+    CGPoint contentAnchorPoint;
+    CGPoint displacement;
+    CGFloat rotation;
 }
 
 @property (nonatomic, readwrite, retain) CPTLayer *contentLayer;
@@ -24,11 +24,14 @@
 
 #pragma mark -
 
-/**	@category CPTAnnotation(AbstractMethods)
- *	@brief CPTAnnotation abstract methods—must be overridden by subclasses.
+/** @category CPTAnnotation(AbstractMethods)
+ *  @brief CPTAnnotation abstract methods—must be overridden by subclasses.
  **/
 @interface CPTAnnotation(AbstractMethods)
 
+/// @name Layout
+/// @{
 -(void)positionContentLayer;
+/// @}
 
 @end

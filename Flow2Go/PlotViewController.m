@@ -662,11 +662,17 @@ static CPTPlotSymbol *plotSymbol;
     NSMutableArray *gateVertices = NSMutableArray.array;
     double graphPoint[2];
     
+//    if (self.plot.xAxisType.integerValue == kAxisTypeLogarithmic) [plotSpace setScaleType:CPTScaleTypeLog forCoordinate:CPTCoordinateX];
+//    if (self.plot.yAxisType.integerValue == kAxisTypeLogarithmic) [plotSpace setScaleType:CPTScaleTypeLog forCoordinate:CPTCoordinateY];
+
+    
     for (NSValue *aValue in vertices)
     {
         CGPoint pathPoint = aValue.CGPointValue;
         pathPoint = [aView.layer convertPoint:pathPoint toLayer:plotSpace.graph.plotAreaFrame.plotArea];
         [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:pathPoint];
+        
+       // [self.plotSpace plotPoint:<#(NSDecimal *)#> forPlotAreaViewPoint:pathPoint];
         
         GraphPoint *gateVertex = [GraphPoint pointWithX:(double)graphPoint[0] andY:(double)graphPoint[1]];
         NSLog(@"gateVertex: (%f, %f)", gateVertex.x, gateVertex.y);

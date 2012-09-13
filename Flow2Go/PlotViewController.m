@@ -8,7 +8,6 @@
 
 #import "PlotViewController.h"
 #import "FCSFile.h"
-#import "FCSGraphView.h"
 #import "GateCalculator.h"
 #import "Gate.h"
 #import "GraphPoint.h"
@@ -18,6 +17,8 @@
 #import "PlotDetailTableViewController.h"
 #import "PlotHelper.h"
 #import "AddGateTableViewController.h"
+#import "GatesContainerView.h"
+
 
 @interface PlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate>
 {
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) PlotDataCalculator *plotData;
+@property (nonatomic, strong) NSArray *relevantGates;
 @property (nonatomic, strong) PlotHelper *plotHelper;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
@@ -71,8 +73,8 @@
     [self _createGraphAndConfigurePlotSpace];
     [self _insertScatterPlot];
     [self _reloadPlotDataAndLayout];
-    self.markView.delegate = self;
-    [self.markView performSelector:@selector(reloadPaths) withObject:nil afterDelay:0.05];
+    self.gatesContainerView.delegate = self;
+    [self.gatesContainerView performSelector:@selector(redrawGates) withObject:nil afterDelay:0.05];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -117,6 +119,32 @@
 }
 
 
+- (void)showDetailPopoverForGate:(Gate *)gate inRect:(CGRect)anchorFrame editMode:(BOOL)editOn
+{
+    UINavigationController *gateNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gateDetailTableViewController"];
+    GateTableViewController *gateTVC = (GateTableViewController *)gateNavigationVC.topViewController;
+    gateTVC.delegate = self;
+    gateTVC.gate = gate;
+    
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
+    {
+        if (self.detailPopoverController.isPopoverVisible)
+        {
+            [self.detailPopoverController dismissPopoverAnimated:YES];
+        }
+        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:gateNavigationVC];
+        [self.detailPopoverController presentPopoverFromRect:anchorFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        self.detailPopoverController.delegate = self;
+        [gateTVC setEditing:editOn animated:NO];
+        
+        return;
+    }
+    // if UIUserInterfaceIdiomPhone:
+    [self presentViewController:gateNavigationVC animated:YES completion:nil];
+    [gateTVC setEditing:editOn animated:NO];
+}
+
+
 #pragma mark - Actions
 
 - (IBAction)plotTypeChanged:(UISegmentedControl *)sender
@@ -124,7 +152,7 @@
     self.plot.plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
     [self.plot.managedObjectContext save];
     [self _reloadPlotDataAndLayout];
-    [self.markView reloadPaths];
+    [self.gatesContainerView redrawGates];
 }
 
 
@@ -196,7 +224,8 @@
 
 - (void)addGateTableViewController:(id)sender didSelectGate:(GateType)gateType
 {
-    [self.markView setReadyForGateOfType:gateType];
+    [self.detailPopoverController dismissPopoverAnimated:YES];
+    [self.gatesContainerView insertNewGate:gateType vertices:nil];
     NSLog(@"gateType: %i", gateType);
 }
 
@@ -260,7 +289,7 @@
         self.plot.yParNumber = [NSNumber numberWithInteger:buttonIndex];
     }
     [self _reloadPlotDataAndLayout];
-    [self.markView reloadPaths];
+    [self.gatesContainerView redrawGates];
     [self.plot.managedObjectContext save];
 }
 
@@ -391,19 +420,13 @@
         scatterPlot.dataLineStyle = histogramLineStyle;
         CPTMutableLineStyle *histogramSymbolLineStyle = [CPTMutableLineStyle lineStyle];
         histogramSymbolLineStyle.lineColor = lineColor;
-        scatterPlot.interpolation = CPTScatterPlotInterpolationLinear;
-        CPTColor *gradientBeginColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];
-        CPTColor *gradientEndColor = [CPTColor colorWithCGColor:UIColor.whiteColor.CGColor];
-
-        CPTGradient *fillGradient = [CPTGradient gradientWithBeginningColor:gradientBeginColor endingColor:gradientEndColor];
-        scatterPlot.areaFill = [CPTFill fillWithGradient:fillGradient];
+        scatterPlot.interpolation = CPTScatterPlotInterpolationCurved;
+        CPTColor *gradientBeginColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];       
+        CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:gradientBeginColor endingColor:[CPTColor clearColor]];
+        areaGradient.angle = -90.0;
+        CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
+        scatterPlot.areaFill      = areaGradientFill;
         scatterPlot.areaBaseValue = [[NSDecimalNumber zero] decimalValue];
-        
-        CPTPlotSymbol *ellipseSymbol = [CPTPlotSymbol ellipsePlotSymbol];
-        ellipseSymbol.fill = [CPTFill fillWithColor:lineColor];
-        ellipseSymbol.lineStyle = histogramSymbolLineStyle;
-        ellipseSymbol.size = CGSizeMake(6.0f, 6.0f);
-        scatterPlot.plotSymbol = ellipseSymbol;
     }
 }
 
@@ -649,7 +672,7 @@ static CPTPlotSymbol *plotSymbol;
         graphPoint[0] = aPoint.x;
         graphPoint[1] = aPoint.y;
         CGPoint viewPoint = [plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
-        viewPoint = [self.markView.layer convertPoint:viewPoint fromLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
+        viewPoint = [aView.layer convertPoint:viewPoint fromLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
         
         [viewVertices addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
@@ -662,30 +685,22 @@ static CPTPlotSymbol *plotSymbol;
     NSMutableArray *gateVertices = NSMutableArray.array;
     double graphPoint[2];
     
-//    if (self.plot.xAxisType.integerValue == kAxisTypeLogarithmic) [plotSpace setScaleType:CPTScaleTypeLog forCoordinate:CPTCoordinateX];
-//    if (self.plot.yAxisType.integerValue == kAxisTypeLogarithmic) [plotSpace setScaleType:CPTScaleTypeLog forCoordinate:CPTCoordinateY];
-
-    
     for (NSValue *aValue in vertices)
     {
         CGPoint pathPoint = aValue.CGPointValue;
         pathPoint = [aView.layer convertPoint:pathPoint toLayer:plotSpace.graph.plotAreaFrame.plotArea];
-        [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:pathPoint];
-        
-       // [self.plotSpace plotPoint:<#(NSDecimal *)#> forPlotAreaViewPoint:pathPoint];
-        
+        [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:pathPoint];        
         GraphPoint *gateVertex = [GraphPoint pointWithX:(double)graphPoint[0] andY:(double)graphPoint[1]];
-        NSLog(@"gateVertex: (%f, %f)", gateVertex.x, gateVertex.y);
         [gateVertices addObject:gateVertex];
     }    
     return gateVertices;
 }
 
 
-#pragma mark - Mark View Delegate
-- (void)markView:(MarkView *)markView didDrawGate:(GateType)gateType withPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton
+#pragma mark - Gates Container View Delegate
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didDrawGate:(GateType)gateType withPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton
 {
-    NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:markView plotSpace:self.plotSpace];
+    NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:gatesContainerView plotSpace:self.plotSpace];
     
     GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
                                                                fcsFile:self.fcsFile
@@ -701,7 +716,7 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
-- (void)markView:(MarkView *)markView didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber
 {
     NSArray *displayedGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
                                                    andYPar:self.plot.yParNumber.integerValue];
@@ -709,57 +724,43 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
-- (void)showDetailPopoverForGate:(Gate *)gate inRect:(CGRect)anchorFrame editMode:(BOOL)editOn
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didChangeViewForGateNo:(NSUInteger)gateNo gateType:(NSInteger)gateType vertices:(NSArray *)vertices
 {
-    UINavigationController *gateNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gateDetailTableViewController"];
-    GateTableViewController *gateTVC = (GateTableViewController *)gateNavigationVC.topViewController;
-    gateTVC.delegate = self;
-    gateTVC.gate = gate;
-    
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
-    {
-        if (self.detailPopoverController.isPopoverVisible)
-        {
-            [self.detailPopoverController dismissPopoverAnimated:YES];
-        }
-        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:gateNavigationVC];
-        [self.detailPopoverController presentPopoverFromRect:anchorFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        self.detailPopoverController.delegate = self;
-        [gateTVC setEditing:editOn animated:NO];
-        
-        return;
-    }
-    // if UIUserInterfaceIdiomPhone:
-    [self presentViewController:gateNavigationVC animated:YES completion:nil];
-    [gateTVC setEditing:editOn animated:NO];
+    NSLog(@"gateNo: %i, gateType: %i", gateNo, gateType);
+    NSLog(@"Did change view for gate, new vertices: %@", vertices);
 }
 
 
 #pragma mark - Mark View Datasource
-- (NSUInteger)numberOfPathsInMarkView:(id)sender
+- (NSUInteger)numberOfGatesInGatesContainerView:(GatesContainerView *)gatesContainerView
 {
-    NSArray *relevantGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
+    self.relevantGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
                                           andYPar:self.plot.yParNumber.integerValue];
-    return relevantGates.count;
+    return self.relevantGates.count;
 }
 
 
-- (NSArray *)verticesForPath:(NSUInteger)pathNo inView:(id)sender
+- (GateType)gatesContainerView:(GatesContainerView *)gatesContainerView gateTypeForGateNo:(NSUInteger)gateNo
 {
-    NSArray *relevantGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
-                                                  andYPar:self.plot.yParNumber.integerValue];
-    Gate *gate = relevantGates[pathNo];
+    Gate *gate = self.relevantGates[gateNo];
+    return gate.type.integerValue;
+}
+
+
+- (NSArray *)gatesContainerView:(GatesContainerView *)gatesContainerView verticesForGate:(NSUInteger)gateNo
+{
+    Gate *gate = self.relevantGates[gateNo];
 
     if (gate.xParNumber.integerValue == self.plot.xParNumber.integerValue)
     {
         return [self viewVerticesFromGateVertices:gate.vertices
-                                           inView:self.markView
+                                           inView:self.gatesContainerView
                                         plotSpace:self.plotSpace];
     }
     else
     {
         return [self viewVerticesFromGateVertices:[GraphPoint switchXandYForGraphpoints:gate.vertices]
-                                           inView:self.markView
+                                           inView:self.gatesContainerView
                                         plotSpace:self.plotSpace];
     }
 }
@@ -768,11 +769,10 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark - Gate Table View Controller delegate
 - (void)didTapNewPlot:(GateTableViewController *)sender
 {
-    
     [self.detailPopoverController dismissPopoverAnimated:YES];
-    
     [self.delegate didSelectGate:sender.gate forPlot:self.plot];
 }
+
 
 - (void)didTapDeleteGate:(GateTableViewController *)sender
 {
@@ -799,7 +799,7 @@ static CPTPlotSymbol *plotSymbol;
     }
     else
     {
-        [self.markView reloadPaths];
+        [self.gatesContainerView redrawGates];
     }
     [self.delegate didDeleteGate:gateToBeDeleted];
 }

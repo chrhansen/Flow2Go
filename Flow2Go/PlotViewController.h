@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
-#import "MarkView.h"
+#import "GatesContainerView.h"
 
 @class Measurement;
 @class Plot;
@@ -22,13 +22,13 @@
 
 @end
 
-@interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, MarkViewDelegate, UIActionSheetDelegate>
+@interface PlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, GatesContainerViewDelegate, UIActionSheetDelegate>
 
 - (void)preparePlotData;
 
 @property (nonatomic, strong) Plot *plot;
 @property (nonatomic, weak) IBOutlet CPTGraphHostingView *graphHostingView;
-@property (nonatomic, weak) IBOutlet MarkView *markView;
+@property (nonatomic, weak) IBOutlet GatesContainerView *gatesContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *xAxisButton;
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;

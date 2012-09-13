@@ -10,7 +10,6 @@
 #import "Measurement.h"
 #import <DropboxSDK/DropboxSDK.h>
 
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -21,6 +20,8 @@
                                                  appSecret:DropboxAppSecret
                                                       root:kDBRootAppFolder];
     DBSession.sharedSession = dbSession;
+    
+    [TestFlight takeOff:@"043c6b53e9c4be16677615865b03e754_MTMxNDE4MjAxMi0wOS0xMiAxMjo0NzoyMS40ODMwNjg"];
     
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {

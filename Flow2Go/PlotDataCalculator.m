@@ -15,8 +15,8 @@
 
 @implementation PlotDataCalculator
 
-#define BIN_COUNT 512
-#define HISTOGRAM_AVERAGING 7
+#define BIN_COUNT 256
+#define HISTOGRAM_AVERAGING 9
 
 + (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
                                 insidePlot:(Plot *)plot
@@ -110,8 +110,8 @@
     double yMin = fcsFile.ranges[yPar].minValue;
     double yMax = fcsFile.ranges[yPar].maxValue;
     
-    double xFactor = pow(xMin/xMax, 1.0/BIN_COUNT);
-    double yFactor = pow(yMin/yMax, 1.0/BIN_COUNT);
+    double xFactor = pow(xMin/xMax, 1.0/(BIN_COUNT - 1.0));
+    double yFactor = pow(yMin/yMax, 1.0/(BIN_COUNT - 1.0));
     
     double log10XFactor = log10(xFactor);
     double log10YFactor = log10(yFactor);
@@ -233,7 +233,7 @@
                         break;
                         
                     case kAxisTypeLogarithmic:
-                        densityPlotData.points[recordNo].xVal = pow(10, log10XMin - log10XFactor*(double)colNo);
+                        densityPlotData.points[recordNo].xVal = pow(10, log10XMin - log10XFactor * (double)colNo);
                         break;
                         
                     default:
@@ -246,7 +246,7 @@
                         break;
                         
                     case kAxisTypeLogarithmic:
-                        densityPlotData.points[recordNo].yVal = pow(10, log10YMin - log10YFactor*(double)rowNo);
+                        densityPlotData.points[recordNo].yVal = pow(10, log10YMin - log10YFactor * (double)rowNo);
                         break;
                         
                     default:
@@ -295,19 +295,16 @@
     AxisType axisType = plot.xAxisType.integerValue;
     double minValue = fcsFile.ranges[parIndex].minValue;
     double maxValue = fcsFile.ranges[parIndex].maxValue;
-    NSUInteger maxIndex = (NSUInteger)maxValue;
+    NSUInteger colCount = (NSUInteger)(maxValue + 1.0);
 
     double factor = pow(minValue/maxValue, 1.0/(maxValue + 1.0));
     double log10Factor = log10(factor);
     double log10MinValue = log10(minValue);
     
     NSUInteger col = 0;
-
-    
-    
     
     double dataPoint;
-    NSUInteger *histogramValues = calloc(maxIndex + 1, sizeof(NSUInteger));
+    NSUInteger *histogramValues = calloc(colCount, sizeof(NSUInteger));
     
     if (subset)
     {
@@ -358,10 +355,10 @@
     }
     
     PlotDataCalculator *histogramPlotData = PlotDataCalculator.alloc.init;
-    histogramPlotData.numberOfPoints = maxIndex + 1;
-    histogramPlotData.points = calloc(maxIndex + 1, sizeof(DensityPoint));
+    histogramPlotData.numberOfPoints = colCount;
+    histogramPlotData.points = calloc(colCount, sizeof(DensityPoint));
     
-    for (NSUInteger colNo = 0; colNo < maxIndex + 1; colNo++)
+    for (NSUInteger colNo = 0; colNo < colCount; colNo++)
     {
         switch (axisType)
         {
@@ -381,10 +378,10 @@
     double runningAverage = 0.0;
     double divideBy = 1.0 + 2 * HISTOGRAM_AVERAGING;
     
-    for (NSUInteger i = 0; i < maxIndex + 1; i++)
+    for (NSUInteger i = 0; i < colCount; i++)
     {
         if (i >= HISTOGRAM_AVERAGING
-            && i < maxIndex + 1 - HISTOGRAM_AVERAGING)
+            && i < colCount - HISTOGRAM_AVERAGING)
         {
             for (NSUInteger j = i - HISTOGRAM_AVERAGING; j < i + HISTOGRAM_AVERAGING; j++)
             {
@@ -402,7 +399,7 @@
 //            
 //            histogramPlotData.points[i].yVal = runningAverage / (double)(i+1);
 //        }
-//        else if (i >= maxIndex + 1 - HISTOGRAM_AVERAGING)
+//        else if (i >= maxIndex - HISTOGRAM_AVERAGING)
 //        {
 //            NSUInteger loops = 0;
 //            for (NSUInteger j = i; j < maxIndex + 1; j++)

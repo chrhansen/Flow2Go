@@ -109,6 +109,8 @@
     Plot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
     Gate *parentGate = (Gate *)plot.parentNode;
     
+    NSLog(@"Name: %@, Section: %@", plot.name, plot.plotSectionName);
+    
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
     nameLabel.text = plot.name;
 
@@ -253,44 +255,26 @@
     if (!_objectChanges) {
         _objectChanges = NSMutableArray.array;
     }
-//    You can always write your own mechanism for -beginUpdates/endUpdates. Where you would have called -beginUpdates before, just set some flag on your object, and start collection your updates into an array. When you would have called -endUpdates before, go ahead and submit all those updates to the collection view.
 }
 
 
-//- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
-//       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-//      newIndexPath:(NSIndexPath *)newIndexPath
-//{
-//    UICollectionView *collectionView = self.collectionView;
-//    
-//    if (self.objectChanges == nil)
-//    {
-//        switch(type)
-//        {
-//            case NSFetchedResultsChangeInsert:
-//                [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-//                break;
-//                
-//            case NSFetchedResultsChangeDelete:
-//                [collectionView deleteItemsAtIndexPaths:@[indexPath]];
-//                break;
-//                
-//            case NSFetchedResultsChangeUpdate:
-//                [self configureCell:(UICollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
-//                break;
-//                
-//            case NSFetchedResultsChangeMove:
-//                [collectionView deleteItemsAtIndexPaths:@[indexPath]];
-//                [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-//                break;
-//        }
-//    }
-//    else
-//    {
-//        //[self.objectChanges addObject:@{@"NSFetchedResultsChangeInsert" : <#object, ...#>}];
-//    }
-//
-//}
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = [NSNumber numberWithUnsignedInteger:sectionIndex];
+            break;
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = [NSNumber numberWithUnsignedInteger:sectionIndex];
+            break;
+    }
+    
+    [_sectionChanges addObject:change];
+}
+
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
@@ -339,7 +323,9 @@
                     }
                 }];
             }
-        } completion:nil];
+        } completion:^(BOOL finished) {
+            [self.fetchedResultsController performFetch:nil];
+        }];
     }
     
     if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
@@ -369,6 +355,8 @@
                 }];
             }
         } completion:^(BOOL finished) {
+            [self.fetchedResultsController performFetch:nil];
+            //[self.collectionView reloadData];
             
         }];
     }

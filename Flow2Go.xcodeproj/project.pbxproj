@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		E50BA3F5160092C500E85118 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA3F4160092C400E85118 /* libCorePlot-CocoaTouch.a */; };
+		E50BA40C1600F32D00E85118 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA4081600F32D00E85118 /* libTestFlight.a */; };
+		E50BA40D1600F32D00E85118 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = E50BA4091600F32D00E85118 /* README.txt */; };
+		E50BA40E1600F32D00E85118 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = E50BA40A1600F32D00E85118 /* release_notes.txt */; };
+		E50BA4101600F38000E85118 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA40F1600F38000E85118 /* libz.dylib */; };
 		E511FD7315CC365D00637D39 /* icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7215CC365D00637D39 /* icon_114.png */; };
 		E511FD7515CC367F00637D39 /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7415CC367F00637D39 /* icon_57.png */; };
 		E511FD7715CC36BD00637D39 /* icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7615CC36BD00637D39 /* icon_144.png */; };
@@ -22,8 +26,12 @@
 		E53FA66615CB0CC0000B048C /* MeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */; };
 		E53FA6A215CBC1C5000B048C /* PinchLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA69F15CBBD87000B048C /* PinchLayout.m */; };
 		E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FCSFile.m */; };
+		E54BC317160246ED00E55A28 /* GatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54BC310160246ED00E55A28 /* GatesContainerView.m */; };
+		E54BC318160246ED00E55A28 /* GateView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54BC312160246ED00E55A28 /* GateView.m */; };
+		E54BC319160246ED00E55A28 /* PolygonGateView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54BC314160246ED00E55A28 /* PolygonGateView.m */; };
+		E54BC31A160246ED00E55A28 /* SingleGateView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54BC316160246ED00E55A28 /* SingleGateView.m */; };
+		E54BC320160286A700E55A28 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54BC31F160286A700E55A28 /* Default-568h@2x.png */; };
 		E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FCSHeader.m */; };
-		E57659E515D9982E005D662F /* MarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = E57659E415D9982E005D662F /* MarkView.m */; };
 		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
 		E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */; };
 		E57BA89315ED8D94008EA346 /* PlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */; };
@@ -37,7 +45,6 @@
 		E59D2E3F15E37E2100944789 /* Plot.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3E15E37E2000944789 /* Plot.m */; };
 		E59D2E4215E37E7100944789 /* Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E4115E37E7100944789 /* Gate.m */; };
 		E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */; };
-		E5E55B9B15D7E6CE0077EFA8 /* FCSGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E55B9A15D7E6CE0077EFA8 /* FCSGraphView.m */; };
 		E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
 		E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -146,6 +153,11 @@
 		E50BA3F2160092C400E85118 /* CPTXYGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTXYGraph.h; sourceTree = "<group>"; };
 		E50BA3F3160092C400E85118 /* CPTXYPlotSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTXYPlotSpace.h; sourceTree = "<group>"; };
 		E50BA3F4160092C400E85118 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libCorePlot-CocoaTouch.a"; path = "CorePlot/libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
+		E50BA4081600F32D00E85118 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = TestFlight/libTestFlight.a; sourceTree = "<group>"; };
+		E50BA4091600F32D00E85118 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.txt; path = TestFlight/README.txt; sourceTree = "<group>"; };
+		E50BA40A1600F32D00E85118 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = release_notes.txt; path = TestFlight/release_notes.txt; sourceTree = "<group>"; };
+		E50BA40B1600F32D00E85118 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = TestFlight/TestFlight.h; sourceTree = "<group>"; };
+		E50BA40F1600F38000E85118 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		E511FD7215CC365D00637D39 /* icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_114.png; path = ../icon_114.png; sourceTree = "<group>"; };
 		E511FD7415CC367F00637D39 /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_57.png; path = ../icon_57.png; sourceTree = "<group>"; };
 		E511FD7615CC36BD00637D39 /* icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_144.png; path = ../icon_144.png; sourceTree = "<group>"; };
@@ -169,10 +181,17 @@
 		E53FA69F15CBBD87000B048C /* PinchLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PinchLayout.m; sourceTree = "<group>"; };
 		E5457DA015CEAE7F00678CB7 /* FCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSFile.h; sourceTree = "<group>"; };
 		E5457DA115CEAE7F00678CB7 /* FCSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSFile.m; sourceTree = "<group>"; };
+		E54BC30F160246ED00E55A28 /* GatesContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GatesContainerView.h; sourceTree = "<group>"; };
+		E54BC310160246ED00E55A28 /* GatesContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GatesContainerView.m; sourceTree = "<group>"; };
+		E54BC311160246ED00E55A28 /* GateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateView.h; sourceTree = "<group>"; };
+		E54BC312160246ED00E55A28 /* GateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateView.m; sourceTree = "<group>"; };
+		E54BC313160246ED00E55A28 /* PolygonGateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolygonGateView.h; sourceTree = "<group>"; };
+		E54BC314160246ED00E55A28 /* PolygonGateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolygonGateView.m; sourceTree = "<group>"; };
+		E54BC315160246ED00E55A28 /* SingleGateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleGateView.h; sourceTree = "<group>"; };
+		E54BC316160246ED00E55A28 /* SingleGateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleGateView.m; sourceTree = "<group>"; };
+		E54BC31F160286A700E55A28 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E5659AEE15E56A87006D23B0 /* FCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSHeader.h; sourceTree = "<group>"; };
 		E5659AEF15E56A87006D23B0 /* FCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSHeader.m; sourceTree = "<group>"; };
-		E57659E315D9982E005D662F /* MarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkView.h; sourceTree = "<group>"; };
-		E57659E415D9982E005D662F /* MarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkView.m; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* GateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GateCalculator.h; path = Flow2Go/GateCalculator.h; sourceTree = SOURCE_ROOT; };
 		E579564815DAFE6800B77795 /* GateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GateCalculator.m; path = Flow2Go/GateCalculator.m; sourceTree = SOURCE_ROOT; };
 		E57AD84315FF7E0000A6815C /* AddGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddGateTableViewController.h; sourceTree = "<group>"; };
@@ -199,8 +218,6 @@
 		E59D2E4115E37E7100944789 /* Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gate.m; sourceTree = "<group>"; };
 		E5B480AE15EF597D00BB6BAC /* GateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateTableViewController.h; sourceTree = "<group>"; };
 		E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateTableViewController.m; sourceTree = "<group>"; };
-		E5E55B9915D7E6CE0077EFA8 /* FCSGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSGraphView.h; sourceTree = "<group>"; };
-		E5E55B9A15D7E6CE0077EFA8 /* FCSGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSGraphView.m; sourceTree = "<group>"; };
 		E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeasurementView.xib; sourceTree = "<group>"; };
 		E5FC6F4415CA7E8E0047A3DD /* Flow2Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flow2Go.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -285,6 +302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E50BA4101600F38000E85118 /* libz.dylib in Frameworks */,
 				E5FC703515CA9F8A0047A3DD /* QuartzCore.framework in Frameworks */,
 				E5FC703315CA9F580047A3DD /* Security.framework in Frameworks */,
 				E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */,
@@ -293,6 +311,7 @@
 				E5FC6F4F15CA7E8E0047A3DD /* CoreData.framework in Frameworks */,
 				E5FC700415CA98B00047A3DD /* DropboxSDK.framework in Frameworks */,
 				E50BA3F5160092C500E85118 /* libCorePlot-CocoaTouch.a in Frameworks */,
+				E50BA40C1600F32D00E85118 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +388,17 @@
 			path = CorePlot/CorePlotHeaders;
 			sourceTree = "<group>";
 		};
+		E50BA4071600F30200E85118 /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				E50BA4081600F32D00E85118 /* libTestFlight.a */,
+				E50BA4091600F32D00E85118 /* README.txt */,
+				E50BA40A1600F32D00E85118 /* release_notes.txt */,
+				E50BA40B1600F32D00E85118 /* TestFlight.h */,
+			);
+			name = TestFlight;
+			sourceTree = "<group>";
+		};
 		E511FD6115CC31C000637D39 /* FCSParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,10 +439,9 @@
 		E53FA67015CB3E6F000B048C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E5E55B9915D7E6CE0077EFA8 /* FCSGraphView.h */,
-				E5E55B9A15D7E6CE0077EFA8 /* FCSGraphView.m */,
-				E57659E315D9982E005D662F /* MarkView.h */,
-				E57659E415D9982E005D662F /* MarkView.m */,
+				E54BC30F160246ED00E55A28 /* GatesContainerView.h */,
+				E54BC310160246ED00E55A28 /* GatesContainerView.m */,
+				E54BC30D160246D400E55A28 /* GateDrawing */,
 				E53FA69E15CBBD87000B048C /* PinchLayout.h */,
 				E53FA69F15CBBD87000B048C /* PinchLayout.m */,
 				E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */,
@@ -430,6 +459,19 @@
 			name = CorePlot;
 			sourceTree = "<group>";
 		};
+		E54BC30D160246D400E55A28 /* GateDrawing */ = {
+			isa = PBXGroup;
+			children = (
+				E54BC311160246ED00E55A28 /* GateView.h */,
+				E54BC312160246ED00E55A28 /* GateView.m */,
+				E54BC313160246ED00E55A28 /* PolygonGateView.h */,
+				E54BC314160246ED00E55A28 /* PolygonGateView.m */,
+				E54BC315160246ED00E55A28 /* SingleGateView.h */,
+				E54BC316160246ED00E55A28 /* SingleGateView.m */,
+			);
+			name = GateDrawing;
+			sourceTree = "<group>";
+		};
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -444,6 +486,7 @@
 		E5FC6F3915CA7E8E0047A3DD = {
 			isa = PBXGroup;
 			children = (
+				E54BC31F160286A700E55A28 /* Default-568h@2x.png */,
 				E5FC6F5015CA7E8E0047A3DD /* Flow2Go */,
 				E5FC6F4715CA7E8E0047A3DD /* Frameworks */,
 				E5FC6F4515CA7E8E0047A3DD /* Products */,
@@ -461,6 +504,7 @@
 		E5FC6F4715CA7E8E0047A3DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E50BA40F1600F38000E85118 /* libz.dylib */,
 				E5FC703415CA9F890047A3DD /* QuartzCore.framework */,
 				E5FC703215CA9F580047A3DD /* Security.framework */,
 				E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */,
@@ -506,6 +550,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E50BA4071600F30200E85118 /* TestFlight */,
 				E5457DD015D1103F00678CB7 /* CorePlot */,
 				E5FC700315CA98B00047A3DD /* DropboxSDK.framework */,
 				E5FC6F7115CA80630047A3DD /* MagicalRecord */,
@@ -723,6 +768,9 @@
 				E511FD7915CC36C200637D39 /* icon_72.png in Resources */,
 				E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */,
 				E527421D15F65D52000C80F3 /* PlotCellView.xib in Resources */,
+				E50BA40D1600F32D00E85118 /* README.txt in Resources */,
+				E50BA40E1600F32D00E85118 /* release_notes.txt in Resources */,
+				E54BC320160286A700E55A28 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,8 +816,6 @@
 				E53FA66615CB0CC0000B048C /* MeasurementCollectionViewController.m in Sources */,
 				E511FDDA15CC6C4800637D39 /* PlotViewController.m in Sources */,
 				E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */,
-				E5E55B9B15D7E6CE0077EFA8 /* FCSGraphView.m in Sources */,
-				E57659E515D9982E005D662F /* MarkView.m in Sources */,
 				E579564915DAFE6800B77795 /* GateCalculator.m in Sources */,
 				E52BECB715DE63EA002A3819 /* GraphPoint.m in Sources */,
 				E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */,
@@ -789,6 +835,10 @@
 				E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */,
 				E5203E4F15F9EAAD00169EC7 /* PlotHelper.m in Sources */,
 				E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */,
+				E54BC317160246ED00E55A28 /* GatesContainerView.m in Sources */,
+				E54BC318160246ED00E55A28 /* GateView.m in Sources */,
+				E54BC319160246ED00E55A28 /* PolygonGateView.m in Sources */,
+				E54BC31A160246ED00E55A28 /* SingleGateView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,6 +958,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/CorePlot\"",
+					"\"$(SRCROOT)/TestFlight\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -934,6 +985,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/CorePlot\"",
+					"\"$(SRCROOT)/TestFlight\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

@@ -26,14 +26,16 @@
 #define GATE_HEIGHT 30
 #define DEFAULT_LINE_WIDTH 2
 
--(SingleGateView *)initWithLeftEdge:(CGFloat)leftLocation rightEdge:(CGFloat)rightLocation y:(CGFloat)yCenter
+- (SingleGateView *)initWithLeftEdge:(CGFloat)leftEdge rightEdge:(CGFloat)rightEdge y:(CGFloat)yCenter gateTag:(NSInteger)tagNumber;
 {
-    CGRect frame = CGRectMake(leftLocation, yCenter - 0.5f * GATE_HEIGHT, rightLocation - leftLocation, GATE_HEIGHT);
+    CGRect frame = CGRectMake(leftEdge, yCenter - 0.5f * GATE_HEIGHT, rightEdge - leftEdge, GATE_HEIGHT);
     
-    if ((self = [super initWithFrame:frame])) {
+    if ((self = [super initWithFrame:frame]))
+    {
         self.backgroundColor = UIColor.clearColor;
         self.lineColor = UIColor.redColor;
         self.lineWidth = DEFAULT_LINE_WIDTH;
+        self.gateTag = tagNumber;
         self.gateType = kGateTypeSingleRange;
         self.layer.masksToBounds = NO;
         [self updateLeftLocation];

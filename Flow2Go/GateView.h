@@ -20,8 +20,8 @@
 - (void)panEnded:(CGPoint)lastPoint;
 
 @property (nonatomic, strong) NSString *indentifier;
-@property (nonatomic) NSUInteger gateNumber;
+@property (nonatomic) NSInteger gateTag;
 @property (nonatomic) GateType gateType;
-@property (nonatomic, strong) NSArray *vertices;
+@property (nonatomic, strong) NSMutableArray *vertices;
 
 @end

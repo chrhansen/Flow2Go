@@ -11,7 +11,7 @@
 
 @interface PolygonGateView : GateView
 
-- (PolygonGateView *)initWithFrame:(CGRect)frame polygonGateVertices:(NSArray *)vertices;
+- (PolygonGateView *)initWithFrame:(CGRect)frame polygonGateVertices:(NSArray *)vertices gateTag:(NSInteger)tagNumber;
 
 
 

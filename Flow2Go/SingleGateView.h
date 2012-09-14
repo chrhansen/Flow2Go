@@ -11,7 +11,7 @@
 
 @interface SingleGateView : GateView
 
-- (SingleGateView *)initWithLeftEdge:(CGFloat)leftEdge rightEdge:(CGFloat)rightEdge y:(CGFloat)yCenter;
+- (SingleGateView *)initWithLeftEdge:(CGFloat)leftEdge rightEdge:(CGFloat)rightEdge y:(CGFloat)yCenter gateTag:(NSInteger)tagNumber;
 
 - (void)updateWithPinch:(CGFloat)pinchScale;
 

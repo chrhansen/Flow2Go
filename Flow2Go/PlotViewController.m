@@ -32,7 +32,7 @@
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) PlotDataCalculator *plotData;
-@property (nonatomic, strong) NSArray *relevantGates;
+@property (nonatomic, strong) NSMutableArray *displayedGates;
 @property (nonatomic, strong) PlotHelper *plotHelper;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
@@ -225,8 +225,10 @@
 - (void)addGateTableViewController:(id)sender didSelectGate:(GateType)gateType
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self.gatesContainerView insertNewGate:gateType vertices:nil];
-    NSLog(@"gateType: %i", gateType);
+    Gate *newGate = [Gate createChildGateInPlot:self.plot type:gateType vertices:nil];
+    [newGate.managedObjectContext save];
+    [self.displayedGates addObject:newGate];
+    [self.gatesContainerView insertNewGate:gateType gateTag:self.displayedGates.count - 1];
 }
 
 
@@ -698,58 +700,58 @@ static CPTPlotSymbol *plotSymbol;
 
 
 #pragma mark - Gates Container View Delegate
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didDrawGate:(GateType)gateType withPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices
 {
-    NSArray *gateVertices = [self gateVerticesFromViewVertices:pathPoints inView:gatesContainerView plotSpace:self.plotSpace];
+    NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
     
-    GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
-                                                               fcsFile:self.fcsFile
-                                                            insidePlot:self.plot
-                                                                subSet:self.parentGateCalculator.eventsInside
-                                                           subSetCount:self.parentGateCalculator.numberOfCellsInside];
+    if (gateType == kGateTypePolygon)
+    {
+        GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
+                                                                   fcsFile:self.fcsFile
+                                                                insidePlot:self.plot
+                                                                    subSet:self.parentGateCalculator.eventsInside
+                                                               subSetCount:self.parentGateCalculator.numberOfCellsInside];
+        
+        Gate *modifiedGate = self.displayedGates[gateNo];
+        modifiedGate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
+        modifiedGate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
+        modifiedGate.vertices = gateVertices;
+        [self.plot.managedObjectContext save];
+    }
+
     
-    Gate *gate = [Gate createChildGateInPlot:self.plot type:kGateTypePolygon vertices:gateVertices];
-    gate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
-    gate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
-    [self.plot.managedObjectContext save];
-    [self showDetailPopoverForGate:gate inRect:infoButton.frame editMode:YES];
+    // Present gate info
+    //    CGPoint popOverPoint = [updatedVertices[0] CGPointValue];
+    //    CGRect popOverRect = CGRectMake(popOverPoint.x, popOverPoint.y, 1.0f, 1.0f);
+    //    [self showDetailPopoverForGate:modifiedGate inRect:popOverRect editMode:YES];
 }
 
 
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapInfoButtonForGate:(NSUInteger)gateNo inRect:(CGRect)rect
 {
-    NSArray *displayedGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
-                                                   andYPar:self.plot.yParNumber.integerValue];
-    [self showDetailPopoverForGate:displayedGates[buttonWithTagNumber.tag] inRect:buttonWithTagNumber.frame editMode:NO];
-}
-
-
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didChangeViewForGateNo:(NSUInteger)gateNo gateType:(NSInteger)gateType vertices:(NSArray *)vertices
-{
-    NSLog(@"gateNo: %i, gateType: %i", gateNo, gateType);
-    NSLog(@"Did change view for gate, new vertices: %@", vertices);
+    [self showDetailPopoverForGate:self.displayedGates[gateNo] inRect:rect editMode:NO];
 }
 
 
 #pragma mark - Mark View Datasource
 - (NSUInteger)numberOfGatesInGatesContainerView:(GatesContainerView *)gatesContainerView
 {
-    self.relevantGates = [self.plot childGatesForXPar:self.plot.xParNumber.integerValue
-                                          andYPar:self.plot.yParNumber.integerValue];
-    return self.relevantGates.count;
+    self.displayedGates = [[self.plot childGatesForXPar:self.plot.xParNumber.integerValue
+                                               andYPar:self.plot.yParNumber.integerValue] mutableCopy];
+    return self.displayedGates.count;
 }
 
 
 - (GateType)gatesContainerView:(GatesContainerView *)gatesContainerView gateTypeForGateNo:(NSUInteger)gateNo
 {
-    Gate *gate = self.relevantGates[gateNo];
+    Gate *gate = self.displayedGates[gateNo];
     return gate.type.integerValue;
 }
 
 
 - (NSArray *)gatesContainerView:(GatesContainerView *)gatesContainerView verticesForGate:(NSUInteger)gateNo
 {
-    Gate *gate = self.relevantGates[gateNo];
+    Gate *gate = self.displayedGates[gateNo];
 
     if (gate.xParNumber.integerValue == self.plot.xParNumber.integerValue)
     {

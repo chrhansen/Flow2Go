@@ -16,16 +16,15 @@
 - (NSArray *)gatesContainerView:(GatesContainerView *)gatesContainerView verticesForGate:(NSUInteger)gateNo;
 
 // Delegate methods
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didDrawGate:(GateType)gateType withPoints:(NSArray *)pathPoints infoButton:(UIButton *)infoButton;
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapInfoButtonForPath:(UIButton *)buttonWithTagNumber;
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didChangeViewForGateNo:(NSUInteger)gateNo gateType:(NSInteger)gateType vertices:(NSArray *)vertices;
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapInfoButtonForGate:(NSUInteger)gateNo inRect:(CGRect)rect;
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices;
 
 @end
 
 @interface GatesContainerView : UIView <UIGestureRecognizerDelegate>
 
 - (void)redrawGates;
-- (void)insertNewGate:(GateType)gateType vertices:(NSArray *)vertices;
+- (void)insertNewGate:(GateType)gateType gateTag:(NSInteger)tagNumber;
 
 @property (nonatomic, weak) id<GatesContainerViewDelegate> delegate;
 

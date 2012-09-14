@@ -23,7 +23,8 @@
     Gate *newGate = [Gate createInContext:parentNode.managedObjectContext];
     
     newGate.type = [NSNumber numberWithInteger:gateType];
-    newGate.vertices = vertices;
+
+    if (vertices) newGate.vertices = vertices;
     newGate.parentNode = parentNode;
     
     newGate.analysis = parentNode.analysis;

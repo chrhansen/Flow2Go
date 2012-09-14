@@ -11,7 +11,6 @@
 @interface PolygonGateView ()
 
 @property (nonatomic, strong) UIBezierPath *polygonPath;
-@property (nonatomic, strong) NSMutableArray *polygonPathPoints;
 @property (nonatomic, strong) UIColor *selectedColor;
 
 @end
@@ -23,7 +22,6 @@
 - (void)baseInit
 {
     self.backgroundColor = UIColor.clearColor;
-    self.polygonPathPoints = NSMutableArray.array;
     self.polygonPath = [UIBezierPath bezierPath];
     self.polygonPath.lineWidth = 2.0;
     self.polygonPath.lineCapStyle = kCGLineCapRound;
@@ -31,16 +29,21 @@
 }
 
 
-- (PolygonGateView *)initWithFrame:(CGRect)frame polygonGateVertices:(NSArray *)vertices;
+- (PolygonGateView *)initWithFrame:(CGRect)frame polygonGateVertices:(NSArray *)vertices gateTag:(NSInteger)tagNumber
 {
     self = [super initWithFrame:frame];
     if (self)
     {
         [self baseInit];
+        self.gateTag = tagNumber;
         if (vertices)
         {
             [self _drawPolygonPathWithPoints:vertices];
-            self.vertices = vertices;
+            self.vertices = [vertices mutableCopy];
+        }
+        else
+        {
+            self.vertices = NSMutableArray.array;
         }
     }
     return self;
@@ -70,12 +73,19 @@
 - (void)panBegan:(CGPoint)firstPoint
 {
     [self _startPolygonPathAtPoint:firstPoint];
+    [self.vertices addObject:[NSValue valueWithCGPoint:firstPoint]];
 }
 
 
 - (void)panChanged:(CGPoint)newPoint
 {
-    [self _extendPolygonPathWithPoint:newPoint];
+    CGFloat distance = [self distanceFrom:self.polygonPath.currentPoint toPoint:newPoint];
+    if (distance > REQUIRED_GAP)
+    {
+        [self _extendPolygonPathWithPoint:newPoint];
+        [self.vertices addObject:[NSValue valueWithCGPoint:newPoint]];
+    }
+    
 }
 
 
@@ -109,14 +119,8 @@
 
 - (void)_extendPolygonPathWithPoint:(CGPoint)newPoint
 {
-    CGFloat distance = [self distanceFrom:self.polygonPath.currentPoint toPoint:newPoint];
-    if (distance > REQUIRED_GAP)
-    {
-        [self.polygonPath addLineToPoint:newPoint];
-        [self.polygonPathPoints addObject:[NSValue valueWithCGPoint:newPoint]];
-        
-        [self setNeedsDisplay];
-    }
+    [self.polygonPath addLineToPoint:newPoint];
+    [self setNeedsDisplay];
 }
 
 

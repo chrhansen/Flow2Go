@@ -15,27 +15,26 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Flow2Go.sqlite"];
-        
-    DBSession *dbSession = [DBSession.alloc initWithAppKey:DropboxAppKey
-                                                 appSecret:DropboxAppSecret
-                                                      root:kDBRootAppFolder];
-    DBSession.sharedSession = dbSession;
+
+    DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"jnrnwsyo6j65b4a"
+                                                    appSecret:@"3hlpks700kooxv8"
+                                                         root:kDBRootDropbox];
     
     [TestFlight takeOff:@"043c6b53e9c4be16677615865b03e754_MTMxNDE4MjAxMi0wOS0xMiAxMjo0NzoyMS40ODMwNjg"];
     
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-
+        
     }
     else
     {
-
+        
     }
     [self.window makeKeyAndVisible];
     
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

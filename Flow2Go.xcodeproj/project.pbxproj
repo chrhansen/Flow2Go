@@ -904,7 +904,7 @@
 					"-ObjC",
 				);
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F912764-D61A-43BC-B9FA-43AB0B7E4EC5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "55E20E0D-F933-4387-B66E-30E6196ABFD7";
 				SDKROOT = iphoneos;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -919,8 +919,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christian Hansen (H98KB8LZJ2)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Christian Hansen";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Christian Hansen";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -933,8 +933,8 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F912764-D61A-43BC-B9FA-43AB0B7E4EC5";
+				PROVISIONING_PROFILE = "98C03DB4-852F-4821-B75C-B8E9B8528826";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "98C03DB4-852F-4821-B75C-B8E9B8528826";
 				SDKROOT = iphoneos;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

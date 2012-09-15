@@ -1,23 +1,21 @@
 //
-//  GatesContainerView.m
-//  Shapes
+//  GatesContainerViewNew.m
+//  Flow2Go
 //
-//  Created by Christian Hansen on 13/09/12.
-//  Copyright (c) 2012 Calcul8.it. All rights reserved.
+//  Created by Christian Hansen on 15/09/12.
+//  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
 #import "GatesContainerView.h"
-#import "SingleGateView.h"
-#import "PolygonGateView.h"
+#import "Polygon.h"
 
+@interface GatesContainerView () <UIGestureRecognizerDelegate>
 
-@interface GatesContainerView ()
-
-@property (nonatomic, strong) GateView *selectedGateView;
-@property (nonatomic, strong) GateView *creatingGateView;
+@property (nonatomic, strong) NSMutableArray *gateGraphics;
+@property (nonatomic, strong) GateGraphic *creatingGraphic;
+@property (nonatomic, strong) GateGraphic *modifyingGraphic;
 
 @end
-
 
 @implementation GatesContainerView
 
@@ -25,32 +23,20 @@
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        self.gateGraphics = NSMutableArray.array;
         [self _addGestures];
     }
     return self;
 }
-
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.gateGraphics = NSMutableArray.array;
         [self _addGestures];
     }
     return self;
-}
-
-
-- (void)removeGateViews
-{
-    for (UIView *aView in self.subviews)
-    {
-        if ([aView isKindOfClass:GateView.class])
-        {
-            [aView removeFromSuperview];
-        }
-    }
-    [self setNeedsDisplay];
 }
 
 
@@ -59,7 +45,7 @@
     [self removeGateViews];
     
     NSUInteger gateCount = [self.delegate numberOfGatesInGatesContainerView:self];
-
+    
     for (NSUInteger gateNo = 0; gateNo < gateCount; gateNo++)
     {
         GateType gateType = [self.delegate gatesContainerView:self gateTypeForGateNo:gateNo];
@@ -67,28 +53,37 @@
         
         [self _insertExistingGate:gateType gateTag:gateNo vertices:vertices];
     }
-
+    
     // attach infoButton and identifier to each gate
     //
-    // add gate as subview
+}
+
+
+
+- (void)removeGateViews
+{
+    [self.gateGraphics removeAllObjects];
+    [self setNeedsDisplay];
 }
 
 
 - (void)_insertExistingGate:(GateType)gateType gateTag:(NSInteger)tagNumber vertices:(NSArray *)vertices
 {
+    GateGraphic *existingGateGraphic = nil;
     switch (gateType)
     {
         case kGateTypeSingleRange:
-//            [self addSubview:[SingleGateView.alloc initWithLeftEdge:[vertices[0] floatValue]
-//                                                          rightEdge:[vertices[1] floatValue]
-//                                                                  y:[vertices[2] floatValue]
-//                                                            gateTag:tagNumber]];
+            //            [self addSubview:[SingleGateView.alloc initWithLeftEdge:[vertices[0] floatValue]
+            //                                                          rightEdge:[vertices[1] floatValue]
+            //                                                                  y:[vertices[2] floatValue]
+            //                                                            gateTag:tagNumber]];
             break;
             
         case kGateTypePolygon:
-            [self addSubview:[PolygonGateView.alloc initWithFrame:self.bounds
-                                              polygonGateVertices:vertices
-                                                          gateTag:tagNumber]];
+            existingGateGraphic = [Polygon.alloc initWithVertices:vertices];
+            existingGateGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:existingGateGraphic];
+            
             break;
             
         default:
@@ -99,24 +94,18 @@
 
 - (void)insertNewGate:(GateType)gateType gateTag:(NSInteger)tagNumber
 {
-    GateView *newGateView = nil;
+    GateGraphic *newGateGraphic = nil;
     switch (gateType)
     {
         case kGateTypeSingleRange:
-            newGateView = [SingleGateView.alloc initWithLeftEdge:self.center.x*0.8
-                                                       rightEdge:self.center.x*1.2
-                                                               y:self.center.y
-                                                         gateTag:tagNumber];
-            [self addSubview:newGateView];
-            [self _reportGateChangeForGateView:newGateView];
+            
             break;
             
         case kGateTypePolygon:
-            newGateView = [PolygonGateView.alloc initWithFrame:self.bounds
-                                           polygonGateVertices:nil
-                                                       gateTag:tagNumber];
-            self.creatingGateView = newGateView;
-            [self addSubview:newGateView];
+            newGateGraphic = Polygon.alloc.init;
+            self.creatingGraphic = newGateGraphic;
+            self.creatingGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:newGateGraphic];
             // report gate change/insert is carried out after the user has tracked a polygon path.
             
             break;
@@ -127,28 +116,21 @@
 }
 
 
-- (void)_reportGateChangeForGateView:(GateView *)gateView
+- (void)drawRect:(CGRect)rect
 {
-    switch (gateView.gateType)
+    for (GateGraphic *gateGraphic in self.gateGraphics)
     {
-        case kGateTypePolygon:
-            [self.delegate gatesContainerView:self didModifyGateNo:gateView.gateTag gateType:gateView.gateType vertices:gateView.vertices];
-            
-            break;
-            
-        case kGateTypeSingleRange:
-            [self.delegate gatesContainerView:self didModifyGateNo:gateView.tag gateType:gateView.gateType vertices:@[[NSNumber numberWithFloat:gateView.frame.origin.x], [NSNumber numberWithFloat:gateView.frame.origin.x+gateView.frame.size.width], [NSNumber numberWithFloat:gateView.center.y]]];
-            
-            break;
-        default:
-            break;
+        [gateGraphic.fillColor setFill];
+        [gateGraphic.path fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
+        [gateGraphic.strokeColor setStroke];
+        [gateGraphic.path stroke];
     }
 }
 
 
 
-
-#pragma mark - Gesture recognizers
+#pragma mark - Gesture Recognizer 
+#pragma mark Gesture Setup methods
 - (void)_addGestures
 {
     UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tapDetected:)];
@@ -170,145 +152,126 @@
 }
 
 
+- (GateGraphic *)_gateAtTapPoint:(CGPoint)tapPoint
+{
+    for (GateGraphic *aGate in self.gateGraphics)
+    {
+        if ([aGate isContentsUnderPoint:tapPoint])
+        {
+            return aGate;
+        }
+    }
+    return nil;
+}
+
+#pragma mark Gesture Action Methods
 - (void)tapDetected:(UITapGestureRecognizer *)tapGesture
 {
-    if (self.creatingGateView)
+    if (self.creatingGraphic)
     {
         return;
     }
-    CGPoint tapPoint = [tapGesture locationInView:self];
-    GateView *tappedGateView = nil;
     
-    for (UIView *aView in self.subviews)
+    CGPoint tapPoint = [tapGesture locationInView:self];
+    GateGraphic *tappedGate = [self _gateAtTapPoint:tapPoint];
+    if (tappedGate)
     {
-        if (tappedGateView == nil
-            && [aView isKindOfClass:GateView.class])
-        {
-            GateView *gateView = (GateView *)aView;
-            CGPoint convertedPoint = [self convertPoint:tapPoint toView:gateView];
-
-            if ([gateView gateContainsPoint:convertedPoint])
-            {
-                tappedGateView = gateView;
-                [(GateView *)aView setSelectedState];
-            }
-            else
-            {
-                [(GateView *)aView unSelect];
-            }
-        }
-        else
-        {
-            if ([aView isKindOfClass:GateView.class])
-            {
-                [(GateView *)aView unSelect];
-            }
-        }
+        CGRect rect = CGRectMake(tapPoint.x, tapPoint.y, 1.0f, 1.0f);
+        [self.delegate gatesContainerView:self didTapGate:tappedGate.gateTag inRect:rect];
     }
-    self.selectedGateView = tappedGateView;
 }
 
 
 - (void)panDetected:(UIPanGestureRecognizer *)panGesture
 {
-    if (self.creatingGateView)
+    CGPoint location = [panGesture locationInView:self];
+    if (self.creatingGraphic)
     {
-        CGPoint location = [panGesture locationInView:self.creatingGateView];
+        CGPoint location = [panGesture locationInView:self];
         
         switch (panGesture.state)
         {
             case UIGestureRecognizerStateBegan:
-                [self.creatingGateView panBegan:location];
+                [self.creatingGraphic panBeganAtPoint:location];
                 break;
                 
             case UIGestureRecognizerStateChanged:
-                [self.creatingGateView panChanged:location];
+                [self.creatingGraphic panChangedToPoint:location];
                 break;
                 
             case UIGestureRecognizerStateEnded:
-                [self.creatingGateView panEnded:location];
-                [self _reportGateChangeForGateView:self.creatingGateView];
-                self.creatingGateView = nil;
+                [self.creatingGraphic panEndedAtPoint:location];
+                [self.delegate gatesContainerView:self didModifyGateNo:self.creatingGraphic.gateTag gateType:self.creatingGraphic.gateType vertices:[self.creatingGraphic getPathPoints]];
+                self.creatingGraphic = nil;
                 break;
                 
             default:
                 break;
         }
     }
-    else if (self.selectedGateView)
+    else
     {
-        CGPoint tranlation;
-        CGPoint viewPosition;
-        
+        CGPoint tranlation = [panGesture translationInView:self];
         switch (panGesture.state)
         {
             case UIGestureRecognizerStateBegan:
+                self.modifyingGraphic = [self _gateAtTapPoint:location];
+                break;
+                
             case UIGestureRecognizerStateChanged:
-                tranlation = [panGesture translationInView:self];
-                viewPosition = self.selectedGateView.center;
-                viewPosition.x += tranlation.x;
-                viewPosition.y += tranlation.y;
-                self.selectedGateView.center = viewPosition;
+                [self.modifyingGraphic.path applyTransform:CGAffineTransformMakeTranslation(tranlation.x, tranlation.y)];
                 
                 break;
                 
             case UIGestureRecognizerStateEnded:
-                [self _reportGateChangeForGateView:self.selectedGateView];
-                NSLog(@"Notify delegate that a gate has moved");
+                [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
+                self.modifyingGraphic = nil;
                 break;
                 
             default:
                 break;
-        }
-    }
+        }    }
+
     
+    [self setNeedsDisplay];
     [panGesture setTranslation:CGPointZero inView:self];
 }
 
 
 - (void)pinchDetected:(UIPinchGestureRecognizer *)pinchRecognizer
 {
-    if (self.creatingGateView)
+    if (self.creatingGraphic)
     {
         return;
     }
-    
-    if (self.selectedGateView)
-    {
-        CGFloat scale = pinchRecognizer.scale;
-        
-        switch (pinchRecognizer.state)
-        {
-            case UIGestureRecognizerStateBegan:
-            case UIGestureRecognizerStateChanged:
-                if ([self.selectedGateView isKindOfClass:SingleGateView.class])
-                {
-                    [(SingleGateView *)self.selectedGateView updateWithPinch:scale];
-                }
-                break;
-                
-            case UIGestureRecognizerStateEnded:
-                // [self.delegate markView:self changedBoundsForGate:gate];
-                NSLog(@"Notify delegate that a gate has resized");
-                break;
-                
-            default:
-                break;
-                
-        }
-        pinchRecognizer.scale = 1.0;
-    }
+//    
+//    if (self.creatingGraphic)
+//    {
+//        CGFloat scale = pinchRecognizer.scale;
+//        
+//        switch (pinchRecognizer.state)
+//        {
+//            case UIGestureRecognizerStateBegan:
+//            case UIGestureRecognizerStateChanged:
+//                if ([self.creatingGraphic isKindOfClass:SingleGateView.class])
+//                {
+//                    [(SingleGateView *)self.selectedGateView updateWithPinch:scale];
+//                }
+//                break;
+//                
+//            case UIGestureRecognizerStateEnded:
+//                // [self.delegate markView:self changedBoundsForGate:gate];
+//                NSLog(@"Notify delegate that a gate has resized");
+//                break;
+//                
+//            default:
+//                break;
+//                
+//        }
+//        pinchRecognizer.scale = 1.0;
+//    }
 }
 
 
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

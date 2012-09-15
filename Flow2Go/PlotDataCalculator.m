@@ -15,7 +15,7 @@
 
 @implementation PlotDataCalculator
 
-#define BIN_COUNT 256
+#define BIN_COUNT 512
 #define HISTOGRAM_AVERAGING 9
 
 + (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile

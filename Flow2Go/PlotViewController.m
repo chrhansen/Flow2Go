@@ -703,6 +703,7 @@ static CPTPlotSymbol *plotSymbol;
 - (void)gatesContainerView:(GatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices
 {
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
+    Gate *modifiedGate = self.displayedGates[gateNo];
     
     if (gateType == kGateTypePolygon)
     {
@@ -712,7 +713,7 @@ static CPTPlotSymbol *plotSymbol;
                                                                     subSet:self.parentGateCalculator.eventsInside
                                                                subSetCount:self.parentGateCalculator.numberOfCellsInside];
         
-        Gate *modifiedGate = self.displayedGates[gateNo];
+        
         modifiedGate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
         modifiedGate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
         modifiedGate.vertices = gateVertices;
@@ -720,14 +721,14 @@ static CPTPlotSymbol *plotSymbol;
     }
 
     
-    // Present gate info
-    //    CGPoint popOverPoint = [updatedVertices[0] CGPointValue];
-    //    CGRect popOverRect = CGRectMake(popOverPoint.x, popOverPoint.y, 1.0f, 1.0f);
-    //    [self showDetailPopoverForGate:modifiedGate inRect:popOverRect editMode:YES];
+//    // Present gate info
+//    CGPoint popOverPoint = [updatedVertices[0] CGPointValue];
+//    CGRect popOverRect = CGRectMake(popOverPoint.x, popOverPoint.y, 1.0f, 1.0f);
+//    [self showDetailPopoverForGate:modifiedGate inRect:popOverRect editMode:YES];
 }
 
 
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapInfoButtonForGate:(NSUInteger)gateNo inRect:(CGRect)rect
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapGate:(NSUInteger)gateNo inRect:(CGRect)rect
 {
     [self showDetailPopoverForGate:self.displayedGates[gateNo] inRect:rect editMode:NO];
 }

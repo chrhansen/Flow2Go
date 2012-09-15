@@ -146,6 +146,8 @@
 }
 
 
+
+
 #pragma mark - Gesture recognizers
 - (void)_addGestures
 {

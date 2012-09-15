@@ -29,6 +29,9 @@
 		E54BC31A160246ED00E55A28 /* SingleGateView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54BC316160246ED00E55A28 /* SingleGateView.m */; };
 		E54BC320160286A700E55A28 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54BC31F160286A700E55A28 /* Default-568h@2x.png */; };
 		E54D71191603570D008CEC5D /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D71181603570D008CEC5D /* libCorePlot-CocoaTouch.a */; };
+		E54D717916046E05008CEC5D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E54D717516046E05008CEC5D /* README.md */; };
+		E54D717A16046E05008CEC5D /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E54D717616046E05008CEC5D /* release_notes.md */; };
+		E54D717C16046EEE008CEC5D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D717416046E05008CEC5D /* libTestFlight.a */; };
 		E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FCSHeader.m */; };
 		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
 		E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */; };
@@ -184,6 +187,10 @@
 		E54D71161603570D008CEC5D /* CPTXYGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTXYGraph.h; sourceTree = "<group>"; };
 		E54D71171603570D008CEC5D /* CPTXYPlotSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTXYPlotSpace.h; sourceTree = "<group>"; };
 		E54D71181603570D008CEC5D /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
+		E54D717416046E05008CEC5D /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		E54D717516046E05008CEC5D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		E54D717616046E05008CEC5D /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		E54D717716046E05008CEC5D /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		E5659AEE15E56A87006D23B0 /* FCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSHeader.h; sourceTree = "<group>"; };
 		E5659AEF15E56A87006D23B0 /* FCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSHeader.m; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* GateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GateCalculator.h; path = Flow2Go/GateCalculator.h; sourceTree = SOURCE_ROOT; };
@@ -295,6 +302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E54D717C16046EEE008CEC5D /* libTestFlight.a in Frameworks */,
 				E546B73616034F920073178C /* DropboxSDK.framework in Frameworks */,
 				E50BA4101600F38000E85118 /* libz.dylib in Frameworks */,
 				E5FC703515CA9F8A0047A3DD /* QuartzCore.framework in Frameworks */,
@@ -452,6 +460,17 @@
 			path = CorePlotHeaders;
 			sourceTree = "<group>";
 		};
+		E54D717316046E05008CEC5D /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				E54D717416046E05008CEC5D /* libTestFlight.a */,
+				E54D717516046E05008CEC5D /* README.md */,
+				E54D717616046E05008CEC5D /* release_notes.md */,
+				E54D717716046E05008CEC5D /* TestFlight.h */,
+			);
+			path = TestFlight;
+			sourceTree = "<group>";
+		};
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +549,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E54D717316046E05008CEC5D /* TestFlight */,
 				E54D70D81603570D008CEC5D /* CorePlot */,
 				E546B73516034F920073178C /* DropboxSDK.framework */,
 				E5FC6F7115CA80630047A3DD /* MagicalRecord */,
@@ -748,6 +768,8 @@
 				E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */,
 				E527421D15F65D52000C80F3 /* PlotCellView.xib in Resources */,
 				E54BC320160286A700E55A28 /* Default-568h@2x.png in Resources */,
+				E54D717916046E05008CEC5D /* README.md in Resources */,
+				E54D717A16046E05008CEC5D /* release_notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

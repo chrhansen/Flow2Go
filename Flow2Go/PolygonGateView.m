@@ -128,6 +128,8 @@
 {
     [self.polygonPath closePath];
     [self setNeedsDisplay];
+    [self getPathPoints:self.polygonPath];
+    NSLog(@"Recorded points: %@", self.vertices);
 }
 
 
@@ -145,6 +147,46 @@
     
     [self.polygonPath fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
     [self.polygonPath stroke];
+}
+
+
+- (void)getPathPoints:(UIBezierPath *)yourPath
+{
+    NSMutableArray *bezierPoints = [NSMutableArray array];
+    CGPathApply(yourPath.CGPath, (__bridge void *)(bezierPoints), ChristianCGPathApplierFunc);
+    NSLog(@"Points from BezierPath: %@", bezierPoints);
+}
+
+
+void ChristianCGPathApplierFunc (void *info, const CGPathElement *element) {
+    NSMutableArray *bezierPoints = (__bridge NSMutableArray *)info;
+    
+    CGPoint *points = element->points;
+    CGPathElementType type = element->type;
+    
+    switch(type) {
+        case kCGPathElementMoveToPoint: // contains 1 point
+            [bezierPoints addObject:[NSValue valueWithCGPoint:points[0]]];
+            break;
+            
+        case kCGPathElementAddLineToPoint: // contains 1 point
+            [bezierPoints addObject:[NSValue valueWithCGPoint:points[0]]];
+            break;
+            
+        case kCGPathElementAddQuadCurveToPoint: // contains 2 points
+            [bezierPoints addObject:[NSValue valueWithCGPoint:points[0]]];
+            [bezierPoints addObject:[NSValue valueWithCGPoint:points[1]]];
+            break;
+            
+        case kCGPathElementAddCurveToPoint: // contains 3 points
+            [bezierPoints addObject:[NSValue valueWithCGPoint:points[0]]];
+            [bezierPoints addObject:[NSValue valueWithCGPoint:points[1]]];
+            [bezierPoints addObject:[NSValue valueWithCGPoint:points[2]]];
+            break;
+            
+        case kCGPathElementCloseSubpath: // contains no point
+            break;
+    }
 }
 
 

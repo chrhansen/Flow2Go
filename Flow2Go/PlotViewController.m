@@ -734,6 +734,14 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didDoubleTapGate:(NSUInteger)gateNo
+{
+    Gate *tappedGate = self.displayedGates[gateNo];
+    [self.delegate didSelectGate:tappedGate forPlot:self.plot];
+
+}
+
+
 #pragma mark - Mark View Datasource
 - (NSUInteger)numberOfGatesInGatesContainerView:(GatesContainerView *)gatesContainerView
 {

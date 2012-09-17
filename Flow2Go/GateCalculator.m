@@ -105,6 +105,10 @@
     double xinters;
     GraphPoint *p1, *p2;
     
+    if (polygonVertices.count == 0)
+    {
+        return NO;
+    }
     p1 = polygonVertices[0];
     for (i = 1; i<= polygonVertices.count; i++)
     {

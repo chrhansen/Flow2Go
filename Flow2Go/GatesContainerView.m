@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSMutableArray *gateGraphics;
 @property (nonatomic, strong) GateGraphic *creatingGraphic;
 @property (nonatomic, strong) GateGraphic *modifyingGraphic;
+@property (nonatomic) NSInteger simultaneousGestures;
 
 @end
 
@@ -134,15 +135,23 @@
 - (void)_addGestures
 {
     UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tapDetected:)];
+
+    UITapGestureRecognizer *doubleTapRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(doubleTapDetected:)];
+    doubleTapRecognizer.numberOfTapsRequired = 2;
+    
     UIPanGestureRecognizer *panRecognizer = [UIPanGestureRecognizer.alloc initWithTarget:self action:@selector(panDetected:)];
     UIPinchGestureRecognizer *pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(pinchDetected:)];
     
+    [tapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+    
     [self addGestureRecognizer:tapRecognizer];
+    [self addGestureRecognizer:doubleTapRecognizer];
     [self addGestureRecognizer:panRecognizer];
     [self addGestureRecognizer:pinchRecognizer];
     
     panRecognizer.delegate = self;
     pinchRecognizer.delegate = self;
+    self.simultaneousGestures = 0;
 }
 
 
@@ -182,6 +191,18 @@
 }
 
 
+- (void)doubleTapDetected:(UITapGestureRecognizer *)doubleTapGesture
+{
+    NSLog(@"double tap recognized!");
+    CGPoint tapPoint = [doubleTapGesture locationInView:self];
+    GateGraphic *doubleTappedGate = [self _gateAtTapPoint:tapPoint];
+    if (doubleTappedGate != nil)
+    {
+        [self.delegate gatesContainerView:self didDoubleTapGate:doubleTappedGate.gateTag];
+    }
+}
+
+
 - (void)panDetected:(UIPanGestureRecognizer *)panGesture
 {
     CGPoint location = [panGesture locationInView:self];
@@ -215,23 +236,31 @@
         switch (panGesture.state)
         {
             case UIGestureRecognizerStateBegan:
+                self.simultaneousGestures += 1;
                 self.modifyingGraphic = [self _gateAtTapPoint:location];
                 break;
                 
             case UIGestureRecognizerStateChanged:
                 [self.modifyingGraphic.path applyTransform:CGAffineTransformMakeTranslation(tranlation.x, tranlation.y)];
-                
                 break;
                 
             case UIGestureRecognizerStateEnded:
-                [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
-                self.modifyingGraphic = nil;
+            case UIGestureRecognizerStateFailed:
+            case UIGestureRecognizerStateCancelled:
+                self.simultaneousGestures -= 1;
+                if (self.modifyingGraphic != nil
+                    && self.simultaneousGestures == 0)
+                {
+                    [self.modifyingGraphic.path applyTransform:CGAffineTransformMakeTranslation(tranlation.x, tranlation.y)];
+                    [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
+                    self.modifyingGraphic = nil;
+                }
                 break;
                 
             default:
                 break;
         }    }
-
+    
     
     [self setNeedsDisplay];
     [panGesture setTranslation:CGPointZero inView:self];
@@ -244,32 +273,48 @@
     {
         return;
     }
-//    
-//    if (self.creatingGraphic)
-//    {
-//        CGFloat scale = pinchRecognizer.scale;
-//        
-//        switch (pinchRecognizer.state)
-//        {
-//            case UIGestureRecognizerStateBegan:
-//            case UIGestureRecognizerStateChanged:
-//                if ([self.creatingGraphic isKindOfClass:SingleGateView.class])
-//                {
-//                    [(SingleGateView *)self.selectedGateView updateWithPinch:scale];
-//                }
-//                break;
-//                
-//            case UIGestureRecognizerStateEnded:
-//                // [self.delegate markView:self changedBoundsForGate:gate];
-//                NSLog(@"Notify delegate that a gate has resized");
-//                break;
-//                
-//            default:
-//                break;
-//                
-//        }
-//        pinchRecognizer.scale = 1.0;
-//    }
+    
+    else
+    {
+        CGFloat scale = pinchRecognizer.scale;
+        CGPoint location = [pinchRecognizer locationInView:self];
+        CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
+        CGAffineTransform toLocation = CGAffineTransformMakeTranslation(location.x, location.y);
+        CGAffineTransform comboTransform = CGAffineTransformConcat(toCenter, CGAffineTransformMakeScale(scale, scale));
+        comboTransform = CGAffineTransformConcat(comboTransform, toLocation);
+        
+        switch (pinchRecognizer.state)
+        {
+            case UIGestureRecognizerStateBegan:
+                self.simultaneousGestures += 1;
+                self.modifyingGraphic = [self _gateAtTapPoint:location];
+                break;
+                
+            case UIGestureRecognizerStateChanged:
+                [self.modifyingGraphic.path applyTransform:comboTransform];
+                break;
+                
+            case UIGestureRecognizerStateEnded:
+            case UIGestureRecognizerStateFailed:
+            case UIGestureRecognizerStateCancelled:
+                self.simultaneousGestures -= 1;
+                if (self.modifyingGraphic != nil
+                    && self.simultaneousGestures == 0)
+                {
+                    [self.modifyingGraphic.path applyTransform:comboTransform];
+                    [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
+                    self.modifyingGraphic = nil;
+                }
+                
+                break;
+                
+            default:
+                break;
+                
+        }
+        [self setNeedsDisplay];
+        pinchRecognizer.scale = 1.0;
+    }
 }
 
 

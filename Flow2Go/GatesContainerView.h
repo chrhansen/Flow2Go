@@ -18,6 +18,7 @@
 // Delegate methods
 - (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapGate:(NSUInteger)gateNo inRect:(CGRect)rect;
 - (void)gatesContainerView:(GatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices;
+- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didDoubleTapGate:(NSUInteger)gateNo;
 
 @end
 

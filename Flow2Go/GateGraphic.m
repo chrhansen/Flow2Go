@@ -65,6 +65,25 @@
 }
 
 
+- (void)pinchBeganWithScale:(CGFloat)scale
+{
+    // Override in subclass
+}
+
+
+- (void)pinchChangedWithScale:(CGFloat)scale
+{
+    // Override in subclass
+}
+
+
+- (void)pinchEndedWithScale:(CGFloat)scale
+{
+    // Override in subclass
+}
+
+
+
 
 - (NSArray *)getPathPoints
 {

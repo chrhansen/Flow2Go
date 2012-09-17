@@ -67,12 +67,15 @@
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="Dry-17-hrn">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="7Vx-A4-nbQ">
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="7Vx-A4-nbQ">
                             <connections>
                                 <segue destination="ksS-06-6R8" kind="modal" identifier="Show Dropbox" modalPresentationStyle="formSheet" id="2bf-zd-mld"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addBarButton" destination="7Vx-A4-nbQ" id="INE-3f-DsP"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R0r-yb-psl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -780,75 +783,6 @@
             <point key="canvasLocation" x="2780" y="2344"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="AddGateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddGateTableViewController.h"/>
-        </class>
-        <class className="AnalysisViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalysisViewController.h"/>
-        </class>
-        <class className="CPTGraphHostingView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
-        </class>
-        <class className="DropboxViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxViewController.h"/>
-        </class>
-        <class className="GateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="gateCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="GatesContainerView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GatesContainerView.h"/>
-        </class>
-        <class className="GatesContainerViewOld" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GatesContainerViewOld.h"/>
-        </class>
-        <class className="KeywordTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/KeywordTableViewController.h"/>
-        </class>
-        <class className="MeasurementCollectionViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MeasurementCollectionViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="infoButtonTapped:" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="PinchLayout" superclassName="UICollectionViewFlowLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PinchLayout.h"/>
-        </class>
-        <class className="PlotDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="PlotViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="gatesContainerView" candidateClass="GatesContainerViewOld"/>
-                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
-                <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="UICollectionViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

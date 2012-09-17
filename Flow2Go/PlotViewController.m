@@ -702,6 +702,11 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark - Gates Container View Delegate
 - (void)gatesContainerView:(GatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices
 {
+    if (updatedVertices.count == 0)
+    {
+        return;
+    }
+    
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
     Gate *modifiedGate = self.displayedGates[gateNo];
     
@@ -713,18 +718,11 @@ static CPTPlotSymbol *plotSymbol;
                                                                     subSet:self.parentGateCalculator.eventsInside
                                                                subSetCount:self.parentGateCalculator.numberOfCellsInside];
         
-        
         modifiedGate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
         modifiedGate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
         modifiedGate.vertices = gateVertices;
         [self.plot.managedObjectContext save];
     }
-
-    
-//    // Present gate info
-//    CGPoint popOverPoint = [updatedVertices[0] CGPointValue];
-//    CGRect popOverRect = CGRectMake(popOverPoint.x, popOverPoint.y, 1.0f, 1.0f);
-//    [self showDetailPopoverForGate:modifiedGate inRect:popOverRect editMode:YES];
 }
 
 

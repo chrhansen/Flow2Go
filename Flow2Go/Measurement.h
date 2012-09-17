@@ -17,6 +17,10 @@
 
 - (Keyword *)keywordWithKey:(NSString *)key;
 
++ (void)deleteMeasurement:(Measurement *)measurement;
++ (void)deleteMeasurements:(NSArray *)measurements;
+
+
 @property (nonatomic, retain) NSNumber * countOfEvents;
 @property (nonatomic, retain) NSDate * downloadDate;
 @property (nonatomic, retain) NSString * filename;

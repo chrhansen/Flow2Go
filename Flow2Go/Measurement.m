@@ -52,6 +52,32 @@
 }
 
 
++ (void)deleteMeasurements:(NSArray *)measurements
+{
+    for (Measurement *aMeasurement in measurements)
+    {
+        [Measurement deleteMeasurement:aMeasurement];
+    }
+}
+
+
++ (void)deleteMeasurement:(Measurement *)measurement
+{
+    NSManagedObjectContext *localContext = [NSManagedObjectContext contextForCurrentThread];
+
+    if (measurement)
+    {
+        NSError *error;
+        [NSFileManager.defaultManager removeItemAtPath:[HOME_DIR stringByAppendingPathComponent:measurement.filepath] error:&error];
+        if (error)
+        {
+            NSLog(@"Error: file could not be deleted: %@", error.localizedDescription);
+        }
+        [measurement deleteInContext:measurement.managedObjectContext];
+        [localContext save];
+    }
+}
+
 - (NSString *)md5OfFile:(NSString *)filePath
 {
     NSURL *URL = [NSURL URLWithString:filePath relativeToURL:HOME_URL];

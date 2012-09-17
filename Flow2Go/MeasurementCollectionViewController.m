@@ -13,10 +13,13 @@
 #import "AnalysisViewController.h"
 #import "Analysis.h"
 #import "KeywordTableViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MeasurementCollectionViewController () <DownloadManagerProgressDelegate>
 
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *addBarButton;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
+@property (nonatomic, strong) NSMutableArray *editItems;
 
 @end
 
@@ -25,16 +28,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIPinchGestureRecognizer* pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self
-                                                                                        action:@selector(handlePinchGesture:)];
-    [self.collectionView addGestureRecognizer:pinchRecognizer];
     UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self _addGestures];
     DownloadManager.sharedInstance.progressDelegate = self;
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -42,6 +41,73 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)_addGestures
+{
+    UIPinchGestureRecognizer *pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self
+                                                                                        action:@selector(handlePinchGesture:)];
+    [self.collectionView addGestureRecognizer:pinchRecognizer];
+}
+
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    [self _configureBarButtonItemsForEditing:editing];
+    if (!editing) [self _discardEditItems];
+}
+
+
+- (void)_configureBarButtonItemsForEditing:(BOOL)editing
+{
+    if (editing)
+    {
+        UIBarButtonItem *shareButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionTapped:)];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setBackgroundImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
+        [button setTitle:NSLocalizedString(@"Delete", nil) forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12.0f];
+        [button.layer setCornerRadius:4.0f];
+        [button.layer setMasksToBounds:YES];
+        [button.layer setBorderWidth:1.0f];
+        [button.layer setBorderColor: [[UIColor grayColor] CGColor]];
+        button.frame = CGRectMake(0.0, 100.0, 60.0, 30.0);
+        [button addTarget:self action:@selector(deleteTapped:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *deleteItem = [UIBarButtonItem.alloc initWithCustomView:button];
+        deleteItem.enabled = NO;
+        shareButton.enabled = NO;
+        [self.navigationItem setLeftBarButtonItems:@[shareButton, deleteItem] animated:YES];
+        
+        UIBarButtonItem *addToButton = [UIBarButtonItem.alloc initWithTitle:NSLocalizedString(@"Add to...", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(addToTapped:)];
+        addToButton.title = NSLocalizedString(@"Add to...", nil);
+        addToButton.enabled = NO;
+        [self.navigationItem setRightBarButtonItems:@[self.editButtonItem, addToButton] animated:YES];
+    }
+    else
+    {
+        [self.navigationItem setLeftBarButtonItems:@[self.addBarButton] animated:YES];
+        [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
+    }
+}
+
+
+- (void)actionTapped:(UIBarButtonItem *)actionButton
+{
+    NSLog(@"action tapped: %@", self.editItems);
+}
+
+- (void)deleteTapped:(UIBarButtonItem *)deleteButton
+{
+    NSArray *deleteItems = [self.editItems copy];
+    [self.editItems removeAllObjects];
+    [Measurement deleteMeasurements:deleteItems];
+}
+
+
+- (void)addToTapped:(UIBarButtonItem *)addToButtom
+{
+    NSLog(@"add to tapped: %@", self.editItems);
+}
 
 - (IBAction)infoButtonTapped:(UIButton *)infoButton
 {
@@ -69,8 +135,7 @@
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    Measurement *measurement = (Measurement *)object;
+    Measurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
     nameLabel.text = measurement.filename;
@@ -93,6 +158,62 @@
     }
 }
 
+
+- (void)toggleCheckmarkForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    Measurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    UIImageView *checkMarkImageView = (UIImageView *)[cell viewWithTag:5];
+    checkMarkImageView.hidden = ![self.editItems containsObject:measurement];
+
+}
+
+- (void)_presentMeasurement:(Measurement *)aMeasurement
+{
+    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
+    AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;
+    
+    if (aMeasurement.analyses.lastObject == nil)
+    {
+        Analysis *analysis = [Analysis createAnalysisForMeasurement:aMeasurement];
+        [analysis.managedObjectContext save];
+    }
+    analysisViewController.analysis = aMeasurement.analyses.lastObject;
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+
+- (void)_toggleMeasurementInEditItems:(Measurement *)aMeasurement
+{
+    if (!self.editItems) self.editItems = NSMutableArray.array;
+    if ([self.editItems containsObject:aMeasurement])
+    {
+        [self.editItems removeObject:aMeasurement];
+    }
+    else
+    {
+        [self.editItems addObject:aMeasurement];
+    }
+    BOOL hasItemsSelected = NO;
+    if (self.editItems.count > 0) hasItemsSelected = YES;
+    [self.navigationItem.leftBarButtonItems[0] setEnabled:hasItemsSelected];
+    [self.navigationItem.leftBarButtonItems[1] setEnabled:hasItemsSelected];
+    [self.navigationItem.rightBarButtonItems[1] setEnabled:hasItemsSelected];
+}
+
+
+- (void)_discardEditItems
+{
+    NSMutableArray *editItems = [self.editItems copy];
+    [self.editItems removeAllObjects];
+    self.editItems = nil;
+    for (Measurement *aMeasurement in editItems)
+    {
+        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:aMeasurement];
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+        [self toggleCheckmarkForCell:cell atIndexPath:indexPath];
+    }
+}
 
 #pragma mark - Download Manager progress delegate
 - (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forDestinationPath:(NSString *)destinationPath
@@ -131,17 +252,21 @@
         return;
     }
     
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
-    AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;
-    
-    if (aMeasurement.analyses.lastObject == nil)
+    switch (self.isEditing)
     {
-        Analysis *analysis = [Analysis createAnalysisForMeasurement:aMeasurement];
-        [analysis.managedObjectContext save];
-    }
-    analysisViewController.analysis = aMeasurement.analyses.lastObject;
-    
-    [self presentViewController:navigationController animated:YES completion:nil];
+        case YES:
+            [self _toggleMeasurementInEditItems:aMeasurement];
+            [self toggleCheckmarkForCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            //[self configureCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NO:
+            [self _presentMeasurement:aMeasurement];
+            break;
+            
+        default:
+            break;
+    }    
 }
 
 
@@ -243,5 +368,6 @@
         } completion:nil];
     }
 }
+
 
 @end

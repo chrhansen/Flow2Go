@@ -34,6 +34,9 @@
 		E54D71B516049CC5008CEC5D /* Polygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* Polygon.m */; };
 		E54D71B716049E09008CEC5D /* GatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* GatesContainerView.m */; };
 		E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FCSHeader.m */; };
+		E5674E751607CC6D007A2DA2 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = E5674E741607CC6D007A2DA2 /* delete.png */; };
+		E577B4911607D76F002348EE /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B48F1607D76F002348EE /* 39-circle-check.png */; };
+		E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B4901607D76F002348EE /* 39-circle-check@2x.png */; };
 		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
 		E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */; };
 		E57BA89315ED8D94008EA346 /* PlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */; };
@@ -196,6 +199,9 @@
 		E54D71B616049E09008CEC5D /* GatesContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GatesContainerView.m; sourceTree = "<group>"; };
 		E5659AEE15E56A87006D23B0 /* FCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSHeader.h; sourceTree = "<group>"; };
 		E5659AEF15E56A87006D23B0 /* FCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSHeader.m; sourceTree = "<group>"; };
+		E5674E741607CC6D007A2DA2 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		E577B48F1607D76F002348EE /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check.png"; sourceTree = "<group>"; };
+		E577B4901607D76F002348EE /* 39-circle-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check@2x.png"; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* GateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GateCalculator.h; path = Flow2Go/GateCalculator.h; sourceTree = SOURCE_ROOT; };
 		E579564815DAFE6800B77795 /* GateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GateCalculator.m; path = Flow2Go/GateCalculator.m; sourceTree = SOURCE_ROOT; };
 		E57AD84315FF7E0000A6815C /* AddGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddGateTableViewController.h; sourceTree = "<group>"; };
@@ -335,6 +341,9 @@
 		E511FD7A15CC377500637D39 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E577B48F1607D76F002348EE /* 39-circle-check.png */,
+				E577B4901607D76F002348EE /* 39-circle-check@2x.png */,
+				E5674E741607CC6D007A2DA2 /* delete.png */,
 				E511FD7815CC36C200637D39 /* icon_72.png */,
 				E511FD7615CC36BD00637D39 /* icon_144.png */,
 				E511FD7415CC367F00637D39 /* icon_57.png */,
@@ -775,6 +784,9 @@
 				E54BC320160286A700E55A28 /* Default-568h@2x.png in Resources */,
 				E54D717916046E05008CEC5D /* README.md in Resources */,
 				E54D717A16046E05008CEC5D /* release_notes.md in Resources */,
+				E5674E751607CC6D007A2DA2 /* delete.png in Resources */,
+				E577B4911607D76F002348EE /* 39-circle-check.png in Resources */,
+				E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

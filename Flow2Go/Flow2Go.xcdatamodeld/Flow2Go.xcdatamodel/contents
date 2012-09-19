@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1807" systemVersion="12B19" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="12B19" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Analysis" representedClassName="Analysis" syncable="YES">
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dateViewed" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="gates" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Gate" inverseName="analysis" inverseEntity="Gate" syncable="YES"/>
+        <relationship name="gates" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Gate" inverseName="analysis" inverseEntity="Gate" syncable="YES"/>
         <relationship name="measurement" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Measurement" inverseName="analyses" inverseEntity="Measurement" syncable="YES"/>
-        <relationship name="plots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Plot" inverseName="analysis" inverseEntity="Plot" syncable="YES"/>
+        <relationship name="plots" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Plot" inverseName="analysis" inverseEntity="Plot" syncable="YES"/>
+    </entity>
+    <entity name="Folder" representedClassName="Folder" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="measurements" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Measurement" inverseName="folder" inverseEntity="Measurement" syncable="YES"/>
     </entity>
     <entity name="Gate" representedClassName="Gate" parentEntity="Node" syncable="YES">
         <attribute name="cellCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -27,8 +31,9 @@
         <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastModificationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uniqueID" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="analyses" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Analysis" inverseName="measurement" inverseEntity="Analysis" syncable="YES"/>
-        <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Keyword" inverseName="measurement" inverseEntity="Keyword" syncable="YES"/>
+        <relationship name="analyses" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Analysis" inverseName="measurement" inverseEntity="Analysis" syncable="YES"/>
+        <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Folder" inverseName="measurements" inverseEntity="Folder" syncable="YES"/>
+        <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Keyword" inverseName="measurement" inverseEntity="Keyword" syncable="YES"/>
     </entity>
     <entity name="Node" representedClassName="Node" isAbstract="YES" syncable="YES">
         <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
@@ -52,8 +57,9 @@
         <element name="Analysis" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Gate" positionX="0" positionY="0" width="128" height="120"/>
         <element name="Keyword" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="Measurement" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Measurement" positionX="0" positionY="0" width="128" height="180"/>
         <element name="Node" positionX="0" positionY="0" width="128" height="180"/>
         <element name="Plot" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="Folder" positionX="160" positionY="192" width="128" height="75"/>
     </elements>
 </model>

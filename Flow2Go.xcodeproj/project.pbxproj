@@ -21,6 +21,9 @@
 		E52BECB715DE63EA002A3819 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* GraphPoint.m */; };
 		E53FA66615CB0CC0000B048C /* MeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */; };
 		E53FA6A215CBC1C5000B048C /* PinchLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA69F15CBBD87000B048C /* PinchLayout.m */; };
+		E542F4C316092B250041A60A /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C216092B250041A60A /* Folder.m */; };
+		E542F4C6160933280041A60A /* FolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FolderCollectionViewController.m */; };
+		E542F4CA16093ABE0041A60A /* FolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E542F4C916093ABD0041A60A /* FolderView.xib */; };
 		E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FCSFile.m */; };
 		E546B73616034F920073178C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E546B73516034F920073178C /* DropboxSDK.framework */; };
 		E54BC318160246ED00E55A28 /* GateView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54BC312160246ED00E55A28 /* GateView.m */; };
@@ -40,6 +43,7 @@
 		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
 		E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */; };
 		E57BA89315ED8D94008EA346 /* PlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */; };
+		E57DD8D4160A1C1F00791D0C /* LineLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E57DD8D3160A1C1F00791D0C /* LineLayout.m */; };
 		E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */; };
 		E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = E59417EB15EB68E9008D979F /* NSData+MD5.m */; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
@@ -116,6 +120,11 @@
 		E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementCollectionViewController.m; sourceTree = "<group>"; };
 		E53FA69E15CBBD87000B048C /* PinchLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PinchLayout.h; sourceTree = "<group>"; };
 		E53FA69F15CBBD87000B048C /* PinchLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PinchLayout.m; sourceTree = "<group>"; };
+		E542F4C116092B250041A60A /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
+		E542F4C216092B250041A60A /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
+		E542F4C4160933270041A60A /* FolderCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderCollectionViewController.h; sourceTree = "<group>"; };
+		E542F4C5160933270041A60A /* FolderCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderCollectionViewController.m; sourceTree = "<group>"; };
+		E542F4C916093ABD0041A60A /* FolderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FolderView.xib; path = ../FolderView.xib; sourceTree = "<group>"; };
 		E5457DA015CEAE7F00678CB7 /* FCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSFile.h; sourceTree = "<group>"; };
 		E5457DA115CEAE7F00678CB7 /* FCSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSFile.m; sourceTree = "<group>"; };
 		E546B73516034F920073178C /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
@@ -208,6 +217,8 @@
 		E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddGateTableViewController.m; sourceTree = "<group>"; };
 		E57BA89115ED8D94008EA346 /* PlotDataCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotDataCalculator.h; sourceTree = "<group>"; };
 		E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotDataCalculator.m; sourceTree = "<group>"; };
+		E57DD8D2160A1C1F00791D0C /* LineLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineLayout.h; sourceTree = "<group>"; };
+		E57DD8D3160A1C1F00791D0C /* LineLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineLayout.m; sourceTree = "<group>"; };
 		E580999A15F79C8B000E0B34 /* KeywordTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeywordTableViewController.h; sourceTree = "<group>"; };
 		E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeywordTableViewController.m; sourceTree = "<group>"; };
 		E59417EA15EB68E9008D979F /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
@@ -373,8 +384,11 @@
 				E54D71AC16049C98008CEC5D /* GatesContainerView.h */,
 				E54D71B616049E09008CEC5D /* GatesContainerView.m */,
 				E54BC30D160246D400E55A28 /* GateDrawing */,
+				E57DD8D2160A1C1F00791D0C /* LineLayout.h */,
+				E57DD8D3160A1C1F00791D0C /* LineLayout.m */,
 				E53FA69E15CBBD87000B048C /* PinchLayout.h */,
 				E53FA69F15CBBD87000B048C /* PinchLayout.m */,
+				E542F4C916093ABD0041A60A /* FolderView.xib */,
 				E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */,
 				E527421C15F65D52000C80F3 /* PlotCellView.xib */,
 			);
@@ -678,6 +692,8 @@
 			isa = PBXGroup;
 			children = (
 				E5FC6F6215CA7E8E0047A3DD /* Flow2Go.xcdatamodeld */,
+				E542F4C116092B250041A60A /* Folder.h */,
+				E542F4C216092B250041A60A /* Folder.m */,
 				E5208C9315EAA17200EBAE47 /* Measurement.h */,
 				E5208C9415EAA17200EBAE47 /* Measurement.m */,
 				E59D2E3715E37D8800944789 /* Analysis.h */,
@@ -699,6 +715,8 @@
 		E5FC6FFE15CA87BC0047A3DD /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E542F4C4160933270041A60A /* FolderCollectionViewController.h */,
+				E542F4C5160933270041A60A /* FolderCollectionViewController.m */,
 				E53FA66415CB0CC0000B048C /* MeasurementCollectionViewController.h */,
 				E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */,
 				E580999A15F79C8B000E0B34 /* KeywordTableViewController.h */,
@@ -787,6 +805,7 @@
 				E5674E751607CC6D007A2DA2 /* delete.png in Resources */,
 				E577B4911607D76F002348EE /* 39-circle-check.png in Resources */,
 				E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */,
+				E542F4CA16093ABE0041A60A /* FolderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -856,6 +875,9 @@
 				E54D71B416049CC5008CEC5D /* GateGraphic.m in Sources */,
 				E54D71B516049CC5008CEC5D /* Polygon.m in Sources */,
 				E54D71B716049E09008CEC5D /* GatesContainerView.m in Sources */,
+				E542F4C316092B250041A60A /* Folder.m in Sources */,
+				E542F4C6160933280041A60A /* FolderCollectionViewController.m in Sources */,
+				E57DD8D4160A1C1F00791D0C /* LineLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,13 +11,16 @@
 #import "PinchLayout.h"
 #import "DownloadManager.h"
 #import "AnalysisViewController.h"
+#import "Folder.h"
 #import "Analysis.h"
 #import "KeywordTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "DropboxViewController.h"
 
-@interface MeasurementCollectionViewController () <DownloadManagerProgressDelegate>
+@interface MeasurementCollectionViewController () <DownloadManagerProgressDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addBarButton;
+@property (nonatomic, strong) UIBarButtonItem *addToFolderBarButton;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (nonatomic, strong) NSMutableArray *editItems;
 
@@ -32,6 +35,14 @@
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self _addGestures];
+    [self _configureBarButtonItemsForEditing:NO];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.title = self.folder.name;
     DownloadManager.sharedInstance.progressDelegate = self;
 }
 
@@ -41,6 +52,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Show Dropbox"])
+    {
+        UINavigationController *navigationController = segue.destinationViewController;
+        DropboxViewController *dropboxViewController = (DropboxViewController *)navigationController.topViewController;
+        dropboxViewController.folder = self.folder;
+    }
+}
 
 - (void)_addGestures
 {
@@ -78,15 +99,15 @@
         shareButton.enabled = NO;
         [self.navigationItem setLeftBarButtonItems:@[shareButton, deleteItem] animated:YES];
         
-        UIBarButtonItem *addToButton = [UIBarButtonItem.alloc initWithTitle:NSLocalizedString(@"Add to...", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(addToTapped:)];
-        addToButton.title = NSLocalizedString(@"Add to...", nil);
-        addToButton.enabled = NO;
-        [self.navigationItem setRightBarButtonItems:@[self.editButtonItem, addToButton] animated:YES];
+        self.addToFolderBarButton = [UIBarButtonItem.alloc initWithTitle:NSLocalizedString(@"Add...", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(addToTapped:)];
+        [self.navigationItem setRightBarButtonItems:@[self.editButtonItem, self.addToFolderBarButton] animated:YES];
     }
     else
     {
-        [self.navigationItem setLeftBarButtonItems:@[self.addBarButton] animated:YES];
+        UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped:)];
+        [self.navigationItem setLeftBarButtonItems:@[doneBarButton,self.addBarButton] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
+        self.addToFolderBarButton = nil;
     }
 }
 
@@ -96,8 +117,34 @@
     NSLog(@"action tapped: %@", self.editItems);
 }
 
-- (void)deleteTapped:(UIBarButtonItem *)deleteButton
+
+- (void)deleteTapped:(UIButton *)deleteButton
 {
+    NSString *deleteString = nil;
+    if (self.editItems.count == 1)
+    {
+        deleteString = NSLocalizedString(@"Are you sure you want to delete selected item?", nil);
+    }
+    else
+    {
+        deleteString = NSLocalizedString(@"Are you sure you want to delete selected items?", nil);
+    }
+    
+    UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:deleteString
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                             destructiveButtonTitle:NSLocalizedString(@"Delete", nil)
+                                                  otherButtonTitles: nil];
+    [actionSheet showFromRect:deleteButton.frame inView:self.navigationController.navigationBar animated:YES];
+}
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == actionSheet.cancelButtonIndex)
+    {
+        return;
+    }
     NSArray *deleteItems = [self.editItems copy];
     [self.editItems removeAllObjects];
     [Measurement deleteMeasurements:deleteItems];
@@ -106,6 +153,21 @@
 
 - (void)addToTapped:(UIBarButtonItem *)addToButtom
 {
+    BOOL itemsSelected = NO;
+    if (self.editItems.count > 0) itemsSelected = YES;;
+    
+    switch (itemsSelected) {
+        case YES:
+            // show list of other folders to add files to
+            break;
+            
+        case NO:
+            // show list of other folders to add files from
+            break;
+            
+        default:
+            break;
+    }
     NSLog(@"add to tapped: %@", self.editItems);
 }
 
@@ -130,6 +192,12 @@
     {
         [self presentViewController:keywordTVC animated:YES completion:nil];
     }
+}
+
+
+- (void)doneTapped:(UIBarButtonItem *)doneButton
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -159,13 +227,60 @@
 }
 
 
-- (void)toggleCheckmarkForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)_toggleVisibleCheckmarkForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     Measurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UIImageView *checkMarkImageView = (UIImageView *)[cell viewWithTag:5];
     checkMarkImageView.hidden = ![self.editItems containsObject:measurement];
-
 }
+
+
+
+- (void)_togglePresenceInEditItems:(Measurement *)aMeasurement
+{
+    if (!self.editItems) self.editItems = NSMutableArray.array;
+    if ([self.editItems containsObject:aMeasurement])
+    {
+        [self.editItems removeObject:aMeasurement];
+    }
+    else
+    {
+        [self.editItems addObject:aMeasurement];
+    }
+}
+
+
+- (void)_toggleBarButtonStateOnChangedEditItems
+{
+    BOOL hasItemsSelected = NO;
+    if (self.editItems.count > 0) hasItemsSelected = YES;
+    
+    if (hasItemsSelected)
+    {
+        [self.navigationItem.rightBarButtonItems[1] setTitle:NSLocalizedString(@"Add To...", nil)];
+    }
+    else
+    {
+        [self.navigationItem.rightBarButtonItems[1] setTitle:NSLocalizedString(@"Add...", nil)];
+    }
+    [self.navigationItem.leftBarButtonItems[0] setEnabled:hasItemsSelected];
+    [self.navigationItem.leftBarButtonItems[1] setEnabled:hasItemsSelected];
+}
+
+
+- (void)_discardEditItems
+{
+    NSMutableArray *editItems = [self.editItems copy];
+    [self.editItems removeAllObjects];
+    self.editItems = nil;
+    for (Measurement *aMeasurement in editItems)
+    {
+        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:aMeasurement];
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+        [self _toggleVisibleCheckmarkForCell:cell atIndexPath:indexPath];
+    }
+}
+
 
 - (void)_presentMeasurement:(Measurement *)aMeasurement
 {
@@ -182,38 +297,6 @@
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
-
-- (void)_toggleMeasurementInEditItems:(Measurement *)aMeasurement
-{
-    if (!self.editItems) self.editItems = NSMutableArray.array;
-    if ([self.editItems containsObject:aMeasurement])
-    {
-        [self.editItems removeObject:aMeasurement];
-    }
-    else
-    {
-        [self.editItems addObject:aMeasurement];
-    }
-    BOOL hasItemsSelected = NO;
-    if (self.editItems.count > 0) hasItemsSelected = YES;
-    [self.navigationItem.leftBarButtonItems[0] setEnabled:hasItemsSelected];
-    [self.navigationItem.leftBarButtonItems[1] setEnabled:hasItemsSelected];
-    [self.navigationItem.rightBarButtonItems[1] setEnabled:hasItemsSelected];
-}
-
-
-- (void)_discardEditItems
-{
-    NSMutableArray *editItems = [self.editItems copy];
-    [self.editItems removeAllObjects];
-    self.editItems = nil;
-    for (Measurement *aMeasurement in editItems)
-    {
-        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:aMeasurement];
-        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-        [self toggleCheckmarkForCell:cell atIndexPath:indexPath];
-    }
-}
 
 #pragma mark - Download Manager progress delegate
 - (void)downloadManager:(DownloadManager *)sender loadProgress:(CGFloat)progress forDestinationPath:(NSString *)destinationPath
@@ -255,9 +338,9 @@
     switch (self.isEditing)
     {
         case YES:
-            [self _toggleMeasurementInEditItems:aMeasurement];
-            [self toggleCheckmarkForCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
-            //[self configureCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self _togglePresenceInEditItems:aMeasurement];
+            [self _toggleVisibleCheckmarkForCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self _toggleBarButtonStateOnChangedEditItems];
             break;
             
         case NO:
@@ -292,6 +375,9 @@
     NSArray *sortDescriptors = @[sortDescriptor];
     
     fetchRequest.sortDescriptors = sortDescriptors;
+    
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.folder.measurements];
+
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".

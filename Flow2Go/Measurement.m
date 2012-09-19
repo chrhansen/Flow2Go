@@ -24,19 +24,20 @@
 @dynamic uniqueID;
 @dynamic analyses;
 @dynamic keywords;
+@dynamic folder;
 
-
-+ (Measurement *)createWithDictionary:(NSDictionary *)dictionary
++ (Measurement *)createWithDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context
 {
-    DBMetadata *metaData = dictionary[@"metadata"];
-    Measurement *newMeasurement = [Measurement findFirstByAttribute:@"uniqueID" withValue:dictionary[@"uniqueID"]];
+    if (context == nil) context = [NSManagedObjectContext MR_contextForCurrentThread];
+    Measurement *newMeasurement = [Measurement findFirstByAttribute:@"uniqueID" withValue:dictionary[@"uniqueID"] inContext:context];
     
     if (newMeasurement == nil)
     {
-        newMeasurement = [Measurement createEntity];
+        newMeasurement = [Measurement createInContext:context];
         newMeasurement.uniqueID = dictionary[@"uniqueID"];
     }
     
+    DBMetadata *metaData = dictionary[@"metadata"];
     newMeasurement.filename = metaData.filename;
     newMeasurement.filepath = dictionary[@"filepath"];
     
@@ -47,7 +48,6 @@
         newMeasurement.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
         [newMeasurement _addKeywordsWithDictionary:fcsKeywords];
     }
-    
     return newMeasurement;
 }
 

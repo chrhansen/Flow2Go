@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Analysis, Keyword;
+@class Analysis, Folder, Keyword;
 
 @interface Measurement : NSManagedObject
 
-+ (Measurement *)createWithDictionary:(NSDictionary *)dictionary;
++ (Measurement *)createWithDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context;
 
 - (Keyword *)keywordWithKey:(NSString *)key;
 
@@ -29,6 +29,8 @@
 @property (nonatomic, retain) NSString * uniqueID;
 @property (nonatomic, retain) NSOrderedSet *analyses;
 @property (nonatomic, retain) NSSet *keywords;
+@property (nonatomic, retain) Folder *folder;
+
 @end
 
 @interface Measurement (CoreDataGeneratedAccessors)

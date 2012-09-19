@@ -169,11 +169,14 @@
         DropboxViewController *nextLevelViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dropboxViewController"];
         nextLevelViewController.subPath = [self.subPath stringByAppendingPathComponent:pickedItem.filename];
         nextLevelViewController.title = pickedItem.filename;
+        nextLevelViewController.folder = self.folder;
         [self.navigationController pushViewController:nextLevelViewController animated:YES];
     }
     else
     {
-        [DownloadManager.sharedInstance downloadFile:self.directoryContents[indexPath.row]];
+//        [DownloadManager.sharedInstance downloadFile:self.directoryContents[indexPath.row]];
+        [DownloadManager.sharedInstance downloadFile:self.directoryContents[indexPath.row]
+                                            toFolder:self.folder];
     }
 }
 

@@ -10,6 +10,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 
 @class DownloadManager;
+@class Folder;
 
 @protocol DownloadManagerDelegate <NSObject>
 
@@ -28,6 +29,7 @@
 + (DownloadManager *)sharedInstance;
 
 - (void)downloadFile:(DBMetadata *)fileMetadata;
+- (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(Folder *)folder;
 
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<DownloadManagerDelegate> delegate;

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <DropboxSDK/DropboxSDK.h>
+@class Folder;
 
 @interface DropboxViewController : UITableViewController 
 
 @property (nonatomic, strong) NSString *subPath;
+@property (nonatomic, strong) Folder *folder;
 
 @end

@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Folder;
 
 @interface MeasurementCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) Folder *folder;
 
 - (IBAction)infoButtonTapped:(UIButton *)sender;
 

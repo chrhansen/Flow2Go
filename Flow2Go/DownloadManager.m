@@ -9,6 +9,7 @@
 #import "DownloadManager.h"
 #import "Measurement.h"
 #import "NSString+UUID.h"
+#import "Folder.h"
 
 @implementation DownloadManager
 
@@ -45,12 +46,25 @@
     [Measurement createWithDictionary:@{
      @"metadata" : fileMetadata,
      @"filepath" : relativePath,
-     @"uniqueID" : uniqueID }];
+     @"uniqueID" : uniqueID } inContext:nil];
     [NSManagedObjectContext.MR_defaultContext MR_save];
     [self.restClient loadFile:fileMetadata.path intoPath:[HOME_DIR stringByAppendingPathComponent:relativePath]];
 }
 
+- (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(Folder *)folder;
+{
+    NSString *uniqueID = [NSString getUUID];
+    NSString *relativePath = [@"tmp" stringByAppendingPathComponent:[uniqueID stringByAppendingPathExtension:fileMetadata.filename.pathExtension]];
+    
+    Measurement *newMeasurement = [Measurement createWithDictionary:@{
+     @"metadata" : fileMetadata,
+     @"filepath" : relativePath,
+     @"uniqueID" : uniqueID } inContext:folder.managedObjectContext];
+    newMeasurement.folder = folder;
+    [folder.managedObjectContext save];
 
+    [self.restClient loadFile:fileMetadata.path intoPath:[HOME_DIR stringByAppendingPathComponent:relativePath]];
+}
 
 #pragma mark - Dropbox Delegate methods
 #pragma mark Load directory contents
@@ -89,7 +103,7 @@
      @"metadata" : metadata ,
      @"downloadDate": NSDate.date ,
      @"filepath" : newRelativePath,
-     @"uniqueID" : newRelativePath.lastPathComponent.stringByDeletingPathExtension}];
+     @"uniqueID" : newRelativePath.lastPathComponent.stringByDeletingPathExtension} inContext:nil];
     [NSManagedObjectContext.MR_defaultContext MR_saveInBackgroundCompletion:^{
     }];
 }

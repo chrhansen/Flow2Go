@@ -14,6 +14,7 @@
 #import "Plot.h"
 #import "Gate.h"
 #import "PinchLayout.h"
+#import "LineLayout.h"
 #import "PlotDetailTableViewController.h"
 
 
@@ -65,6 +66,12 @@
 {
     [super viewDidAppear:animated];
     [self _loadFCSFile];
+    LineLayout *lineLayout = [LineLayout.alloc init];
+    [self.collectionView setCollectionViewLayout:lineLayout animated:YES];
+    if ([self.collectionView.collectionViewLayout isKindOfClass:LineLayout.class])
+    {
+        NSLog(@"Is LineLayout: %@", self.collectionView.collectionViewLayout.class);
+    }
 }
 
 
@@ -108,9 +115,7 @@
     
     Plot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
     Gate *parentGate = (Gate *)plot.parentNode;
-    
-    NSLog(@"Name: %@, Section: %@", plot.name, plot.plotSectionName);
-    
+        
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
     nameLabel.text = plot.name;
 

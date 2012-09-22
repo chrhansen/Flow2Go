@@ -55,6 +55,7 @@
 		E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */; };
 		E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* SingleRange.m */; };
 		E5F1DAFE160E64A200591F2A /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* Rectangle.m */; };
+		E5F1DB06160E7BD300591F2A /* Ellipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* Ellipse.m */; };
 		E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
 		E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -243,6 +244,8 @@
 		E5E1E773160CA68B006BFE98 /* SingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleRange.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
 		E5F1DAFD160E64A200591F2A /* Rectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rectangle.m; sourceTree = "<group>"; };
+		E5F1DB04160E7BD200591F2A /* Ellipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ellipse.h; sourceTree = "<group>"; };
+		E5F1DB05160E7BD200591F2A /* Ellipse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ellipse.m; sourceTree = "<group>"; };
 		E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeasurementView.xib; sourceTree = "<group>"; };
 		E5FC6F4415CA7E8E0047A3DD /* Flow2Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flow2Go.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -410,6 +413,8 @@
 				E54D71B316049CC5008CEC5D /* Polygon.m */,
 				E5E1E772160CA68B006BFE98 /* SingleRange.h */,
 				E5E1E773160CA68B006BFE98 /* SingleRange.m */,
+				E5F1DB04160E7BD200591F2A /* Ellipse.h */,
+				E5F1DB05160E7BD200591F2A /* Ellipse.m */,
 			);
 			name = GateDrawing;
 			sourceTree = "<group>";
@@ -886,6 +891,7 @@
 				E5116F00160A8234002A54E4 /* ContainerViewController.m in Sources */,
 				E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */,
 				E5F1DAFE160E64A200591F2A /* Rectangle.m in Sources */,
+				E5F1DB06160E7BD300591F2A /* Ellipse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

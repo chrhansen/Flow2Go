@@ -10,6 +10,7 @@
 #import "Polygon.h"
 #import "SingleRange.h"
 #import "Rectangle.h"
+#import "Ellipse.h"
 
 @interface GatesContainerView () <UIGestureRecognizerDelegate>
 
@@ -93,6 +94,11 @@
             [self.gateGraphics addObject:existingGateGraphic];
             break;
             
+        case kGateTypeEllipse:
+            existingGateGraphic = [Ellipse.alloc initWithVertices:vertices];
+            existingGateGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:existingGateGraphic];
+            break;
 
         default:
             break;
@@ -126,6 +132,13 @@
             
         case kGateTypeRectangle:
             newGateGraphic = [Rectangle.alloc initWithBoundsOfContainerView:self.bounds];
+            newGateGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:newGateGraphic];
+            [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
+            break;
+            
+        case kGateTypeEllipse:
+            newGateGraphic = [Ellipse.alloc initWithBoundsOfContainerView:self.bounds];
             newGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:newGateGraphic];
             [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];

@@ -164,13 +164,16 @@
 }
 
 
-- (void)_toggleInfo:(id)sender
+- (void)_toggleInfo:(UIButton *)sender
 {
     UINavigationController *plotNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"plotDetailTableViewController"];
     PlotDetailTableViewController *plotTVC = (PlotDetailTableViewController *)plotNavigationVC.topViewController;
-    plotTVC.delegate = self.delegate;
+    id delegate = self.delegate;
+    plotTVC.delegate = delegate;
+    
     plotTVC.plot = self.plot;
-    [plotTVC setEditing:NO animated:NO];
+    
+    //[plotTVC setEditing:NO animated:NO];
     if (self.detailPopoverController.isPopoverVisible)
     {
         UINavigationController *navigationController = (UINavigationController *)self.detailPopoverController.contentViewController;
@@ -183,8 +186,8 @@
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
     {
         self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:plotNavigationVC];
-        [self.detailPopoverController presentPopoverFromBarButtonItem:self.navigationItem.leftBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.detailPopoverController.delegate = self;
+        [self.detailPopoverController presentPopoverFromRect:sender.frame inView:self.navigationController.navigationBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
     else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
     {
@@ -547,26 +550,6 @@ NSDecimal CPDecimalFromString(NSString *stringRepresentation)
     yRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
     yRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
     self.plotSpace.yRange = yRange;
-    
-// Switch to section below (comment out above) to have the range exactly where there exist values
-//    
-//    [self.plotSpace scaleToFitPlots:self.graph.allPlots];
-//    
-//    CPTMutablePlotRange *xRange = [self.plotSpace.xRange mutableCopy];
-//	[xRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
-//    if (self.plot.xAxisType.integerValue == kAxisTypeLogarithmic
-//        && xRange.locationDouble <= 0.0) {
-//        xRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].minValue]) length:xRange.length];
-//    }
-//    self.plotSpace.xRange = xRange;
-//
-//    CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
-//	[yRange expandRangeByFactor:CPTDecimalFromCGFloat(1.05f)];
-//    if (self.plot.yAxisType.integerValue == kAxisTypeLogarithmic
-//        && yRange.locationDouble <= 0.0) {
-//        yRange = [CPTPlotRange plotRangeWithLocation:CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]) length:yRange.length];
-//    }
-//	self.plotSpace.yRange = yRange;
 }
 
 

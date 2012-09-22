@@ -11,6 +11,7 @@
 #import "DownloadManager.h"
 #import "PinchLayout.h"
 #import "MeasurementCollectionViewController.h"
+#import "ContainerViewController.h"
 
 @interface FolderCollectionViewController () <UIAlertViewDelegate>
 
@@ -125,12 +126,19 @@
 
 - (void)_showContentsOfFolder:(Folder *)folder
 {
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"measurementViewController"];
-    MeasurementCollectionViewController *measurementViewController = (MeasurementCollectionViewController *)navigationController.topViewController;
-    measurementViewController.folder = folder;
-    navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"measurementViewController"];
+//    MeasurementCollectionViewController *measurementViewController = (MeasurementCollectionViewController *)navigationController.topViewController;
+//    measurementViewController.folder = folder;
+//    navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+//    [self presentViewController:navigationController animated:YES completion:nil];
+    
+    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"containerViewController"];
+    ContainerViewController *containerViewController = (ContainerViewController *)navigationController.topViewController;
+    containerViewController.folder = folder;
+    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:navigationController animated:YES completion:nil];
 }
+
 
 #pragma mark - Fetched results controller
 

@@ -104,7 +104,7 @@
     [infoButton addTarget:self action:@selector(_toggleInfo:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *infoBarButton = [UIBarButtonItem.alloc initWithCustomView: infoButton];
     UIBarButtonItem *addGateButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(_addGateButtonTapped:)];
-    self.navigationItem.leftBarButtonItems = @[infoBarButton, addGateButton];
+    self.navigationItem.leftBarButtonItems = @[addGateButton, infoBarButton];
     self.plotTypeSegmentedControl.selectedSegmentIndex = self.plot.plotType.integerValue;
     [self.yAxisButton setTransform:CGAffineTransformMakeRotation(-M_PI / 2)];
 }
@@ -216,9 +216,9 @@
 
 
 #pragma mark - Add Gate Table View Controller Delegate
-- (NSArray *)validGatesForCurrentPlot:(id)sender
+- (PlotType)addGateTableViewControllerCurrentPlotType:(id)sender
 {
-    return nil;
+    return self.plot.plotType.integerValue;
 }
 
 
@@ -710,19 +710,19 @@ static CPTPlotSymbol *plotSymbol;
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
     Gate *modifiedGate = self.displayedGates[gateNo];
     
-    if (gateType == kGateTypePolygon)
-    {
-        GateCalculator *gateContents = [GateCalculator eventsInsidePolygon:gateVertices
-                                                                   fcsFile:self.fcsFile
-                                                                insidePlot:self.plot
-                                                                    subSet:self.parentGateCalculator.eventsInside
-                                                               subSetCount:self.parentGateCalculator.numberOfCellsInside];
-        
-        modifiedGate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
-        modifiedGate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
-        modifiedGate.vertices = gateVertices;
-        [self.plot.managedObjectContext save];
-    }
+    GateCalculator *gateContents = [GateCalculator eventsInsideGateWithVertices:gateVertices
+                                                                       gateType:gateType
+                                                                        fcsFile:self.fcsFile
+                                                                     insidePlot:self.plot
+                                                                         subSet:self.parentGateCalculator.eventsInside
+                                                                    subSetCount:self.parentGateCalculator.numberOfCellsInside];
+    
+    modifiedGate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
+    modifiedGate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
+    modifiedGate.vertices = gateVertices;
+    
+    
+    [self.plot.managedObjectContext save];
 }
 
 

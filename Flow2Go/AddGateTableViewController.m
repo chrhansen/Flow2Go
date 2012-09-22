@@ -32,8 +32,15 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = NSLocalizedString(@"Add Gate", nil);
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self _loadValidGates];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -79,8 +86,56 @@
 
 - (void)_loadValidGates
 {
-    NSArray *validGates = [self.delegate validGatesForCurrentPlot:self];
-    NSLog(@"validGates: %@", validGates);
+    PlotType plotType = [self.delegate addGateTableViewControllerCurrentPlotType:self];
+    NSLog(@"plotType: %i", plotType);
+    
+    if (plotType == kPlotTypeDot
+        || plotType == kPlotTypeDensity)
+    {
+        for (NSInteger row = 0; row < [self.tableView numberOfRowsInSection:0]; ++row)
+        {
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+            switch (row)
+            {
+                case POLYGON_GATE:
+                case RECTANGLE_GATE:
+                case QUADRANT_GATE:
+                case ELLIPSE_GATE:
+                    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                    cell.userInteractionEnabled = YES;
+                    cell.textLabel.textColor  = [UIColor blackColor];
+                    break;
+                    
+                default:
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    cell.userInteractionEnabled = NO;
+                    cell.textLabel.textColor  = [UIColor lightGrayColor];
+                    break;
+            }
+        }
+    }
+    else if (plotType == kPlotTypeHistogram)
+    {
+        for (NSInteger row = 0; row < [self.tableView numberOfRowsInSection:0]; ++row)
+        {
+            UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+            switch (row)
+            {
+                case SINGLE_RANGE_GATE:
+                case TRIPLE_RANGE_GATE:
+                    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                    cell.userInteractionEnabled = YES;
+                    cell.textLabel.textColor  = [UIColor blackColor];
+                    break;
+                    
+                default:
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    cell.userInteractionEnabled = NO;
+                    cell.textLabel.textColor  = [UIColor lightGrayColor];
+                    break;
+            }
+        }
+    }
 }
 
 @end

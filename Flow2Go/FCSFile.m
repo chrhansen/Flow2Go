@@ -496,7 +496,7 @@ typedef enum
             self.ranges[parNo].maxValue = pow(10, f1 + log10(f2));
         }
     
-        NSLog(@"Par%i,(f1,f2)=(%f,%f), g= %f, RangeValue (value=%f) (%f,%f)", parNo + 1, f1, f2, g, range + 1.0,self.ranges[parNo].minValue, self.ranges[parNo].maxValue);
+//        NSLog(@"Par%i,(f1,f2)=(%f,%f), g= %f, RangeValue (value=%f) (%f,%f)", parNo + 1, f1, f2, g, range + 1.0,self.ranges[parNo].minValue, self.ranges[parNo].maxValue);
         for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
         {
             switch (valueType)

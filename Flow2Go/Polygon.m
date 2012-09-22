@@ -107,4 +107,32 @@
     [self _endPath];
 }
 
+
+- (CGAffineTransform)transformForScale:(CGFloat)scale atLocation:(CGPoint)location
+{
+    CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
+    CGAffineTransform toLocation = CGAffineTransformMakeTranslation(location.x, location.y);
+    CGAffineTransform comboTransform = CGAffineTransformConcat(toCenter, CGAffineTransformMakeScale(scale, scale));
+    return CGAffineTransformConcat(comboTransform, toLocation);
+}
+
+- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
+{
+    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+}
+
+
+- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
+{
+    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+}
+
+
+- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
+{
+    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+}
+
+
+
 @end

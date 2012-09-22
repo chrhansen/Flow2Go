@@ -8,6 +8,7 @@
 
 #import "GatesContainerView.h"
 #import "Polygon.h"
+#import "SingleRange.h"
 
 @interface GatesContainerView () <UIGestureRecognizerDelegate>
 
@@ -74,10 +75,9 @@
     switch (gateType)
     {
         case kGateTypeSingleRange:
-            //            [self addSubview:[SingleGateView.alloc initWithLeftEdge:[vertices[0] floatValue]
-            //                                                          rightEdge:[vertices[1] floatValue]
-            //                                                                  y:[vertices[2] floatValue]
-            //                                                            gateTag:tagNumber]];
+            existingGateGraphic = [SingleRange.alloc initWithVertices:vertices];
+            existingGateGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:existingGateGraphic];
             break;
             
         case kGateTypePolygon:
@@ -95,18 +95,25 @@
 
 - (void)insertNewGate:(GateType)gateType gateTag:(NSInteger)tagNumber
 {
+    CGFloat leftBound = 0.4 * self.bounds.size.width / 2;
+    CGFloat rightBound = 0.6 * self.bounds.size.width / 2;
+    CGFloat centerHeight = 0.6 * self.bounds.size.height / 2;
+    
     GateGraphic *newGateGraphic = nil;
+    
     switch (gateType)
     {
         case kGateTypeSingleRange:
-            
+            newGateGraphic = [SingleRange.alloc initWithVertices:@[[NSValue valueWithCGPoint:CGPointMake(leftBound, centerHeight)], [NSValue valueWithCGPoint:CGPointMake(rightBound, centerHeight)]]];
+            newGateGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:newGateGraphic];
+            [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
             break;
             
         case kGateTypePolygon:
-            newGateGraphic = Polygon.alloc.init;
-            self.creatingGraphic = newGateGraphic;
+            self.creatingGraphic = Polygon.alloc.init;
             self.creatingGraphic.gateTag = tagNumber;
-            [self.gateGraphics addObject:newGateGraphic];
+            [self.gateGraphics addObject:self.creatingGraphic];
             // report gate change/insert is carried out after the user has tracked a polygon path.
             
             break;
@@ -114,6 +121,7 @@
         default:
             break;
     }
+    [self setNeedsDisplay];
 }
 
 
@@ -276,22 +284,18 @@
     
     else
     {
-        CGFloat scale = pinchRecognizer.scale;
         CGPoint location = [pinchRecognizer locationInView:self];
-        CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
-        CGAffineTransform toLocation = CGAffineTransformMakeTranslation(location.x, location.y);
-        CGAffineTransform comboTransform = CGAffineTransformConcat(toCenter, CGAffineTransformMakeScale(scale, scale));
-        comboTransform = CGAffineTransformConcat(comboTransform, toLocation);
         
         switch (pinchRecognizer.state)
         {
             case UIGestureRecognizerStateBegan:
                 self.simultaneousGestures += 1;
                 self.modifyingGraphic = [self _gateAtTapPoint:location];
+                [self.modifyingGraphic pinchBeganAtLocation:location withScale:pinchRecognizer.scale];
                 break;
                 
             case UIGestureRecognizerStateChanged:
-                [self.modifyingGraphic.path applyTransform:comboTransform];
+                [self.modifyingGraphic pinchChangedAtLocation:location withScale:pinchRecognizer.scale];
                 break;
                 
             case UIGestureRecognizerStateEnded:
@@ -301,11 +305,11 @@
                 if (self.modifyingGraphic != nil
                     && self.simultaneousGestures == 0)
                 {
-                    [self.modifyingGraphic.path applyTransform:comboTransform];
+                    [self.modifyingGraphic pinchEndedAtLocation:location withScale:pinchRecognizer.scale];
                     [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
+                    
                     self.modifyingGraphic = nil;
                 }
-                
                 break;
                 
             default:

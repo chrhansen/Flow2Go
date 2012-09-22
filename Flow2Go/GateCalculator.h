@@ -20,11 +20,12 @@
                          xParam:(NSUInteger)xPar
                          yParam:(NSUInteger)yPar;
 
-+ (GateCalculator *)eventsInsidePolygon:(NSArray *)vertices
-                                fcsFile:(FCSFile *)fcsFile
-                             insidePlot:(Plot *)plot
-                                 subSet:(NSUInteger *)subSet
-                            subSetCount:(NSUInteger)subSetCount;
++ (GateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
+                                        gateType:(GateType)gateType
+                                         fcsFile:(FCSFile *)fcsFile
+                                      insidePlot:(Plot *)plot
+                                          subSet:(NSUInteger *)subSet
+                                     subSetCount:(NSUInteger)subSetCount;
 
 @property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;

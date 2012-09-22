@@ -19,8 +19,6 @@
 
 @interface MeasurementCollectionViewController () <DownloadManagerProgressDelegate, UIActionSheetDelegate>
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *addBarButton;
-@property (nonatomic, strong) UIBarButtonItem *addToFolderBarButton;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (nonatomic, strong) NSMutableArray *editItems;
 
@@ -33,9 +31,7 @@
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self _addGestures];
-    [self _configureBarButtonItemsForEditing:NO];
 }
 
 
@@ -65,51 +61,18 @@
 
 - (void)_addGestures
 {
-    UIPinchGestureRecognizer *pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self
-                                                                                        action:@selector(handlePinchGesture:)];
-    [self.collectionView addGestureRecognizer:pinchRecognizer];
+    UILongPressGestureRecognizer *longPressRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self
+                                                                                        action:@selector(handleLongPressGesture:)];
+    [self.collectionView addGestureRecognizer:longPressRecognizer];
 }
 
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
-    [self _configureBarButtonItemsForEditing:editing];
     if (!editing) [self _discardEditItems];
 }
 
-
-- (void)_configureBarButtonItemsForEditing:(BOOL)editing
-{
-    if (editing)
-    {
-        UIBarButtonItem *shareButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionTapped:)];
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setBackgroundImage:[UIImage imageNamed:@"delete.png"] forState:UIControlStateNormal];
-        [button setTitle:NSLocalizedString(@"Delete", nil) forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12.0f];
-        [button.layer setCornerRadius:4.0f];
-        [button.layer setMasksToBounds:YES];
-        [button.layer setBorderWidth:1.0f];
-        [button.layer setBorderColor: [[UIColor grayColor] CGColor]];
-        button.frame = CGRectMake(0.0, 100.0, 60.0, 30.0);
-        [button addTarget:self action:@selector(deleteTapped:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *deleteItem = [UIBarButtonItem.alloc initWithCustomView:button];
-        deleteItem.enabled = NO;
-        shareButton.enabled = NO;
-        [self.navigationItem setLeftBarButtonItems:@[shareButton, deleteItem] animated:YES];
-        
-        self.addToFolderBarButton = [UIBarButtonItem.alloc initWithTitle:NSLocalizedString(@"Add...", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(addToTapped:)];
-        [self.navigationItem setRightBarButtonItems:@[self.editButtonItem, self.addToFolderBarButton] animated:YES];
-    }
-    else
-    {
-        UIBarButtonItem *doneBarButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped:)];
-        [self.navigationItem setLeftBarButtonItems:@[doneBarButton,self.addBarButton] animated:YES];
-        [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
-        self.addToFolderBarButton = nil;
-    }
-}
 
 
 - (void)actionTapped:(UIBarButtonItem *)actionButton
@@ -138,6 +101,11 @@
     [actionSheet showFromRect:deleteButton.frame inView:self.navigationController.navigationBar animated:YES];
 }
 
+- (void)addFilesFromDropbox
+{
+    [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
+}
+
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -154,6 +122,7 @@
 - (void)addToTapped:(UIBarButtonItem *)addToButtom
 {
     BOOL itemsSelected = NO;
+    NSLog(@"add to tapped");
     if (self.editItems.count > 0) itemsSelected = YES;;
     
     switch (itemsSelected) {
@@ -168,7 +137,6 @@
         default:
             break;
     }
-    NSLog(@"add to tapped: %@", self.editItems);
 }
 
 - (IBAction)infoButtonTapped:(UIButton *)infoButton
@@ -255,6 +223,8 @@
     BOOL hasItemsSelected = NO;
     if (self.editItems.count > 0) hasItemsSelected = YES;
     
+    
+    return;
     if (hasItemsSelected)
     {
         [self.navigationItem.rightBarButtonItems[1] setTitle:NSLocalizedString(@"Add To...", nil)];
@@ -284,17 +254,19 @@
 
 - (void)_presentMeasurement:(Measurement *)aMeasurement
 {
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
-    AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;
-    
+//    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
+//    AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;
+//    
     if (aMeasurement.analyses.lastObject == nil)
     {
         Analysis *analysis = [Analysis createAnalysisForMeasurement:aMeasurement];
         [analysis.managedObjectContext save];
     }
-    analysisViewController.analysis = aMeasurement.analyses.lastObject;
-    
-    [self presentViewController:navigationController animated:YES completion:nil];
+    [self.delegate presentAnalysis:aMeasurement.analyses.lastObject];
+
+//    analysisViewController.analysis = aMeasurement.analyses.lastObject;
+//    
+//    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 
@@ -375,8 +347,10 @@
     NSArray *sortDescriptors = @[sortDescriptor];
     
     fetchRequest.sortDescriptors = sortDescriptors;
-    
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.folder.measurements];
+    if (self.folder.measurements)
+    {
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.folder.measurements];
+    }
 
     
     // Edit the section name key path and cache name if appropriate.
@@ -427,8 +401,8 @@
 }
 
 
-#pragma mark - Pinch effect
-- (void)handlePinchGesture:(UIPinchGestureRecognizer *)sender
+#pragma mark - Long Press effect
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)sender
 {
     PinchLayout* pinchLayout = (PinchLayout*)self.collectionView.collectionViewLayout;
     
@@ -436,15 +410,20 @@
     {
         CGPoint initialPinchPoint = [sender locationInView:self.collectionView];
         NSIndexPath* pinchedCellPath = [self.collectionView indexPathForItemAtPoint:initialPinchPoint];
-        pinchLayout.pinchedCellPath = pinchedCellPath;
-        
+        NSLog(@"Long presse began on %@", pinchedCellPath);
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint initialPinchPoint = [sender locationInView:self.collectionView];
+        NSIndexPath* pinchedCellPath = [self.collectionView indexPathForItemAtPoint:initialPinchPoint];
+        NSLog(@"Long presse ended on %@", pinchedCellPath);
     }
     
-    else if (sender.state == UIGestureRecognizerStateChanged)
-    {
-        pinchLayout.pinchedCellScale = sender.scale;
-        pinchLayout.pinchedCellCenter = [sender locationInView:self.collectionView];
-    }
+//    else if (sender.state == UIGestureRecognizerStateChanged)
+//    {
+//        pinchLayout.pinchedCellScale = sender.scale;
+//        pinchLayout.pinchedCellCenter = [sender locationInView:self.collectionView];
+//    }
     
     else
     {

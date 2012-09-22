@@ -44,4 +44,38 @@
     return [NSString stringWithFormat:@"#%i: %@, %@", self.analysis.gates.count, self.xParName, self.yParName];
 }
 
+
++ (BOOL)is1DGateType:(GateType)gateType
+{
+    switch (gateType)
+    {
+        case kGateTypeSingleRange:
+        case kGateTypeTripleRange:
+            return YES;
+            break;
+            
+        default:
+            return NO;
+            break;
+    }
+}
+
+
++ (BOOL)is2DGateType:(GateType)gateType
+{
+    switch (gateType)
+    {
+        case kGateTypeEllipse:
+        case kGateTypePolygon:
+        case kGateTypeQuadrant:
+        case kGateTypeRectangle:
+            return YES;
+            break;
+            
+        default:
+            return NO;
+            break;
+    }
+}
+
 @end

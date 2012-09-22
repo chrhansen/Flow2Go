@@ -12,6 +12,8 @@
 
 @interface AnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate>
 
+- (void)showAnalysis:(Analysis *)analysis;
+
 @property (nonatomic, strong) Analysis *analysis;
 
 @end

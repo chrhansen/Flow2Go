@@ -9,6 +9,7 @@
 #import "Plot.h"
 #import "Measurement.h"
 #import "Analysis.h"
+#import "Gate.h"
 
 @implementation Plot
 
@@ -53,12 +54,25 @@
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber
 {
     NSMutableArray *relevantGates = NSMutableArray.array;
-    for (Node *aGate in self.childNodes)
+    PlotType plotType = self.plotType.integerValue;
+    
+    for (Gate *aGate in self.childNodes)
     {
         if ((aGate.xParNumber.integerValue == xParNumber && aGate.yParNumber.integerValue == yParNumber)
             || (aGate.yParNumber.integerValue == xParNumber && aGate.xParNumber.integerValue == yParNumber))
         {
-            [relevantGates addObject:aGate];
+            GateType gateType = aGate.type.integerValue;
+            
+            if ([Gate is1DGateType:gateType]
+                && plotType == kPlotTypeHistogram)
+            {
+                [relevantGates addObject:aGate];
+            }
+            else if ([Gate is2DGateType:gateType]
+                     && (plotType == kPlotTypeDot || plotType == kPlotTypeDensity))
+            {
+                [relevantGates addObject:aGate];
+            }
         }
     }
     return relevantGates;

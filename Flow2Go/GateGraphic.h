@@ -17,9 +17,9 @@
 - (void)panBeganAtPoint:(CGPoint)beginPoint;
 - (void)panChangedToPoint:(CGPoint)nextPoint;
 - (void)panEndedAtPoint:(CGPoint)endPoint;
-- (void)pinchBeganWithScale:(CGFloat)scale;
-- (void)pinchChangedWithScale:(CGFloat)scale;
-- (void)pinchEndedWithScale:(CGFloat)scale;
+- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale;
+- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale;
+- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale;
 
 @property (nonatomic, strong) UIBezierPath *path;
 @property (nonatomic) CGRect bounds;

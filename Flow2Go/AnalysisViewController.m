@@ -14,7 +14,6 @@
 #import "Plot.h"
 #import "Gate.h"
 #import "PinchLayout.h"
-#import "LineLayout.h"
 #import "PlotDetailTableViewController.h"
 
 
@@ -40,38 +39,9 @@
                                                                                         action:@selector(handlePinchGesture:)];
     [self.collectionView addGestureRecognizer:pinchRecognizer];
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                                         target:self
-                                                                                         action:@selector(doneTapped)];
     UINib *cellNib = [UINib nibWithNibName:@"PlotCellView" bundle:NSBundle.mainBundle];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Plot Cell"];
-
-    self.title = self.analysis.name;
-
-    if (self.analysis.plots.count == 0)
-    {
-        [Plot createPlotForAnalysis:self.analysis parentNode:nil];
-    }
-}
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self _configureButtons];
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self _loadFCSFile];
-    LineLayout *lineLayout = [LineLayout.alloc init];
-    [self.collectionView setCollectionViewLayout:lineLayout animated:YES];
-    if ([self.collectionView.collectionViewLayout isKindOfClass:LineLayout.class])
-    {
-        NSLog(@"Is LineLayout: %@", self.collectionView.collectionViewLayout.class);
-    }
+    NSLog(@"view did load");
 }
 
 
@@ -89,6 +59,37 @@
 }
 
 
+- (void)showAnalysis:(Analysis *)analysis
+{
+    //    if (analysis == self.analysis)
+    //    {
+    //        return;
+    //    }
+    NSLog(@"number of objects: %i", self.fetchedResultsController.sections.count);
+    
+    self.analysis = analysis;
+    self.title = self.analysis.name;
+    
+    if (self.analysis.plots.count == 0
+        && self.analysis != nil)
+    {
+        [Plot createPlotForAnalysis:self.analysis parentNode:nil];
+    }
+    [self _loadFCSFile];
+    
+    
+    self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"analysis == %@", self.analysis];;
+    //[NSFetchedResultsController deleteCacheWithName:nil];
+    
+    NSError * error = nil;
+    [self.fetchedResultsController performFetch:&error];
+    if (error) {
+        // report error
+    }
+    NSLog(@"number of objects: %i", self.fetchedResultsController.sections.count);
+    [self.collectionView reloadData];
+}
+
 - (void)_loadFCSFile
 {
     if (!_fcsFile)
@@ -103,28 +104,20 @@
 }
 
 
-- (void)_configureButtons
-{
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-    [infoButton addTarget:self action:@selector(_toggleAnalysisInfo:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem  = [UIBarButtonItem.alloc initWithCustomView: infoButton];
-}
-
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    
     Plot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
     Gate *parentGate = (Gate *)plot.parentNode;
-        
+    
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
     nameLabel.text = plot.name;
-
+    
     UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
     countLabel.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
-
+    
     UILabel *xParName = (UILabel *)[cell viewWithTag:3];
     xParName.text = plot.xParName;
-
+    
     UILabel *yParName = (UILabel *)[cell viewWithTag:4];
     yParName.text = plot.yParName;
     
@@ -171,11 +164,6 @@
 }
 
 
-- (void)_toggleAnalysisInfo:(id)sender
-{
-    NSLog(@"Toggle Analysis info");
-}
-
 - (void)doneTapped
 {
     for (UIView *aSubView in self.view.subviews)
@@ -204,7 +192,9 @@
     PlotViewController *plotViewController = (PlotViewController *)navigationController.topViewController;
     plotViewController.delegate = self;
     plotViewController.plot = plot;
-    [self presentViewController:navigationController animated:YES completion:nil];    
+    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma mark - Popover Controller Delegate
@@ -304,7 +294,7 @@
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{    
+{
     if ([_sectionChanges count] > 0)
     {
         [self.collectionView performBatchUpdates:^{
@@ -409,7 +399,6 @@
                                                 otherButtonTitles: nil];
         [alertView show];
     }
-
 }
 
 #pragma mark - Plot Table View Controller delegate

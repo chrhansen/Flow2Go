@@ -18,37 +18,55 @@
 
 @implementation GateCalculator
 
-
-+ (BOOL)eventInsideGateVertices:(NSArray *)vertices
-                       onEvents:(FCSFile *)fcsFile
-                        eventNo:(NSUInteger)eventNo
-                         xParam:(NSUInteger)xPar
-                         yParam:(NSUInteger)yPar
++ (GateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
+                                        gateType:(GateType)gateType
+                                         fcsFile:(FCSFile *)fcsFile
+                                      insidePlot:(Plot *)plot
+                                          subSet:(NSUInteger *)subSet
+                                     subSetCount:(NSUInteger)subSetCount
 {
-    PlotPoint plotPoint;
-    
-    plotPoint.xVal = fcsFile.events[eventNo][xPar];
-    plotPoint.yVal = fcsFile.events[eventNo][yPar];
-    
-    if ([self _point:plotPoint insidePolygon:vertices])
+    switch (gateType)
     {
-        NSLog(@"Inside!");
-        return YES;
+        case kGateTypePolygon:
+            return [GateCalculator eventsInsidePolygonGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
+            break;
+            
+        case kGateTypeEllipse:
+            return nil;
+            break;
+            
+        case kGateTypeRectangle:
+            return nil;
+            break;
+            
+        case kGateTypeQuadrant:
+            return nil;
+            break;
+            
+        case kGateTypeSingleRange:
+            return [GateCalculator eventsInsideSingleRangeGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
+            break;
+            
+        case kGateTypeTripleRange:
+            return nil;
+            break;
+            
+        default:
+            break;
     }
-    
-    NSLog(@"Outside!");
-    return NO;
+    return nil;
 }
 
-+ (GateCalculator *)eventsInsidePolygon:(NSArray *)vertices
-                                fcsFile:(FCSFile *)fcsFile
-                             insidePlot:(Plot *)plot
-                                 subSet:(NSUInteger *)subSet
-                            subSetCount:(NSUInteger)subSetCount
+
++ (GateCalculator *)eventsInsidePolygonGateWithVertices:(NSArray *)vertices
+                                                fcsFile:(FCSFile *)fcsFile
+                                             insidePlot:(Plot *)plot
+                                                 subSet:(NSUInteger *)subSet
+                                            subSetCount:(NSUInteger)subSetCount
 {
     Gate *parentGate = (Gate *)plot.parentNode;
     NSInteger eventsInside = parentGate.cellCount.integerValue;
-
+    
     if (parentGate == nil)
     {
         eventsInside = fcsFile.noOfEvents;
@@ -60,7 +78,7 @@
     
     NSInteger xPar = plot.xParNumber.integerValue - 1;
     NSInteger yPar = plot.yParNumber.integerValue - 1;
-        
+    
     PlotPoint plotPoint;
     
     if (subSet)
@@ -96,6 +114,62 @@
     return gateCalculator;
 }
 
+
++ (GateCalculator *)eventsInsideSingleRangeGateWithVertices:(NSArray *)vertices
+                                                    fcsFile:(FCSFile *)fcsFile
+                                                 insidePlot:(Plot *)plot
+                                                     subSet:(NSUInteger *)subSet
+                                                subSetCount:(NSUInteger)subSetCount
+{
+    Gate *parentGate = (Gate *)plot.parentNode;
+    NSInteger eventsInside = parentGate.cellCount.integerValue;
+    
+    if (parentGate == nil)
+    {
+        eventsInside = fcsFile.noOfEvents;
+    }
+    
+    GateCalculator *gateCalculator = [GateCalculator.alloc init];
+    gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
+    gateCalculator.numberOfCellsInside = 0;
+    
+    NSInteger xPar = plot.xParNumber.integerValue - 1;
+    double xMin = [(GraphPoint *)vertices[0] x];
+    double xMax = [(GraphPoint *)vertices[1] x];
+    double plotPoint;
+    
+    if (subSet)
+    {
+        for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
+        {
+            NSUInteger eventNo = subSet[subSetNo];
+            
+            plotPoint = (double)fcsFile.events[eventNo][xPar];
+            
+            if (plotPoint > xMin
+                && plotPoint < xMax)
+            {
+                gateCalculator.eventsInside[gateCalculator.numberOfCellsInside] = eventNo;
+                gateCalculator.numberOfCellsInside += 1;
+            }
+        }
+    }
+    else
+    {
+        for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
+        {
+            plotPoint = fcsFile.events[eventNo][xPar];
+
+            if (plotPoint > xMin
+                && plotPoint < xMax)
+            {
+                gateCalculator.eventsInside[gateCalculator.numberOfCellsInside] = eventNo;
+                gateCalculator.numberOfCellsInside += 1;
+            }
+        }
+    }
+    return gateCalculator;
+}
 
 
 + (BOOL)_point:(PlotPoint)point insidePolygon:(NSArray *)polygonVertices
@@ -139,7 +213,26 @@
         return YES;
 }
 
-
++ (BOOL)eventInsideGateVertices:(NSArray *)vertices
+                       onEvents:(FCSFile *)fcsFile
+                        eventNo:(NSUInteger)eventNo
+                         xParam:(NSUInteger)xPar
+                         yParam:(NSUInteger)yPar
+{
+    PlotPoint plotPoint;
+    
+    plotPoint.xVal = fcsFile.events[eventNo][xPar];
+    plotPoint.yVal = fcsFile.events[eventNo][yPar];
+    
+    if ([self _point:plotPoint insidePolygon:vertices])
+    {
+        NSLog(@"Inside!");
+        return YES;
+    }
+    
+    NSLog(@"Outside!");
+    return NO;
+}
 
 
 @end

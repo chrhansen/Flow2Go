@@ -17,6 +17,9 @@
                            type:(GateType)gateType
                        vertices:(NSArray *)vertices;
 
++ (BOOL)is1DGateType:(GateType)gateType;
++ (BOOL)is2DGateType:(GateType)gateType;
+
 
 @property (nonatomic, retain) NSNumber * cellCount;
 @property (nonatomic, retain) NSNumber * type;

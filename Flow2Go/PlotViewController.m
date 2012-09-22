@@ -721,7 +721,6 @@ static CPTPlotSymbol *plotSymbol;
     modifiedGate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
     modifiedGate.vertices = gateVertices;
     
-    
     [self.plot.managedObjectContext save];
 }
 

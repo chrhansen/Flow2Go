@@ -54,6 +54,7 @@
 		E59D2E4215E37E7100944789 /* Gate.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E4115E37E7100944789 /* Gate.m */; };
 		E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */; };
 		E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* SingleRange.m */; };
+		E5F1DAFE160E64A200591F2A /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* Rectangle.m */; };
 		E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
 		E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -240,6 +241,8 @@
 		E5BD6920160B99250084A9EF /* AnalysisPresentationProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalysisPresentationProtocol.h; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* SingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* SingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleRange.m; sourceTree = "<group>"; };
+		E5F1DAFC160E64A200591F2A /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
+		E5F1DAFD160E64A200591F2A /* Rectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rectangle.m; sourceTree = "<group>"; };
 		E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeasurementView.xib; sourceTree = "<group>"; };
 		E5FC6F4415CA7E8E0047A3DD /* Flow2Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flow2Go.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -401,6 +404,8 @@
 			children = (
 				E54D71B016049CC5008CEC5D /* GateGraphic.h */,
 				E54D71B116049CC5008CEC5D /* GateGraphic.m */,
+				E5F1DAFC160E64A200591F2A /* Rectangle.h */,
+				E5F1DAFD160E64A200591F2A /* Rectangle.m */,
 				E54D71B216049CC5008CEC5D /* Polygon.h */,
 				E54D71B316049CC5008CEC5D /* Polygon.m */,
 				E5E1E772160CA68B006BFE98 /* SingleRange.h */,
@@ -880,6 +885,7 @@
 				E5116EF4160A64A3002A54E4 /* LineLayout.m in Sources */,
 				E5116F00160A8234002A54E4 /* ContainerViewController.m in Sources */,
 				E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */,
+				E5F1DAFE160E64A200591F2A /* Rectangle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

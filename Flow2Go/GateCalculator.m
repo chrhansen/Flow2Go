@@ -28,14 +28,11 @@
     switch (gateType)
     {
         case kGateTypePolygon:
+        case kGateTypeRectangle:
             return [GateCalculator eventsInsidePolygonGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeEllipse:
-            return nil;
-            break;
-            
-        case kGateTypeRectangle:
             return nil;
             break;
             

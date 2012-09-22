@@ -20,18 +20,10 @@
     self.fillColor = UIColor.redColor;
 }
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        [self baseInit];
-    }
-    return self;
-}
-
 
 - (GateGraphic *)initWithVertices:(NSArray *)vertices
 {
+    // override in subclass
     self = [super init];
     if (self)
     {
@@ -39,6 +31,18 @@
     }
     return self;
 }
+
+- (GateGraphic *)initWithBoundsOfContainerView:(CGRect)bounds
+{
+    // override in subclass
+    self = [super init];
+    if (self)
+    {
+        [self baseInit];
+    }
+    return self;
+}
+
 
 - (BOOL)isContentsUnderPoint:(CGPoint)point
 {
@@ -65,19 +69,19 @@
 }
 
 
-- (void)pinchBeganWithScale:(CGFloat)scale
+- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
 {
     // Override in subclass
 }
 
 
-- (void)pinchChangedWithScale:(CGFloat)scale
+- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
 {
     // Override in subclass
 }
 
 
-- (void)pinchEndedWithScale:(CGFloat)scale
+- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
 {
     // Override in subclass
 }

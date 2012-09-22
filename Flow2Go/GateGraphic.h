@@ -11,6 +11,8 @@
 @interface GateGraphic : NSObject
 
 - (GateGraphic *)initWithVertices:(NSArray *)vertices;
+- (GateGraphic *)initWithBoundsOfContainerView:(CGRect)bounds;
+
 - (BOOL)isContentsUnderPoint:(CGPoint)point;
 - (NSArray *)getPathPoints;
 

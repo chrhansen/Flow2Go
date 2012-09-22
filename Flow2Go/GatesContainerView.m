@@ -9,6 +9,7 @@
 #import "GatesContainerView.h"
 #import "Polygon.h"
 #import "SingleRange.h"
+#import "Rectangle.h"
 
 @interface GatesContainerView () <UIGestureRecognizerDelegate>
 
@@ -84,9 +85,15 @@
             existingGateGraphic = [Polygon.alloc initWithVertices:vertices];
             existingGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:existingGateGraphic];
-            
             break;
             
+        case kGateTypeRectangle:
+            existingGateGraphic = [Rectangle.alloc initWithVertices:vertices];
+            existingGateGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:existingGateGraphic];
+            break;
+            
+
         default:
             break;
     }
@@ -97,14 +104,14 @@
 {
     CGFloat leftBound = 0.4 * self.bounds.size.width / 2;
     CGFloat rightBound = 0.6 * self.bounds.size.width / 2;
-    CGFloat centerHeight = 0.6 * self.bounds.size.height / 2;
+    CGFloat halfHeight = self.bounds.size.height / 2;
     
     GateGraphic *newGateGraphic = nil;
     
     switch (gateType)
     {
         case kGateTypeSingleRange:
-            newGateGraphic = [SingleRange.alloc initWithVertices:@[[NSValue valueWithCGPoint:CGPointMake(leftBound, centerHeight)], [NSValue valueWithCGPoint:CGPointMake(rightBound, centerHeight)]]];
+            newGateGraphic = [SingleRange.alloc initWithVertices:@[[NSValue valueWithCGPoint:CGPointMake(leftBound, halfHeight)], [NSValue valueWithCGPoint:CGPointMake(rightBound, halfHeight)]]];
             newGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:newGateGraphic];
             [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
@@ -114,9 +121,17 @@
             self.creatingGraphic = Polygon.alloc.init;
             self.creatingGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:self.creatingGraphic];
-            // report gate change/insert is carried out after the user has tracked a polygon path.
-            
+            // report gate change/insert to delegate is carried out after the user has drawin a polygon path.
             break;
+            
+        case kGateTypeRectangle:
+            newGateGraphic = [Rectangle.alloc initWithBoundsOfContainerView:self.bounds];
+            newGateGraphic.gateTag = tagNumber;
+            [self.gateGraphics addObject:newGateGraphic];
+            [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
+            break;
+            
+            
             
         default:
             break;

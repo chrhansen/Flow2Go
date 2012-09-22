@@ -19,6 +19,7 @@
     self.path.lineCapStyle = kCGLineCapRound;
     self.strokeColor = UIColor.redColor;
     self.gateType = kGateTypeRectangle;
+    self.fillColor = UIColor.redColor;
 }
 
 - (Rectangle *)initWithVertices:(NSArray *)vertices;
@@ -58,11 +59,9 @@
         return;
     }
     CGPoint upperLeft = [pathPoints[0] CGPointValue];
-    CGPoint upperRight = [pathPoints[1] CGPointValue];
     CGPoint lowerRight = [pathPoints[2] CGPointValue];
-    CGPoint lowerLeft = [pathPoints[3] CGPointValue];
     
-    CGRect rect = CGRectMake(upperLeft.x, upperLeft.y, fabsf(upperRight.x - upperLeft.x), fabsf(lowerLeft.y - upperLeft.y));
+    CGRect rect = CGRectMake(upperLeft.x, upperLeft.y, fabsf(lowerRight.x - upperLeft.x), fabsf(lowerRight.y - upperLeft.y));
     
     // rectangle
     self.path = [UIBezierPath bezierPathWithRect:rect];

@@ -20,6 +20,7 @@
     self.path = [UIBezierPath bezierPath];
     self.path.lineWidth = 2.0;
     self.path.lineCapStyle = kCGLineCapRound;
+    self.gateType = kGateTypePolygon;
     self.strokeColor = UIColor.redColor;
     self.fillColor = UIColor.redColor;
 }
@@ -30,7 +31,6 @@
     if (self)
     {
         [self baseInit];
-        self.gateType = kGateTypePolygon;
         [self _drawPolygonPathWithPoints:vertices];
     }
     return self;

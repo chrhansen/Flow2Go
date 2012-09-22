@@ -32,7 +32,7 @@
     return self;
 }
 
-#define GATEHEIGHT 20
+#define GATEHEIGHT 50
 
 - (void)_drawSingleRangePathWithPoints:(NSArray *)pathPoints
 {

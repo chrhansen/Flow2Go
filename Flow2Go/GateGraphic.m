@@ -98,13 +98,15 @@
 }
 
 
-void Flow2GoCGPathApplierFunc (void *info, const CGPathElement *element) {
+void Flow2GoCGPathApplierFunc (void *info, const CGPathElement *element)
+{
     NSMutableArray *bezierPoints = (__bridge NSMutableArray *)info;
     
     CGPoint *points = element->points;
     CGPathElementType type = element->type;
     
-    switch(type) {
+    switch(type)
+    {
         case kCGPathElementMoveToPoint: // contains 1 point
             [bezierPoints addObject:[NSValue valueWithCGPoint:points[0]]];
             break;

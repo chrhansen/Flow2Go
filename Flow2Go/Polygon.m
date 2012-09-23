@@ -25,6 +25,17 @@
     self.fillColor = UIColor.redColor;
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        [self baseInit];
+    }
+    return self;
+}
+
+
 - (Polygon *)initWithVertices:(NSArray *)vertices;
 {
     self = [super init];

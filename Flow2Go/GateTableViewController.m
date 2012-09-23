@@ -14,7 +14,7 @@
 
 @interface GateTableViewController () <UITextFieldDelegate, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *gateName;
-@property (weak, nonatomic) IBOutlet UILabel *gateCount;
+@property (weak, nonatomic) IBOutlet UITextField *gateCount;
 @property (weak, nonatomic) IBOutlet UIButton *createNewPlotButton;
 @property (weak, nonatomic) IBOutlet UIButton *deleteGateButton;
 

@@ -327,7 +327,6 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Gate Name" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="1AF-kN-NgT">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="239" id="Ev2-Pg-oyR"/>
                                                         <constraint firstAttribute="height" constant="30" id="jaK-Zp-lV3"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -338,7 +337,7 @@
                                                 </textField>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="But-SJ-6op">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="46" id="egA-hs-Uo7"/>
+                                                        <constraint firstAttribute="width" constant="46" type="user" id="egA-hs-Uo7"/>
                                                         <constraint firstAttribute="height" constant="21" id="lXO-rR-kt4"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
@@ -350,31 +349,48 @@
                                         </view>
                                         <constraints>
                                             <constraint firstItem="1AF-kN-NgT" firstAttribute="top" secondItem="q8T-KP-FgM" secondAttribute="top" constant="8" id="2Kq-e7-124"/>
-                                            <constraint firstItem="1AF-kN-NgT" firstAttribute="leading" secondItem="q8T-KP-FgM" secondAttribute="leading" constant="93" id="N5z-z8-GpN"/>
+                                            <constraint firstAttribute="trailing" secondItem="1AF-kN-NgT" secondAttribute="trailing" constant="20" type="user" id="Kaa-zN-UnO"/>
                                             <constraint firstItem="But-SJ-6op" firstAttribute="centerY" secondItem="q8T-KP-FgM" secondAttribute="centerY" type="default" id="cMe-Kh-P0k"/>
-                                            <constraint firstItem="But-SJ-6op" firstAttribute="leading" secondItem="q8T-KP-FgM" secondAttribute="leading" constant="41" id="nVQ-hu-C2p"/>
+                                            <constraint firstItem="1AF-kN-NgT" firstAttribute="leading" secondItem="But-SJ-6op" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="d8l-0e-fXh"/>
+                                            <constraint firstItem="But-SJ-6op" firstAttribute="leading" secondItem="q8T-KP-FgM" secondAttribute="leading" constant="41" type="user" id="nVQ-hu-C2p"/>
                                         </constraints>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" textLabel="Abo-Cv-783" detailTextLabel="DpP-ul-5Ny" style="IBUITableViewCellStyleValue2" id="KlN-db-88m">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" id="AeZ-pi-bcG">
                                         <rect key="frame" x="0.0" y="75" width="768" height="45"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="45" y="0.0" width="678" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Cell Count" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Abo-Cv-783">
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                                    <color key="textColor" red="0.32156862745098042" green="0.40000000000000002" blue="0.56862745098039214" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="left" text="Gate Count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DpP-ul-5Ny">
+                                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Gate Count" placeholder="Gate Count" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FSj-4z-6GM">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="nYc-l1-PZH"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="D7n-B2-8pS" id="qyb-fA-gcs"/>
+                                                    </connections>
+                                                </textField>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Cell Count" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QtQ-vd-cG9">
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="g8c-to-lf5"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
+                                                    <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="QtQ-vd-cG9" firstAttribute="top" secondItem="AeZ-pi-bcG" secondAttribute="top" constant="11" id="Itd-kk-9h3"/>
+                                            <constraint firstItem="FSj-4z-6GM" firstAttribute="leading" secondItem="AeZ-pi-bcG" secondAttribute="leading" constant="96" type="user" id="Ivi-Mz-JvM"/>
+                                            <constraint firstAttribute="trailing" secondItem="FSj-4z-6GM" secondAttribute="trailing" constant="20" type="user" id="NCz-62-wWW"/>
+                                            <constraint firstItem="FSj-4z-6GM" firstAttribute="leading" secondItem="QtQ-vd-cG9" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="YTz-Wn-E29"/>
+                                            <constraint firstItem="FSj-4z-6GM" firstAttribute="centerY" secondItem="AeZ-pi-bcG" secondAttribute="centerY" type="default" id="Ylk-qr-yVJ"/>
+                                            <constraint firstItem="QtQ-vd-cG9" firstAttribute="leading" secondItem="AeZ-pi-bcG" secondAttribute="leading" constant="25" type="user" id="tuj-YV-auV"/>
+                                        </constraints>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -389,7 +405,7 @@
                     <connections>
                         <outlet property="createNewPlotButton" destination="fTw-3v-Qcw" id="3eu-XX-uwA"/>
                         <outlet property="deleteGateButton" destination="bjZ-23-4IH" id="K9N-6l-scA"/>
-                        <outlet property="gateCount" destination="DpP-ul-5Ny" id="iY8-2c-M2Y"/>
+                        <outlet property="gateCount" destination="FSj-4z-6GM" id="4zs-Sd-slb"/>
                         <outlet property="gateName" destination="1AF-kN-NgT" id="FuA-oQ-vE6"/>
                     </connections>
                 </tableViewController>
@@ -480,8 +496,7 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Plot Name" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="yyL-Kg-YXX">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="395" id="89K-eR-K0j"/>
-                                                        <constraint firstAttribute="height" constant="30" id="FUw-eD-Ks6"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="660" type="user" id="r0S-Rm-I0T"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -491,8 +506,8 @@
                                                 </textField>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hB4-IV-ISn">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="gIP-S4-i0s"/>
-                                                        <constraint firstAttribute="width" constant="46" id="pKg-Gd-THW"/>
+                                                        <constraint firstAttribute="height" constant="30" id="YnB-dA-YQn"/>
+                                                        <constraint firstAttribute="width" constant="60" type="user" id="sgp-Nf-bnw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                                     <color key="textColor" red="0.32156862749999998" green="0.40000000000000002" blue="0.56862745100000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -502,10 +517,13 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="top" secondItem="B9A-aB-Itc" secondAttribute="top" constant="8" id="Qfp-mG-Jfw"/>
-                                            <constraint firstItem="hB4-IV-ISn" firstAttribute="centerY" secondItem="B9A-aB-Itc" secondAttribute="centerY" type="default" id="jhm-I6-BKN"/>
-                                            <constraint firstItem="hB4-IV-ISn" firstAttribute="leading" secondItem="B9A-aB-Itc" secondAttribute="leading" constant="41" id="xjo-g1-0ln"/>
-                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="leading" secondItem="B9A-aB-Itc" secondAttribute="leading" constant="93" id="y4p-lU-oML"/>
+                                            <constraint firstAttribute="trailing" secondItem="yyL-Kg-YXX" secondAttribute="trailing" constant="20" type="user" id="0kF-zc-nBf"/>
+                                            <constraint firstItem="hB4-IV-ISn" firstAttribute="top" secondItem="yyL-Kg-YXX" secondAttribute="top" type="default" id="4CR-FX-WAG"/>
+                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="bottom" secondItem="hB4-IV-ISn" secondAttribute="bottom" type="default" id="AwJ-1f-bfB"/>
+                                            <constraint firstItem="hB4-IV-ISn" firstAttribute="top" secondItem="B9A-aB-Itc" secondAttribute="top" constant="8" id="BWa-xJ-KgL"/>
+                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="baseline" secondItem="hB4-IV-ISn" secondAttribute="baseline" type="default" id="mYG-lo-azI"/>
+                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="leading" secondItem="B9A-aB-Itc" secondAttribute="leading" constant="92" type="user" id="w4N-PO-2At"/>
+                                            <constraint firstItem="yyL-Kg-YXX" firstAttribute="leading" secondItem="hB4-IV-ISn" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="zv4-N4-1wn"/>
                                         </constraints>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Gate Detail Cell" textLabel="A6O-dc-Wi2" detailTextLabel="gkD-WP-VOF" style="IBUITableViewCellStyleValue2" id="nPy-R0-Cbl">
@@ -704,8 +722,9 @@
         <!--Navigation Controller-->
         <scene sceneID="Zir-65-4TQ">
             <objects>
-                <navigationController storyboardIdentifier="plotDetailTableViewController" id="5tR-Xf-qan" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="plotDetailTableViewController" modalPresentationStyle="currentContext" id="5tR-Xf-qan" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mTQ-iE-twy">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -832,7 +851,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NpT-Z2-nXw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1765" y="-333"/>
+            <point key="canvasLocation" x="1755" y="-329"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="45h-DB-7Ey">
@@ -853,6 +872,93 @@
             <point key="canvasLocation" x="-372" y="-339"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="AddGateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddGateTableViewController.h"/>
+        </class>
+        <class className="AnalysisViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AnalysisViewController.h"/>
+        </class>
+        <class className="CPTGraphHostingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
+        </class>
+        <class className="ContainerViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ContainerViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="analysisContainerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="measurementContainerView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="DropboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxViewController.h"/>
+        </class>
+        <class className="FolderCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FolderCollectionViewController.h"/>
+        </class>
+        <class className="GateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="deleteGateTapped:"/>
+                <relationship kind="action" name="newPlotTapped:"/>
+                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="GatesContainerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GatesContainerView.h"/>
+        </class>
+        <class className="KeywordTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/KeywordTableViewController.h"/>
+        </class>
+        <class className="MeasurementCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MeasurementCollectionViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="infoButtonTapped:" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PinchLayout" superclassName="UICollectionViewFlowLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PinchLayout.h"/>
+        </class>
+        <class className="PlotDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="PlotViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="gatesContainerView" candidateClass="GatesContainerView"/>
+                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
+                <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

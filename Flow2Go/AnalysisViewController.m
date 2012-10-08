@@ -18,14 +18,12 @@
 
 
 @interface AnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate>
-{
-    NSMutableArray *_sectionChanges;
-    NSMutableArray *_objectChanges;
-}
+
 @property (nonatomic, strong) FCSFile *fcsFile;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
+@property (nonatomic) CGPoint pickedCellLocation;
 
 @end
 
@@ -61,12 +59,6 @@
 
 - (void)showAnalysis:(Analysis *)analysis
 {
-    //    if (analysis == self.analysis)
-    //    {
-    //        return;
-    //    }
-    NSLog(@"number of objects: %i", self.fetchedResultsController.sections.count);
-    
     self.analysis = analysis;
     self.title = self.analysis.name;
     
@@ -75,31 +67,27 @@
     {
         [Plot createPlotForAnalysis:self.analysis parentNode:nil];
     }
-    [self _loadFCSFile];
+    [self _reloadFCSFile];
     
-    
-    self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"analysis == %@", self.analysis];;
-    //[NSFetchedResultsController deleteCacheWithName:nil];
+    [NSFetchedResultsController deleteCacheWithName:nil];
+    self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"analysis == %@", analysis];;
     
     NSError * error = nil;
     [self.fetchedResultsController performFetch:&error];
     if (error) {
         // report error
     }
-    NSLog(@"number of objects: %i", self.fetchedResultsController.sections.count);
     [self.collectionView reloadData];
 }
 
-- (void)_loadFCSFile
+- (void)_reloadFCSFile
 {
-    if (!_fcsFile)
+    [self.fcsFile cleanUpEventsForFCSFile];
+    NSError *error;
+    self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath] error:&error];
+    if (self.fcsFile == nil)
     {
-        NSError *error;
-        self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath] error:&error];
-        if (self.fcsFile == nil)
-        {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
+        NSLog(@"Error: %@", error.localizedDescription);
     }
 }
 
@@ -107,6 +95,10 @@
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     Plot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    if ([indexPath isEqual:self.collectionView.indexPathsForSelectedItems.lastObject])
+    {
+        return;
+    }
     Gate *parentGate = (Gate *)plot.parentNode;
     
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
@@ -115,14 +107,11 @@
     UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
     countLabel.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
     
-    UILabel *xParName = (UILabel *)[cell viewWithTag:3];
-    xParName.text = plot.xParName;
-    
-    UILabel *yParName = (UILabel *)[cell viewWithTag:4];
-    yParName.text = plot.yParName;
-    
     UIButton *infoButton = (UIButton *)[cell viewWithTag:5];
     [infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIImageView *plotImageView = (UIImageView *)[cell viewWithTag:6];
+    plotImageView.image = plot.image;
     
     if (parentGate == nil)
     {
@@ -186,16 +175,70 @@
     return _fcsFile;
 }
 
+
+#define PLOTVIEWSIZE 500
+#define NAVIGATION_BAR_HEIGHT 44
+
 - (void)_presentPlot:(Plot *)plot
 {
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
-    PlotViewController *plotViewController = (PlotViewController *)navigationController.topViewController;
-    plotViewController.delegate = self;
-    plotViewController.plot = plot;
-    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
-    [self presentViewController:navigationController animated:YES completion:nil];
+    NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:plot];
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    self.pickedCellLocation = cell.center;
+    UIImageView *plotImageView = (UIImageView *)[cell viewWithTag:6];
+    CGRect destBounds = CGRectMake(0, 0, PLOTVIEWSIZE, PLOTVIEWSIZE);
+    CGPoint destCenter = CGPointMake(self.collectionView.window.bounds.size.width / 2.0, self.collectionView.window.bounds.size.height / 2.0);
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        [self _hideLabels:YES forCell:cell];
+        [self.collectionView bringSubviewToFront:cell];
+        plotImageView.bounds = destBounds;
+        plotImageView.center = [self.collectionView.window convertPoint:destCenter toView:self.collectionView];
+        cell.bounds = destBounds;
+        cell.center = [self.collectionView.window convertPoint:destCenter toView:self.collectionView];
+    } completion:^(BOOL finished) {
+        UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
+        PlotViewController *plotViewController = (PlotViewController *)navigationController.topViewController;
+        plotViewController.delegate = self;
+        plotViewController.plot = plot;
+        navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
+        navigationController.navigationBar.translucent = YES;
+        [navigationController setNavigationBarHidden:YES animated:NO];
+        [self presentViewController:navigationController animated:NO completion:nil];
+        navigationController.view.superview.frame  = destBounds; 
+        navigationController.view.superview.center = destCenter;
+    }];
 }
+
+
+- (void)_hideLabels:(BOOL)hidden forCell:(UICollectionViewCell *)cell
+{
+    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
+    nameLabel.hidden = hidden;
+    
+    UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
+    countLabel.hidden = hidden;
+    
+    UIButton *infoButton = (UIButton *)[cell viewWithTag:5];
+    infoButton.hidden = hidden;
+}
+
+
+- (void)deletePlot:(Plot *)plotToBeDeleted
+{
+    BOOL success = [plotToBeDeleted deleteInContext:self.analysis.managedObjectContext];
+    [self.analysis.managedObjectContext save];
+    if (!success)
+    {
+        UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
+                                                          message:[NSLocalizedString(@"Could not delete plot \"", nil) stringByAppendingFormat:@"%@\"", plotToBeDeleted.name]
+                                                         delegate:nil
+                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                otherButtonTitles: nil];
+        [alertView show];
+    }
+}
+
 
 #pragma mark - Popover Controller Delegate
 - (BOOL)popoverControllerShouldDismissPopover:(UIPopoverController *)popoverController
@@ -222,7 +265,7 @@
     fetchRequest.sortDescriptors = @[[NSSortDescriptor.alloc initWithKey:@"dateCreated" ascending:YES]];
     
     NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
-                                                                                              managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
+                                                                                              managedObjectContext:[NSManagedObjectContext defaultContext].parentContext
                                                                                                 sectionNameKeyPath:nil
                                                                                                          cacheName:nil];
     
@@ -243,37 +286,16 @@
 #pragma mark - Fetched Resultscontroller delegate
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    self.objectChanges = NSMutableArray.array;
-    if (!_sectionChanges) {
-        _sectionChanges = NSMutableArray.array;
-    }
     if (!_objectChanges) {
         _objectChanges = NSMutableArray.array;
     }
 }
 
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-    NSMutableDictionary *change = [NSMutableDictionary new];
-    
-    switch(type)
-    {
-        case NSFetchedResultsChangeInsert:
-            change[@(type)] = [NSNumber numberWithUnsignedInteger:sectionIndex];
-            break;
-        case NSFetchedResultsChangeDelete:
-            change[@(type)] = [NSNumber numberWithUnsignedInteger:sectionIndex];
-            break;
-    }
-    
-    [_sectionChanges addObject:change];
-}
-
-
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
+    NSLog(@"update");
     NSMutableDictionary *change = [NSMutableDictionary new];
     switch(type)
     {
@@ -294,36 +316,8 @@
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    if ([_sectionChanges count] > 0)
-    {
-        [self.collectionView performBatchUpdates:^{
-            
-            for (NSDictionary *change in _sectionChanges)
-            {
-                [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-                    
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                    switch (type)
-                    {
-                        case NSFetchedResultsChangeInsert:
-                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                        case NSFetchedResultsChangeDelete:
-                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                        case NSFetchedResultsChangeUpdate:
-                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                    }
-                }];
-            }
-        } completion:^(BOOL finished) {
-            [self.fetchedResultsController performFetch:nil];
-        }];
-    }
-    
-    if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+{    
+    if ([_objectChanges count] > 0)
     {
         [self.collectionView performBatchUpdates:^{
             
@@ -350,25 +344,23 @@
                 }];
             }
         } completion:^(BOOL finished) {
-            [self.fetchedResultsController performFetch:nil];
+            //[self.fetchedResultsController performFetch:nil];
             //[self.collectionView reloadData];
             
         }];
     }
-    
-    [_sectionChanges removeAllObjects];
     [_objectChanges removeAllObjects];
 }
 
 
 #pragma mark - PlotViewController delegate
-- (FCSFile *)fcsFile:(id)sender
+- (FCSFile *)fcsFileForPlot:(Plot *)plot
 {
     return self.fcsFile;
 }
 
 
-- (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot
+- (void)plotViewController:(PlotViewController *)plotViewController didSelectGate:(Gate *)gate forPlot:(Plot *)plot
 {
     [self dismissViewControllerAnimated:YES completion:^{
         Plot *newPlot = [Plot createPlotForAnalysis:self.analysis parentNode:gate];
@@ -380,25 +372,33 @@
 }
 
 
-- (void)didDeleteGate:(Gate *)gate
+- (void)plotViewController:(PlotViewController *)plotViewController didDeleteGate:(Gate *)gate
 {
     [self.analysis.managedObjectContext save];
 }
 
 
-- (void)deletePlot:(Plot *)plotToBeDeleted
+- (void)plotViewController:(PlotViewController *)plotViewController didTapDoneForPlot:(Plot *)plot
 {
-    BOOL success = [plotToBeDeleted deleteInContext:self.analysis.managedObjectContext];
-    [self.analysis.managedObjectContext save];
-    if (!success)
-    {
-        UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
-                                                          message:[NSLocalizedString(@"Could not delete plot \"", nil) stringByAppendingFormat:@"%@\"", plotToBeDeleted.name]
-                                                         delegate:nil
-                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                otherButtonTitles: nil];
-        [alertView show];
-    }
+    NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:plot];
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    cell.bounds = plotViewController.view.bounds;
+    
+    UIImageView *plotImageView = (UIImageView *)[cell viewWithTag:6];
+    plotImageView.bounds = cell.bounds;
+
+    [self dismissViewControllerAnimated:NO completion:nil];
+    CGRect destBounds = CGRectMake(0, 0, 250, 250);
+
+    [UIView animateWithDuration:0.5 animations:^{
+        plotImageView.bounds = destBounds;
+        plotImageView.center = self.pickedCellLocation;
+        cell.bounds = destBounds;
+        cell.center = self.pickedCellLocation;
+    } completion:^(BOOL finished) {
+        [plot.managedObjectContext save];
+        [self _hideLabels:NO forCell:cell];
+    }];
 }
 
 #pragma mark - Plot Table View Controller delegate

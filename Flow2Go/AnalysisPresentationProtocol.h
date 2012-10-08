@@ -13,4 +13,6 @@
 
 - (void)presentAnalysis:(Analysis *)analysis;
 
+- (void)measurementViewController:(id)measurementViewController hasItemsSelected:(BOOL)hasItemsSelected;
+
 @end

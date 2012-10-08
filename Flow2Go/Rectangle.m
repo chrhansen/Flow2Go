@@ -77,25 +77,6 @@
     return [self.path containsPoint:point];
 }
 
-
-
-- (void)panBeganAtPoint:(CGPoint)beginPoint
-{
-    // pan began
-}
-
-
-- (void)panChangedToPoint:(CGPoint)nextPoint
-{
-    // pan changed
-}
-
-
-- (void)panEndedAtPoint:(CGPoint)endPoint
-{
-    // pan changed
-}
-
 - (CGAffineTransform)transformForScale:(CGFloat)scale atLocation:(CGPoint)location
 {
     CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
@@ -120,6 +101,58 @@
 - (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
 {
     [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+}
+
+
+#define HOOK_SIZE 8.0
+
+- (UIBezierPath *)_hookAtPoint:(CGPoint)point
+{
+    CGRect rect = CGRectMake(point.x - HOOK_SIZE * 0.5, point.y - HOOK_SIZE * 0.5, HOOK_SIZE, HOOK_SIZE);
+    return [UIBezierPath bezierPathWithOvalInRect: rect];
+}
+
+- (void)showDragableHooks
+{
+    self.hooks = NSMutableArray.array;
+    NSArray *points = [self getPathPoints];
+    for (NSValue *aValue in points)
+    {
+        [self.hooks addObject:[self _hookAtPoint:aValue.CGPointValue]];
+    }
+}
+
+
+- (void)hideDragableHooks
+{
+    [self.hooks removeAllObjects];
+    self.hooks = nil;
+}
+
+
+- (void)movePathElementToPoint:(CGPoint)point
+{
+    NSValue *valuePoint = [NSValue valueWithCGPoint:point];
+    CGPathApply(self.path.CGPath, (__bridge void *)(valuePoint), Flow2GoCGPathPointMoveFunction);
+}
+
+
+void Flow2GoCGPathPointMoveFunction (void *info, const CGPathElement *element)
+{
+    NSValue *valuePoint = (__bridge NSValue *)info;
+    
+    CGPoint *points = element->points;
+    CGPathElementType type = element->type;
+    
+    switch(type)
+    {
+        case kCGPathElementMoveToPoint: // contains 1 point
+            points[0] = valuePoint.CGPointValue;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

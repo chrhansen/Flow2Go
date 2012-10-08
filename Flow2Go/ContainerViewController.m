@@ -121,4 +121,20 @@
     [self.analysisViewController showAnalysis:analysis];
 }
 
+
+- (void)measurementViewController:(id)measurementViewController hasItemsSelected:(BOOL)hasItemsSelected
+{
+    if (hasItemsSelected)
+    {
+        [self.navigationItem.rightBarButtonItems[1] setTitle:NSLocalizedString(@"Add To...", nil)];
+    }
+    else
+    {
+        [self.navigationItem.rightBarButtonItems[1] setTitle:NSLocalizedString(@"Add...", nil)];
+    }
+    [self.navigationItem.leftBarButtonItems[0] setEnabled:hasItemsSelected];
+    [self.navigationItem.leftBarButtonItems[1] setEnabled:hasItemsSelected];
+
+}
+
 @end

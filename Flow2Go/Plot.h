@@ -24,5 +24,8 @@
 @property (nonatomic, retain) NSNumber * plotType;
 @property (nonatomic, readonly) NSInteger countOfParentGates;
 @property (nonatomic, retain) NSString *plotSectionName;
+@property (nonatomic, retain) UIImage *image;
+
+
 
 @end

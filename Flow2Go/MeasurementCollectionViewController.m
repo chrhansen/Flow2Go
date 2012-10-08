@@ -223,18 +223,7 @@
     BOOL hasItemsSelected = NO;
     if (self.editItems.count > 0) hasItemsSelected = YES;
     
-    
-    return;
-    if (hasItemsSelected)
-    {
-        [self.navigationItem.rightBarButtonItems[1] setTitle:NSLocalizedString(@"Add To...", nil)];
-    }
-    else
-    {
-        [self.navigationItem.rightBarButtonItems[1] setTitle:NSLocalizedString(@"Add...", nil)];
-    }
-    [self.navigationItem.leftBarButtonItems[0] setEnabled:hasItemsSelected];
-    [self.navigationItem.leftBarButtonItems[1] setEnabled:hasItemsSelected];
+    [self.delegate measurementViewController:self hasItemsSelected:hasItemsSelected];
 }
 
 
@@ -254,19 +243,12 @@
 
 - (void)_presentMeasurement:(Measurement *)aMeasurement
 {
-//    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewController"];
-//    AnalysisViewController *analysisViewController = (AnalysisViewController *)navigationController.topViewController;
-//    
     if (aMeasurement.analyses.lastObject == nil)
     {
         Analysis *analysis = [Analysis createAnalysisForMeasurement:aMeasurement];
         [analysis.managedObjectContext save];
     }
     [self.delegate presentAnalysis:aMeasurement.analyses.lastObject];
-
-//    analysisViewController.analysis = aMeasurement.analyses.lastObject;
-//    
-//    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 

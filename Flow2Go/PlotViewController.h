@@ -14,11 +14,13 @@
 @class Plot;
 @class Gate;
 @class FCSFile;
+@class PlotViewController;
 
 @protocol PlotViewControllerDelegate <NSObject>
-- (FCSFile *)fcsFile:(id)sender;
-- (void)didSelectGate:(Gate *)gate forPlot:(Plot *)plot;
-- (void)didDeleteGate:(Gate *)gate;
+- (FCSFile *)fcsFileForPlot:(Plot *)plot;
+- (void)plotViewController:(PlotViewController *)plotViewController didSelectGate:(Gate *)gate forPlot:(Plot *)plot;
+- (void)plotViewController:(PlotViewController *)plotViewController didDeleteGate:(Gate *)gate;
+- (void)plotViewController:(PlotViewController *)plotViewController didTapDoneForPlot:(Plot *)plot;
 
 @end
 

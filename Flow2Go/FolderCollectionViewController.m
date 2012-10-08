@@ -126,16 +126,10 @@
 
 - (void)_showContentsOfFolder:(Folder *)folder
 {
-//    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"measurementViewController"];
-//    MeasurementCollectionViewController *measurementViewController = (MeasurementCollectionViewController *)navigationController.topViewController;
-//    measurementViewController.folder = folder;
-//    navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-//    [self presentViewController:navigationController animated:YES completion:nil];
-    
     UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"containerViewController"];
     ContainerViewController *containerViewController = (ContainerViewController *)navigationController.topViewController;
     containerViewController.folder = folder;
-    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
@@ -154,17 +148,12 @@
     
     // Set the batch size to a suitable number.
     fetchRequest.fetchBatchSize = 50;
-    
-    // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [NSSortDescriptor.alloc initWithKey:@"name"
                                                                  ascending:YES];
     
     NSArray *sortDescriptors = @[sortDescriptor];
     
     fetchRequest.sortDescriptors = sortDescriptors;
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
     NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
                                                                                               managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
                                                                                                 sectionNameKeyPath:nil
@@ -187,8 +176,7 @@
       newIndexPath:(NSIndexPath *)newIndexPath
 {
     UICollectionView *collectionView = self.collectionView;
-    
-    
+        
     switch(type) {
         case NSFetchedResultsChangeInsert:
             [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];

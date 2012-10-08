@@ -161,6 +161,16 @@
         [gateGraphic.path fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
         [gateGraphic.strokeColor setStroke];
         [gateGraphic.path stroke];
+        if (gateGraphic.hooks)
+        {
+            [gateGraphic.hookColor setFill];
+            [gateGraphic.hookColor setStroke];
+            for (UIBezierPath *hook in gateGraphic.hooks)
+            {
+                [hook fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
+                [hook stroke];
+            }
+        }
     }
 }
 
@@ -170,7 +180,7 @@
 #pragma mark Gesture Setup methods
 - (void)_addGestures
 {
-    UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tapDetected:)];
+    UITapGestureRecognizer *singleTapRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tapDetected:)];
 
     UITapGestureRecognizer *doubleTapRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(doubleTapDetected:)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
@@ -178,12 +188,15 @@
     UIPanGestureRecognizer *panRecognizer = [UIPanGestureRecognizer.alloc initWithTarget:self action:@selector(panDetected:)];
     UIPinchGestureRecognizer *pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(pinchDetected:)];
     
-    [tapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+    UILongPressGestureRecognizer *longPressRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self action:@selector(longPressDetected:)];
     
-    [self addGestureRecognizer:tapRecognizer];
+    [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
+    
+    [self addGestureRecognizer:singleTapRecognizer];
     [self addGestureRecognizer:doubleTapRecognizer];
     [self addGestureRecognizer:panRecognizer];
     [self addGestureRecognizer:pinchRecognizer];
+    [self addGestureRecognizer:longPressRecognizer];
     
     panRecognizer.delegate = self;
     pinchRecognizer.delegate = self;
@@ -207,6 +220,23 @@
         }
     }
     return nil;
+}
+
+
+- (void)_toggleLongPressActionForGate:(GateGraphic *)gateGraphic
+{
+    if (gateGraphic)
+    {
+        if (!gateGraphic.hooks)
+        {
+            [gateGraphic showDragableHooks];
+        }
+        else
+        {
+            [gateGraphic hideDragableHooks];
+        }
+        [self setNeedsDisplay];
+    }
 }
 
 #pragma mark Gesture Action Methods
@@ -350,5 +380,17 @@
 }
 
 
+- (void)longPressDetected:(UILongPressGestureRecognizer *)longPressGesture
+{
+    switch (longPressGesture.state)
+    {
+        case UIGestureRecognizerStateBegan:
+            [self _toggleLongPressActionForGate:[self _gateAtTapPoint:[longPressGesture locationInView:self]]];
+            break;
+            
+        default:
+            break;
+    }
+}
 
 @end

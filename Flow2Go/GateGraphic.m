@@ -18,6 +18,7 @@
     self.path.lineCapStyle = kCGLineCapRound;
     self.strokeColor = UIColor.redColor;
     self.fillColor = UIColor.redColor;
+    self.hookColor = UIColor.blueColor;
 }
 
 
@@ -44,11 +45,21 @@
 }
 
 
+- (void)showDragableHooks
+{
+    // Override in subclass
+}
+
+- (void)hideDragableHooks
+{
+    // Override in subclass
+}
+
+
 - (BOOL)isContentsUnderPoint:(CGPoint)point
 {
     // Just check against the graphic's bounds.
-    return CGRectContainsPoint(self.bounds, point);
-    
+    return CGRectContainsPoint(self.path.bounds, point);
 }
 
 - (void)panBeganAtPoint:(CGPoint)beginPoint
@@ -93,6 +104,7 @@
 {
     NSMutableArray *bezierPoints = [NSMutableArray array];
     CGPathApply(self.path.CGPath, (__bridge void *)(bezierPoints), Flow2GoCGPathApplierFunc);
+
 
     return [NSArray arrayWithArray:bezierPoints];
 }

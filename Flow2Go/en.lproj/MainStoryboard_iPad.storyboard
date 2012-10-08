@@ -179,7 +179,7 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Y6-vR-W5x" customClass="GatesContainerView">
                                 <subviews>
-                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5F-po-NHv">
+                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5F-po-NHv">
                                         <constraints>
                                             <constraint firstAttribute="width" constant="280" id="MWY-V5-G97"/>
                                         </constraints>
@@ -195,7 +195,7 @@
                                             <action selector="xAxisTapped:" destination="Suk-IT-K3u" eventType="touchUpInside" id="5lJ-f3-GrH"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3P-ip-Owu">
+                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3P-ip-Owu">
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" type="user" id="jNb-DV-ZXp"/>
                                             <constraint firstAttribute="width" constant="280" type="user" id="rPt-Z0-FkX"/>
@@ -216,9 +216,8 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="user" id="B3H-0u-JKb"/>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="E9j-sA-Ipk"/>
-                                    <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="user" id="V85-Ty-5SB"/>
+                                    <constraint firstAttribute="bottom" secondItem="P5F-po-NHv" secondAttribute="bottom" constant="1" id="NkN-2U-2mj"/>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="jjr-E0-fNg"/>
                                     <constraint firstAttribute="centerX" secondItem="P5F-po-NHv" secondAttribute="centerX" type="user" id="wuu-Ag-JWL"/>
                                     <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="x68-V9-M0T"/>
@@ -401,7 +400,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="a8j-n6-zor"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="300"/>
                     <connections>
                         <outlet property="createNewPlotButton" destination="fTw-3v-Qcw" id="3eu-XX-uwA"/>
                         <outlet property="deleteGateButton" destination="bjZ-23-4IH" id="K9N-6l-scA"/>
@@ -419,7 +418,8 @@
                 <navigationController storyboardIdentifier="plotViewController" id="wpr-Mq-7qf" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ED0-xd-Ma8">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="ED0-xd-Ma8">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -581,7 +581,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="ZuQ-jH-hlg"/>
-                    <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="300"/>
                     <connections>
                         <outlet property="deletePlotButton" destination="zI9-6k-KWM" id="vDx-tj-Bzh"/>
                         <outlet property="parentGateName" destination="jjD-VN-ZJG" id="kww-Gx-sqI"/>
@@ -724,7 +724,7 @@
             <objects>
                 <navigationController storyboardIdentifier="plotDetailTableViewController" modalPresentationStyle="currentContext" id="5tR-Xf-qan" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <value key="contentSizeForViewInPopover" type="size" width="320" height="400"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="320" height="300"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mTQ-iE-twy">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -834,7 +834,7 @@
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="dE4-3s-djC">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="830"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ok8-vp-oZy" customClass="PinchLayout">
                             <size key="itemSize" width="250" height="250"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -898,8 +898,6 @@
         <class className="GateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
             <relationships>
-                <relationship kind="action" name="deleteGateTapped:"/>
-                <relationship kind="action" name="newPlotTapped:"/>
                 <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
@@ -954,9 +952,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

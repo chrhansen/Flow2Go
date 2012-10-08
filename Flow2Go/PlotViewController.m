@@ -56,7 +56,7 @@
         NSLog(@"plot was nil");
         return;
     }
-    self.fcsFile = [self.delegate fcsFile:self];
+    self.fcsFile = [self.delegate fcsFileForPlot:self.plot];
     self.title = self.plot.name;
 }
 
@@ -70,6 +70,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self _setControlsVisible:YES];
     [self _createGraphAndConfigurePlotSpace];
     [self _insertScatterPlot];
     [self _reloadPlotDataAndLayout];
@@ -80,6 +81,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
+    [self _setControlsVisible:NO];
+    [self _grabImageOfPlot];
     [super viewWillDisappear:animated];
 }
 
@@ -95,6 +98,21 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)_setControlsVisible:(BOOL)visible
+{
+    CGFloat alpha = 0.0f;
+    if (visible) alpha = 1.0f;
+    [self.navigationController setNavigationBarHidden:!visible animated:YES];
+    self.navigationController.navigationBar.alpha = 0.0;
+
+    [UIView animateWithDuration:0.3 animations:^{
+        self.navigationController.navigationBar.alpha = alpha;
+        self.xAxisButton.alpha = alpha * 0.3;
+        self.yAxisButton.alpha = alpha * 0.3;
+    } completion:nil];
 }
 
 
@@ -116,6 +134,12 @@
     {
         [aSubView removeFromSuperview];
     }
+}
+
+- (void)_grabImageOfPlot
+{
+    UIImage *newImage = [self.graph imageOfLayer];
+    [self.plot setImage:newImage];
 }
 
 
@@ -160,7 +184,7 @@
 {
     [self _removeSubviews];
     [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate plotViewController:self didTapDoneForPlot:self.plot];
 }
 
 
@@ -264,7 +288,7 @@
 {
     UIActionSheet *axisPickerSheet = [UIActionSheet.alloc initWithTitle:nil
                                                                delegate:self
-                                                      cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                                      cancelButtonTitle:nil
                                                  destructiveButtonTitle:nil
                                                       otherButtonTitles:nil];
     axisPickerSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
@@ -274,7 +298,7 @@
     {
         [axisPickerSheet addButtonWithTitle:[self _titleForParameter:parIndex + 1]];
     }
-    [axisPickerSheet addButtonWithTitle:nil];
+    //[axisPickerSheet addButtonWithTitle:nil];
     [axisPickerSheet showFromRect:axisButton.frame inView:self.graphHostingView animated:YES];
 }
 
@@ -717,7 +741,7 @@ static CPTPlotSymbol *plotSymbol;
 - (void)gatesContainerView:(GatesContainerView *)gatesContainerView didDoubleTapGate:(NSUInteger)gateNo
 {
     Gate *tappedGate = self.displayedGates[gateNo];
-    [self.delegate didSelectGate:tappedGate forPlot:self.plot];
+    [self.delegate plotViewController:self didSelectGate:tappedGate forPlot:self.plot];
 
 }
 
@@ -761,7 +785,7 @@ static CPTPlotSymbol *plotSymbol;
 - (void)didTapNewPlot:(GateTableViewController *)sender
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self.delegate didSelectGate:sender.gate forPlot:self.plot];
+    [self.delegate plotViewController:self didSelectGate:sender.gate forPlot:self.plot];
 }
 
 
@@ -792,7 +816,7 @@ static CPTPlotSymbol *plotSymbol;
     {
         [self.gatesContainerView redrawGates];
     }
-    [self.delegate didDeleteGate:gateToBeDeleted];
+    [self.delegate plotViewController:self didDeleteGate:gateToBeDeleted];
 }
 
 @end

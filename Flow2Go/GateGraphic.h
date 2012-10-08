@@ -13,6 +13,9 @@
 - (GateGraphic *)initWithVertices:(NSArray *)vertices;
 - (GateGraphic *)initWithBoundsOfContainerView:(CGRect)bounds;
 
+- (void)showDragableHooks;
+- (void)hideDragableHooks;
+
 - (BOOL)isContentsUnderPoint:(CGPoint)point;
 - (NSArray *)getPathPoints;
 
@@ -27,9 +30,11 @@
 @property (nonatomic) CGRect bounds;
 @property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, strong) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *hookColor;
 @property (nonatomic) CGFloat strokeWidth;
 @property (nonatomic) NSInteger gateTag;
 @property (nonatomic) GateType gateType;
+@property (nonatomic, strong) NSMutableArray *hooks;
 
 //@property (nonatomic) BOOL isDrawing;
 

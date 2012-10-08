@@ -18,6 +18,7 @@
 @dynamic plotType;
 @dynamic countOfParentGates;
 @dynamic plotSectionName;
+@dynamic image;
 
 + (Plot *)createPlotForAnalysis:(Analysis *)analysis parentNode:(Node *)parentNode
 {
@@ -91,6 +92,26 @@
     return countOfParentGates;
 }
 
+#pragma mark - Image getters/setters
+
+
+- (void)setImage:(UIImage*)image
+{
+    [self willChangeValueForKey:@"image"];
+    
+    NSData *data = UIImagePNGRepresentation(image);
+    //[self setImage:data];
+    [self setPrimitiveValue:data forKey:@"image"];
+    [self didChangeValueForKey:@"image"];
+}
+
+- (UIImage*)image
+{
+    [self willAccessValueForKey:@"image"];
+    UIImage *image = [UIImage imageWithData:[self primitiveValueForKey:@"image"]];
+    [self didAccessValueForKey:@"image"];
+    return image;
+}
 
 
 @end

@@ -27,8 +27,8 @@
 		E542F4C6160933280041A60A /* FolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FolderCollectionViewController.m */; };
 		E542F4CA16093ABE0041A60A /* FolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E542F4C916093ABD0041A60A /* FolderView.xib */; };
 		E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FCSFile.m */; };
+		E5469D5C160FAD6000B33EE2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54BC31F160286A700E55A28 /* Default-568h@2x.png */; };
 		E546B73616034F920073178C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E546B73516034F920073178C /* DropboxSDK.framework */; };
-		E54BC320160286A700E55A28 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54BC31F160286A700E55A28 /* Default-568h@2x.png */; };
 		E54D71191603570D008CEC5D /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D71181603570D008CEC5D /* libCorePlot-CocoaTouch.a */; };
 		E54D717916046E05008CEC5D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E54D717516046E05008CEC5D /* README.md */; };
 		E54D717A16046E05008CEC5D /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E54D717616046E05008CEC5D /* release_notes.md */; };
@@ -811,13 +811,13 @@
 				E511FD7915CC36C200637D39 /* icon_72.png in Resources */,
 				E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */,
 				E527421D15F65D52000C80F3 /* PlotCellView.xib in Resources */,
-				E54BC320160286A700E55A28 /* Default-568h@2x.png in Resources */,
 				E54D717916046E05008CEC5D /* README.md in Resources */,
 				E54D717A16046E05008CEC5D /* release_notes.md in Resources */,
 				E5674E751607CC6D007A2DA2 /* delete.png in Resources */,
 				E577B4911607D76F002348EE /* 39-circle-check.png in Resources */,
 				E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */,
 				E542F4CA16093ABE0041A60A /* FolderView.xib in Resources */,
+				E5469D5C160FAD6000B33EE2 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

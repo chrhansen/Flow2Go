@@ -354,7 +354,7 @@
     scatterPlot.identifier = @"Scatter Plot 1";
     scatterPlot.plotSymbolMarginForHitDetection = 5.0;
     scatterPlot.borderWidth = 2.0f;
-    scatterPlot.borderColor = [self _currentThemeLineColor];
+    scatterPlot.borderColor = [CPTColor redColor].cgColor;//[self _currentThemeLineColor];
     
     [self.graph addPlot:scatterPlot toPlotSpace:self.graph.defaultPlotSpace];
 }

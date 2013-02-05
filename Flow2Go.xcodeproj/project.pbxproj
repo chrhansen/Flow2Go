@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E50BA4101600F38000E85118 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA40F1600F38000E85118 /* libz.dylib */; };
 		E5116EF4160A64A3002A54E4 /* LineLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E5116EF3160A64A3002A54E4 /* LineLayout.m */; };
-		E5116F00160A8234002A54E4 /* ContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5116EFF160A8234002A54E4 /* ContainerViewController.m */; };
 		E511FD7315CC365D00637D39 /* icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7215CC365D00637D39 /* icon_114.png */; };
 		E511FD7515CC367F00637D39 /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7415CC367F00637D39 /* icon_57.png */; };
 		E511FD7715CC36BD00637D39 /* icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7615CC36BD00637D39 /* icon_144.png */; };
@@ -25,7 +24,6 @@
 		E53FA6A215CBC1C5000B048C /* PinchLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA69F15CBBD87000B048C /* PinchLayout.m */; };
 		E542F4C316092B250041A60A /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C216092B250041A60A /* Folder.m */; };
 		E542F4C6160933280041A60A /* FolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FolderCollectionViewController.m */; };
-		E542F4CA16093ABE0041A60A /* FolderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E542F4C916093ABD0041A60A /* FolderView.xib */; };
 		E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FCSFile.m */; };
 		E5469D5C160FAD6000B33EE2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54BC31F160286A700E55A28 /* Default-568h@2x.png */; };
 		E546B73616034F920073178C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E546B73516034F920073178C /* DropboxSDK.framework */; };
@@ -44,6 +42,15 @@
 		E57AD84515FF7E0100A6815C /* AddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* AddGateTableViewController.m */; };
 		E57BA89315ED8D94008EA346 /* PlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */; };
 		E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */; };
+		E58556D216C09CE000BF4546 /* MSDraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556CF16C09CE000BF4546 /* MSDraggableView.m */; };
+		E58556D316C09CE000BF4546 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */; };
+		E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556D516C0ADE200BF4546 /* UIBarButtonItem+Customview.m */; };
+		E58556D916C0AE9800BF4546 /* 0108.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556D716C0AE9800BF4546 /* 0108.png */; };
+		E58556DA16C0AE9800BF4546 /* 0108@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556D816C0AE9800BF4546 /* 0108@2x.png */; };
+		E58556DD16C0B02900BF4546 /* 0107.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556DB16C0B02900BF4546 /* 0107.png */; };
+		E58556DE16C0B02900BF4546 /* 0107@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556DC16C0B02900BF4546 /* 0107@2x.png */; };
+		E58556E116C0B11E00BF4546 /* F2GFolderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556E016C0B11D00BF4546 /* F2GFolderCell.m */; };
+		E585571616C1576400BF4546 /* DummyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571516C1576400BF4546 /* DummyViewController.m */; };
 		E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = E59417EB15EB68E9008D979F /* NSData+MD5.m */; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
 		E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */; };
@@ -103,8 +110,6 @@
 		E50BA40F1600F38000E85118 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		E5116EF2160A64A3002A54E4 /* LineLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineLayout.h; sourceTree = "<group>"; };
 		E5116EF3160A64A3002A54E4 /* LineLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineLayout.m; sourceTree = "<group>"; };
-		E5116EFE160A8234002A54E4 /* ContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewController.h; sourceTree = "<group>"; };
-		E5116EFF160A8234002A54E4 /* ContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewController.m; sourceTree = "<group>"; };
 		E511FD7215CC365D00637D39 /* icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_114.png; path = ../icon_114.png; sourceTree = "<group>"; };
 		E511FD7415CC367F00637D39 /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_57.png; path = ../icon_57.png; sourceTree = "<group>"; };
 		E511FD7615CC36BD00637D39 /* icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_144.png; path = ../icon_144.png; sourceTree = "<group>"; };
@@ -122,6 +127,7 @@
 		E527421C15F65D52000C80F3 /* PlotCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlotCellView.xib; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* GraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* GraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphPoint.m; sourceTree = "<group>"; };
+		E5376C5E167B76AE00738979 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		E53FA66415CB0CC0000B048C /* MeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeasurementCollectionViewController.h; sourceTree = "<group>"; };
 		E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementCollectionViewController.m; sourceTree = "<group>"; };
 		E53FA69E15CBBD87000B048C /* PinchLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PinchLayout.h; sourceTree = "<group>"; };
@@ -130,7 +136,6 @@
 		E542F4C216092B250041A60A /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FolderCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderCollectionViewController.h; sourceTree = "<group>"; };
 		E542F4C5160933270041A60A /* FolderCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderCollectionViewController.m; sourceTree = "<group>"; };
-		E542F4C916093ABD0041A60A /* FolderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FolderView.xib; path = ../FolderView.xib; sourceTree = "<group>"; };
 		E5457DA015CEAE7F00678CB7 /* FCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSFile.h; sourceTree = "<group>"; };
 		E5457DA115CEAE7F00678CB7 /* FCSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSFile.m; sourceTree = "<group>"; };
 		E546B73516034F920073178C /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
@@ -221,6 +226,20 @@
 		E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotDataCalculator.m; sourceTree = "<group>"; };
 		E580999A15F79C8B000E0B34 /* KeywordTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeywordTableViewController.h; sourceTree = "<group>"; };
 		E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeywordTableViewController.m; sourceTree = "<group>"; };
+		E58556CE16C09CE000BF4546 /* MSDraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDraggableView.h; sourceTree = "<group>"; };
+		E58556CF16C09CE000BF4546 /* MSDraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDraggableView.m; sourceTree = "<group>"; };
+		E58556D016C09CE000BF4546 /* MSNavigationPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNavigationPaneViewController.h; sourceTree = "<group>"; };
+		E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
+		E58556D416C0ADE200BF4546 /* UIBarButtonItem+Customview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Customview.h"; sourceTree = "<group>"; };
+		E58556D516C0ADE200BF4546 /* UIBarButtonItem+Customview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Customview.m"; sourceTree = "<group>"; };
+		E58556D716C0AE9800BF4546 /* 0108.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0108.png; sourceTree = "<group>"; };
+		E58556D816C0AE9800BF4546 /* 0108@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0108@2x.png"; sourceTree = "<group>"; };
+		E58556DB16C0B02900BF4546 /* 0107.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0107.png; sourceTree = "<group>"; };
+		E58556DC16C0B02900BF4546 /* 0107@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0107@2x.png"; sourceTree = "<group>"; };
+		E58556DF16C0B11D00BF4546 /* F2GFolderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F2GFolderCell.h; sourceTree = "<group>"; };
+		E58556E016C0B11D00BF4546 /* F2GFolderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F2GFolderCell.m; sourceTree = "<group>"; };
+		E585571416C1576400BF4546 /* DummyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyViewController.h; sourceTree = "<group>"; };
+		E585571516C1576400BF4546 /* DummyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyViewController.m; sourceTree = "<group>"; };
 		E59417EA15EB68E9008D979F /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
 		E59417EB15EB68E9008D979F /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		E599D2D715E1635A0036F2DC /* NSArrayValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayValueTransformer.h; sourceTree = "<group>"; };
@@ -239,7 +258,6 @@
 		E59D2E4115E37E7100944789 /* Gate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gate.m; sourceTree = "<group>"; };
 		E5B480AE15EF597D00BB6BAC /* GateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateTableViewController.h; sourceTree = "<group>"; };
 		E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateTableViewController.m; sourceTree = "<group>"; };
-		E5BD6920160B99250084A9EF /* AnalysisPresentationProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalysisPresentationProtocol.h; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* SingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* SingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleRange.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
@@ -359,9 +377,14 @@
 		E511FD7A15CC377500637D39 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E58556DB16C0B02900BF4546 /* 0107.png */,
+				E58556DC16C0B02900BF4546 /* 0107@2x.png */,
+				E58556D716C0AE9800BF4546 /* 0108.png */,
+				E58556D816C0AE9800BF4546 /* 0108@2x.png */,
 				E577B48F1607D76F002348EE /* 39-circle-check.png */,
 				E577B4901607D76F002348EE /* 39-circle-check@2x.png */,
 				E5674E741607CC6D007A2DA2 /* delete.png */,
+				E5376C5E167B76AE00738979 /* delete.png */,
 				E511FD7815CC36C200637D39 /* icon_72.png */,
 				E511FD7615CC36BD00637D39 /* icon_144.png */,
 				E511FD7415CC367F00637D39 /* icon_57.png */,
@@ -388,6 +411,8 @@
 		E53FA67015CB3E6F000B048C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E58556DF16C0B11D00BF4546 /* F2GFolderCell.h */,
+				E58556E016C0B11D00BF4546 /* F2GFolderCell.m */,
 				E54D71AC16049C98008CEC5D /* GatesContainerView.h */,
 				E54D71B616049E09008CEC5D /* GatesContainerView.m */,
 				E54BC30D160246D400E55A28 /* GateDrawing */,
@@ -395,7 +420,6 @@
 				E53FA69F15CBBD87000B048C /* PinchLayout.m */,
 				E5116EF2160A64A3002A54E4 /* LineLayout.h */,
 				E5116EF3160A64A3002A54E4 /* LineLayout.m */,
-				E542F4C916093ABD0041A60A /* FolderView.xib */,
 				E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */,
 				E527421C15F65D52000C80F3 /* PlotCellView.xib */,
 			);
@@ -511,12 +535,25 @@
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E58556D416C0ADE200BF4546 /* UIBarButtonItem+Customview.h */,
+				E58556D516C0ADE200BF4546 /* UIBarButtonItem+Customview.m */,
 				E59417EA15EB68E9008D979F /* NSData+MD5.h */,
 				E59417EB15EB68E9008D979F /* NSData+MD5.m */,
 				E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */,
 				E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		E58556CD16C09CD100BF4546 /* MSDragableView */ = {
+			isa = PBXGroup;
+			children = (
+				E58556CE16C09CE000BF4546 /* MSDraggableView.h */,
+				E58556CF16C09CE000BF4546 /* MSDraggableView.m */,
+				E58556D016C09CE000BF4546 /* MSNavigationPaneViewController.h */,
+				E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */,
+			);
+			name = MSDragableView;
 			sourceTree = "<group>";
 		};
 		E5FC6F3915CA7E8E0047A3DD = {
@@ -586,6 +623,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E58556CD16C09CD100BF4546 /* MSDragableView */,
 				E54D717316046E05008CEC5D /* TestFlight */,
 				E54D70D81603570D008CEC5D /* CorePlot */,
 				E546B73516034F920073178C /* DropboxSDK.framework */,
@@ -726,9 +764,8 @@
 			children = (
 				E542F4C4160933270041A60A /* FolderCollectionViewController.h */,
 				E542F4C5160933270041A60A /* FolderCollectionViewController.m */,
-				E5BD6920160B99250084A9EF /* AnalysisPresentationProtocol.h */,
-				E5116EFE160A8234002A54E4 /* ContainerViewController.h */,
-				E5116EFF160A8234002A54E4 /* ContainerViewController.m */,
+				E585571416C1576400BF4546 /* DummyViewController.h */,
+				E585571516C1576400BF4546 /* DummyViewController.m */,
 				E53FA66415CB0CC0000B048C /* MeasurementCollectionViewController.h */,
 				E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */,
 				E59D2E3315E365FF00944789 /* AnalysisViewController.h */,
@@ -777,7 +814,7 @@
 		E5FC6F3B15CA7E8E0047A3DD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Christian Hansen";
 			};
 			buildConfigurationList = E5FC6F3E15CA7E8E0047A3DD /* Build configuration list for PBXProject "Flow2Go" */;
@@ -816,8 +853,11 @@
 				E5674E751607CC6D007A2DA2 /* delete.png in Resources */,
 				E577B4911607D76F002348EE /* 39-circle-check.png in Resources */,
 				E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */,
-				E542F4CA16093ABE0041A60A /* FolderView.xib in Resources */,
 				E5469D5C160FAD6000B33EE2 /* Default-568h@2x.png in Resources */,
+				E58556D916C0AE9800BF4546 /* 0108.png in Resources */,
+				E58556DA16C0AE9800BF4546 /* 0108@2x.png in Resources */,
+				E58556DD16C0B02900BF4546 /* 0107.png in Resources */,
+				E58556DE16C0B02900BF4546 /* 0107@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -888,10 +928,14 @@
 				E542F4C316092B250041A60A /* Folder.m in Sources */,
 				E542F4C6160933280041A60A /* FolderCollectionViewController.m in Sources */,
 				E5116EF4160A64A3002A54E4 /* LineLayout.m in Sources */,
-				E5116F00160A8234002A54E4 /* ContainerViewController.m in Sources */,
 				E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */,
 				E5F1DAFE160E64A200591F2A /* Rectangle.m in Sources */,
 				E5F1DB06160E7BD300591F2A /* Ellipse.m in Sources */,
+				E58556D216C09CE000BF4546 /* MSDraggableView.m in Sources */,
+				E58556D316C09CE000BF4546 /* MSNavigationPaneViewController.m in Sources */,
+				E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */,
+				E58556E116C0B11E00BF4546 /* F2GFolderCell.m in Sources */,
+				E585571616C1576400BF4546 /* DummyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

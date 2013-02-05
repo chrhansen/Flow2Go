@@ -7,16 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AnalysisPresentationProtocol.h"
+#import "MSNavigationPaneViewController.h"
+
 @class Folder;
+@protocol MeasurementCollectionViewControllerDelegate <NSObject>
 
+- (void)measurementCollectionViewControllerDidTapDismiss:(id)sender;
 
+@end
 
 @interface MeasurementCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) Folder *folder;
-@property (nonatomic, weak) id<AnalysisPresentationProtocol> delegate;
+@property (nonatomic, weak) MSNavigationPaneViewController *navigationPaneViewController;
+@property (nonatomic, weak) id<MeasurementCollectionViewControllerDelegate> delegate;
 
 - (IBAction)infoButtonTapped:(UIButton *)sender;
 

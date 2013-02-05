@@ -32,6 +32,7 @@
     UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
     [self _addGestures];
+    [self _addObservers];
 }
 
 
@@ -42,6 +43,13 @@
     DownloadManager.sharedInstance.progressDelegate = self;
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self showFoldersOnLaunch];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -49,20 +57,29 @@
 }
 
 
+- (void)_addObservers
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showFoldersOnLaunch) name:@"DetailViewDidAppear" object:nil];
+}
+
+- (void)showFoldersOnLaunch
+{
+    if (!self.folder) [self performSegueWithIdentifier:@"Show Folders" sender:nil];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Show Dropbox"])
-    {
+    if ([segue.identifier isEqualToString:@"Show Dropbox"]) {
         UINavigationController *navigationController = segue.destinationViewController;
         DropboxViewController *dropboxViewController = (DropboxViewController *)navigationController.topViewController;
         dropboxViewController.folder = self.folder;
     }
 }
 
+
 - (void)_addGestures
 {
-    UILongPressGestureRecognizer *longPressRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self
-                                                                                        action:@selector(handleLongPressGesture:)];
+    UILongPressGestureRecognizer *longPressRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self action:@selector(handleLongPressGesture:)];
     [self.collectionView addGestureRecognizer:longPressRecognizer];
 }
 
@@ -84,15 +101,11 @@
 - (void)deleteTapped:(UIButton *)deleteButton
 {
     NSString *deleteString = nil;
-    if (self.editItems.count == 1)
-    {
+    if (self.editItems.count == 1) {
         deleteString = NSLocalizedString(@"Are you sure you want to delete selected item?", nil);
-    }
-    else
-    {
+    } else {
         deleteString = NSLocalizedString(@"Are you sure you want to delete selected items?", nil);
     }
-    
     UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:deleteString
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
@@ -109,10 +122,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == actionSheet.cancelButtonIndex)
-    {
-        return;
-    }
+    if (buttonIndex == actionSheet.cancelButtonIndex) return;
     NSArray *deleteItems = [self.editItems copy];
     [self.editItems removeAllObjects];
     [Measurement deleteMeasurements:deleteItems];
@@ -147,25 +157,22 @@
     KeywordTableViewController *keywordTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"measurementDetailViewController"];
     keywordTVC.measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
-    {
-        if (self.detailPopoverController.isPopoverVisible)
-        {
+    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        if (self.detailPopoverController.isPopoverVisible) {
             [self.detailPopoverController dismissPopoverAnimated:YES];
         }
         self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:keywordTVC];
         [self.detailPopoverController presentPopoverFromRect:infoButton.frame inView:cell.contentView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
-    {
+    } else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
         [self presentViewController:keywordTVC animated:YES completion:nil];
     }
 }
 
 
-- (void)doneTapped:(UIBarButtonItem *)doneButton
+- (IBAction)folderTapped:(UIBarButtonItem *)doneButton
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate measurementCollectionViewControllerDidTapDismiss:self];
+//    [self.navigationPaneViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -175,11 +182,9 @@
     
     UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
     nameLabel.text = measurement.filename;
-    
     UIButton *infoButton = (UIButton *)[cell viewWithTag:4];
 
-    if (measurement.downloadDate)
-    {
+    if (measurement.downloadDate) {
         UILabel *dateLabel = (UILabel *)[cell viewWithTag:2];
         dateLabel.text = [NSDateFormatter localizedStringFromDate:measurement.downloadDate dateStyle:kCFDateFormatterMediumStyle timeStyle:kCFDateFormatterMediumStyle];
         
@@ -187,9 +192,7 @@
         countLabel.text = measurement.countOfEvents.stringValue;
         
         infoButton.enabled = YES;
-    }
-    else
-    {
+    } else {
         infoButton.enabled = NO;
     }
 }
@@ -207,12 +210,9 @@
 - (void)_togglePresenceInEditItems:(Measurement *)aMeasurement
 {
     if (!self.editItems) self.editItems = NSMutableArray.array;
-    if ([self.editItems containsObject:aMeasurement])
-    {
+    if ([self.editItems containsObject:aMeasurement]) {
         [self.editItems removeObject:aMeasurement];
-    }
-    else
-    {
+    } else {
         [self.editItems addObject:aMeasurement];
     }
 }
@@ -223,7 +223,7 @@
     BOOL hasItemsSelected = NO;
     if (self.editItems.count > 0) hasItemsSelected = YES;
     
-    [self.delegate measurementViewController:self hasItemsSelected:hasItemsSelected];
+    //[self.delegate measurementViewController:self hasItemsSelected:hasItemsSelected];
 }
 
 
@@ -232,8 +232,7 @@
     NSMutableArray *editItems = [self.editItems copy];
     [self.editItems removeAllObjects];
     self.editItems = nil;
-    for (Measurement *aMeasurement in editItems)
-    {
+    for (Measurement *aMeasurement in editItems) {
         NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:aMeasurement];
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         [self _toggleVisibleCheckmarkForCell:cell atIndexPath:indexPath];
@@ -243,12 +242,11 @@
 
 - (void)_presentMeasurement:(Measurement *)aMeasurement
 {
-    if (aMeasurement.analyses.lastObject == nil)
-    {
+    if (aMeasurement.analyses.lastObject == nil) {
         Analysis *analysis = [Analysis createAnalysisForMeasurement:aMeasurement];
         [analysis.managedObjectContext save];
     }
-    [self.delegate presentAnalysis:aMeasurement.analyses.lastObject];
+    //[self.delegate presentAnalysis:aMeasurement.analyses.lastObject];
 }
 
 
@@ -284,13 +282,9 @@
 {
     Measurement *aMeasurement = (Measurement *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    if (!aMeasurement.downloadDate)
-    {
-        return;
-    }
+    if (!aMeasurement.downloadDate) return;
     
-    switch (self.isEditing)
-    {
+    switch (self.isEditing) {
         case YES:
             [self _togglePresenceInEditItems:aMeasurement];
             [self _toggleVisibleCheckmarkForCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
@@ -329,10 +323,7 @@
     NSArray *sortDescriptors = @[sortDescriptor];
     
     fetchRequest.sortDescriptors = sortDescriptors;
-    if (self.folder.measurements)
-    {
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.folder.measurements];
-    }
+    if (self.folder.measurements) fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.folder.measurements];
 
     
     // Edit the section name key path and cache name if appropriate.

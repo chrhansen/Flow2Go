@@ -10,7 +10,7 @@
 @class Analysis;
 @class Measurement;
 
-@interface AnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate>
+@interface AnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate, UISplitViewControllerDelegate>
 
 - (void)showAnalysis:(Analysis *)analysis;
 

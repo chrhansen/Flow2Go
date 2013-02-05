@@ -15,7 +15,7 @@
 #import "Gate.h"
 #import "PinchLayout.h"
 #import "PlotDetailTableViewController.h"
-#import "MeasurementCollectionViewController.h"
+#import "F2GPlotCell.h"
 
 @interface AnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate>
 
@@ -34,33 +34,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIPinchGestureRecognizer* pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self
-                                                                                        action:@selector(handlePinchGesture:)];
-    [self.collectionView addGestureRecognizer:pinchRecognizer];
-    
-    UINib *cellNib = [UINib nibWithNibName:@"PlotCellView" bundle:NSBundle.mainBundle];
-    [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Plot Cell"];
+    [self _addPinchGesture];
 }
 
-
-
-- (void)dealloc
-{
-    [NSNotificationCenter.defaultCenter removeObserver:self];
-}
-
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DetailViewDidAppear" object:nil];
-}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)_addPinchGesture
+{
+    UIPinchGestureRecognizer* pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(handlePinchGesture:)];
+    [self.collectionView addGestureRecognizer:pinchRecognizer];
 }
 
 
@@ -70,8 +57,7 @@
     self.title = self.analysis.name;
     
     if (self.analysis.plots.count == 0
-        && self.analysis != nil)
-    {
+        && self.analysis != nil) {
         [Plot createPlotForAnalysis:self.analysis parentNode:nil];
     }
     [self _reloadFCSFile];
@@ -92,8 +78,7 @@
     [self.fcsFile cleanUpEventsForFCSFile];
     NSError *error;
     self.fcsFile = [FCSFile fcsFileWithPath:[HOME_DIR stringByAppendingPathComponent:self.analysis.measurement.filepath] error:&error];
-    if (self.fcsFile == nil)
-    {
+    if (self.fcsFile == nil) {
         NSLog(@"Error: %@", error.localizedDescription);
     }
 }
@@ -101,29 +86,19 @@
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    Plot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if ([indexPath isEqual:self.collectionView.indexPathsForSelectedItems.lastObject])
-    {
-        return;
-    }
+    Plot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];    
     Gate *parentGate = (Gate *)plot.parentNode;
+    F2GPlotCell *plotCell = (F2GPlotCell *)cell;
     
-    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
-    nameLabel.text = plot.name;
+    plotCell.nameLabel.text = plot.name;
+    plotCell.countLabel.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
+    plotCell.plotImageView.image = plot.image;
+
+    [plotCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
-    countLabel.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
-    
-    UIButton *infoButton = (UIButton *)[cell viewWithTag:5];
-    [infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIImageView *plotImageView = (UIImageView *)[cell viewWithTag:6];
-    plotImageView.image = plot.image;
-    
-    if (parentGate == nil)
-    {
-        nameLabel.text = [NSString stringWithFormat:@"%@", self.analysis.measurement.filename];
-        countLabel.text = [NSString stringWithFormat:@"%i cells", self.analysis.measurement.countOfEvents.integerValue];
+    if (parentGate == nil) {
+        plotCell.nameLabel.text = [NSString stringWithFormat:@"%@", self.analysis.measurement.filename];
+        plotCell.countLabel.text = [NSString stringWithFormat:@"%i cells", self.analysis.measurement.countOfEvents.integerValue];
     }
 }
 

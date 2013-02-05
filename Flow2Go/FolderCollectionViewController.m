@@ -7,7 +7,7 @@
 //
 
 #import "FolderCollectionViewController.h"
-#import "Folder.h"
+#import "FGFolder+Management.h"
 #import "DownloadManager.h"
 #import "PinchLayout.h"
 #import "MeasurementCollectionViewController.h"
@@ -15,7 +15,7 @@
 #import "F2GFolderCell.h"
 #import "DummyViewController.h"
 
-@interface FolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate>
+@interface FolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate>
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 @end
@@ -41,7 +41,7 @@
     [super setEditing:editing animated:animated];
     [self _configureBarButtonItemsForEditing:editing];
     if (!editing) [self _discardEditItems];
-    [self _updateVisibelCells];
+    [self _updateVisibleCells];
 }
 
 - (void)_addGestures
@@ -61,18 +61,62 @@
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
 {
     if (editing) {
-        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0108"] style:UIBarButtonItemStylePlain target:self action:@selector(uploadTapped:)];
+        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0108"] style:UIBarButtonItemStylePlain target:self action:@selector(exportToCloudTapped:)];
         UIBarButtonItem *deleteItem = [UIBarButtonItem deleteButtonWithTarget:self action:@selector(deleteTapped:)];
         uploadButton.enabled = NO;
         deleteItem.enabled = NO;
         [self.navigationItem setLeftBarButtonItems:@[uploadButton, deleteItem] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     } else {
-        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(downloadTapped:)];
-        [self.navigationItem setLeftBarButtonItems:@[uploadButton] animated:YES];
+        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(importFromCloudTapped:)];
+        UIBarButtonItem *addFolderButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newFolderTapped:)];
+        [self.navigationItem setLeftBarButtonItems:@[uploadButton, addFolderButton] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     }
 }
+
+#pragma mark Import/Export
+- (void)importFromCloudTapped:(id)sender
+{
+    [self performSegueWithIdentifier:@"Show Dropbox" sender:sender];
+}
+
+
+- (void)exportToCloudTapped:(id)sender
+{
+    NSLog(@"exportToCloudTapped");
+}
+
+
+- (void)deleteTapped:(UIButton *)deleteButton
+{
+    NSString *deleteString = nil;
+    if (self.editItems.count == 1) {
+        deleteString = NSLocalizedString(@"Are you sure you want to delete the selected folder?", nil);
+    } else {
+        deleteString = NSLocalizedString(@"Are you sure you want to delete the selected folders?", nil);
+    }
+    UIActionSheet *actionSheet = [UIActionSheet.alloc initWithTitle:deleteString
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                             destructiveButtonTitle:NSLocalizedString(@"Delete", nil)
+                                                  otherButtonTitles: nil];
+    [actionSheet showFromRect:deleteButton.frame inView:self.navigationController.navigationBar animated:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (!buttonIndex == actionSheet.cancelButtonIndex) {
+        NSArray *deleteItems = [self.editItems copy];
+        [self.editItems removeAllObjects];
+        [self _toggleBarButtonStateOnChangedEditItems];
+        [FGFolder deleteFolders:deleteItems completion:^(NSError *error) {
+            if (error) NSLog(@"Error: %@", error.localizedDescription);
+        }];
+    }
+    [self setEditing:NO animated:YES];
+}
+
 
 - (void)_updateCheckmarkVisibilityForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
@@ -101,10 +145,10 @@
 {
     [self.editItems removeAllObjects];
     self.editItems = nil;
-    [self _updateVisibelCells];
+    [self _updateVisibleCells];
 }
 
-- (void)_updateVisibelCells
+- (void)_updateVisibleCells
 {
     for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems) {
         F2GFolderCell *cell = (F2GFolderCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
@@ -115,7 +159,7 @@
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    Folder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    FGFolder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
     F2GFolderCell *folderCell = (F2GFolderCell *)cell;
     folderCell.nameLabel.text = folder.name;
     UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
@@ -134,8 +178,7 @@
 {
     if (buttonIndex == 1) {
         NSString *folderName = [alertView textFieldAtIndex:0].text;
-        NSLog(@"folderName: %@", folderName);
-        [Folder createWithName:folderName];
+        [FGFolder createWithName:folderName];
     }
 }
 
@@ -168,8 +211,20 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Folder *aFolder = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [self _showFolder:aFolder];
+    Folder *selectedFolder = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    
+    switch (self.isEditing) {
+        case YES:
+            [self _togglePresenceInEditItems:selectedFolder];
+            [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
+            [self _toggleBarButtonStateOnChangedEditItems];
+            break;
+            
+        case NO:
+            [self _showFolder:selectedFolder];
+            break;
+    }
 }
 
 
@@ -192,6 +247,11 @@
     }];
 }
 
+#pragma mark - Save changes from other contexts
+- (void)handleDidSaveNotification:(NSNotification *)notification
+{
+    [[NSManagedObjectContext MR_defaultContext] mergeChangesFromContextDidSaveNotification:notification];
+}
 
 #pragma mark - Fetched results controller
 
@@ -200,29 +260,12 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    NSFetchRequest *fetchRequest = [NSFetchRequest.alloc init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Folder" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-    
-    // Set the batch size to a suitable number.
-    fetchRequest.fetchBatchSize = 50;
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor.alloc initWithKey:@"name" ascending:YES];
-    
-    NSArray *sortDescriptors = @[sortDescriptor];
-    fetchRequest.sortDescriptors = sortDescriptors;
-    NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
-                                                                                              managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
-                                                                                                sectionNameKeyPath:nil
-                                                                                                         cacheName:nil];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
+    _fetchedResultsController = [FGFolder fetchAllGroupedBy:nil
+                                              withPredicate:nil
+                                                   sortedBy:@"name"
+                                                  ascending:NO
+                                                   delegate:self
+                                                  inContext:[NSManagedObjectContext MR_defaultContext]];
     return _fetchedResultsController;
 }
 

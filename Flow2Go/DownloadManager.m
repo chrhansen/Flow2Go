@@ -9,7 +9,7 @@
 #import "DownloadManager.h"
 #import "Measurement.h"
 #import "NSString+UUID.h"
-#import "Folder.h"
+#import "FGFolder.h"
 
 @implementation DownloadManager
 
@@ -51,7 +51,7 @@
     [self.restClient loadFile:fileMetadata.path intoPath:[HOME_DIR stringByAppendingPathComponent:relativePath]];
 }
 
-- (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(Folder *)folder;
+- (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(FGFolder *)folder;
 {
     NSString *uniqueID = [NSString getUUID];
     NSString *relativePath = [@"tmp" stringByAppendingPathComponent:[uniqueID stringByAppendingPathExtension:fileMetadata.filename.pathExtension]];

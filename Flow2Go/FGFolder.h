@@ -1,9 +1,9 @@
 //
-//  Folder.h
+//  FGFolder.h
 //  Flow2Go
 //
-//  Created by Christian Hansen on 19/09/12.
-//  Copyright (c) 2012 Christian Hansen. All rights reserved.
+//  Created by Christian Hansen on 05/02/13.
+//  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,16 +11,13 @@
 
 @class Measurement;
 
-@interface Folder : NSManagedObject
-
-+ (Folder *)createWithName:(NSString *)name;
+@interface FGFolder : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSOrderedSet *measurements;
 @end
 
-
-@interface Folder (CoreDataGeneratedAccessors)
+@interface FGFolder (CoreDataGeneratedAccessors)
 
 - (void)insertObject:(Measurement *)value inMeasurementsAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromMeasurementsAtIndex:(NSUInteger)idx;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C60" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C3006" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Analysis" representedClassName="Analysis" syncable="YES">
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dateViewed" optional="YES" attributeType="Date" syncable="YES"/>
@@ -8,7 +8,7 @@
         <relationship name="measurement" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Measurement" inverseName="analyses" inverseEntity="Measurement" syncable="YES"/>
         <relationship name="plots" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Plot" inverseName="analysis" inverseEntity="Plot" syncable="YES"/>
     </entity>
-    <entity name="Folder" representedClassName="Folder" syncable="YES">
+    <entity name="FGFolder" representedClassName="FGFolder" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="measurements" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Measurement" inverseName="folder" inverseEntity="Measurement" syncable="YES"/>
     </entity>
@@ -32,7 +32,7 @@
         <attribute name="lastModificationDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uniqueID" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="analyses" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Analysis" inverseName="measurement" inverseEntity="Analysis" syncable="YES"/>
-        <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Folder" inverseName="measurements" inverseEntity="Folder" syncable="YES"/>
+        <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGFolder" inverseName="measurements" inverseEntity="FGFolder" syncable="YES"/>
         <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Keyword" inverseName="measurement" inverseEntity="Keyword" syncable="YES"/>
     </entity>
     <entity name="Node" representedClassName="Node" isAbstract="YES" syncable="YES">
@@ -56,7 +56,7 @@
     </entity>
     <elements>
         <element name="Analysis" positionX="250" positionY="18" width="128" height="135"/>
-        <element name="Folder" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="FGFolder" positionX="160" positionY="192" width="128" height="75"/>
         <element name="Gate" positionX="268" positionY="-180" width="128" height="120"/>
         <element name="Keyword" positionX="-126" positionY="324" width="128" height="90"/>
         <element name="Measurement" positionX="54" positionY="-198" width="128" height="180"/>

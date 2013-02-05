@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MSNavigationPaneViewController.h"
 
-@class Folder;
+@class FGFolder;
 @protocol MeasurementCollectionViewControllerDelegate <NSObject>
 
 - (void)measurementCollectionViewControllerDidTapDismiss:(id)sender;
@@ -19,7 +19,7 @@
 @interface MeasurementCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (nonatomic, strong) Folder *folder;
+@property (nonatomic, strong) FGFolder *folder;
 @property (nonatomic, weak) MSNavigationPaneViewController *navigationPaneViewController;
 @property (nonatomic, weak) id<MeasurementCollectionViewControllerDelegate> delegate;
 

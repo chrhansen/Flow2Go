@@ -18,11 +18,9 @@
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E5208C9115EAA12600EBAE47 /* Keyword.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C9015EAA12600EBAE47 /* Keyword.m */; };
 		E5208C9515EAA17200EBAE47 /* Measurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C9415EAA17200EBAE47 /* Measurement.m */; };
-		E527421D15F65D52000C80F3 /* PlotCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E527421C15F65D52000C80F3 /* PlotCellView.xib */; };
 		E52BECB715DE63EA002A3819 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* GraphPoint.m */; };
 		E53FA66615CB0CC0000B048C /* MeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */; };
 		E53FA6A215CBC1C5000B048C /* PinchLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA69F15CBBD87000B048C /* PinchLayout.m */; };
-		E542F4C316092B250041A60A /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C216092B250041A60A /* Folder.m */; };
 		E542F4C6160933280041A60A /* FolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FolderCollectionViewController.m */; };
 		E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FCSFile.m */; };
 		E5469D5C160FAD6000B33EE2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54BC31F160286A700E55A28 /* Default-568h@2x.png */; };
@@ -50,7 +48,9 @@
 		E58556DD16C0B02900BF4546 /* 0107.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556DB16C0B02900BF4546 /* 0107.png */; };
 		E58556DE16C0B02900BF4546 /* 0107@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556DC16C0B02900BF4546 /* 0107@2x.png */; };
 		E58556E116C0B11E00BF4546 /* F2GFolderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556E016C0B11D00BF4546 /* F2GFolderCell.m */; };
-		E585571616C1576400BF4546 /* DummyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571516C1576400BF4546 /* DummyViewController.m */; };
+		E585571916C15B0400BF4546 /* F2GPlotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571816C15B0400BF4546 /* F2GPlotCell.m */; };
+		E585571C16C1609200BF4546 /* FGFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571B16C1609200BF4546 /* FGFolder.m */; };
+		E585571F16C160AE00BF4546 /* FGFolder+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571E16C160AD00BF4546 /* FGFolder+Management.m */; };
 		E59417EC15EB68E9008D979F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = E59417EB15EB68E9008D979F /* NSData+MD5.m */; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
 		E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */; };
@@ -124,7 +124,6 @@
 		E5208C9015EAA12600EBAE47 /* Keyword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Keyword.m; sourceTree = "<group>"; };
 		E5208C9315EAA17200EBAE47 /* Measurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Measurement.h; sourceTree = "<group>"; };
 		E5208C9415EAA17200EBAE47 /* Measurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Measurement.m; sourceTree = "<group>"; };
-		E527421C15F65D52000C80F3 /* PlotCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlotCellView.xib; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* GraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* GraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphPoint.m; sourceTree = "<group>"; };
 		E5376C5E167B76AE00738979 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
@@ -132,8 +131,6 @@
 		E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeasurementCollectionViewController.m; sourceTree = "<group>"; };
 		E53FA69E15CBBD87000B048C /* PinchLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PinchLayout.h; sourceTree = "<group>"; };
 		E53FA69F15CBBD87000B048C /* PinchLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PinchLayout.m; sourceTree = "<group>"; };
-		E542F4C116092B250041A60A /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
-		E542F4C216092B250041A60A /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FolderCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderCollectionViewController.h; sourceTree = "<group>"; };
 		E542F4C5160933270041A60A /* FolderCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderCollectionViewController.m; sourceTree = "<group>"; };
 		E5457DA015CEAE7F00678CB7 /* FCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSFile.h; sourceTree = "<group>"; };
@@ -238,8 +235,12 @@
 		E58556DC16C0B02900BF4546 /* 0107@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0107@2x.png"; sourceTree = "<group>"; };
 		E58556DF16C0B11D00BF4546 /* F2GFolderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F2GFolderCell.h; sourceTree = "<group>"; };
 		E58556E016C0B11D00BF4546 /* F2GFolderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F2GFolderCell.m; sourceTree = "<group>"; };
-		E585571416C1576400BF4546 /* DummyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DummyViewController.h; sourceTree = "<group>"; };
-		E585571516C1576400BF4546 /* DummyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DummyViewController.m; sourceTree = "<group>"; };
+		E585571716C15B0300BF4546 /* F2GPlotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = F2GPlotCell.h; sourceTree = "<group>"; };
+		E585571816C15B0400BF4546 /* F2GPlotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = F2GPlotCell.m; sourceTree = "<group>"; };
+		E585571A16C1609200BF4546 /* FGFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolder.h; sourceTree = "<group>"; };
+		E585571B16C1609200BF4546 /* FGFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolder.m; sourceTree = "<group>"; };
+		E585571D16C160AD00BF4546 /* FGFolder+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FGFolder+Management.h"; sourceTree = "<group>"; };
+		E585571E16C160AD00BF4546 /* FGFolder+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FGFolder+Management.m"; sourceTree = "<group>"; };
 		E59417EA15EB68E9008D979F /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
 		E59417EB15EB68E9008D979F /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		E599D2D715E1635A0036F2DC /* NSArrayValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayValueTransformer.h; sourceTree = "<group>"; };
@@ -413,6 +414,8 @@
 			children = (
 				E58556DF16C0B11D00BF4546 /* F2GFolderCell.h */,
 				E58556E016C0B11D00BF4546 /* F2GFolderCell.m */,
+				E585571716C15B0300BF4546 /* F2GPlotCell.h */,
+				E585571816C15B0400BF4546 /* F2GPlotCell.m */,
 				E54D71AC16049C98008CEC5D /* GatesContainerView.h */,
 				E54D71B616049E09008CEC5D /* GatesContainerView.m */,
 				E54BC30D160246D400E55A28 /* GateDrawing */,
@@ -421,7 +424,6 @@
 				E5116EF2160A64A3002A54E4 /* LineLayout.h */,
 				E5116EF3160A64A3002A54E4 /* LineLayout.m */,
 				E5F4F54A15F53D3000DF8711 /* MeasurementView.xib */,
-				E527421C15F65D52000C80F3 /* PlotCellView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -554,6 +556,27 @@
 				E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */,
 			);
 			name = MSDragableView;
+			sourceTree = "<group>";
+		};
+		E585572016C160B200BF4546 /* CoreData managed subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				E585571A16C1609200BF4546 /* FGFolder.h */,
+				E585571B16C1609200BF4546 /* FGFolder.m */,
+				E5208C9315EAA17200EBAE47 /* Measurement.h */,
+				E5208C9415EAA17200EBAE47 /* Measurement.m */,
+				E59D2E3715E37D8800944789 /* Analysis.h */,
+				E59D2E3815E37D8800944789 /* Analysis.m */,
+				E5208C8F15EAA12600EBAE47 /* Keyword.h */,
+				E5208C9015EAA12600EBAE47 /* Keyword.m */,
+				E59D2E3A15E37DE300944789 /* Node.h */,
+				E59D2E3B15E37DE400944789 /* Node.m */,
+				E59D2E3D15E37E2000944789 /* Plot.h */,
+				E59D2E3E15E37E2000944789 /* Plot.m */,
+				E59D2E4015E37E7100944789 /* Gate.h */,
+				E59D2E4115E37E7100944789 /* Gate.m */,
+			);
+			name = "CoreData managed subclasses";
 			sourceTree = "<group>";
 		};
 		E5FC6F3915CA7E8E0047A3DD = {
@@ -738,21 +761,10 @@
 		E5FC6FFD15CA87B20047A3DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E585572016C160B200BF4546 /* CoreData managed subclasses */,
 				E5FC6F6215CA7E8E0047A3DD /* Flow2Go.xcdatamodeld */,
-				E542F4C116092B250041A60A /* Folder.h */,
-				E542F4C216092B250041A60A /* Folder.m */,
-				E5208C9315EAA17200EBAE47 /* Measurement.h */,
-				E5208C9415EAA17200EBAE47 /* Measurement.m */,
-				E59D2E3715E37D8800944789 /* Analysis.h */,
-				E59D2E3815E37D8800944789 /* Analysis.m */,
-				E5208C8F15EAA12600EBAE47 /* Keyword.h */,
-				E5208C9015EAA12600EBAE47 /* Keyword.m */,
-				E59D2E3A15E37DE300944789 /* Node.h */,
-				E59D2E3B15E37DE400944789 /* Node.m */,
-				E59D2E3D15E37E2000944789 /* Plot.h */,
-				E59D2E3E15E37E2000944789 /* Plot.m */,
-				E59D2E4015E37E7100944789 /* Gate.h */,
-				E59D2E4115E37E7100944789 /* Gate.m */,
+				E585571D16C160AD00BF4546 /* FGFolder+Management.h */,
+				E585571E16C160AD00BF4546 /* FGFolder+Management.m */,
 				E599D2D715E1635A0036F2DC /* NSArrayValueTransformer.h */,
 				E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */,
 			);
@@ -764,8 +776,6 @@
 			children = (
 				E542F4C4160933270041A60A /* FolderCollectionViewController.h */,
 				E542F4C5160933270041A60A /* FolderCollectionViewController.m */,
-				E585571416C1576400BF4546 /* DummyViewController.h */,
-				E585571516C1576400BF4546 /* DummyViewController.m */,
 				E53FA66415CB0CC0000B048C /* MeasurementCollectionViewController.h */,
 				E53FA66515CB0CC0000B048C /* MeasurementCollectionViewController.m */,
 				E59D2E3315E365FF00944789 /* AnalysisViewController.h */,
@@ -847,7 +857,6 @@
 				E511FD7715CC36BD00637D39 /* icon_144.png in Resources */,
 				E511FD7915CC36C200637D39 /* icon_72.png in Resources */,
 				E5F4F54B15F53D3000DF8711 /* MeasurementView.xib in Resources */,
-				E527421D15F65D52000C80F3 /* PlotCellView.xib in Resources */,
 				E54D717916046E05008CEC5D /* README.md in Resources */,
 				E54D717A16046E05008CEC5D /* release_notes.md in Resources */,
 				E5674E751607CC6D007A2DA2 /* delete.png in Resources */,
@@ -925,7 +934,6 @@
 				E54D71B416049CC5008CEC5D /* GateGraphic.m in Sources */,
 				E54D71B516049CC5008CEC5D /* Polygon.m in Sources */,
 				E54D71B716049E09008CEC5D /* GatesContainerView.m in Sources */,
-				E542F4C316092B250041A60A /* Folder.m in Sources */,
 				E542F4C6160933280041A60A /* FolderCollectionViewController.m in Sources */,
 				E5116EF4160A64A3002A54E4 /* LineLayout.m in Sources */,
 				E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */,
@@ -935,7 +943,9 @@
 				E58556D316C09CE000BF4546 /* MSNavigationPaneViewController.m in Sources */,
 				E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */,
 				E58556E116C0B11E00BF4546 /* F2GFolderCell.m in Sources */,
-				E585571616C1576400BF4546 /* DummyViewController.m in Sources */,
+				E585571916C15B0400BF4546 /* F2GPlotCell.m in Sources */,
+				E585571C16C1609200BF4546 /* FGFolder.m in Sources */,
+				E585571F16C160AE00BF4546 /* FGFolder+Management.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,7 @@
 #import "PinchLayout.h"
 #import "DownloadManager.h"
 #import "AnalysisViewController.h"
-#import "Folder.h"
+#import "FGFolder+Management.h"
 #import "Analysis.h"
 #import "KeywordTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
@@ -32,7 +32,6 @@
     UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
     [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
     [self _addGestures];
-    [self _addObservers];
 }
 
 
@@ -56,11 +55,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (void)_addObservers
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showFoldersOnLaunch) name:@"DetailViewDidAppear" object:nil];
-}
 
 - (void)showFoldersOnLaunch
 {

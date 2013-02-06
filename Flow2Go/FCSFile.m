@@ -36,6 +36,16 @@ typedef enum
 
 @implementation FCSFile
 
++ (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FCSFile *fcsFile))completion
+{
+    dispatch_queue_t readerQueue = dispatch_queue_create("it.calcul8.flow2go.fcsreader", NULL);
+    dispatch_async(readerQueue, ^{
+
+        return;
+    });
+}
+
+
 + (FCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error
 {
     FCSFile *newFCSFile = [FCSFile.alloc init];
@@ -111,6 +121,7 @@ typedef enum
         }
     }
 }
+
 
 - (BOOL)_parseFileFromPath:(NSString *)path
 {
@@ -753,8 +764,7 @@ typedef enum
 
 - (void)cleanUpEventsForFCSFile
 {
-    for (NSUInteger i = 0; i < _noOfEvents; i++)
-    {
+    for (NSUInteger i = 0; i < _noOfEvents; i++) {
         free(self.events[i]);
     }
     free(self.events);

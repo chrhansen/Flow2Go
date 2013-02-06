@@ -9,7 +9,6 @@
 #import "FGFolderCollectionViewController.h"
 #import "FGFolder+Management.h"
 #import "FGDownloadManager.h"
-#import "PinchLayout.h"
 #import "FGMeasurementCollectionViewController.h"
 #import "UIBarButtonItem+Customview.h"
 #import "F2GFolderCell.h"
@@ -24,7 +23,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self _addGestures];
     [self _configureBarButtonItemsForEditing:NO];
 }
 
@@ -41,12 +39,6 @@
     [self _configureBarButtonItemsForEditing:editing];
     if (!editing) [self _discardEditItems];
     [self _updateVisibleCells];
-}
-
-- (void)_addGestures
-{
-    UIPinchGestureRecognizer *pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(handlePinchGesture:)];
-    [self.collectionView addGestureRecognizer:pinchRecognizer];
 }
 
 
@@ -161,6 +153,7 @@
     FGFolder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
     F2GFolderCell *folderCell = (F2GFolderCell *)cell;
     folderCell.nameLabel.text = folder.name;
+    folderCell.checkMarkImageView.hidden = ![self.editItems containsObject:folder];
     UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
     countLabel.text = [NSString stringWithFormat:@"%i", folder.measurements.count];
 }
@@ -230,17 +223,19 @@
 - (void)_showFolder:(FGFolder *)folder
 {
     MSNavigationPaneViewController *navigationPaneViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"paneNavigationController"];
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"measurement VC NavigationCon"];
-    FGMeasurementCollectionViewController *measurementViewController = (FGMeasurementCollectionViewController *)[navigationController topViewController];
+    UINavigationController *measurementNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"measurement VC NavigationCon"];
+    FGMeasurementCollectionViewController *measurementViewController = (FGMeasurementCollectionViewController *)[measurementNavigationController topViewController];
     measurementViewController.delegate = self;
     measurementViewController.folder = folder;
     measurementViewController.navigationPaneViewController = navigationPaneViewController;
-    navigationPaneViewController.masterViewController = navigationController;
+    navigationPaneViewController.masterViewController = measurementNavigationController;
     [navigationPaneViewController setPaneState:MSNavigationPaneStateClosed animated:NO];
     
-    UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewControllerNavigationController"];
-    [navigationPaneViewController setPaneViewController:viewController animated:NO completion:nil];
-    
+    UINavigationController *analysisNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewControllerNavigationController"];
+    [navigationPaneViewController setPaneViewController:analysisNavigationController animated:NO completion:nil];
+    measurementViewController.analysisViewController = (FGAnalysisViewController *)analysisNavigationController.topViewController;
+    [(UIViewController *)measurementViewController.analysisViewController navigationItem].leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStyleBordered target:measurementViewController action:@selector(navigationPaneBarButtonItemTapped:)];
+
     [self presentViewController:navigationPaneViewController animated:YES completion:^{
         [navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES];
     }];
@@ -290,37 +285,6 @@
         case NSFetchedResultsChangeMove:
             [collectionView deleteItemsAtIndexPaths:@[indexPath]];
             [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-            break;
-    }
-}
-
-
-#pragma mark - Pinch effect
-- (void)handlePinchGesture:(UIPinchGestureRecognizer *)sender
-{
-    PinchLayout* pinchLayout = (PinchLayout*)self.collectionView.collectionViewLayout;
-    switch (sender.state) {
-        case UIGestureRecognizerStateBegan:
-        {
-            CGPoint initialPinchPoint = [sender locationInView:self.collectionView];
-            NSIndexPath* pinchedCellPath = [self.collectionView indexPathForItemAtPoint:initialPinchPoint];
-            pinchLayout.pinchedCellPath = pinchedCellPath;
-        }
-            break;
-            
-        case UIGestureRecognizerStateChanged:
-        {
-            pinchLayout.pinchedCellScale = sender.scale;
-            pinchLayout.pinchedCellCenter = [sender locationInView:self.collectionView];
-        }
-            
-        default:
-        {
-            [self.collectionView performBatchUpdates:^{
-                pinchLayout.pinchedCellPath = nil;
-                pinchLayout.pinchedCellScale = 1.0;
-            } completion:nil];
-        }
             break;
     }
 }

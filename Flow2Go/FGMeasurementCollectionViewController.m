@@ -8,7 +8,6 @@
 
 #import "FGMeasurementCollectionViewController.h"
 #import "FGMeasurement+Management.h"
-#import "PinchLayout.h"
 #import "FGDownloadManager.h"
 #import "FGAnalysisViewController.h"
 #import "FGFolder+Management.h"
@@ -30,7 +29,7 @@
 {
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
-    [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
+    [self.collectionshView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
     [self _addGestures];
 }
 
@@ -64,13 +63,6 @@
 }
 
 
-
-- (void)actionTapped:(UIBarButtonItem *)actionButton
-{
-    NSLog(@"action tapped: %@", self.editItems);
-}
-
-
 - (void)deleteTapped:(UIButton *)deleteButton
 {
     NSString *deleteString = nil;
@@ -87,9 +79,9 @@
     [actionSheet showFromRect:deleteButton.frame inView:self.navigationController.navigationBar animated:YES];
 }
 
-- (void)addFilesFromDropbox
+- (void)navigationPaneBarButtonItemTapped:(UIBarButtonItem *)barButton
 {
-    [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
+    [self.navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES];
 }
 
 
@@ -223,10 +215,11 @@
             analysisID = [FGAnalysis createAnalysisForMeasurement:localMeasurement].objectID;
         } completion:^(BOOL success, NSError *error) {
             FGAnalysis *analysis = (FGAnalysis *)[[NSManagedObjectContext defaultContext] objectWithID:analysisID];
-            //[self.delegate presentAnalysis:analysis];
+            [self.analysisViewController showAnalysis:analysis];
         }];
+    } else {
+        [self.analysisViewController showAnalysis:aMeasurement.analyses.lastObject];
     }
-    //[self.delegate presentAnalysis:aMeasurement.analyses.lastObject];
 }
 
 
@@ -261,7 +254,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FGMeasurement *aMeasurement = (FGMeasurement *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (!aMeasurement.downloadDate) return;
+    if (!aMeasurement.isDownloaded) return;
     
     switch (self.isEditing) {
         case YES:
@@ -345,40 +338,6 @@
             [collectionView deleteItemsAtIndexPaths:@[indexPath]];
             [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
             break;
-    }
-}
-
-
-#pragma mark - Long Press effect
-- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)sender
-{
-    PinchLayout* pinchLayout = (PinchLayout*)self.collectionView.collectionViewLayout;
-    
-    if (sender.state == UIGestureRecognizerStateBegan)
-    {
-        CGPoint initialPinchPoint = [sender locationInView:self.collectionView];
-        NSIndexPath* pinchedCellPath = [self.collectionView indexPathForItemAtPoint:initialPinchPoint];
-        NSLog(@"Long presse began on %@", pinchedCellPath);
-    }
-    else if (sender.state == UIGestureRecognizerStateEnded)
-    {
-        CGPoint initialPinchPoint = [sender locationInView:self.collectionView];
-        NSIndexPath* pinchedCellPath = [self.collectionView indexPathForItemAtPoint:initialPinchPoint];
-        NSLog(@"Long presse ended on %@", pinchedCellPath);
-    }
-    
-//    else if (sender.state == UIGestureRecognizerStateChanged)
-//    {
-//        pinchLayout.pinchedCellScale = sender.scale;
-//        pinchLayout.pinchedCellCenter = [sender locationInView:self.collectionView];
-//    }
-    
-    else
-    {
-        [self.collectionView performBatchUpdates:^{
-            pinchLayout.pinchedCellPath = nil;
-            pinchLayout.pinchedCellScale = 1.0;
-        } completion:nil];
     }
 }
 

@@ -21,6 +21,8 @@
 
 + (NSString *)percentageAsString:(NSInteger)subsetCount ofAll:(NSInteger)totalCount
 {
+    if (totalCount == 0 ) return @"0%";
+    
     double subset = (double)subsetCount;
     double total = (double)totalCount;
     

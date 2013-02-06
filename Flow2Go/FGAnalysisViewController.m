@@ -13,7 +13,6 @@
 #import "FGMeasurement+Management.h"
 #import "FGPlot+Management.h"
 #import "FGGate+Management.h"
-#import "PinchLayout.h"
 #import "PlotDetailTableViewController.h"
 #import "F2GPlotCell.h"
 
@@ -30,38 +29,23 @@
 
 @implementation FGAnalysisViewController
 
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    [self _addPinchGesture];
-}
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void)_addPinchGesture
-{
-    UIPinchGestureRecognizer* pinchRecognizer = [UIPinchGestureRecognizer.alloc initWithTarget:self action:@selector(handlePinchGesture:)];
-    [self.collectionView addGestureRecognizer:pinchRecognizer];
-}
-
 
 - (void)showAnalysis:(FGAnalysis *)analysis
 {
+    if (!analysis) return;
+    
     self.analysis = analysis;
     self.title = self.analysis.name;
-    
     if (self.analysis.plots.count == 0
         && self.analysis != nil) {
         [FGPlot createPlotForAnalysis:self.analysis parentNode:nil];
     }
-    [self _reloadFCSFile];
-    
     [NSFetchedResultsController deleteCacheWithName:nil];
     self.fetchedResultsController.fetchRequest.predicate = [NSPredicate predicateWithFormat:@"analysis == %@", analysis];;
     
@@ -71,6 +55,7 @@
         // report error
     }
     [self.collectionView reloadData];
+    [self _reloadFCSFile];
 }
 
 - (void)_reloadFCSFile
@@ -137,8 +122,7 @@
 
 - (void)doneTapped
 {
-    for (UIView *aSubView in self.view.subviews)
-    {
+    for (UIView *aSubView in self.view.subviews) {
         [aSubView removeFromSuperview];
     }
     [self dismissViewControllerAnimated:YES completion:^{
@@ -158,7 +142,7 @@
 }
 
 
-#define PLOTVIEWSIZE 500
+#define PLOTVIEWSIZE 700
 #define NAVIGATION_BAR_HEIGHT 44
 
 - (void)_presentPlot:(FGPlot *)plot
@@ -170,7 +154,7 @@
     CGRect destBounds = CGRectMake(0, 0, PLOTVIEWSIZE, PLOTVIEWSIZE);
     CGPoint destCenter = CGPointMake(self.collectionView.window.bounds.size.width / 2.0, self.collectionView.window.bounds.size.height / 2.0);
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         [self _hideLabels:YES forCell:cell];
         [self.collectionView bringSubviewToFront:cell];
         plotImageView.bounds = destBounds;
@@ -431,49 +415,6 @@
 }
 
 
-#pragma mark - Pinch effect
-- (void)handlePinchGesture:(UIPinchGestureRecognizer *)sender
-{
-    PinchLayout* pinchLayout = (PinchLayout*)self.collectionView.collectionViewLayout;
-    
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        CGPoint initialPinchPoint = [sender locationInView:self.collectionView];
-        NSIndexPath* pinchedCellPath = [self.collectionView indexPathForItemAtPoint:initialPinchPoint];
-        pinchLayout.pinchedCellPath = pinchedCellPath;
-        
-    } else if (sender.state == UIGestureRecognizerStateChanged) {
-        pinchLayout.pinchedCellScale = sender.scale;
-        pinchLayout.pinchedCellCenter = [sender locationInView:self.collectionView];
-    } else {
-        [self.collectionView performBatchUpdates:^{
-            pinchLayout.pinchedCellPath = nil;
-            pinchLayout.pinchedCellScale = 1.0;
-        } completion:nil];
-    }
-}
-
-#pragma mark - Split view
-
-- (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
-{
-    barButtonItem.title = NSLocalizedString(@"Master", @"Master");
-    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
-    self.masterPopoverController = popoverController;
-}
-
-- (void)splitViewController:(UISplitViewController *)splitController willShowViewController:(UIViewController *)viewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
-{
-    // Called when the view is shown again in the split view, invalidating the button and popover controller.
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    self.masterPopoverController = nil;
-}
-
-- (BOOL)splitViewController:(UISplitViewController*)svc
-   shouldHideViewController:(UIViewController *)vc
-              inOrientation:(UIInterfaceOrientation)orientation
-{
-    return YES;
-}
 
 
 @end

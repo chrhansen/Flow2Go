@@ -35,13 +35,18 @@
         self.subPath = @"";
         self.title = @"Dropbox";
     }
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     if (!DBSession.sharedSession.isLinked) {
         [DBSession.sharedSession linkFromController:self];
     } else {
         [self _requestFolderList];
     }
 }
-
 
 - (void)dealloc
 {

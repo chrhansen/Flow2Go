@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MSNavigationPaneViewController.h"
 
-@class FGFolder;
+@class FGFolder, FGAnalysisViewController;
 @protocol MeasurementCollectionViewControllerDelegate <NSObject>
 
 - (void)measurementCollectionViewControllerDidTapDismiss:(id)sender;
@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) FGFolder *folder;
 @property (nonatomic, weak) MSNavigationPaneViewController *navigationPaneViewController;
+@property (nonatomic, strong) FGAnalysisViewController *analysisViewController;
 @property (nonatomic, weak) id<MeasurementCollectionViewControllerDelegate> delegate;
 
 - (IBAction)infoButtonTapped:(UIButton *)sender;

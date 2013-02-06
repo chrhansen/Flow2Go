@@ -7,12 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+@class FCSFile;
+@protocol FGFCSProgressDelegate <NSObject>
+
+- (void)loadProgress:(CGFloat)progress forFCSFile:(FCSFile *)fcsFile;
+
+@end
 
 
 @interface FCSFile : NSObject
 
 + (FCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error;
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
++ (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FCSFile *fcsFile))completion;
 
 - (void)cleanUpEventsForFCSFile;
 

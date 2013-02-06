@@ -10,23 +10,22 @@
 #import "FCSFile.h"
 #import "CorePlot-CocoaTouch.h"
 #import "GraphPoint.h"
-#import "Gate.h"
-#import "Plot.h"
-#import "Analysis.h"
-#import "Measurement.h"
-#import "Keyword.h"
+#import "FGGate.h"
+#import "FGPlot.h"
+#import "FGAnalysis.h"
+#import "FGMeasurement.h"
+#import "FGKeyword.h"
 
 @implementation GateCalculator
 
 + (GateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
                                         gateType:(GateType)gateType
                                          fcsFile:(FCSFile *)fcsFile
-                                      insidePlot:(Plot *)plot
+                                      insidePlot:(FGPlot *)plot
                                           subSet:(NSUInteger *)subSet
                                      subSetCount:(NSUInteger)subSetCount
 {
-    switch (gateType)
-    {
+    switch (gateType) {
         case kGateTypePolygon:
         case kGateTypeRectangle:
             return [GateCalculator eventsInsidePolygonGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
@@ -57,11 +56,11 @@
 
 + (GateCalculator *)eventsInsidePolygonGateWithVertices:(NSArray *)vertices
                                                 fcsFile:(FCSFile *)fcsFile
-                                             insidePlot:(Plot *)plot
+                                             insidePlot:(FGPlot *)plot
                                                  subSet:(NSUInteger *)subSet
                                             subSetCount:(NSUInteger)subSetCount
 {
-    Gate *parentGate = (Gate *)plot.parentNode;
+    FGGate *parentGate = (FGGate *)plot.parentNode;
     NSInteger eventsInside = parentGate.cellCount.integerValue;
     
     if (parentGate == nil)
@@ -114,11 +113,11 @@
 
 + (GateCalculator *)eventsInsideSingleRangeGateWithVertices:(NSArray *)vertices
                                                     fcsFile:(FCSFile *)fcsFile
-                                                 insidePlot:(Plot *)plot
+                                                 insidePlot:(FGPlot *)plot
                                                      subSet:(NSUInteger *)subSet
                                                 subSetCount:(NSUInteger)subSetCount
 {
-    Gate *parentGate = (Gate *)plot.parentNode;
+    FGGate *parentGate = (FGGate *)plot.parentNode;
     NSInteger eventsInside = parentGate.cellCount.integerValue;
     
     if (parentGate == nil)

@@ -4,52 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Dropbox View Controller-->
-        <scene sceneID="9Nf-CX-Xv6">
-            <objects>
-                <tableViewController storyboardIdentifier="dropboxViewController" id="my2-Vi-PXd" customClass="DropboxViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bEj-Vm-qzc">
-                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Dropbox Cell" textLabel="M3D-vk-5EJ" detailTextLabel="fmb-Qh-R8E" style="IBUITableViewCellStyleSubtitle" id="moo-tn-KNc">
-                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3D-vk-5EJ">
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fmb-Qh-R8E">
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="my2-Vi-PXd" id="r4Z-zz-JDp"/>
-                            <outlet property="delegate" destination="my2-Vi-PXd" id="XIc-8x-TUf"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="bzn-rk-EoM"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aqj-0X-8w4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1206" y="-5248"/>
-        </scene>
         <!--Measurement Collection View Controller-->
         <scene sceneID="dED-Ha-k8z">
             <objects>
-                <collectionViewController storyboardIdentifier="measurement VC" autoresizesArchivedViewToFullSize="NO" id="neh-VR-elu" customClass="MeasurementCollectionViewController" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="measurement VC" autoresizesArchivedViewToFullSize="NO" id="neh-VR-elu" customClass="FGMeasurementCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Bc3-Xp-tqN">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -88,7 +46,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R0r-yb-psl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="957" y="-4379"/>
+            <point key="canvasLocation" x="1931" y="-4379"/>
         </scene>
         <!--Keyword Table View Controller-->
         <scene sceneID="Zfl-Ig-ZJz">
@@ -151,7 +109,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pGV-gH-7My" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3983" y="-4551"/>
+            <point key="canvasLocation" x="4957" y="-4551"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oXO-NZ-Lew">
@@ -164,7 +122,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="my2-Vi-PXd" kind="relationship" relationship="rootViewController" id="4kT-vR-lCa"/>
+                        <segue destination="afU-YW-U6w" kind="relationship" relationship="rootViewController" id="VGv-on-IzU"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jhY-Nd-Qnt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -174,7 +132,7 @@
         <!--Plot View Controller-->
         <scene sceneID="gbk-Y6-xUc">
             <objects>
-                <viewController storyboardIdentifier="" id="Suk-IT-K3u" customClass="PlotViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="" id="Suk-IT-K3u" customClass="FGPlotViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XCE-Ji-0vq">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -601,7 +559,7 @@
         <!--Add Gate Table View Controller-->
         <scene sceneID="hv7-Yk-HCG">
             <objects>
-                <tableViewController storyboardIdentifier="addGateTableViewController" modalPresentationStyle="currentContext" id="QHf-2H-h4y" customClass="AddGateTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="addGateTableViewController" modalPresentationStyle="currentContext" id="QHf-2H-h4y" customClass="FGAddGateTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="tEc-T2-1im">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -746,7 +704,7 @@
         <!--Folder Collection View Controller-->
         <scene sceneID="fJz-hf-9Nz">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="IjC-wp-IEm" customClass="FolderCollectionViewController" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="IjC-wp-IEm" customClass="FGFolderCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Av8-Na-HWW">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -826,7 +784,7 @@
         <!--Analysis View Controller-->
         <scene sceneID="oNq-71-xLe">
             <objects>
-                <collectionViewController storyboardIdentifier="analysisViewController" autoresizesArchivedViewToFullSize="NO" id="Zcq-Xo-lKv" customClass="AnalysisViewController" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="analysisViewController" autoresizesArchivedViewToFullSize="NO" id="Zcq-Xo-lKv" customClass="FGAnalysisViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="dE4-3s-djC">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -964,7 +922,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M5h-ew-GZV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-37" y="-4367"/>
+            <point key="canvasLocation" x="937" y="-4367"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yVi-H2-ILy">
@@ -984,10 +942,263 @@
             </objects>
             <point key="canvasLocation" x="-3017" y="-4192"/>
         </scene>
+        <!--Dropbox View Controller-->
+        <scene sceneID="uv6-3j-Duw">
+            <objects>
+                <tableViewController storyboardIdentifier="dropboxViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="afU-YW-U6w" customClass="FGDropboxViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="TjV-lt-JaT">
+                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Dropbox Cell" id="CvB-Ln-4Bz" customClass="FGDropboxCell">
+                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="g1G-AE-r5T">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="35" id="Q8u-Ra-efS"/>
+                                                <constraint firstAttribute="height" constant="35" id="S2i-Ba-pwi"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3f-Qt-Myt">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="265" id="q4b-rR-Hy6"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SH0-ku-l6c">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="245" id="9F4-7h-Ixs"/>
+                                                <constraint firstAttribute="height" constant="21" id="SQb-lB-xkm"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="SH0-ku-l6c" firstAttribute="leading" secondItem="g1G-AE-r5T" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="5rO-Jq-GWn"/>
+                                    <constraint firstItem="c3f-Qt-Myt" firstAttribute="leading" secondItem="g1G-AE-r5T" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="DAa-96-L3C"/>
+                                    <constraint firstItem="c3f-Qt-Myt" firstAttribute="top" secondItem="CvB-Ln-4Bz" secondAttribute="top" constant="8" id="DxU-gC-c8e"/>
+                                    <constraint firstItem="g1G-AE-r5T" firstAttribute="top" secondItem="CvB-Ln-4Bz" secondAttribute="top" constant="4" id="QGP-aR-ftf"/>
+                                    <constraint firstAttribute="bottom" secondItem="SH0-ku-l6c" secondAttribute="bottom" constant="1" id="dds-eN-IeW"/>
+                                    <constraint firstItem="g1G-AE-r5T" firstAttribute="leading" secondItem="CvB-Ln-4Bz" secondAttribute="leading" constant="12" id="xqN-mY-wIf"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="description" destination="SH0-ku-l6c" id="3AR-cZ-7zB"/>
+                                    <outlet property="folderFileImage" destination="g1G-AE-r5T" id="94V-K2-3MZ"/>
+                                    <outlet property="folderFileName" destination="c3f-Qt-Myt" id="2mg-2d-Ckj"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="afU-YW-U6w" id="W4r-XI-iw9"/>
+                            <outlet property="delegate" destination="afU-YW-U6w" id="60Z-og-zib"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="oyj-2m-IKy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="bfg-pW-Akx">
+                            <connections>
+                                <action selector="doneTapped:" destination="afU-YW-U6w" id="25Z-HX-Lve"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="5DA-IV-TpB" kind="modal" identifier="Show Folder Picker" modalPresentationStyle="formSheet" id="XUE-mB-LPi"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gbo-Qq-mm4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1164" y="-5248"/>
+        </scene>
+        <!--Folder Picker Table View Controller-->
+        <scene sceneID="TfF-j8-v7I">
+            <objects>
+                <tableViewController modalPresentationStyle="currentContext" id="Go1-9u-NCJ" customClass="FGFolderPickerTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="AfK-JM-310">
+                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Folder Table View Cell" id="dOO-TN-Jbu">
+                                <rect key="frame" x="0.0" y="22" width="540" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="540" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Go1-9u-NCJ" id="phl-t2-mdo"/>
+                            <outlet property="delegate" destination="Go1-9u-NCJ" id="upP-nO-wV1"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="e2H-H5-gEL">
+                        <barButtonItem key="leftBarButtonItem" title="New Folder" id="FXj-8a-DCa">
+                            <connections>
+                                <action selector="newFolderTapped:" destination="Go1-9u-NCJ" id="9n2-MY-prz"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="rbs-3e-ate">
+                            <connections>
+                                <action selector="cancelTapped:" destination="Go1-9u-NCJ" id="TRz-C3-Hgf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dor-1N-99W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="287" y="-5248"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QZH-M0-vVP">
+            <objects>
+                <navigationController id="5DA-IV-TpB" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EqG-59-cjj">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Go1-9u-NCJ" kind="relationship" relationship="rootViewController" id="zea-Iw-78Y"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nNq-fj-5y4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-447" y="-5248"/>
+        </scene>
     </scenes>
     <resources>
         <image name="39-circle-check.png" width="28" height="28"/>
     </resources>
+    <classes>
+        <class className="CPTGraphHostingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
+        </class>
+        <class className="F2GFolderCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/F2GFolderCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="downloadProgressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="F2GPlotCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/F2GPlotCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="FGAddGateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateTableViewController.h"/>
+        </class>
+        <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>
+        </class>
+        <class className="FGDropboxCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGDropboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
+        </class>
+        <class className="FGFolderCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCollectionViewController.h"/>
+        </class>
+        <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelTapped:"/>
+                <relationship kind="action" name="newFolderTapped:"/>
+            </relationships>
+        </class>
+        <class className="FGMeasurementCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCollectionViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="folderTapped:" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="infoButtonTapped:" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FGPlotViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="yAxisTapped:"/>
+                <relationship kind="outlet" name="gatesContainerView" candidateClass="GatesContainerView"/>
+                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
+                <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="GateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="GatesContainerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GatesContainerView.h"/>
+        </class>
+        <class className="KeywordTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/KeywordTableViewController.h"/>
+        </class>
+        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="PinchLayout" superclassName="UICollectionViewFlowLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PinchLayout.h"/>
+        </class>
+        <class className="PlotDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="deletePlotTapped:"/>
+                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UIRefreshControl" superclassName="UIControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

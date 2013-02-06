@@ -7,10 +7,10 @@
 //
 
 #import "PlotDetailTableViewController.h"
-#import "Plot.h"
-#import "Gate.h"
-#import "Analysis.h"
-#import "Measurement.h"
+#import "FGPlot.h"
+#import "FGGate.h"
+#import "FGAnalysis.h"
+#import "FGMeasurement+Management.h"
 #import "NSString+UUID.h"
 
 @interface PlotDetailTableViewController () <UIActionSheetDelegate, UITextFieldDelegate>
@@ -57,7 +57,7 @@
 
 - (void)_configureLabels
 {
-    Gate *parentGate = (Gate *)self.plot.parentNode;
+    FGGate *parentGate = (FGGate *)self.plot.parentNode;
     NSString *percentageString;
     if (!parentGate)
     {
@@ -106,25 +106,21 @@
     [super setEditing:editing animated:animated];
     [self.plotNameTextField setUserInteractionEnabled:editing];
     [self _enableEditModeUnlessRootPlot:!editing];
-    if (editing)
-    {
+    if (editing) {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
         [self.plotNameTextField becomeFirstResponder];
-    }
-    else
-    {
+    } else {
         self.plot.name = self.plotNameTextField.text;
-        [self.plot.managedObjectContext save];
         [self.navigationItem setLeftBarButtonItem:nil animated:animated];
         [self.plotNameTextField resignFirstResponder];
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-        {
+        if (IS_IPAD) {
             [self.navigationItem setLeftBarButtonItem:nil animated:animated];
-        }
-        else
-        {
+        } else {
             [self _addDoneButton];
         }
+        NSError *error;
+        [self.plot.managedObjectContext save:&error];
+        if (error) NSLog(@"Error saving plot: %@", error.localizedDescription);
     }
 }
 

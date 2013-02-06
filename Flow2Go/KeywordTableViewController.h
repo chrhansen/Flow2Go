@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class Measurement;
+@class FGMeasurement;
 
 @interface KeywordTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, strong) Measurement *measurement;
+@property (nonatomic, strong) FGMeasurement *measurement;
 
 @end

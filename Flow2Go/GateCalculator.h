@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 @class FCSFile;
 @class CPTXYPlotSpace;
-@class Gate;
-@class Plot;
+@class FGGate;
+@class FGPlot;
 
 @interface GateCalculator : NSObject
 
@@ -23,7 +23,7 @@
 + (GateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
                                         gateType:(GateType)gateType
                                          fcsFile:(FCSFile *)fcsFile
-                                      insidePlot:(Plot *)plot
+                                      insidePlot:(FGPlot *)plot
                                           subSet:(NSUInteger *)subSet
                                      subSetCount:(NSUInteger)subSetCount;
 

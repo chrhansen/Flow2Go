@@ -14,6 +14,9 @@
 
 #define DOCUMENTS_DIR [[NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject path]
 #define TEMP_DIR [[[[NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"tmp"]
+#define CACHE_DIR [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)  objectAtIndex:0]
+
+#define IS_IPAD (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 
 static NSString * const DropboxBaseURL = @"/";
 
@@ -93,4 +96,10 @@ typedef NS_ENUM(NSInteger, PlotType)
     kPlotTypeDot,
     kPlotTypeDensity,
     kPlotTypeHistogram
+};
+
+typedef NS_ENUM( NSUInteger, FGFileType ) {
+    FGFileTypeUnknown,
+    FGFileTypeLMD,
+    FGFileTypeFCS
 };

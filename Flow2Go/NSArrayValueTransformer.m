@@ -24,8 +24,7 @@
 
 - (id)transformedValue:(id)value 
 {
-    if (value == nil) 
-    {
+    if (value == nil) {
         return nil;
     }
     
@@ -35,8 +34,7 @@
 
 - (id)reverseTransformedValue:(id)value
 {
-    if (value == nil) 
-    {
+    if (value == nil) {
         return nil;
     }
     

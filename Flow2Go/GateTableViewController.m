@@ -7,9 +7,9 @@
 //
 
 #import "GateTableViewController.h"
-#import "Gate.h"
-#import "Analysis.h"
-#import "Measurement.h"
+#import "FGGate.h"
+#import "FGAnalysis.h"
+#import "FGMeasurement.h"
 #import "NSString+UUID.h"
 
 @interface GateTableViewController () <UITextFieldDelegate, UIActionSheetDelegate>
@@ -78,20 +78,17 @@
     if (editing) {
         self.navigationItem.leftBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
         [self.gateName becomeFirstResponder];
-    }
-    else
-    {
+    } else {
         self.gate.name = self.gateName.text;
-        [self.gate.managedObjectContext save];
         [self.gateName resignFirstResponder];
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-        {
+        if (IS_IPAD) {
             [self.navigationItem setLeftBarButtonItem:nil animated:NO];
-        }
-        else
-        {
+        } else {
             [self _addDoneButton];
         }
+        NSError *error;
+        [self.gate.managedObjectContext save:&error];
+        if (error) NSLog(@"Error saving gate: %@", error.localizedDescription);
     }
 }
 
@@ -125,8 +122,7 @@
 #pragma mark - Action Sheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == actionSheet.destructiveButtonIndex)
-    {
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
         [self.delegate didTapDeleteGate:self];
     }
 }

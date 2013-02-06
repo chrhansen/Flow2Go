@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class Gate;
+@class FGGate;
 @class GateTableViewController;
 
 @protocol GateTableViewControllerDelegate <NSObject>
@@ -19,7 +19,7 @@
 
 @interface GateTableViewController : UITableViewController
 
-@property (nonatomic, weak) Gate *gate;
+@property (nonatomic, weak) FGGate *gate;
 @property (nonatomic, weak) id<GateTableViewControllerDelegate> delegate;
 
 @end

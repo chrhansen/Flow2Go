@@ -8,10 +8,10 @@
 
 #import "PlotDataCalculator.h"
 #import "FCSFile.h"
-#import "Measurement.h"
-#import "Analysis.h"
-#import "Plot.h"
-#import "Keyword.h"
+#import "FGMeasurement.h"
+#import "FGAnalysis.h"
+#import "FGPlot.h"
+#import "FGKeyword.h"
 
 @implementation PlotDataCalculator
 
@@ -19,7 +19,7 @@
 #define HISTOGRAM_AVERAGING 9
 
 + (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
-                                insidePlot:(Plot *)plot
+                                insidePlot:(FGPlot *)plot
                                     subset:(NSUInteger *)subset
                                subsetCount:(NSUInteger)subsetCount
 {
@@ -45,7 +45,7 @@
 
 
 + (PlotDataCalculator *)dotDataForFCSFile:(FCSFile *)fcsFile
-                               insidePlot:(Plot *)plot
+                               insidePlot:(FGPlot *)plot
                                    subset:(NSUInteger *)subset
                               subsetCount:(NSUInteger)subsetCount
 {  
@@ -88,7 +88,7 @@
 
 
 + (PlotDataCalculator *)densityDataForFCSFile:(FCSFile *)fcsFile
-                                       insidePlot:(Plot *)plot
+                                       insidePlot:(FGPlot *)plot
                                            subset:(NSUInteger *)subset
                                       subsetCount:(NSUInteger)subsetCount
 {
@@ -279,7 +279,7 @@
 
 
 + (PlotDataCalculator *)histogramForFCSFile:(FCSFile *)fcsFile
-                                 insidePlot:(Plot *)plot
+                                 insidePlot:(FGPlot *)plot
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount
 {

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class Plot;
+@class FGPlot;
 @class PlotDetailTableViewController;
 
 @protocol PlotDetailTableViewControllerDelegate <NSObject>
@@ -18,7 +18,7 @@
 
 @interface PlotDetailTableViewController : UITableViewController
 
-@property (nonatomic, weak) Plot *plot;
+@property (nonatomic, weak) FGPlot *plot;
 @property (nonatomic, weak) id<PlotDetailTableViewControllerDelegate> delegate;
 
 @end

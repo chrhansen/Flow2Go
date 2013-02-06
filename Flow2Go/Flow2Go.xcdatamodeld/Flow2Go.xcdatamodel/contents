@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12C3006" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Analysis" representedClassName="Analysis" syncable="YES">
+    <entity name="FGAnalysis" representedClassName="FGAnalysis" syncable="YES">
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dateViewed" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="gates" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Gate" inverseName="analysis" inverseEntity="Gate" syncable="YES"/>
-        <relationship name="measurement" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Measurement" inverseName="analyses" inverseEntity="Measurement" syncable="YES"/>
-        <relationship name="plots" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Plot" inverseName="analysis" inverseEntity="Plot" syncable="YES"/>
+        <relationship name="gates" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="FGGate" inverseName="analysis" inverseEntity="FGGate" syncable="YES"/>
+        <relationship name="measurement" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGMeasurement" inverseName="analyses" inverseEntity="FGMeasurement" syncable="YES"/>
+        <relationship name="plots" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="FGPlot" inverseName="analysis" inverseEntity="FGPlot" syncable="YES"/>
     </entity>
     <entity name="FGFolder" representedClassName="FGFolder" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="measurements" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Measurement" inverseName="folder" inverseEntity="Measurement" syncable="YES"/>
+        <relationship name="measurements" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="FGMeasurement" inverseName="folder" inverseEntity="FGMeasurement" syncable="YES"/>
     </entity>
-    <entity name="Gate" representedClassName="Gate" parentEntity="Node" syncable="YES">
+    <entity name="FGGate" representedClassName="FGGate" parentEntity="FGNode" syncable="YES">
         <attribute name="cellCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="subSet" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="vertices" optional="YES" attributeType="Transformable" valueTransformerName="NSArrayValueTransformer" syncable="YES"/>
-        <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Analysis" inverseName="gates" inverseEntity="Analysis" syncable="YES"/>
+        <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGAnalysis" inverseName="gates" inverseEntity="FGAnalysis" syncable="YES"/>
     </entity>
-    <entity name="Keyword" representedClassName="Keyword" syncable="YES">
+    <entity name="FGKeyword" representedClassName="FGKeyword" syncable="YES">
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="measurement" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Measurement" inverseName="keywords" inverseEntity="Measurement" syncable="YES"/>
+        <relationship name="measurement" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGMeasurement" inverseName="keywords" inverseEntity="FGMeasurement" syncable="YES"/>
     </entity>
-    <entity name="Measurement" representedClassName="Measurement" syncable="YES">
+    <entity name="FGMeasurement" representedClassName="FGMeasurement" syncable="YES">
         <attribute name="countOfEvents" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="downloadDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="fGMeasurementID" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="metadata.rev"/>
+            </userInfo>
+        </attribute>
         <attribute name="filename" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="filepath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="filePath" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeyName" value="metadata.filename"/>
+            </userInfo>
+        </attribute>
+        <attribute name="globalURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastModificationDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="uniqueID" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="analyses" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Analysis" inverseName="measurement" inverseEntity="Analysis" syncable="YES"/>
+        <relationship name="analyses" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="FGAnalysis" inverseName="measurement" inverseEntity="FGAnalysis" syncable="YES"/>
         <relationship name="folder" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGFolder" inverseName="measurements" inverseEntity="FGFolder" syncable="YES"/>
-        <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Keyword" inverseName="measurement" inverseEntity="Keyword" syncable="YES"/>
+        <relationship name="keywords" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FGKeyword" inverseName="measurement" inverseEntity="FGKeyword" syncable="YES"/>
     </entity>
-    <entity name="Node" representedClassName="Node" isAbstract="YES" syncable="YES">
+    <entity name="FGNode" representedClassName="FGNode" isAbstract="YES" syncable="YES">
         <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="needsUpdate" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -43,24 +52,24 @@
         <attribute name="xParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="yParName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="yParNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="childNodes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Node" inverseName="parentNode" inverseEntity="Node" syncable="YES"/>
-        <relationship name="parentNode" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Node" inverseName="childNodes" inverseEntity="Node" syncable="YES"/>
+        <relationship name="childNodes" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="FGNode" inverseName="parentNode" inverseEntity="FGNode" syncable="YES"/>
+        <relationship name="parentNode" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGNode" inverseName="childNodes" inverseEntity="FGNode" syncable="YES"/>
     </entity>
-    <entity name="Plot" representedClassName="Plot" parentEntity="Node" syncable="YES">
+    <entity name="FGPlot" representedClassName="FGPlot" parentEntity="FGNode" syncable="YES">
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="plotSectionName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="plotType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="xAxisType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="yAxisType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Analysis" inverseName="plots" inverseEntity="Analysis" syncable="YES"/>
+        <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGAnalysis" inverseName="plots" inverseEntity="FGAnalysis" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Analysis" positionX="250" positionY="18" width="128" height="135"/>
-        <element name="FGFolder" positionX="160" positionY="192" width="128" height="75"/>
-        <element name="Gate" positionX="268" positionY="-180" width="128" height="120"/>
-        <element name="Keyword" positionX="-126" positionY="324" width="128" height="90"/>
-        <element name="Measurement" positionX="54" positionY="-198" width="128" height="180"/>
-        <element name="Node" positionX="-144" positionY="-153" width="128" height="180"/>
-        <element name="Plot" positionX="-261" positionY="126" width="128" height="135"/>
+        <element name="FGAnalysis" positionX="-3618" positionY="-2646" width="128" height="135"/>
+        <element name="FGFolder" positionX="-4014" positionY="-2595" width="128" height="75"/>
+        <element name="FGGate" positionX="-3312" positionY="-2331" width="128" height="120"/>
+        <element name="FGKeyword" positionX="-3780" positionY="-2376" width="128" height="90"/>
+        <element name="FGMeasurement" positionX="-3825" positionY="-2646" width="128" height="193"/>
+        <element name="FGNode" positionX="-3377" positionY="-2646" width="128" height="180"/>
+        <element name="FGPlot" positionX="-3465" positionY="-2367" width="128" height="135"/>
     </elements>
 </model>

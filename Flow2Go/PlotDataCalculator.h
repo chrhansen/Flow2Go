@@ -8,30 +8,30 @@
 
 #import <Foundation/Foundation.h>
 @class FCSFile;
-@class Plot;
+@class FGPlot;
 
 @interface PlotDataCalculator : NSObject
 
 + (PlotDataCalculator *)dotDataForFCSFile:(FCSFile *)fcsFile
-                               insidePlot:(Plot *)plot
+                               insidePlot:(FGPlot *)plot
                                    subset:(NSUInteger *)subset
                               subsetCount:(NSUInteger)subsetCount;
 
 
 + (PlotDataCalculator *)densityDataForFCSFile:(FCSFile *)fcsFile
-                                   insidePlot:(Plot *)plot
+                                   insidePlot:(FGPlot *)plot
                                        subset:(NSUInteger *)subset
                                   subsetCount:(NSUInteger)subsetCount;
 
 
 + (PlotDataCalculator *)histogramForFCSFile:(FCSFile *)fcsFile
-                                 insidePlot:(Plot *)plot
+                                 insidePlot:(FGPlot *)plot
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount;
 
 
 + (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
-                                insidePlot:(Plot *)plot
+                                insidePlot:(FGPlot *)plot
                                     subset:(NSUInteger *)subset
                                subsetCount:(NSUInteger)subsetCount;
 

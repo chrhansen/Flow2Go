@@ -1,22 +1,21 @@
 //
-//  KeywordTableViewController.m
+//  FGFolderPickerTableViewController.m
 //  Flow2Go
 //
-//  Created by Christian Hansen on 05/09/12.
-//  Copyright (c) 2012 Christian Hansen. All rights reserved.
+//  Created by Christian Hansen on 06/02/13.
+//  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
-#import "KeywordTableViewController.h"
-#import "FGMeasurement+Management.h"
-#import "FGKeyword.h"
+#import "FGFolderPickerTableViewController.h"
+#import "FGFolder+Management.h"
 
-@interface KeywordTableViewController () <UITextFieldDelegate>
+@interface FGFolderPickerTableViewController () <NSFetchedResultsControllerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
-@implementation KeywordTableViewController
+@implementation FGFolderPickerTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -30,7 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = self.measurement.filename;
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -44,26 +43,33 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)cancelTapped:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)newFolderTapped:(id)sender
+{
+    UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Folder Name", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add", nil), nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        NSString *folderName = [alertView textFieldAtIndex:0].text;
+        [FGFolder createWithName:folderName];
+    }
+}
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    FGKeyword *keyword = (FGKeyword *)object;
-    UITextField *keyTextField = (UITextField *)[cell viewWithTag:1];
-    keyTextField.text = keyword.key;
-    keyTextField.enabled = NO;
-    UITextField *valueTextField = (UITextField *)[cell viewWithTag:2];
-    valueTextField.text = keyword.value;
-    valueTextField.enabled = NO;
+    FGFolder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = folder.name;
 }
 
-#pragma mark - Text Field data source
-//- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
-//    return NO;
-//}
-
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.fetchedResultsController.sections.count;
@@ -75,17 +81,25 @@
     return sectionInfo.numberOfObjects;
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Keyword Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
+    static NSString *CellIdentifier = @"Folder Table View Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
 }
 
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FGFolder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(folderPickerTableViewController:didPickFolder:)]) {
+        [self.delegate folderPickerTableViewController:self didPickFolder:folder];
+    }
+}
 
 #pragma mark - Fetched results controller
 - (NSFetchedResultsController *)fetchedResultsController
@@ -93,42 +107,26 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest.alloc init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Keyword" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-    fetchRequest.fetchBatchSize = 20;
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor.alloc initWithKey:@"key" ascending:YES]];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.measurement.keywords];
-    NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
-                                                                                              managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
-                                                                                                sectionNameKeyPath:nil
-                                                                                                         cacheName:nil];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
+    _fetchedResultsController = [FGFolder fetchAllGroupedBy:nil
+                                              withPredicate:nil
+                                                   sortedBy:@"name"
+                                                  ascending:NO
+                                                   delegate:self
+                                                  inContext:[NSManagedObjectContext MR_defaultContext]];
     return _fetchedResultsController;
 }
 
 
+#pragma mark NSFetchedResultsControllerDelegate
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView beginUpdates];
 }
 
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
     UITableView *tableView = self.tableView;
-    
-    switch(type)
-    {
+    switch(type) {
         case NSFetchedResultsChangeInsert:
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -148,12 +146,9 @@
     }
 }
 
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
-    
     switch(type) {
-            
         case NSFetchedResultsChangeInsert:
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -164,11 +159,9 @@
     }
 }
 
-
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView endUpdates];
 }
-
 
 @end

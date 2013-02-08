@@ -7,8 +7,8 @@
 //
 
 #import "FGAppDelegate.h"
-#import "FGMeasurement.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "FGStyleController.h"
 
 @implementation FGAppDelegate
 
@@ -21,9 +21,12 @@
                                                          root:kDBRootDropbox];
     
 //    [TestFlight takeOff:@"043c6b53e9c4be16677615865b03e754_MTMxNDE4MjAxMi0wOS0xMiAxMjo0NzoyMS40ODMwNjg"];
-    
+    [FGStyleController applyAppearance];
     return YES;
 }
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -55,17 +58,12 @@
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     // Dropbox access URL's
-    if ([DBSession.sharedSession handleOpenURL:url])
-    {
-        if (DBSession.sharedSession.isLinked)
-        {
-            [NSNotificationCenter.defaultCenter postNotificationName:DropboxLinkedNotification
-                                                              object:nil];
-            NSLog(@"App linked successfully!");
-        }
+    if ([DBSession.sharedSession handleOpenURL:url]) {
+        if (DBSession.sharedSession.isLinked) {
+            [NSNotificationCenter.defaultCenter postNotificationName:DropboxLinkedNotification object:nil];
+         }
         return YES;
     }
-    
     // Add whatever other url handling code your app requires here
     return NO;
 }

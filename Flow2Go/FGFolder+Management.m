@@ -7,6 +7,7 @@
 //
 
 #import "FGFolder+Management.h"
+#import "FGMeasurement+Management.h"
 
 @implementation FGFolder (Management)
 + (void)createWithName:(NSString *)folderName
@@ -66,5 +67,17 @@
         NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", @"Error deleting folder:", aFolder.name];
         return [NSError errorWithDomain:@"flow2go.datamodel.folder" code:50 userInfo:@{@"userInfo": errorMessage}];
     }
+}
+
+- (NSDate *)downloadDateOfNewestMeasurement
+{
+    NSArray *measurements = self.measurements.array;
+    NSArray *sortedArray = [measurements sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        FGMeasurement *meas1 = (FGMeasurement *)obj1;
+        FGMeasurement *meas2 = (FGMeasurement *)obj2;
+        return [meas1.downloadDate compare:meas2.downloadDate];
+    }];
+    FGMeasurement *newestMeasurement = sortedArray.lastObject;
+    return newestMeasurement.downloadDate;
 }
 @end

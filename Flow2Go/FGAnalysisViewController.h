@@ -10,7 +10,7 @@
 @class FGAnalysis;
 @class FGMeasurement;
 
-@interface FGAnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate, UISplitViewControllerDelegate>
+@interface FGAnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UISplitViewControllerDelegate>
 
 - (void)showAnalysis:(FGAnalysis *)analysis;
 

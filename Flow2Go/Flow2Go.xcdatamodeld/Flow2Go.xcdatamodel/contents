@@ -65,7 +65,7 @@
         <element name="FGGate" positionX="-3312" positionY="-2331" width="128" height="120"/>
         <element name="FGKeyword" positionX="-3807" positionY="-2376" width="128" height="90"/>
         <element name="FGMeasurement" positionX="-3825" positionY="-2646" width="128" height="193"/>
-        <element name="FGNode" positionX="-3377" positionY="-2646" width="128" height="180"/>
+        <element name="FGNode" positionX="-3366" positionY="-2655" width="128" height="180"/>
         <element name="FGPlot" positionX="-3465" positionY="-2367" width="128" height="135"/>
     </elements>
 </model>

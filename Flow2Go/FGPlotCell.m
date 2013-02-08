@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
-#import "F2GPlotCell.h"
+#import "FGPlotCell.h"
 
-@implementation F2GPlotCell
+@implementation FGPlotCell
 
 - (id)initWithFrame:(CGRect)frame
 {

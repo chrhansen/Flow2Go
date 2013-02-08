@@ -10,6 +10,7 @@
 
 @interface UIBarButtonItem (Customview)
 
++ (id)barButtonWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action title:(NSString *)title color:(UIColor *)color bold:(BOOL)bold;
 + (id)barButtonWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
 
 + (id)deleteButtonWithTarget:(id)target action:(SEL)action;

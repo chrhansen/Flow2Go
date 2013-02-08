@@ -14,8 +14,15 @@
 
 @implementation FGPlot (Management)
 
++ (FGPlot *)createRootPlotForAnalysis:(FGAnalysis *)analysis
+{
+    return [self createPlotForAnalysis:analysis parentNode:nil];
+}
+
 + (FGPlot *)createPlotForAnalysis:(FGAnalysis *)analysis parentNode:(FGNode *)parentNode
 {
+    if (!analysis) return nil;
+    
     FGPlot *newPlot = [FGPlot createInContext:analysis.managedObjectContext];
     newPlot.analysis = analysis;
     newPlot.parentNode = parentNode;

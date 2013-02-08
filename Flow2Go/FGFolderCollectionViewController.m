@@ -11,19 +11,33 @@
 #import "FGDownloadManager.h"
 #import "FGMeasurementCollectionViewController.h"
 #import "UIBarButtonItem+Customview.h"
-#import "F2GFolderCell.h"
+#import "FGFolderCell.h"
+#import "KGNoise.h"
+#import "FGFolderLayout.h"
+#import "NSDate+HumanizedTime.h"
 
 @interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate>
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
+@property (nonatomic, strong) NSMutableArray *objectChanges;
+@property (nonatomic, strong) NSMutableArray *sectionChanges;
+
 @end
 
 @implementation FGFolderCollectionViewController 
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    _objectChanges = [NSMutableArray array];
+    _sectionChanges = [NSMutableArray array];
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self _configureBarButtonItemsForEditing:NO];
+    [self _addNoiseBackground];
 }
 
 
@@ -48,20 +62,29 @@
 }
 
 
+- (void)_addNoiseBackground
+{
+    KGNoiseRadialGradientView *collectionNoiseView = [[KGNoiseRadialGradientView alloc] initWithFrame:self.collectionView.bounds];
+    collectionNoiseView.backgroundColor            = [UIColor colorWithWhite:0.7032 alpha:1.000];
+    collectionNoiseView.alternateBackgroundColor   = [UIColor colorWithWhite:0.7051 alpha:1.000];
+    collectionNoiseView.noiseOpacity = 0.07;
+    collectionNoiseView.noiseBlendMode = kCGBlendModeNormal;
+    self.collectionView.backgroundView = collectionNoiseView;
+}
+
 #pragma mark - Editing state
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
 {
     if (editing) {
         UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0108"] style:UIBarButtonItemStylePlain target:self action:@selector(exportToCloudTapped:)];
-        UIBarButtonItem *deleteItem = [UIBarButtonItem deleteButtonWithTarget:self action:@selector(deleteTapped:)];
+        UIBarButtonItem *deleteItem = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0210"] style:UIBarButtonItemStylePlain target:self action:@selector(deleteTapped:)];
         uploadButton.enabled = NO;
         deleteItem.enabled = NO;
         [self.navigationItem setLeftBarButtonItems:@[uploadButton, deleteItem] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     } else {
-        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(importFromCloudTapped:)];
-        UIBarButtonItem *addFolderButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(newFolderTapped:)];
-        [self.navigationItem setLeftBarButtonItems:@[uploadButton, addFolderButton] animated:YES];
+        UIBarButtonItem *importButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(importFromCloudTapped:)];
+        [self.navigationItem setLeftBarButtonItems:@[importButton] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     }
 }
@@ -112,7 +135,7 @@
 - (void)_updateCheckmarkVisibilityForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     id anObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [(F2GFolderCell *)cell checkMarkImageView].hidden = ![self.editItems containsObject:anObject];
+    [(FGFolderCell *)cell checkMarkImageView].hidden = ![self.editItems containsObject:anObject];
 }
 
 
@@ -142,7 +165,7 @@
 - (void)_updateVisibleCells
 {
     for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems) {
-        F2GFolderCell *cell = (F2GFolderCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        FGFolderCell *cell = (FGFolderCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
         [self configureCell:cell atIndexPath:indexPath];
     }
 }
@@ -151,9 +174,15 @@
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     FGFolder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    F2GFolderCell *folderCell = (F2GFolderCell *)cell;
+    FGFolderCell *folderCell = (FGFolderCell *)cell;
     folderCell.nameLabel.text = folder.name;
-    folderCell.checkMarkImageView.hidden = ![self.editItems containsObject:folder];
+    folderCell.checkMarkImageView.hidden = (![self.editItems containsObject:folder]);
+    folderCell.infoButton.hidden = self.isEditing;
+    folderCell.countLabel.text = (folder.measurements.count > 0) ? [NSString stringWithFormat:@"%d", folder.measurements.count] : @"-";
+    NSDate *newestDate = [folder downloadDateOfNewestMeasurement];
+    NSString *intervalAsString = [newestDate stringWithHumanizedTimeDifference:NSDateHumanizedSuffixNone withFullString:NO];
+    NSLog(@"update time: %@", intervalAsString);
+    folderCell.dateLabel.text = intervalAsString;
     UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
     countLabel.text = [NSString stringWithFormat:@"%i", folder.measurements.count];
 }
@@ -234,8 +263,11 @@
     UINavigationController *analysisNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewControllerNavigationController"];
     [navigationPaneViewController setPaneViewController:analysisNavigationController animated:NO completion:nil];
     measurementViewController.analysisViewController = (FGAnalysisViewController *)analysisNavigationController.topViewController;
-    [(UIViewController *)measurementViewController.analysisViewController navigationItem].leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStyleBordered target:measurementViewController action:@selector(navigationPaneBarButtonItemTapped:)];
 
+    UIBarButtonItem *navigationPaneBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStylePlain target:measurementViewController action:@selector(folderTapped:)];
+    [(UIViewController *)measurementViewController.analysisViewController navigationItem].leftBarButtonItem = navigationPaneBarButton;
+    
+    navigationPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:navigationPaneViewController animated:YES completion:^{
         [navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES];
     }];
@@ -263,31 +295,122 @@
     return _fetchedResultsController;
 }
 
+#pragma mark Fetched Results Controller Delegate methods
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = @(sectionIndex);
+            break;
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = @(sectionIndex);
+            break;
+    }
+    [_sectionChanges addObject:change];
+}
+
+
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UICollectionView *collectionView = self.collectionView;
-        
-    switch(type) {
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
         case NSFetchedResultsChangeInsert:
-            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            change[@(type)] = newIndexPath;
             break;
-            
         case NSFetchedResultsChangeDelete:
-            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            change[@(type)] = indexPath;
             break;
-            
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            change[@(type)] = indexPath;
             break;
-            
         case NSFetchedResultsChangeMove:
-            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
-            [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            change[@(type)] = @[indexPath, newIndexPath];
             break;
     }
+    [_objectChanges addObject:change];
 }
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self _performOutstandingCollectionViewUpdates];
+}
+
+
+- (void)_performOutstandingCollectionViewUpdates
+{
+    if (self.navigationController.visibleViewController != self)
+    {
+        [self.collectionView reloadData];
+    }
+    else
+    {
+        if ([_sectionChanges count] > 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _sectionChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+        
+        if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _objectChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeMove:
+                                [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+    }
+    
+    [_sectionChanges removeAllObjects];
+    [_objectChanges removeAllObjects];
+}
+
 
 
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface F2GPlotCell : UICollectionViewCell
+@interface FGPlotCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *plotImageView;

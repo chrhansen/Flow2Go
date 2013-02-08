@@ -10,6 +10,7 @@
 
 @interface FGPlot (Management)
 
++ (FGPlot *)createRootPlotForAnalysis:(FGAnalysis *)analysis;
 + (FGPlot *)createPlotForAnalysis:(FGAnalysis *)analysis parentNode:(FGNode *)parentNode;
 
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber;

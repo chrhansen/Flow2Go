@@ -10,11 +10,12 @@
 #import "FGMeasurement+Management.h"
 #import "FGDownloadManager.h"
 #import "FGAnalysisViewController.h"
-#import "FGFolder+Management.h"
+#import "FGFolder.h"
 #import "FGAnalysis+Management.h"
 #import "KeywordTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "FGDropboxViewController.h"
+#import "KGNoise.h"
+#import "UIBarButtonItem+Customview.h"
 
 @interface FGMeasurementCollectionViewController () <FGDownloadManagerProgressDelegate, UIActionSheetDelegate>
 
@@ -29,8 +30,9 @@
 {
     [super viewDidLoad];
     UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
-    [self.collectionshView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
+    [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
     [self _addGestures];
+    [self _addNoiseBackground];
 }
 
 
@@ -39,6 +41,7 @@
     [super viewWillAppear:animated];
     self.title = self.folder.name;
     FGDownloadManager.sharedInstance.progressDelegate = self;
+    [self _configureBarButtonItem];
 }
 
 
@@ -46,6 +49,24 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)_addNoiseBackground
+{
+    KGNoiseRadialGradientView *collectionNoiseView = [[KGNoiseRadialGradientView alloc] initWithFrame:self.collectionView.bounds];
+    collectionNoiseView.backgroundColor            = [UIColor colorWithWhite:0.7032 alpha:1.000];
+    collectionNoiseView.alternateBackgroundColor   = [UIColor colorWithWhite:0.7051 alpha:1.000];
+    collectionNoiseView.noiseOpacity = 0.07;
+    collectionNoiseView.noiseBlendMode = kCGBlendModeNormal;
+    self.collectionView.backgroundView = collectionNoiseView;
+}
+
+
+- (void)_configureBarButtonItem
+{
+    UIBarButtonItem *folderButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"53-house"] style:UIBarButtonItemStylePlain target:self action:@selector(folderTapped:)];
+    [self.navigationItem setLeftBarButtonItems:@[folderButton] animated:YES];
 }
 
 
@@ -137,7 +158,6 @@
 - (IBAction)folderTapped:(UIBarButtonItem *)doneButton
 {
     [self.delegate measurementCollectionViewControllerDidTapDismiss:self];
-//    [self.navigationPaneViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 

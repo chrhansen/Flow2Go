@@ -94,7 +94,7 @@
     NSString *relativePath = [directoryPath stringByAppendingPathComponent:metadata.filename];
     NSDictionary *objectDetails = @{@"metadata" : metadata,
                                     @"filePath" : relativePath,
-                                    @"downloadDate": [NSNumber numberWithUnsignedLongLong:(unsigned long long)[NSDate.date timeIntervalSince1970]]};
+                                    @"downloadDate": NSDate.date};
     FGMeasurement *newMeasurement = [[FGMeasurement MR_importFromArray:@[objectDetails]] lastObject];
     newMeasurement.folder = folder;
     self.sharableLinks[metadata.path] = newMeasurement;

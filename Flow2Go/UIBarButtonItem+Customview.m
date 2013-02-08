@@ -11,19 +11,24 @@
 
 @implementation UIBarButtonItem (Customview)
 
-+ (id)barButtonWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action
++ (id)barButtonWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action title:(NSString *)title color:(UIColor *)color bold:(BOOL)bold
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(0, 0, MAX(44, image.size.width), 44);
     button.contentMode = UIViewContentModeCenter;
     [button setShowsTouchWhenHighlighted:YES];
-    
     [button setImage:image forState:UIControlStateNormal];
+    if (title) [button setTitle:title forState:UIControlStateNormal];
+    [button.titleLabel setTextColor:color];
+    if (bold) button.titleLabel.font = [UIFont boldSystemFontOfSize:button.titleLabel.font.pointSize];
     
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
-    return barButtonItem;
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
++ (id)barButtonWithImage:(UIImage *)image style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action
+{
+    return [self barButtonWithImage:image style:style target:target action:action title:nil color:nil bold:nil];
 }
 
 + (id)deleteButtonWithTarget:(id)target action:(SEL)action

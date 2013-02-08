@@ -1,0 +1,99 @@
+//
+//  FGFolderLayout.m
+//  Flow2Go
+//
+//  Created by Christian Hansen on 08/02/13.
+//  Copyright (c) 2013 Christian Hansen. All rights reserved.
+//
+
+#import "FGFolderLayout.h"
+#import "FGEmblemView.h"
+
+static NSString * const FGPhotoEmblemKind = @"Emblem";
+
+@interface FGFolderLayout ()
+
+@property (nonatomic, strong) NSDictionary *layoutInfo;
+
+@end
+
+@implementation FGFolderLayout
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        [self setup];
+    }
+    
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        [self setup];
+    }
+    
+    return self;
+}
+
+- (void)setup
+{
+    self.itemSize = CGSizeMake(173.0f, 173.0f);
+    self.minimumLineSpacing = 20.0f;
+    self.minimumInteritemSpacing = 20.0f;
+    self.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
+    [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGPhotoEmblemKind];
+}
+
+- (void)prepareLayout
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];    
+    UICollectionViewLayoutAttributes *emblemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGPhotoEmblemKind withIndexPath:indexPath];
+    emblemAttributes.frame = [self frameForEmblem];
+    
+    NSMutableDictionary *newLayoutInfo = [NSMutableDictionary dictionary];
+    newLayoutInfo[FGPhotoEmblemKind] = @{indexPath: emblemAttributes};
+
+    
+    self.layoutInfo = newLayoutInfo;
+}
+
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
+    NSArray *attributes = [super layoutAttributesForElementsInRect:rect];
+    NSMutableArray *newAttributes = [NSMutableArray arrayWithCapacity:attributes.count];
+    for (UICollectionViewLayoutAttributes *attribute in attributes) {
+        if (attribute.frame.origin.x + attribute.frame.size.width <= self.collectionViewContentSize.width) {
+            [newAttributes addObject:attribute];
+        }
+    }
+    [self.layoutInfo enumerateKeysAndObjectsUsingBlock:^(NSString *elementIdentifier, NSDictionary *elementsInfo, BOOL *stop) {
+        [elementsInfo enumerateKeysAndObjectsUsingBlock:^(NSIndexPath *indexPath, UICollectionViewLayoutAttributes *attributes, BOOL *innerStop) {
+            if (CGRectIntersectsRect(rect, attributes.frame)) {
+                [newAttributes addObject:attributes];
+            }
+        }];
+    }];
+    return newAttributes;
+}
+
+
+- (UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString*)decorationViewKind atIndexPath:(NSIndexPath *)indexPath
+{
+    return self.layoutInfo[FGPhotoEmblemKind][indexPath];
+}
+
+
+- (CGRect)frameForEmblem
+{
+    CGSize size = [FGEmblemView defaultSize];
+    
+    CGFloat originX = floorf((self.collectionView.bounds.size.width - size.width) * 0.5f);
+    CGFloat originY = -size.height - 30.0f;
+    
+    return CGRectMake(originX, originY, size.width, size.height);
+}
+
+@end

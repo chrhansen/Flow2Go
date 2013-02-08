@@ -11,8 +11,9 @@
 
 @interface FGMeasurement (Management)
 
-+ (FGMeasurement *)createWithDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context;
-- (FGKeyword *)keywordWithKey:(NSString *)key;
+- (NSError *)readInFCSKeyWords;
+- (FGKeyword *)existingKeywordForKey:(NSString *)key;
+- (NSString *)md5Hash;
 + (void)deleteMeasurement:(FGMeasurement *)measurement;
 + (void)deleteMeasurements:(NSArray *)measurements;
 

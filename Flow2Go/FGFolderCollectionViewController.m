@@ -181,7 +181,6 @@
     folderCell.countLabel.text = (folder.measurements.count > 0) ? [NSString stringWithFormat:@"%d", folder.measurements.count] : @"-";
     NSDate *newestDate = [folder downloadDateOfNewestMeasurement];
     NSString *intervalAsString = [newestDate stringWithHumanizedTimeDifference:NSDateHumanizedSuffixNone withFullString:NO];
-    NSLog(@"update time: %@", intervalAsString);
     folderCell.dateLabel.text = intervalAsString;
     UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
     countLabel.text = [NSString stringWithFormat:@"%i", folder.measurements.count];

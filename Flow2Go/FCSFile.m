@@ -67,9 +67,7 @@ typedef enum
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path
 {
     FCSFile *newFCSFile = [FCSFile.alloc init];
-    
     [newFCSFile _parseTextSegmentFromPath:path];
-    
     return newFCSFile.text;
 }
 
@@ -762,10 +760,10 @@ typedef enum
     }
 }
 
-- (void)cleanUpEventsForFCSFile
+- (void)cleanUpEvents
 {
     for (NSUInteger i = 0; i < _noOfEvents; i++) {
-        free(self.events[i]);
+        free(_events[i]);
     }
     free(self.events);
     free(self.ranges);

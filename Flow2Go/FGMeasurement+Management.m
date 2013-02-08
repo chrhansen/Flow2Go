@@ -9,31 +9,22 @@
 #import "FGMeasurement+Management.h"
 #import <DropboxSDK/DBMetadata.h>
 #import "FCSFile.h"
-#import "NSData+MD5.h"
-#import "FGKeyword+Management.h"
+#import "FileMD5Hash.h"
+#import "FGKeyword.h"
 
 @implementation FGMeasurement (Management)
 
-+ (FGMeasurement *)createWithDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context
+- (NSError *)readInFCSKeyWords
 {
-    if (context == nil) context = [NSManagedObjectContext MR_contextForCurrentThread];
-    FGMeasurement *newMeasurement = [FGMeasurement findFirstByAttribute:@"fGMeasurementID" withValue:dictionary[@"fGMeasurementID"] inContext:context];
-    
-    if (newMeasurement == nil) {
-        newMeasurement = [FGMeasurement createInContext:context];
-        newMeasurement.fGMeasurementID = dictionary[@"fGMeasurementID"];
+    if (self.isDownloaded) {
+        NSDictionary *fcsKeywords = [FCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:self.filePath]];
+        self.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
+        [self _addKeywordsWithDictionary:fcsKeywords];
+    } else {
+        return [NSError errorWithDomain:@"com.flow2go.fcskeywords" code:44 userInfo:@{@"userInfo": @"Error: Can't parse Keywords, FCS file not downloaded"}];
     }
-    newMeasurement.filePath = dictionary[@"filepath"];
-    
-    if (dictionary[@"downloadDate"]) {
-        newMeasurement.downloadDate = dictionary[@"downloadDate"];
-        NSDictionary *fcsKeywords = [FCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:newMeasurement.filePath]];
-        newMeasurement.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
-        [newMeasurement _addKeywordsWithDictionary:fcsKeywords];
-    }
-    return newMeasurement;
+    return nil;
 }
-
 
 + (void)deleteMeasurements:(NSArray *)measurements
 {
@@ -61,30 +52,41 @@
 }
 
 
-- (NSString *)md5OfFile:(NSString *)filePath
+- (NSString *)md5Hash
 {
-    NSURL *URL = [NSURL URLWithString:filePath relativeToURL:HOME_URL];
-    NSData *data = [NSData dataWithContentsOfURL:URL];
-    return [data md5];
+    NSString *md5Hash;
+    NSString *executablePath = self.fullFilePath.copy;
+    CFStringRef executableFileMD5Hash = FileMD5HashCreateWithPath((CFStringRef)CFBridgingRetain(executablePath), FileHashDefaultChunkSizeForReadingData);
+    if (executableFileMD5Hash) {
+        md5Hash = ((NSString *)CFBridgingRelease(executableFileMD5Hash));
+//        CFRelease(executableFileMD5Hash);
+    }
+    return md5Hash;
 }
 
 
 - (void)_addKeywordsWithDictionary:(NSDictionary *)dictionary
 {
     for (NSString *key in dictionary.allKeys) {
-        FGKeyword *aKeyword = [FGKeyword createWithValue:dictionary[key] forKey:key];
-        if (aKeyword) {
-            FGKeyword *existingKeyword = [self keywordWithKey:aKeyword.key];
+        FGKeyword *keyword = [FGKeyword createInContext:self.managedObjectContext];
+        if (dictionary[key] == nil || key == nil) {
+            continue;
+        }
+        keyword.key = key;
+        keyword.value = dictionary[key];
+        
+        if (keyword) {
+            FGKeyword *existingKeyword = [self existingKeywordForKey:keyword.key];
             if (existingKeyword) {
                 [self removeKeywordsObject:existingKeyword];
             }
-            [self addKeywordsObject:aKeyword];
+            [self addKeywordsObject:keyword];
         }
     }
 }
 
 
-- (FGKeyword *)keywordWithKey:(NSString *)key
+- (FGKeyword *)existingKeywordForKey:(NSString *)key
 {
     for (FGKeyword *aKeyword in self.keywords) {
         if ([aKeyword.key isEqualToString:key]) {

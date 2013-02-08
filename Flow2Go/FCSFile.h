@@ -21,7 +21,7 @@
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
 + (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FCSFile *fcsFile))completion;
 
-- (void)cleanUpEventsForFCSFile;
+- (void)cleanUpEvents;
 
 + (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FCSFile *)fcsFile;
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;

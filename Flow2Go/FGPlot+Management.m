@@ -8,7 +8,7 @@
 
 #import "FGPlot+Management.h"
 #import "FGAnalysis+Management.h"
-#import "FGKeyword+Management.h"
+#import "FGKeyword.h"
 #import "FGMeasurement+Management.h"
 #import "FGGate+Management.h"
 
@@ -118,7 +118,7 @@
         [self didChangeValueForKey:@"xParNumber"];
         
         NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", newXParNumber.integerValue];
-        FGKeyword *parNameKeyword = [self.analysis.measurement keywordWithKey:shortNameKey];
+        FGKeyword *parNameKeyword = [self.analysis.measurement existingKeywordForKey:shortNameKey];
         self.xParName = parNameKeyword.value;
     }
 }
@@ -133,7 +133,7 @@
         [self didChangeValueForKey:@"yParNumber"];
         
         NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", newYParNumber.integerValue];
-        FGKeyword *parNameKeyword = [self.analysis.measurement keywordWithKey:shortNameKey];
+        FGKeyword *parNameKeyword = [self.analysis.measurement existingKeywordForKey:shortNameKey];
         self.yParName = parNameKeyword.value;
     }
 }

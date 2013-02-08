@@ -261,10 +261,9 @@
 {
     NSLog(@"double tap recognized!");
     CGPoint tapPoint = [doubleTapGesture locationInView:self];
-    GateGraphic *doubleTappedGate = [self _gateAtTapPoint:tapPoint];
-    if (doubleTappedGate != nil)
-    {
-        [self.delegate gatesContainerView:self didDoubleTapGate:doubleTappedGate.gateTag];
+    GateGraphic *tappedGate = [self _gateAtTapPoint:tapPoint];
+    if (tappedGate != nil) {
+        [self.delegate gatesContainerView:self didDoubleTapGate:tappedGate.gateTag];
     }
 }
 

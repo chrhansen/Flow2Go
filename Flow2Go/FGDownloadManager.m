@@ -137,8 +137,12 @@
         [self.currentDownloads removeObjectForKey:destPath];
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
             NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
-            NSDictionary *objectDetails = @{@"metadata" : metadata, @"filePath" : newRelativePath};
-            [FGMeasurement importFromArray:@[objectDetails] inContext:localContext];
+            NSDictionary *objectDetails = @{@"metadata" : metadata,
+                                            @"filePath" : newRelativePath,
+                                            @"downloadDate": NSDate.date};
+            FGMeasurement *measurement = [FGMeasurement importFromArray:@[objectDetails] inContext:localContext].lastObject;
+            [measurement readInFCSKeyWords];
+            measurement.md5FileHash = [measurement md5Hash];
         } completion:^(BOOL success, NSError *error) {
             NSAssert([NSThread isMainThread], @"Import callback not on main thread");
             [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];

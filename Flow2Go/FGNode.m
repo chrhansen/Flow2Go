@@ -8,7 +8,7 @@
 
 #import "FGNode.h"
 #import "FGNode.h"
-
+#import "FGKeyword.h"
 
 @implementation FGNode
 
@@ -21,5 +21,6 @@
 @dynamic yParNumber;
 @dynamic childNodes;
 @dynamic parentNode;
+
 
 @end

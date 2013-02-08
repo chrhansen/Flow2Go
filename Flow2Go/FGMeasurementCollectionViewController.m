@@ -21,10 +21,20 @@
 
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (nonatomic, strong) NSMutableArray *editItems;
+@property (nonatomic, strong) NSMutableArray *objectChanges;
+@property (nonatomic, strong) NSMutableArray *sectionChanges;
 
 @end
 
 @implementation FGMeasurementCollectionViewController
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    _objectChanges = [NSMutableArray array];
+    _sectionChanges = [NSMutableArray array];
+}
+
 
 - (void)viewDidLoad
 {
@@ -227,19 +237,14 @@
 
 - (void)_presentMeasurement:(FGMeasurement *)aMeasurement
 {
-    if (aMeasurement.analyses.lastObject == nil) {
-        NSManagedObjectID *objectID = aMeasurement.objectID;
-        __block NSManagedObjectID *analysisID;
-        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            FGMeasurement *localMeasurement = (FGMeasurement *)[localContext objectWithID:objectID];
-            analysisID = [FGAnalysis createAnalysisForMeasurement:localMeasurement].objectID;
-        } completion:^(BOOL success, NSError *error) {
-            FGAnalysis *analysis = (FGAnalysis *)[[NSManagedObjectContext defaultContext] objectWithID:analysisID];
-            [self.analysisViewController showAnalysis:analysis];
-        }];
-    } else {
-        [self.analysisViewController showAnalysis:aMeasurement.analyses.lastObject];
+    
+    FGAnalysis *analysis = aMeasurement.analyses.lastObject;
+    if (analysis == nil) {
+        analysis = [FGAnalysis createAnalysisForMeasurement:aMeasurement];
+        NSError *error;
+        if(![analysis.managedObjectContext obtainPermanentIDsForObjects:@[analysis] error:&error]) NSLog(@"Error obtaining perm ID: %@", error.localizedDescription);
     }
+    [self.analysisViewController showAnalysis:analysis];
 }
 
 
@@ -273,6 +278,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"didSelectItemAtIndexPath: %@", self);
     FGMeasurement *aMeasurement = (FGMeasurement *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     if (!aMeasurement.isDownloaded) return;
     
@@ -300,39 +306,69 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest.alloc init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"FGMeasurement"
-                                      inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-    
-    // Set the batch size to a suitable number.
-    fetchRequest.fetchBatchSize = 50;
-    
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor.alloc initWithKey:@"filename" ascending:YES];
-    
-    NSArray *sortDescriptors = @[sortDescriptor];
-    fetchRequest.sortDescriptors = sortDescriptors;
-    if (self.folder.measurements) fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.folder.measurements];
-
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
-                                                                                              managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
-                                                                                                sectionNameKeyPath:nil
-                                                                                                         cacheName:nil];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
+    _fetchedResultsController = [FGMeasurement fetchAllGroupedBy:nil
+                                                   withPredicate:[NSPredicate predicateWithFormat:@"SELF IN %@", self.folder.measurements]
+                                                        sortedBy:@"filename"
+                                                       ascending:YES
+                                                        delegate:self
+                                                       inContext:[NSManagedObjectContext MR_defaultContext]];
     return _fetchedResultsController;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark - Fetched Results Controller Delegate methods
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = @(sectionIndex);
+            break;
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = @(sectionIndex);
+            break;
+    }
+    [_sectionChanges addObject:change];
 }
 
 
@@ -340,26 +376,97 @@
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UICollectionView *collectionView = self.collectionView;
-    switch(type) {
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
         case NSFetchedResultsChangeInsert:
-            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            change[@(type)] = newIndexPath;
             break;
-            
         case NSFetchedResultsChangeDelete:
-            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            change[@(type)] = indexPath;
             break;
-            
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:[collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
+            change[@(type)] = indexPath;
             break;
-            
         case NSFetchedResultsChangeMove:
-            [collectionView deleteItemsAtIndexPaths:@[indexPath]];
-            [collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            change[@(type)] = @[indexPath, newIndexPath];
             break;
     }
+    [_objectChanges addObject:change];
 }
 
 
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self _performOutstandingCollectionViewUpdates];
+}
+
+
+- (void)_performOutstandingCollectionViewUpdates
+{
+    if (self.navigationController.visibleViewController != self)
+    {
+        [self.collectionView reloadData];
+    }
+    else
+    {
+        if ([_sectionChanges count] > 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _sectionChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+        
+        if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _objectChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeMove:
+                                [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+    }
+    
+    [_sectionChanges removeAllObjects];
+    [_objectChanges removeAllObjects];
+}
 @end

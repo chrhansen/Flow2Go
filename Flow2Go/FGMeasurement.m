@@ -2,7 +2,7 @@
 //  FGMeasurement.m
 //  Flow2Go
 //
-//  Created by Christian Hansen on 06/02/13.
+//  Created by Christian Hansen on 08/02/13.
 //  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
@@ -16,11 +16,11 @@
 
 @dynamic countOfEvents;
 @dynamic downloadDate;
-@dynamic filePath;
-@dynamic lastModificationDate;
 @dynamic fGMeasurementID;
-@dynamic globalURL;
 @dynamic filename;
+@dynamic filePath;
+@dynamic globalURL;
+@dynamic md5FileHash;
 @dynamic analyses;
 @dynamic folder;
 @dynamic keywords;

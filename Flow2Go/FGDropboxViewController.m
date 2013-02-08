@@ -325,9 +325,7 @@
     [self.selectedItems removeAllObjects];
     [self _setSelectSubitemsState];
     [self.tableView reloadData];
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

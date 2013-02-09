@@ -73,6 +73,7 @@
     [self _reloadPlotDataAndLayout];
     self.gatesContainerView.delegate = self;
     [self.gatesContainerView performSelector:@selector(redrawGates) withObject:nil afterDelay:0.05];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -172,11 +173,8 @@
     self.plot.plotType = plotType;
     [self _reloadPlotDataAndLayout];
     [self.gatesContainerView redrawGates];
-    NSManagedObjectID *plotID = self.plot.objectID;
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        FGPlot *localPlot = (FGPlot *)[localContext objectWithID:plotID];
-        localPlot.plotType = plotType;
-    }];
+    NSError *error;
+    if(![self.plot.managedObjectContext save:&error]) NSLog(@"Error saving plot when setting plotType: %@", error.localizedDescription);
 }
 
 

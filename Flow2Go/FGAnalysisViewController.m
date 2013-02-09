@@ -63,7 +63,6 @@
     if (self.analysis.plots.count == 0 || self.analysis.plots == nil) {
         [FGPlot createRootPlotForAnalysis:self.analysis];
     }
-    NSLog(@"will load FCS-file: %@", self);
     [self.collectionView reloadData];
     [self _reloadFCSFile];
 }
@@ -93,16 +92,16 @@
     FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
     FGPlotCell *plotCell = (FGPlotCell *)cell;
     if (plot == self.presentedPlot) {
-//        [plotCell setHidden:YES];
+        //        [plotCell setHidden:YES];
         return;
     } else {
-//        [plotCell setHidden:NO];
+        //        [plotCell setHidden:NO];
     }
     FGGate *parentGate = (FGGate *)plot.parentNode;
     plotCell.nameLabel.text = plot.name;
     plotCell.countLabel.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
     plotCell.plotImageView.image = plot.image;
-
+    
     [plotCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     if (parentGate == nil) {
@@ -114,7 +113,6 @@
 #pragma mark - UICollectionView Datasource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSLog(@"self.analysis: %@ plots.count: %d", self.analysis.name, self.analysis.plots.count);
     return self.analysis.plots.count;
 }
 
@@ -180,8 +178,8 @@
     [self presentViewController:navigationController animated:YES completion:^{
         self.presentedPlot = plot;
         [self.collectionView reloadData];
-//        NSUInteger row = [self.analysis.plots indexOfObject:plot];
-//        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]]];
+        //        NSUInteger row = [self.analysis.plots indexOfObject:plot];
+        //        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]]];
     }];
 }
 
@@ -235,7 +233,7 @@
         }
         NSError *error;
         [newPlot.managedObjectContext save:&error];
-        if (!error) NSLog(@"Error saving new plot: %@", newPlot);
+        if (error) NSLog(@"Error saving new plot: %@", newPlot);
     }];
 }
 
@@ -243,11 +241,10 @@
 {
     [self dismissViewControllerAnimated:YES completion:^{
         self.presentedPlot = nil;
-//        NSUInteger row = [self.analysis.plots indexOfObject:plot];
-//        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]]];
-        [self.collectionView reloadData];
+        NSUInteger row = [self.analysis.plots indexOfObject:plot];
+        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]]];
         NSError *error;
-        [plot.managedObjectContext save:&error];
+        [plot.managedObjectContext saveToPersistentStoreAndWait];
         if (error) NSLog(@"Error saving plot: %@", error.localizedDescription);
     }];
 }

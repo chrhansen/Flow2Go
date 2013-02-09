@@ -16,6 +16,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "KGNoise.h"
 #import "UIBarButtonItem+Customview.h"
+#import "FGMeasurementCell.h"
+#import "NSDate+HumanizedTime.h"
+#import "NSString+_Format.h"
 
 @interface FGMeasurementCollectionViewController () <FGDownloadManagerProgressDelegate, UIActionSheetDelegate>
 
@@ -39,9 +42,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UINib *cellNib = [UINib nibWithNibName:@"MeasurementView" bundle:NSBundle.mainBundle];
-    [self.collectionView registerNib:cellNib forCellWithReuseIdentifier:@"Measurement Cell"];
-    [self _addGestures];
     [self _addNoiseBackground];
 }
 
@@ -77,13 +77,6 @@
 {
     UIBarButtonItem *folderButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"53-house"] style:UIBarButtonItemStylePlain target:self action:@selector(folderTapped:)];
     [self.navigationItem setLeftBarButtonItems:@[folderButton] animated:YES];
-}
-
-
-- (void)_addGestures
-{
-    UILongPressGestureRecognizer *longPressRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self action:@selector(handleLongPressGesture:)];
-    [self.collectionView addGestureRecognizer:longPressRecognizer];
 }
 
 
@@ -170,26 +163,17 @@
     [self.delegate measurementCollectionViewControllerDidTapDismiss:self];
 }
 
+#define FILENAME_CHARACTER_COUNT 35
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    UILabel *nameLabel = (UILabel *)[cell viewWithTag:1];
-    nameLabel.text = measurement.filename;
-    UIButton *infoButton = (UIButton *)[cell viewWithTag:4];
-
-    if (measurement.downloadDate) {
-        UILabel *dateLabel = (UILabel *)[cell viewWithTag:2];
-        dateLabel.text = [NSDateFormatter localizedStringFromDate:measurement.downloadDate dateStyle:kCFDateFormatterMediumStyle timeStyle:kCFDateFormatterMediumStyle];
-        
-        UILabel *countLabel = (UILabel *)[cell viewWithTag:3];
-        countLabel.text = measurement.countOfEvents.stringValue;
-        
-        infoButton.enabled = YES;
-    } else {
-        infoButton.enabled = NO;
-    }
+    FGMeasurementCell *measurementCell = (FGMeasurementCell *)cell;
+    measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
+    NSString *intervalAsString = [measurement.downloadDate stringWithHumanizedTimeDifference:NSDateHumanizedSuffixNone withFullString:NO];
+    measurementCell.dateLabel.text = intervalAsString;
+    measurementCell.infoButton.enabled = measurement.isDownloaded;
+    measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
 }
 
 
@@ -237,7 +221,6 @@
 
 - (void)_presentMeasurement:(FGMeasurement *)aMeasurement
 {
-    
     FGAnalysis *analysis = aMeasurement.analyses.lastObject;
     if (analysis == nil) {
         analysis = [FGAnalysis createAnalysisForMeasurement:aMeasurement];
@@ -269,16 +252,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Measurement Cell"
-                                                           forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Measurement Cell" forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
 
-
+#pragma mark - Collection View Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"didSelectItemAtIndexPath: %@", self);
     FGMeasurement *aMeasurement = (FGMeasurement *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     if (!aMeasurement.isDownloaded) return;
     

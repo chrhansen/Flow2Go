@@ -30,7 +30,7 @@
     [super viewDidLoad]; 
     [self _addObservers];
     [self _addPullToRefresh];
-    
+    [self _setSelectSubitemsState];
     if (!self.subPath) {
         self.subPath = @"";
         self.title = @"Dropbox";
@@ -127,17 +127,15 @@
 
 - (void)_showSpinner:(BOOL)shouldShow
 {
-    UIBarButtonItem *barbuttonItem;
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped:)];
     if (shouldShow) {
         UIActivityIndicatorView *spinner = [UIActivityIndicatorView.alloc initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         [spinner startAnimating];
-        barbuttonItem = [UIBarButtonItem.alloc initWithCustomView:spinner];
-        self.tempBarButtonItem = self.navigationItem.rightBarButtonItem;
+        
+        [self.navigationItem setRightBarButtonItems:@[doneButton, [UIBarButtonItem.alloc initWithCustomView:spinner]] animated:NO];
     } else {
-        barbuttonItem = self.tempBarButtonItem;
-        self.tempBarButtonItem = nil;
+        [self.navigationItem setRightBarButtonItems:@[doneButton] animated:NO];
     }
-    [self.navigationItem setRightBarButtonItem:barbuttonItem animated:YES];
 }
 
 
@@ -157,12 +155,13 @@
 {
     if (self.selectedItems.count > 0) {
         UIBarButtonItem *cancelButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(_cancelTapped)];
-        [self.navigationItem setRightBarButtonItem:cancelButton animated:YES];
+        [self.navigationItem setRightBarButtonItem:cancelButton animated:NO];
         UIBarButtonItem *downloadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(_downloadSelectedItems)];
-        [self.navigationItem setLeftBarButtonItem:downloadButton animated:YES];
+        [self.navigationItem setLeftBarButtonItem:downloadButton animated:NO];
     } else {
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
-        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped:)];
+        [self.navigationItem setRightBarButtonItem:doneButton animated:NO];
+        [self.navigationItem setLeftBarButtonItem:nil animated:NO];
     }
 }
 

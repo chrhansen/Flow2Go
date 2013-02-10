@@ -15,8 +15,10 @@
 #import "KGNoise.h"
 #import "FGFolderLayout.h"
 #import "NSDate+HumanizedTime.h"
+#import "FGMeasurement+Management.h"
+#import "NSString+_Format.h"
 
-@interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate>
+@interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate>
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
@@ -39,6 +41,14 @@
     [self _configureBarButtonItemsForEditing:NO];
     [self _addNoiseBackground];
 }
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [FGDownloadManager.sharedInstance setProgressDelegate:self];
+}
+
 
 
 - (void)didReceiveMemoryWarning
@@ -171,21 +181,37 @@
 }
 
 
+#define FOLDER_NAME_MAX_CHARACTER_COUNT 29
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     FGFolder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
     FGFolderCell *folderCell = (FGFolderCell *)cell;
-    folderCell.nameLabel.text = folder.name;
+    folderCell.nameLabel.text = [folder.name fitToLength:FOLDER_NAME_MAX_CHARACTER_COUNT];
     folderCell.checkMarkImageView.hidden = (![self.editItems containsObject:folder]);
-    folderCell.infoButton.hidden = self.isEditing;
-    folderCell.countLabel.text = (folder.measurements.count > 0) ? [NSString stringWithFormat:@"%d", folder.measurements.count] : @"-";
-    NSDate *newestDate = [folder downloadDateOfNewestMeasurement];
-    NSString *intervalAsString = [newestDate stringWithHumanizedTimeDifference:NSDateHumanizedSuffixNone withFullString:NO];
-    folderCell.dateLabel.text = intervalAsString;
-    UILabel *countLabel = (UILabel *)[cell viewWithTag:2];
-    countLabel.text = [NSString stringWithFormat:@"%i", folder.measurements.count];
+    folderCell.countLabel.text = (folder.measurements.count > 0) ? [NSString stringWithFormat:@"%d", folder.measurements.count] : @"0";
+    if (![folder hasActiveDownloads]) [folderCell.spinner stopAnimating];
+    folderCell.downloadCountLabel.hidden = ![folder hasActiveDownloads];
+    folderCell.dateLabel.text = [self readableDate:[folder downloadDateOfNewestMeasurement]];
 }
 
+
+- (NSString *)readableDate:(NSDate *)date
+{
+    static NSDateFormatter *dateFormatter = nil;
+    if (dateFormatter == nil) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setLocale:[NSLocale currentLocale]];
+        [dateFormatter setDoesRelativeDateFormatting:YES];
+        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    }
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    if (dateString.length > 0) {
+        NSString *firstCapChar = [[dateString substringToIndex:1] capitalizedString];
+        dateString = [dateString stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:firstCapChar];
+    }
+    return dateString;
+}
 
 - (void)newFolderTapped:(UIBarButtonItem *)addButton
 {
@@ -194,6 +220,7 @@
     [alertView show];
 }
 
+#pragma mark - UIAlertView delegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
@@ -203,15 +230,39 @@
 }
 
 #pragma mark - Download Manager progress delegate
-- (void)downloadManager:(FGDownloadManager *)sender loadProgress:(CGFloat)progress forDestinationPath:(NSString *)destinationPath
+- (void)downloadManager:(FGDownloadManager *)downloadManager beganDownloadingMeasurement:(FGMeasurement *)measurement
 {
-//    Folder *downloadingFolder = [Folder findFirstByAttribute:@"name" withValue:];
-//    NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:downloadingMeasurement];
-//    UICollectionViewCell *downloadCell = [self.collectionView cellForItemAtIndexPath:downloadIndex];
-//    UILabel *progressLabel = (UILabel *)[downloadCell viewWithTag:2];
-//    progressLabel.text = [NSString stringWithFormat:@"%.2f", progress];
+    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
 }
 
+- (void)downloadManager:(FGDownloadManager *)downloadManager loadProgress:(CGFloat)progress forMeasurement:(FGMeasurement *)measurement
+{
+    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+}
+
+- (void)downloadManager:(FGDownloadManager *)downloadManager finishedDownloadingMeasurement:(FGMeasurement *)measurement
+{
+    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+}
+
+- (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingMeasurement:(FGMeasurement *)measurement
+{
+    //TODO: figure out how to configure cell when a download failed
+//    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+    NSLog(@"failedDownloadingMeasurement: %@", measurement);
+}
+
+
+- (void)_updateDownloadProgressView:(FGDownloadManager *)manager forMeasurement:(FGMeasurement *)measurement
+{
+    FGFolder *folder = measurement.folder;
+    FGFolderCell *downloadCell = (FGFolderCell *)[self.collectionView cellForItemAtIndexPath:[self.fetchedResultsController indexPathForObject:folder]];
+    NSArray *downloadsForFolder = [folder.measurements.array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isDownloaded == NO"]];
+    downloadCell.spinner.hidden = (downloadsForFolder.count == 0) ? YES : NO;
+    if (!downloadCell.spinner.isHidden && !downloadCell.spinner.isAnimating) [downloadCell.spinner startAnimating];
+    downloadCell.downloadCountLabel.hidden = (downloadsForFolder.count == 0) ? YES : NO;
+    downloadCell.downloadCountLabel.text = [NSString stringWithFormat:@"%d", downloadsForFolder.count];
+}
 
 #pragma mark - Collection View Data source
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -228,7 +279,7 @@
     return cell;
 }
 
-
+#pragma mark - UICollectionView delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FGFolder *selectedFolder = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -288,7 +339,7 @@
     _fetchedResultsController = [FGFolder fetchAllGroupedBy:nil
                                               withPredicate:nil
                                                    sortedBy:@"name"
-                                                  ascending:NO
+                                                  ascending:YES
                                                    delegate:self
                                                   inContext:[NSManagedObjectContext MR_defaultContext]];
     return _fetchedResultsController;

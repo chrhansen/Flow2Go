@@ -171,8 +171,10 @@
     FGMeasurementCell *measurementCell = (FGMeasurementCell *)cell;
     measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
     NSString *intervalAsString = [measurement.downloadDate stringWithHumanizedTimeDifference:NSDateHumanizedSuffixNone withFullString:NO];
+    measurementCell.dateLabel.hidden = (measurement.isDownloaded) ? NO : YES;
     measurementCell.dateLabel.text = intervalAsString;
     measurementCell.infoButton.enabled = measurement.isDownloaded;
+    measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
     measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
 }
 
@@ -232,13 +234,34 @@
 
 
 #pragma mark - Download Manager progress delegate
-- (void)downloadManager:(FGDownloadManager *)sender loadProgress:(CGFloat)progress forDestinationPath:(NSString *)destinationPath
+- (void)downloadManager:(FGDownloadManager *)downloadManager beganDownloadingMeasurement:(FGMeasurement *)measurement
 {
-    FGMeasurement *downloadingMeasurement = [FGMeasurement findFirstByAttribute:@"fGMeasurementID" withValue:destinationPath.lastPathComponent.stringByDeletingPathExtension];
-    NSIndexPath *downloadIndex = [self.fetchedResultsController indexPathForObject:downloadingMeasurement];
-    UICollectionViewCell *downloadCell = [self.collectionView cellForItemAtIndexPath:downloadIndex];
-    UILabel *progressLabel = (UILabel *)[downloadCell viewWithTag:2];
-    progressLabel.text = [NSString stringWithFormat:@"%.2f", progress];
+    [self _updateDownloadProgressViewForMeasurement:measurement progress:0.0f];
+}
+
+- (void)downloadManager:(FGDownloadManager *)downloadManager loadProgress:(CGFloat)progress forMeasurement:(FGMeasurement *)measurement
+{
+    [self _updateDownloadProgressViewForMeasurement:measurement progress:progress];
+}
+
+- (void)downloadManager:(FGDownloadManager *)downloadManager finishedDownloadingMeasurement:(FGMeasurement *)measurement
+{
+    [self _updateDownloadProgressViewForMeasurement:measurement progress:1.0f];
+}
+
+- (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingMeasurement:(FGMeasurement *)measurement
+{
+    //TODO: figure out how to configure cell when a download failed
+    //    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+    NSLog(@"failedDownloadingMeasurement: %@", measurement);
+}
+
+
+- (void)_updateDownloadProgressViewForMeasurement:(FGMeasurement *)measurement progress:(CGFloat)progress
+{
+    FGMeasurementCell *downloadCell = (FGMeasurementCell *)[self.collectionView cellForItemAtIndexPath:[self.fetchedResultsController indexPathForObject:measurement]];
+    downloadCell.progressView.progress = progress;
+    downloadCell.progressView.hidden = (progress == 1.0f) ? YES : NO;
 }
 
 

@@ -11,11 +11,11 @@
 @interface FGFolderCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *infoButton;
 @property (weak, nonatomic) IBOutlet UIImageView *checkMarkImageView;
-@property (weak, nonatomic) IBOutlet UIProgressView *downloadProgressView;
-@property (strong, nonatomic) IBOutlet UIImageView *folderImageView;
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+@property (weak, nonatomic) IBOutlet UIView *topContentView;
+@property (weak, nonatomic) IBOutlet UILabel *downloadCountLabel;
 
 @end

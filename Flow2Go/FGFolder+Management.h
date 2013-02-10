@@ -13,5 +13,6 @@
 + (void)deleteFolders:(NSArray *)foldersToDelete completion:(void (^)(NSError *error))completion;
 + (void)createWithName:(NSString *)folderName;
 - (NSDate *)downloadDateOfNewestMeasurement;
+- (BOOL)hasActiveDownloads;
 
 @end

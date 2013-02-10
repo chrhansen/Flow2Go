@@ -41,10 +41,11 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
 
 - (void)setup
 {
-    self.itemSize = CGSizeMake(173.0f, 173.0f);
+    self.itemSize = CGSizeMake(220.0f, 274.0f);
     self.minimumLineSpacing = 20.0f;
     self.minimumInteritemSpacing = 20.0f;
-    self.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
+    self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
+//    self.headerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 50.0f);
     [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGPhotoEmblemKind];
 }
 

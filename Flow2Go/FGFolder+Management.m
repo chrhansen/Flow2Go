@@ -80,4 +80,10 @@
     FGMeasurement *newestMeasurement = sortedArray.lastObject;
     return newestMeasurement.downloadDate;
 }
+
+- (BOOL)hasActiveDownloads
+{
+    return ([[self.measurements.array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isDownloaded == NO"]] lastObject] != nil);
+}
+
 @end

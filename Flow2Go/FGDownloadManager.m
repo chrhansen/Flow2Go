@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSMutableDictionary *currentDownloads;
 @property (nonatomic, strong) NSMutableDictionary *sharableLinks;
 @property (nonatomic, strong) NSMutableDictionary *errorDownloads;
+@property (nonatomic, strong, readwrite) NSMutableDictionary *downloadProgresses;
 
 @end
 
@@ -50,6 +51,15 @@
         _currentDownloads = [NSMutableDictionary dictionary];
     }
     return _currentDownloads;
+}
+
+
+- (NSMutableDictionary *)downloadProgresses
+{
+    if (_downloadProgresses == nil) {
+        _downloadProgresses = [NSMutableDictionary new];
+    }
+    return _downloadProgresses;
 }
 
 - (NSMutableDictionary *)sharableLinks
@@ -103,7 +113,11 @@
         NSString *destinationPath = [HOME_DIR stringByAppendingPathComponent:relativePath];
         NSAssert(newMeasurement, @"Failed importing fcsfile based on dictionary");
         self.currentDownloads[destinationPath] = newMeasurement;
+        self.downloadProgresses[newMeasurement.fGMeasurementID] = @0.0F;
         [self.restClient loadFile:metadata.path intoPath:destinationPath];
+        if ([self.progressDelegate respondsToSelector:@selector(downloadManager:beganDownloadingMeasurement:)]) {
+            [self.progressDelegate downloadManager:self beganDownloadingMeasurement:newMeasurement];
+        }
     }
 }
 
@@ -145,8 +159,9 @@
             measurement.md5FileHash = [measurement md5Hash];
         } completion:^(BOOL success, NSError *error) {
             NSAssert([NSThread isMainThread], @"Import callback not on main thread");
+            [self.downloadProgresses removeObjectForKey:measurementDownloaded.fGMeasurementID];
             [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];
-            if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingModel:)]) {
+            if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingMeasurement:)]) {
                 [self.progressDelegate downloadManager:self finishedDownloadingMeasurement:measurementDownloaded];
             }
         }];
@@ -159,21 +174,24 @@
     //TODO: find the failed download file and remove from [self.currentDownloads removeObjectForKey:destPath];
     NSString *destinationPath = error.userInfo[@"destinationPath"];
     NSString *sourcePath = error.userInfo[@"path"];
-    if (destinationPath
-        && sourcePath)
-    {
-        if (!self.errorDownloads[sourcePath]) {
-            // try an extra time to download the file
-            [self.errorDownloads setValue:destinationPath forKey:sourcePath];
-            [self.restClient loadFile:sourcePath intoPath:destinationPath];
-        } else {
-            // one additional attempt has been done already
-            [self.errorDownloads removeObjectForKey:sourcePath];
-        }
+    if (!destinationPath || !sourcePath) {
+        NSLog(@"Error: failed download is not giving information of source- and/or destination path");
     }
-    else if ([self.progressDelegate respondsToSelector:@selector(downloadManager:failedDownloadingModel:)]) {
-        [self.progressDelegate downloadManager:self failedDownloadingModel:nil];
+    
+    FGMeasurement *measurement = self.currentDownloads[destinationPath];
+    if (!self.errorDownloads[sourcePath]) {
+        // try an extra time to download the file
+        [self.errorDownloads setValue:destinationPath forKey:sourcePath];
+        [self.restClient loadFile:sourcePath intoPath:destinationPath];
+    } else {
+        // one additional attempt has been done already
+        [self.errorDownloads removeObjectForKey:sourcePath];
+        [self.currentDownloads removeObjectForKey:sourcePath];
+        [self.downloadProgresses removeObjectForKey:measurement.fGMeasurementID];
         [NSNotificationCenter.defaultCenter postNotificationName:DropboxFailedDownloadNotification object:nil userInfo:@{@"error" : error}];
+        if ([self.progressDelegate respondsToSelector:@selector(downloadManager:failedDownloadingMeasurement:)]) {
+            [self.progressDelegate downloadManager:self failedDownloadingMeasurement:measurement];
+        }
     }
 }
 
@@ -181,6 +199,8 @@
 - (void)restClient:(DBRestClient*)client loadProgress:(CGFloat)progress forFile:(NSString*)destPath
 {
     NSAssert([NSThread isMainThread], @"Download progress not called on Main Thread");
+    FGMeasurement *measurement = self.currentDownloads[destPath];
+    self.downloadProgresses[measurement.fGMeasurementID] = [NSNumber numberWithFloat:progress];
     if ([self.progressDelegate respondsToSelector:@selector(downloadManager:loadProgress:forMeasurement:)])
         [self.progressDelegate downloadManager:self loadProgress:progress forMeasurement:self.currentDownloads[destPath]];
 }

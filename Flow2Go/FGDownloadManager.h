@@ -22,9 +22,10 @@
 
 @protocol FGDownloadManagerProgressDelegate <NSObject>
 @optional
+- (void)downloadManager:(FGDownloadManager *)downloadManager beganDownloadingMeasurement:(FGMeasurement *)measurement;
 - (void)downloadManager:(FGDownloadManager *)downloadManager loadProgress:(CGFloat)progress forMeasurement:(FGMeasurement *)measurement;
 - (void)downloadManager:(FGDownloadManager *)downloadManager finishedDownloadingMeasurement:(FGMeasurement *)measurement;
-- (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingModel:(FGMeasurement *)measurement;
+- (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingMeasurement:(FGMeasurement *)measurement;
 @end
 
 @interface FGDownloadManager : NSObject <DBRestClientDelegate>
@@ -33,6 +34,7 @@
 - (void)downloadFiles:(NSArray *)files toFolder:(FGFolder *)folder;
 - (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(FGFolder *)folder;
 
+@property (nonatomic, strong, readonly) NSMutableDictionary *downloadProgresses;
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<FGDownloadManagerDelegate> delegate;
 @property (nonatomic, weak) id<FGDownloadManagerProgressDelegate> progressDelegate;

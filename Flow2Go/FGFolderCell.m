@@ -24,24 +24,33 @@
 {
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
-        self.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.0f];
+        self.topContentView.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.topContentView.layer.borderWidth = 0.5f;
+        self.topContentView.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.topContentView.layer.shadowRadius = 3.0f;
+        self.topContentView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+        self.topContentView.layer.shadowOpacity = 0.5f;
         
-        self.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.layer.borderWidth = 0.5f;
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowRadius = 3.0f;
-        self.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-        self.layer.shadowOpacity = 0.5f;
+        
+        self.nameLabel.layer.shadowOpacity = 0.7;
+        self.nameLabel.layer.shadowRadius = 3.0;
+        self.nameLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.nameLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+        
+        self.dateLabel.layer.shadowOpacity = 0.7;
+        self.dateLabel.layer.shadowRadius = 3.0;
+        self.dateLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.dateLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+
+        self.countLabel.layer.shadowOpacity = 0.7;
+        self.countLabel.layer.shadowRadius = 1.0;
+        self.countLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.countLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+
+
     }
 }
 
-
-- (void)setHighlighted:(BOOL)highlighted
-{
-    [super setHighlighted:highlighted];
-    self.folderImageView.alpha = highlighted ? 0.5f : 1.0f;
-    [self.folderImageView setNeedsDisplayInRect:self.frame];
-}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

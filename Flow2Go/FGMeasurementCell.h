@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UIButton *infoButton;
 @property (weak, nonatomic) IBOutlet UIImageView *measurementImageView;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 @end

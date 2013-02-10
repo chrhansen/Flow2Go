@@ -43,8 +43,8 @@
 
 @implementation FGPlotViewController
 
-#define X_AXIS_SHEET 1
-#define Y_AXIS_SHEET 2
+#define X_AXIS_TAG 1
+#define Y_AXIS_TAG 2
 
 - (void)viewDidLoad
 {
@@ -265,13 +265,13 @@
 #pragma mark - Axis Picking
 - (IBAction)xAxisTapped:(id)sender
 {
-    [self _showAxisPicker:X_AXIS_SHEET fromButton:sender];
+    [self _showAxisPicker:X_AXIS_TAG fromButton:sender];
 }
 
 
 - (IBAction)yAxisTapped:(id)sender
 {
-    [self _showAxisPicker:Y_AXIS_SHEET fromButton:sender];
+    [self _showAxisPicker:Y_AXIS_TAG fromButton:sender];
 }
 
 
@@ -282,7 +282,17 @@
         NSString *title = [self _titleForParameter:parIndex + 1];
         if (title) [items addObject:title];
     }
-    CGPoint point = CGPointMake(axisButton.frame.origin.x + axisButton.bounds.size.width / 2.0f, axisButton.frame.origin.y);
+    CGPoint point;
+    switch (axisNumber) {
+        case X_AXIS_TAG:
+            point = CGPointMake(axisButton.frame.origin.x + axisButton.bounds.size.width / 2.0f, axisButton.frame.origin.y);
+            break;
+        case Y_AXIS_TAG:
+            point = CGPointMake(axisButton.bounds.size.height, axisButton.frame.origin.y + axisButton.bounds.size.width / 2.0f);
+            break;
+        default:
+            break;
+    }
     self.popoverView = [PopoverView showPopoverAtPoint:point
                                                 inView:self.view
                                              withTitle:nil
@@ -300,9 +310,9 @@
         return;
     }
     NSNumber *parNumber = [NSNumber numberWithInteger:index + 1];
-    if (self.popoverView.tag == X_AXIS_SHEET) {
+    if (self.popoverView.tag == X_AXIS_TAG) {
         self.plot.xParNumber = parNumber;
-    } else if (self.popoverView.tag == Y_AXIS_SHEET) {
+    } else if (self.popoverView.tag == Y_AXIS_TAG) {
         self.plot.yParNumber = parNumber;
     }
     [self _reloadPlotDataAndLayout];
@@ -311,7 +321,6 @@
     NSError *error;
     [self.plot.managedObjectContext save:&error];
     if (error) NSLog(@"Erro saving plot: %@", error.localizedDescription);
-
 }
 
 
@@ -326,9 +335,9 @@
         return;
     }
     NSNumber *parNumber = [NSNumber numberWithInteger:buttonIndex];
-    if (actionSheet.tag == X_AXIS_SHEET) {
+    if (actionSheet.tag == X_AXIS_TAG) {
         self.plot.xParNumber = parNumber;
-    } else if (actionSheet.tag == Y_AXIS_SHEET) {
+    } else if (actionSheet.tag == Y_AXIS_TAG) {
         self.plot.yParNumber = parNumber;
     }
     [self _reloadPlotDataAndLayout];

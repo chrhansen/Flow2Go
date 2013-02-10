@@ -208,7 +208,7 @@
                                 <subviews>
                                     <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5F-po-NHv">
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="280" id="MWY-V5-G97"/>
+                                            <constraint firstAttribute="width" constant="100" id="MkD-cb-H24"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                         <state key="normal">
@@ -224,8 +224,7 @@
                                     </button>
                                     <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3P-ip-Owu">
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" type="user" id="jNb-DV-ZXp"/>
-                                            <constraint firstAttribute="width" constant="280" type="user" id="rPt-Z0-FkX"/>
+                                            <constraint firstAttribute="width" constant="100" id="wjy-3W-MkT"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                         <state key="normal">
@@ -244,10 +243,10 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="E9j-sA-Ipk"/>
-                                    <constraint firstAttribute="bottom" secondItem="P5F-po-NHv" secondAttribute="bottom" constant="1" id="NkN-2U-2mj"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="362" id="M9c-dA-mae"/>
+                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="imI-Dm-AkP"/>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="jjr-E0-fNg"/>
-                                    <constraint firstAttribute="centerX" secondItem="P5F-po-NHv" secondAttribute="centerX" type="user" id="wuu-Ag-JWL"/>
-                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" type="default" id="x68-V9-M0T"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="mwy-5B-Rp8"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1202,9 +1201,6 @@
         </class>
         <class className="FGDropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneTapped:"/>
-            </relationships>
         </class>
         <class className="FGFolderCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCell.h"/>
@@ -1226,6 +1222,10 @@
         </class>
         <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelTapped:"/>
+                <relationship kind="action" name="newFolderTapped:"/>
+            </relationships>
         </class>
         <class className="FGMeasurementCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCell.h"/>
@@ -1266,8 +1266,6 @@
         <class className="GateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
             <relationships>
-                <relationship kind="action" name="deleteGateTapped:"/>
-                <relationship kind="action" name="newPlotTapped:"/>
                 <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>

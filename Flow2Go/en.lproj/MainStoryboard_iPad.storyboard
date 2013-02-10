@@ -289,7 +289,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0u8-GL-Xc8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2006" y="-2043"/>
+            <point key="canvasLocation" x="2014" y="-2053"/>
         </scene>
         <!--Gate Table View Controller-->
         <scene sceneID="qKN-kD-0hf">
@@ -1202,6 +1202,9 @@
         </class>
         <class className="FGDropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneTapped:"/>
+            </relationships>
         </class>
         <class className="FGFolderCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCell.h"/>
@@ -1263,6 +1266,8 @@
         <class className="GateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
             <relationships>
+                <relationship kind="action" name="deleteGateTapped:"/>
+                <relationship kind="action" name="newPlotTapped:"/>
                 <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>

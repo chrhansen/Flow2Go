@@ -284,7 +284,6 @@
 {
     FGFolder *selectedFolder = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    
     switch (self.isEditing) {
         case YES:
             [self _togglePresenceInEditItems:selectedFolder];
@@ -314,7 +313,7 @@
     [navigationPaneViewController setPaneViewController:analysisNavigationController animated:NO completion:nil];
     measurementViewController.analysisViewController = (FGAnalysisViewController *)analysisNavigationController.topViewController;
 
-    UIBarButtonItem *navigationPaneBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStylePlain target:measurementViewController action:@selector(folderTapped:)];
+    UIBarButtonItem *navigationPaneBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStylePlain target:measurementViewController action:@selector(togglePaneTapped:)];
     [(UIViewController *)measurementViewController.analysisViewController navigationItem].leftBarButtonItem = navigationPaneBarButton;
     
     navigationPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

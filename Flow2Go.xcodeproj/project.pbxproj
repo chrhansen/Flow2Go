@@ -69,6 +69,7 @@
 		E585571C16C1609200BF4546 /* FGFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571B16C1609200BF4546 /* FGFolder.m */; };
 		E585571F16C160AE00BF4546 /* FGFolder+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571E16C160AD00BF4546 /* FGFolder+Management.m */; };
 		E585572316C1A46700BF4546 /* FGDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E585572216C1A46600BF4546 /* FGDropboxViewController.m */; };
+		E598014C16C840F500BF1A2D /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = E598014B16C840F500BF1A2D /* PopoverView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
 		E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */; };
 		E59C493416C42A0D00B5E0D5 /* KGNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C493316C42A0D00B5E0D5 /* KGNoise.m */; };
@@ -308,6 +309,9 @@
 		E585571E16C160AD00BF4546 /* FGFolder+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FGFolder+Management.m"; sourceTree = "<group>"; };
 		E585572116C1A46600BF4546 /* FGDropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGDropboxViewController.h; sourceTree = "<group>"; };
 		E585572216C1A46600BF4546 /* FGDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGDropboxViewController.m; sourceTree = "<group>"; };
+		E598014916C840F400BF1A2D /* PopoverView_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView_Configuration.h; sourceTree = "<group>"; };
+		E598014A16C840F400BF1A2D /* PopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverView.h; sourceTree = "<group>"; };
+		E598014B16C840F500BF1A2D /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverView.m; sourceTree = "<group>"; };
 		E599D2D715E1635A0036F2DC /* NSArrayValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayValueTransformer.h; sourceTree = "<group>"; };
 		E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayValueTransformer.m; sourceTree = "<group>"; };
 		E59A074B15EF8A0E006AE343 /* PlotDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotDetailTableViewController.h; sourceTree = "<group>"; };
@@ -738,6 +742,16 @@
 			name = "Pop Over View Controllers";
 			sourceTree = "<group>";
 		};
+		E598014D16C840F900BF1A2D /* PopoverView */ = {
+			isa = PBXGroup;
+			children = (
+				E598014916C840F400BF1A2D /* PopoverView_Configuration.h */,
+				E598014A16C840F400BF1A2D /* PopoverView.h */,
+				E598014B16C840F500BF1A2D /* PopoverView.m */,
+			);
+			name = PopoverView;
+			sourceTree = "<group>";
+		};
 		E59C493116C42A0300B5E0D5 /* KGNoise */ = {
 			isa = PBXGroup;
 			children = (
@@ -886,6 +900,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E598014D16C840F900BF1A2D /* PopoverView */,
 				E59C49BF16C57E9800B5E0D5 /* MD5Hash */,
 				E59C49B016C4B8B700B5E0D5 /* NSDate Humanized String */,
 				E59C493116C42A0300B5E0D5 /* KGNoise */,
@@ -1218,6 +1233,7 @@
 				E59C49C216C57EA300B5E0D5 /* FileMD5Hash.c in Sources */,
 				E59C49C816C5866100B5E0D5 /* FGMeasurement.m in Sources */,
 				E59C49CB16C5A97B00B5E0D5 /* FGMeasurementCell.m in Sources */,
+				E598014C16C840F500BF1A2D /* PopoverView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

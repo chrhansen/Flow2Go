@@ -157,10 +157,18 @@
     }
 }
 
-
-- (IBAction)folderTapped:(UIBarButtonItem *)doneButton
+- (void)folderTapped:(UIBarButtonItem *)doneButton
 {
     [self.delegate measurementCollectionViewControllerDidTapDismiss:self];
+}
+
+- (void)togglePaneTapped:(UIBarButtonItem *)doneButton
+{
+    MSNavigationPaneState paneState = MSNavigationPaneStateOpen;
+    if (self.navigationPaneViewController.paneState == MSNavigationPaneStateOpen) {
+        paneState = MSNavigationPaneStateClosed;
+    }
+    [self.navigationPaneViewController setPaneState:paneState animated:YES];
 }
 
 #define FILENAME_CHARACTER_COUNT 35

@@ -18,9 +18,9 @@
 #import "PlotHelper.h"
 #import "FGAddGateTableViewController.h"
 #import "GatesContainerView.h"
+#import "PopoverView.h"
 
-
-@interface FGPlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate>
+@interface FGPlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
 {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
@@ -36,6 +36,7 @@
 @property (nonatomic, strong) PlotHelper *plotHelper;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
+@property (nonatomic, strong) PopoverView *popoverView;
 
 
 @end
@@ -196,23 +197,18 @@
     plotTVC.plot = self.plot;
     
     //[plotTVC setEditing:NO animated:NO];
-    if (self.detailPopoverController.isPopoverVisible)
-    {
+    if (self.detailPopoverController.isPopoverVisible) {
         UINavigationController *navigationController = (UINavigationController *)self.detailPopoverController.contentViewController;
-        if (!navigationController.topViewController.editing)
-        {
+        if (!navigationController.topViewController.editing) {
             [self.detailPopoverController dismissPopoverAnimated:YES];
         }
         return;
     }
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
-    {
+    if (IS_IPAD) {
         self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:plotNavigationVC];
         self.detailPopoverController.delegate = self;
         [self.detailPopoverController presentPopoverFromRect:sender.frame inView:self.navigationController.navigationBar permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    }
-    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
-    {
+    } else {
         [self presentViewController:plotNavigationVC animated:NO completion:nil];
     }
 }
@@ -223,18 +219,13 @@
     FGAddGateTableViewController *addGateTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addGateTableViewController"];
     addGateTVC.delegate = self;
     
-    if (self.detailPopoverController.isPopoverVisible)
-    {
-        [self.detailPopoverController dismissPopoverAnimated:YES];
-    }
-    if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
-    {
+    if (self.detailPopoverController.isPopoverVisible) [self.detailPopoverController dismissPopoverAnimated:YES];
+    
+    if (IS_IPAD) {
         self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:addGateTVC];
         [self.detailPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.detailPopoverController.delegate = self;
-    }
-    else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone)
-    {
+    } else {
         [self presentViewController:addGateTVC animated:NO completion:nil];
     }
 }
@@ -286,22 +277,48 @@
 
 - (void)_showAxisPicker:(NSInteger)axisNumber fromButton:(UIButton *)axisButton
 {
-    UIActionSheet *axisPickerSheet = [UIActionSheet.alloc initWithTitle:nil
-                                                               delegate:self
-                                                      cancelButtonTitle:nil
-                                                 destructiveButtonTitle:nil
-                                                      otherButtonTitles:nil];
-    axisPickerSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-    axisPickerSheet.tag = axisNumber;
-    
-    for (NSUInteger parIndex = 0; parIndex < [self.fcsFile.text[@"$PAR"] integerValue]; parIndex++)
-    {
-        [axisPickerSheet addButtonWithTitle:[self _titleForParameter:parIndex + 1]];
+    NSMutableArray *items = [NSMutableArray array];
+    for (NSUInteger parIndex = 0; parIndex < [self.fcsFile.text[@"$PAR"] integerValue]; parIndex++) {
+        NSString *title = [self _titleForParameter:parIndex + 1];
+        if (title) [items addObject:title];
     }
-    //[axisPickerSheet addButtonWithTitle:nil];
-    [axisPickerSheet showFromRect:axisButton.frame inView:self.graphHostingView animated:YES];
+    CGPoint point = CGPointMake(axisButton.frame.origin.x + axisButton.bounds.size.width / 2.0f, axisButton.frame.origin.y);
+    self.popoverView = [PopoverView showPopoverAtPoint:point
+                                                inView:self.view
+                                             withTitle:nil
+                                       withStringArray:items
+                                              delegate:self];
+    self.popoverView.tag = axisNumber;
 }
 
+#pragma mark - PopoverViewDelegate Methods
+
+- (void)popoverView:(PopoverView *)popoverView didSelectItemAtIndex:(NSInteger)index
+{
+    [popoverView performSelector:@selector(dismiss) withObject:nil afterDelay:0.0f];
+    if (index < 0) {
+        return;
+    }
+    NSNumber *parNumber = [NSNumber numberWithInteger:index + 1];
+    if (self.popoverView.tag == X_AXIS_SHEET) {
+        self.plot.xParNumber = parNumber;
+    } else if (self.popoverView.tag == Y_AXIS_SHEET) {
+        self.plot.yParNumber = parNumber;
+    }
+    [self _reloadPlotDataAndLayout];
+    [self.gatesContainerView redrawGates];
+    
+    NSError *error;
+    [self.plot.managedObjectContext save:&error];
+    if (error) NSLog(@"Erro saving plot: %@", error.localizedDescription);
+
+}
+
+
+- (void)axisChanged:(id)sender
+{
+    NSLog(@"sender: %@", sender);
+}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {

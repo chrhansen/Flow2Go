@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "GateGraphic.h"
+#import "FGGateGraphic.h"
 
-@interface Rectangle : GateGraphic
+@interface FGRectangle : FGGateGraphic
 
 @end

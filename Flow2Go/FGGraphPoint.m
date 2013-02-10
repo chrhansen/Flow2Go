@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "GraphPoint.h"
+#import "FGGraphPoint.h"
 
-@implementation GraphPoint
+@implementation FGGraphPoint
 
-+ (GraphPoint *)pointWithX:(double)xValue andY:(double)yValue
++ (FGGraphPoint *)pointWithX:(double)xValue andY:(double)yValue
 {
-    GraphPoint *newPoint = [GraphPoint.alloc init];
+    FGGraphPoint *newPoint = [FGGraphPoint.alloc init];
     newPoint.x = xValue;
     newPoint.y = yValue;
     
@@ -23,9 +23,9 @@
 + (NSArray *)switchXandYForGraphpoints:(NSArray *)vertices
 {
     NSMutableArray *switchedArray = [NSMutableArray arrayWithCapacity:vertices.count];
-    for (GraphPoint *aGraphPoint in vertices)
+    for (FGGraphPoint *aGraphPoint in vertices)
     {
-        [switchedArray addObject:[GraphPoint pointWithX:aGraphPoint.y andY:aGraphPoint.x]];
+        [switchedArray addObject:[FGGraphPoint pointWithX:aGraphPoint.y andY:aGraphPoint.x]];
     }
     return switchedArray;
 }

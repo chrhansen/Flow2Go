@@ -7,22 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
-@class FCSFile;
+@class FGFCSFile;
 @class CPTXYPlotSpace;
 @class FGGate;
 @class FGPlot;
 
-@interface GateCalculator : NSObject
+@interface FGGateCalculator : NSObject
 
 + (BOOL)eventInsideGateVertices:(NSArray *)vertices
-                       onEvents:(FCSFile *)fcsFile
+                       onEvents:(FGFCSFile *)fcsFile
                         eventNo:(NSUInteger)eventNo
                          xParam:(NSUInteger)xPar
                          yParam:(NSUInteger)yPar;
 
-+ (GateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
++ (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
                                         gateType:(GateType)gateType
-                                         fcsFile:(FCSFile *)fcsFile
+                                         fcsFile:(FGFCSFile *)fcsFile
                                       insidePlot:(FGPlot *)plot
                                           subSet:(NSUInteger *)subSet
                                      subSetCount:(NSUInteger)subSetCount;

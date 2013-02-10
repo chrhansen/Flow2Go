@@ -12,7 +12,7 @@
 #import "FGAnalysisViewController.h"
 #import "FGFolder.h"
 #import "FGAnalysis+Management.h"
-#import "KeywordTableViewController.h"
+#import "FGKeywordTableViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "KGNoise.h"
 #import "UIBarButtonItem+Customview.h"
@@ -143,7 +143,7 @@
     UICollectionViewCell *cell = (UICollectionViewCell *)infoButton.superview.superview;
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     
-    KeywordTableViewController *keywordTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"measurementDetailViewController"];
+    FGKeywordTableViewController *keywordTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"measurementDetailViewController"];
     keywordTVC.measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) {

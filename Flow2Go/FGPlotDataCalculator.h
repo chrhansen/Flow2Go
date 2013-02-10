@@ -7,30 +7,30 @@
 //
 
 #import <Foundation/Foundation.h>
-@class FCSFile;
+@class FGFCSFile;
 @class FGPlot;
 
-@interface PlotDataCalculator : NSObject
+@interface FGPlotDataCalculator : NSObject
 
-+ (PlotDataCalculator *)dotDataForFCSFile:(FCSFile *)fcsFile
++ (FGPlotDataCalculator *)dotDataForFCSFile:(FGFCSFile *)fcsFile
                                insidePlot:(FGPlot *)plot
                                    subset:(NSUInteger *)subset
                               subsetCount:(NSUInteger)subsetCount;
 
 
-+ (PlotDataCalculator *)densityDataForFCSFile:(FCSFile *)fcsFile
++ (FGPlotDataCalculator *)densityDataForFCSFile:(FGFCSFile *)fcsFile
                                    insidePlot:(FGPlot *)plot
                                        subset:(NSUInteger *)subset
                                   subsetCount:(NSUInteger)subsetCount;
 
 
-+ (PlotDataCalculator *)histogramForFCSFile:(FCSFile *)fcsFile
++ (FGPlotDataCalculator *)histogramForFCSFile:(FGFCSFile *)fcsFile
                                  insidePlot:(FGPlot *)plot
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount;
 
 
-+ (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
++ (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
                                 insidePlot:(FGPlot *)plot
                                     subset:(NSUInteger *)subset
                                subsetCount:(NSUInteger)subsetCount;

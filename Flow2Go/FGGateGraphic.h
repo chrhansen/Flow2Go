@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GateGraphic : NSObject
+@interface FGGateGraphic : NSObject
 
-- (GateGraphic *)initWithVertices:(NSArray *)vertices;
-- (GateGraphic *)initWithBoundsOfContainerView:(CGRect)bounds;
+- (FGGateGraphic *)initWithVertices:(NSArray *)vertices;
+- (FGGateGraphic *)initWithBoundsOfContainerView:(CGRect)bounds;
 
 - (void)showDragableHooks;
 - (void)hideDragableHooks;

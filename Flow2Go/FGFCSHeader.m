@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "FCSHeader.h"
+#import "FGFCSHeader.h"
 
-@implementation FCSHeader
+@implementation FGFCSHeader
 
 @end

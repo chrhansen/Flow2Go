@@ -35,28 +35,28 @@
 		E511FD7715CC36BD00637D39 /* icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7615CC36BD00637D39 /* icon_144.png */; };
 		E511FD7915CC36C200637D39 /* icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7815CC36C200637D39 /* icon_72.png */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
-		E5203E4F15F9EAAD00169EC7 /* PlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* PlotHelper.m */; };
+		E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
-		E52BECB715DE63EA002A3819 /* GraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* GraphPoint.m */; };
+		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
 		E53FA66615CB0CC0000B048C /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA66515CB0CC0000B048C /* FGMeasurementCollectionViewController.m */; };
 		E542F4C6160933280041A60A /* FGFolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */; };
-		E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FCSFile.m */; };
+		E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */; };
 		E5469D5C160FAD6000B33EE2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54BC31F160286A700E55A28 /* Default-568h@2x.png */; };
 		E546B73616034F920073178C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E546B73516034F920073178C /* DropboxSDK.framework */; };
 		E54D71191603570D008CEC5D /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D71181603570D008CEC5D /* libCorePlot-CocoaTouch.a */; };
 		E54D717916046E05008CEC5D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E54D717516046E05008CEC5D /* README.md */; };
 		E54D717A16046E05008CEC5D /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E54D717616046E05008CEC5D /* release_notes.md */; };
 		E54D717C16046EEE008CEC5D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D717416046E05008CEC5D /* libTestFlight.a */; };
-		E54D71B416049CC5008CEC5D /* GateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* GateGraphic.m */; };
-		E54D71B516049CC5008CEC5D /* Polygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* Polygon.m */; };
-		E54D71B716049E09008CEC5D /* GatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* GatesContainerView.m */; };
-		E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FCSHeader.m */; };
+		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
+		E54D71B516049CC5008CEC5D /* FGPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* FGPolygon.m */; };
+		E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* FGGatesContainerView.m */; };
+		E5659AF015E56A87006D23B0 /* FGFCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */; };
 		E577B4911607D76F002348EE /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B48F1607D76F002348EE /* 39-circle-check.png */; };
 		E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B4901607D76F002348EE /* 39-circle-check@2x.png */; };
-		E579564915DAFE6800B77795 /* GateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* GateCalculator.m */; };
+		E579564915DAFE6800B77795 /* FGGateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* FGGateCalculator.m */; };
 		E57AD84515FF7E0100A6815C /* FGAddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* FGAddGateTableViewController.m */; };
-		E57BA89315ED8D94008EA346 /* PlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */; };
-		E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */; };
+		E57BA89315ED8D94008EA346 /* FGPlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */; };
+		E580999C15F79C8B000E0B34 /* FGKeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* FGKeywordTableViewController.m */; };
 		E58556D216C09CE000BF4546 /* MSDraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556CF16C09CE000BF4546 /* MSDraggableView.m */; };
 		E58556D316C09CE000BF4546 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */; };
 		E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556D516C0ADE200BF4546 /* UIBarButtonItem+Customview.m */; };
@@ -71,7 +71,7 @@
 		E585572316C1A46700BF4546 /* FGDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E585572216C1A46600BF4546 /* FGDropboxViewController.m */; };
 		E598014C16C840F500BF1A2D /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = E598014B16C840F500BF1A2D /* PopoverView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
-		E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */; };
+		E59A074D15EF8A0E006AE343 /* FGPlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* FGPlotDetailTableViewController.m */; };
 		E59C493416C42A0D00B5E0D5 /* KGNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C493316C42A0D00B5E0D5 /* KGNoise.m */; };
 		E59C493B16C4525600B5E0D5 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C493A16C4525600B5E0D5 /* UIImage+Extensions.m */; };
 		E59C493E16C4597000B5E0D5 /* 0210.png in Resources */ = {isa = PBXBuildFile; fileRef = E59C493C16C4597000B5E0D5 /* 0210.png */; };
@@ -102,10 +102,10 @@
 		E59C49C816C5866100B5E0D5 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C49C716C5866100B5E0D5 /* FGMeasurement.m */; };
 		E59C49CB16C5A97B00B5E0D5 /* FGMeasurementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */; };
 		E59D2E3515E365FF00944789 /* FGAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */; };
-		E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */; };
-		E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* SingleRange.m */; };
-		E5F1DAFE160E64A200591F2A /* Rectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* Rectangle.m */; };
-		E5F1DB06160E7BD300591F2A /* Ellipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* Ellipse.m */; };
+		E5B480B015EF597D00BB6BAC /* FGGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */; };
+		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
+		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
+		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
 		E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E5FC6F4D15CA7E8E0047A3DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4C15CA7E8E0047A3DD /* CoreGraphics.framework */; };
@@ -190,18 +190,18 @@
 		E511FD7815CC36C200637D39 /* icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_72.png; path = ../icon_72.png; sourceTree = "<group>"; };
 		E511FDD815CC6C4800637D39 /* FGPlotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotViewController.h; sourceTree = "<group>"; };
 		E511FDD915CC6C4800637D39 /* FGPlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotViewController.m; sourceTree = "<group>"; };
-		E5203E4D15F9EAAD00169EC7 /* PlotHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotHelper.h; sourceTree = "<group>"; };
-		E5203E4E15F9EAAD00169EC7 /* PlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotHelper.m; sourceTree = "<group>"; };
+		E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotHelper.h; sourceTree = "<group>"; };
+		E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotHelper.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
-		E52BECB515DE63E9002A3819 /* GraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphPoint.h; sourceTree = "<group>"; };
-		E52BECB615DE63E9002A3819 /* GraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphPoint.m; sourceTree = "<group>"; };
+		E52BECB515DE63E9002A3819 /* FGGraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraphPoint.h; sourceTree = "<group>"; };
+		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
 		E53FA66415CB0CC0000B048C /* FGMeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCollectionViewController.h; sourceTree = "<group>"; };
 		E53FA66515CB0CC0000B048C /* FGMeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCollectionViewController.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGFolderCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolderCollectionViewController.h; sourceTree = "<group>"; };
 		E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolderCollectionViewController.m; sourceTree = "<group>"; };
-		E5457DA015CEAE7F00678CB7 /* FCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSFile.h; sourceTree = "<group>"; };
-		E5457DA115CEAE7F00678CB7 /* FCSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSFile.m; sourceTree = "<group>"; };
+		E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSFile.h; sourceTree = "<group>"; };
+		E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSFile.m; sourceTree = "<group>"; };
 		E546B73516034F920073178C /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		E54BC31F160286A700E55A28 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E54D70DA1603570D008CEC5D /* CorePlot-CocoaTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CorePlot-CocoaTouch.h"; sourceTree = "<group>"; };
@@ -271,24 +271,24 @@
 		E54D717516046E05008CEC5D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		E54D717616046E05008CEC5D /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
 		E54D717716046E05008CEC5D /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
-		E54D71AC16049C98008CEC5D /* GatesContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GatesContainerView.h; sourceTree = "<group>"; };
-		E54D71B016049CC5008CEC5D /* GateGraphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateGraphic.h; sourceTree = "<group>"; };
-		E54D71B116049CC5008CEC5D /* GateGraphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateGraphic.m; sourceTree = "<group>"; };
-		E54D71B216049CC5008CEC5D /* Polygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Polygon.h; sourceTree = "<group>"; };
-		E54D71B316049CC5008CEC5D /* Polygon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Polygon.m; sourceTree = "<group>"; };
-		E54D71B616049E09008CEC5D /* GatesContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GatesContainerView.m; sourceTree = "<group>"; };
-		E5659AEE15E56A87006D23B0 /* FCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCSHeader.h; sourceTree = "<group>"; };
-		E5659AEF15E56A87006D23B0 /* FCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCSHeader.m; sourceTree = "<group>"; };
+		E54D71AC16049C98008CEC5D /* FGGatesContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGatesContainerView.h; sourceTree = "<group>"; };
+		E54D71B016049CC5008CEC5D /* FGGateGraphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateGraphic.h; sourceTree = "<group>"; };
+		E54D71B116049CC5008CEC5D /* FGGateGraphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateGraphic.m; sourceTree = "<group>"; };
+		E54D71B216049CC5008CEC5D /* FGPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPolygon.h; sourceTree = "<group>"; };
+		E54D71B316049CC5008CEC5D /* FGPolygon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPolygon.m; sourceTree = "<group>"; };
+		E54D71B616049E09008CEC5D /* FGGatesContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGatesContainerView.m; sourceTree = "<group>"; };
+		E5659AEE15E56A87006D23B0 /* FGFCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSHeader.h; sourceTree = "<group>"; };
+		E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSHeader.m; sourceTree = "<group>"; };
 		E577B48F1607D76F002348EE /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check.png"; sourceTree = "<group>"; };
 		E577B4901607D76F002348EE /* 39-circle-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check@2x.png"; sourceTree = "<group>"; };
-		E579564715DAFE6800B77795 /* GateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GateCalculator.h; path = Flow2Go/GateCalculator.h; sourceTree = SOURCE_ROOT; };
-		E579564815DAFE6800B77795 /* GateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GateCalculator.m; path = Flow2Go/GateCalculator.m; sourceTree = SOURCE_ROOT; };
+		E579564715DAFE6800B77795 /* FGGateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGGateCalculator.h; path = Flow2Go/FGGateCalculator.h; sourceTree = SOURCE_ROOT; };
+		E579564815DAFE6800B77795 /* FGGateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FGGateCalculator.m; path = Flow2Go/FGGateCalculator.m; sourceTree = SOURCE_ROOT; };
 		E57AD84315FF7E0000A6815C /* FGAddGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAddGateTableViewController.h; sourceTree = "<group>"; };
 		E57AD84415FF7E0100A6815C /* FGAddGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAddGateTableViewController.m; sourceTree = "<group>"; };
-		E57BA89115ED8D94008EA346 /* PlotDataCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotDataCalculator.h; sourceTree = "<group>"; };
-		E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotDataCalculator.m; sourceTree = "<group>"; };
-		E580999A15F79C8B000E0B34 /* KeywordTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeywordTableViewController.h; sourceTree = "<group>"; };
-		E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeywordTableViewController.m; sourceTree = "<group>"; };
+		E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotDataCalculator.h; sourceTree = "<group>"; };
+		E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotDataCalculator.m; sourceTree = "<group>"; };
+		E580999A15F79C8B000E0B34 /* FGKeywordTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGKeywordTableViewController.h; sourceTree = "<group>"; };
+		E580999B15F79C8B000E0B34 /* FGKeywordTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGKeywordTableViewController.m; sourceTree = "<group>"; };
 		E58556CE16C09CE000BF4546 /* MSDraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDraggableView.h; sourceTree = "<group>"; };
 		E58556CF16C09CE000BF4546 /* MSDraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDraggableView.m; sourceTree = "<group>"; };
 		E58556D016C09CE000BF4546 /* MSNavigationPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNavigationPaneViewController.h; sourceTree = "<group>"; };
@@ -314,8 +314,8 @@
 		E598014B16C840F500BF1A2D /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverView.m; sourceTree = "<group>"; };
 		E599D2D715E1635A0036F2DC /* NSArrayValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayValueTransformer.h; sourceTree = "<group>"; };
 		E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayValueTransformer.m; sourceTree = "<group>"; };
-		E59A074B15EF8A0E006AE343 /* PlotDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlotDetailTableViewController.h; sourceTree = "<group>"; };
-		E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlotDetailTableViewController.m; sourceTree = "<group>"; };
+		E59A074B15EF8A0E006AE343 /* FGPlotDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotDetailTableViewController.h; sourceTree = "<group>"; };
+		E59A074C15EF8A0E006AE343 /* FGPlotDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotDetailTableViewController.m; sourceTree = "<group>"; };
 		E59C493216C42A0D00B5E0D5 /* KGNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGNoise.h; sourceTree = "<group>"; };
 		E59C493316C42A0D00B5E0D5 /* KGNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGNoise.m; sourceTree = "<group>"; };
 		E59C493916C4525600B5E0D5 /* UIImage+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extensions.h"; sourceTree = "<group>"; };
@@ -356,14 +356,14 @@
 		E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCell.m; sourceTree = "<group>"; };
 		E59D2E3315E365FF00944789 /* FGAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisViewController.h; sourceTree = "<group>"; };
 		E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisViewController.m; sourceTree = "<group>"; };
-		E5B480AE15EF597D00BB6BAC /* GateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GateTableViewController.h; sourceTree = "<group>"; };
-		E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GateTableViewController.m; sourceTree = "<group>"; };
-		E5E1E772160CA68B006BFE98 /* SingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleRange.h; sourceTree = "<group>"; };
-		E5E1E773160CA68B006BFE98 /* SingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleRange.m; sourceTree = "<group>"; };
-		E5F1DAFC160E64A200591F2A /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
-		E5F1DAFD160E64A200591F2A /* Rectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rectangle.m; sourceTree = "<group>"; };
-		E5F1DB04160E7BD200591F2A /* Ellipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ellipse.h; sourceTree = "<group>"; };
-		E5F1DB05160E7BD200591F2A /* Ellipse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ellipse.m; sourceTree = "<group>"; };
+		E5B480AE15EF597D00BB6BAC /* FGGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateTableViewController.h; sourceTree = "<group>"; };
+		E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateTableViewController.m; sourceTree = "<group>"; };
+		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
+		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
+		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
+		E5F1DAFD160E64A200591F2A /* FGRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGRectangle.m; sourceTree = "<group>"; };
+		E5F1DB04160E7BD200591F2A /* FGEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGEllipse.h; sourceTree = "<group>"; };
+		E5F1DB05160E7BD200591F2A /* FGEllipse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGEllipse.m; sourceTree = "<group>"; };
 		E5FC6F4415CA7E8E0047A3DD /* Flow2Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flow2Go.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -476,10 +476,10 @@
 		E511FD6115CC31C000637D39 /* FCSParser */ = {
 			isa = PBXGroup;
 			children = (
-				E5457DA015CEAE7F00678CB7 /* FCSFile.h */,
-				E5457DA115CEAE7F00678CB7 /* FCSFile.m */,
-				E5659AEE15E56A87006D23B0 /* FCSHeader.h */,
-				E5659AEF15E56A87006D23B0 /* FCSHeader.m */,
+				E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */,
+				E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */,
+				E5659AEE15E56A87006D23B0 /* FGFCSHeader.h */,
+				E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */,
 			);
 			name = FCSParser;
 			sourceTree = "<group>";
@@ -509,14 +509,14 @@
 		E52BECB815DE861D002A3819 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				E57BA89115ED8D94008EA346 /* PlotDataCalculator.h */,
-				E57BA89215ED8D94008EA346 /* PlotDataCalculator.m */,
-				E5203E4D15F9EAAD00169EC7 /* PlotHelper.h */,
-				E5203E4E15F9EAAD00169EC7 /* PlotHelper.m */,
-				E579564715DAFE6800B77795 /* GateCalculator.h */,
-				E579564815DAFE6800B77795 /* GateCalculator.m */,
-				E52BECB515DE63E9002A3819 /* GraphPoint.h */,
-				E52BECB615DE63E9002A3819 /* GraphPoint.m */,
+				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
+				E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */,
+				E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */,
+				E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */,
+				E579564715DAFE6800B77795 /* FGGateCalculator.h */,
+				E579564815DAFE6800B77795 /* FGGateCalculator.m */,
+				E52BECB515DE63E9002A3819 /* FGGraphPoint.h */,
+				E52BECB615DE63E9002A3819 /* FGGraphPoint.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -534,8 +534,8 @@
 				E585571816C15B0400BF4546 /* FGPlotCell.m */,
 				E504277D16C1A73A00692AD7 /* FGDropboxCell.h */,
 				E504277E16C1A73A00692AD7 /* FGDropboxCell.m */,
-				E54D71AC16049C98008CEC5D /* GatesContainerView.h */,
-				E54D71B616049E09008CEC5D /* GatesContainerView.m */,
+				E54D71AC16049C98008CEC5D /* FGGatesContainerView.h */,
+				E54D71B616049E09008CEC5D /* FGGatesContainerView.m */,
 				E54BC30D160246D400E55A28 /* GateDrawing */,
 			);
 			name = Views;
@@ -544,16 +544,16 @@
 		E54BC30D160246D400E55A28 /* GateDrawing */ = {
 			isa = PBXGroup;
 			children = (
-				E54D71B016049CC5008CEC5D /* GateGraphic.h */,
-				E54D71B116049CC5008CEC5D /* GateGraphic.m */,
-				E5F1DAFC160E64A200591F2A /* Rectangle.h */,
-				E5F1DAFD160E64A200591F2A /* Rectangle.m */,
-				E54D71B216049CC5008CEC5D /* Polygon.h */,
-				E54D71B316049CC5008CEC5D /* Polygon.m */,
-				E5E1E772160CA68B006BFE98 /* SingleRange.h */,
-				E5E1E773160CA68B006BFE98 /* SingleRange.m */,
-				E5F1DB04160E7BD200591F2A /* Ellipse.h */,
-				E5F1DB05160E7BD200591F2A /* Ellipse.m */,
+				E54D71B016049CC5008CEC5D /* FGGateGraphic.h */,
+				E54D71B116049CC5008CEC5D /* FGGateGraphic.m */,
+				E5F1DAFC160E64A200591F2A /* FGRectangle.h */,
+				E5F1DAFD160E64A200591F2A /* FGRectangle.m */,
+				E54D71B216049CC5008CEC5D /* FGPolygon.h */,
+				E54D71B316049CC5008CEC5D /* FGPolygon.m */,
+				E5E1E772160CA68B006BFE98 /* FGSingleRange.h */,
+				E5E1E773160CA68B006BFE98 /* FGSingleRange.m */,
+				E5F1DB04160E7BD200591F2A /* FGEllipse.h */,
+				E5F1DB05160E7BD200591F2A /* FGEllipse.m */,
 			);
 			name = GateDrawing;
 			sourceTree = "<group>";
@@ -730,14 +730,14 @@
 		E585572616C1A4CD00BF4546 /* Pop Over View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E580999A15F79C8B000E0B34 /* KeywordTableViewController.h */,
-				E580999B15F79C8B000E0B34 /* KeywordTableViewController.m */,
-				E59A074B15EF8A0E006AE343 /* PlotDetailTableViewController.h */,
-				E59A074C15EF8A0E006AE343 /* PlotDetailTableViewController.m */,
+				E580999A15F79C8B000E0B34 /* FGKeywordTableViewController.h */,
+				E580999B15F79C8B000E0B34 /* FGKeywordTableViewController.m */,
+				E59A074B15EF8A0E006AE343 /* FGPlotDetailTableViewController.h */,
+				E59A074C15EF8A0E006AE343 /* FGPlotDetailTableViewController.m */,
 				E57AD84315FF7E0000A6815C /* FGAddGateTableViewController.h */,
 				E57AD84415FF7E0100A6815C /* FGAddGateTableViewController.m */,
-				E5B480AE15EF597D00BB6BAC /* GateTableViewController.h */,
-				E5B480AF15EF597D00BB6BAC /* GateTableViewController.m */,
+				E5B480AE15EF597D00BB6BAC /* FGGateTableViewController.h */,
+				E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */,
 			);
 			name = "Pop Over View Controllers";
 			sourceTree = "<group>";
@@ -1182,26 +1182,26 @@
 				E5FC701F15CA997C0047A3DD /* FGDownloadManager.m in Sources */,
 				E53FA66615CB0CC0000B048C /* FGMeasurementCollectionViewController.m in Sources */,
 				E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */,
-				E5457DA215CEAE7F00678CB7 /* FCSFile.m in Sources */,
-				E579564915DAFE6800B77795 /* GateCalculator.m in Sources */,
-				E52BECB715DE63EA002A3819 /* GraphPoint.m in Sources */,
+				E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */,
+				E579564915DAFE6800B77795 /* FGGateCalculator.m in Sources */,
+				E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */,
 				E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */,
 				E59D2E3515E365FF00944789 /* FGAnalysisViewController.m in Sources */,
-				E5659AF015E56A87006D23B0 /* FCSHeader.m in Sources */,
+				E5659AF015E56A87006D23B0 /* FGFCSHeader.m in Sources */,
 				E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */,
-				E57BA89315ED8D94008EA346 /* PlotDataCalculator.m in Sources */,
-				E5B480B015EF597D00BB6BAC /* GateTableViewController.m in Sources */,
-				E59A074D15EF8A0E006AE343 /* PlotDetailTableViewController.m in Sources */,
-				E580999C15F79C8B000E0B34 /* KeywordTableViewController.m in Sources */,
-				E5203E4F15F9EAAD00169EC7 /* PlotHelper.m in Sources */,
+				E57BA89315ED8D94008EA346 /* FGPlotDataCalculator.m in Sources */,
+				E5B480B015EF597D00BB6BAC /* FGGateTableViewController.m in Sources */,
+				E59A074D15EF8A0E006AE343 /* FGPlotDetailTableViewController.m in Sources */,
+				E580999C15F79C8B000E0B34 /* FGKeywordTableViewController.m in Sources */,
+				E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */,
 				E57AD84515FF7E0100A6815C /* FGAddGateTableViewController.m in Sources */,
-				E54D71B416049CC5008CEC5D /* GateGraphic.m in Sources */,
-				E54D71B516049CC5008CEC5D /* Polygon.m in Sources */,
-				E54D71B716049E09008CEC5D /* GatesContainerView.m in Sources */,
+				E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */,
+				E54D71B516049CC5008CEC5D /* FGPolygon.m in Sources */,
+				E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */,
 				E542F4C6160933280041A60A /* FGFolderCollectionViewController.m in Sources */,
-				E5E1E774160CA68B006BFE98 /* SingleRange.m in Sources */,
-				E5F1DAFE160E64A200591F2A /* Rectangle.m in Sources */,
-				E5F1DB06160E7BD300591F2A /* Ellipse.m in Sources */,
+				E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */,
+				E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */,
+				E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */,
 				E58556D216C09CE000BF4546 /* MSDraggableView.m in Sources */,
 				E58556D316C09CE000BF4546 /* MSNavigationPaneViewController.m in Sources */,
 				E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */,

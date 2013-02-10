@@ -1,73 +1,91 @@
 //
-//  Ellipse.m
-//  Flow2Go
+//  Polygon.m
+//  ShapeTest
 //
-//  Created by Christian Hansen on 23/09/12.
-//  Copyright (c) 2012 Christian Hansen. All rights reserved.
+//  Created by Christian Hansen on 15/09/12.
+//  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "Ellipse.h"
-
-@implementation Ellipse
+#import "FGPolygon.h"
 
 
+
+@implementation FGPolygon
+@synthesize path = _path;
+
+#define REQUIRED_GAP 30.0
 
 - (void)baseInit
 {
     self.path = [UIBezierPath bezierPath];
     self.path.lineWidth = 2.0;
     self.path.lineCapStyle = kCGLineCapRound;
+    self.gateType = kGateTypePolygon;
     self.strokeColor = UIColor.redColor;
-    self.gateType = kGateTypeEllipse;
     self.fillColor = UIColor.redColor;
 }
 
-- (Ellipse *)initWithVertices:(NSArray *)vertices;
+- (id)init
 {
     self = [super init];
     if (self)
     {
         [self baseInit];
-        [self _createEllipsePathWithPoints:vertices];
     }
     return self;
 }
 
 
-- (Ellipse *)initWithBoundsOfContainerView:(CGRect)bounds
+- (FGPolygon *)initWithVertices:(NSArray *)vertices;
 {
-    CGFloat height = bounds.size.height;
-    CGFloat width = bounds.size.width;
-    
-    CGPoint upperLeft = CGPointMake(width * 0.4f, height * 0.4f);
-    CGPoint upperRight = CGPointMake(width * 0.6f, height * 0.4f);
-    CGPoint lowerRight = CGPointMake(width * 0.6f, height * 0.6f);
-    CGPoint lowerLeft = CGPointMake(width * 0.4f, height * 0.6f);
-    
-    NSArray *pathPoints = @[[NSValue valueWithCGPoint:upperLeft],
-    [NSValue valueWithCGPoint:upperRight],
-    [NSValue valueWithCGPoint:lowerRight],
-    [NSValue valueWithCGPoint:lowerLeft]];
-    
-    return [Ellipse.alloc initWithVertices:pathPoints];
+    self = [super init];
+    if (self)
+    {
+        [self baseInit];
+        [self _drawPolygonPathWithPoints:vertices];
+    }
+    return self;
 }
 
-- (void)_createEllipsePathWithPoints:(NSArray *)pathPoints
+- (void)_drawPolygonPathWithPoints:(NSArray *)pathPoints
 {
-    if (pathPoints.count < 4)
+    if (pathPoints.count > 2)
     {
-        return;
+        [self _startPolygonPathAtPoint:[pathPoints[0] CGPointValue]];
+        
+        for (NSUInteger i = 1; i < pathPoints.count; i++)
+        {
+            [self _extendPolygonPathWithPoint:[pathPoints[i] CGPointValue]];
+        }
+        [self _endPath];
     }
-    CGPoint upperLeft = [pathPoints[0] CGPointValue];
-    CGPoint lowerRight = [pathPoints[2] CGPointValue];
-    
-    CGRect rect = CGRectMake(upperLeft.x, upperLeft.y, fabsf(lowerRight.x - upperLeft.x), fabsf(lowerRight.y - upperLeft.y));
-    
-    // ellipse
-    self.path = [UIBezierPath bezierPathWithOvalInRect:rect];
-    NSLog(@"rect points after creation: %@", [self getPathPoints]);
-    
 }
+
+
+- (CGFloat)distanceFrom:(CGPoint)point1 toPoint:(CGPoint)point2
+{
+    CGFloat dX = point2.x - point1.x;
+    CGFloat dY = point2.y - point1.y;
+    return sqrtf(dX * dX + dY * dY);
+}
+
+
+
+- (void)_startPolygonPathAtPoint:(CGPoint)startPoint
+{
+    [self.path moveToPoint:startPoint];
+}
+
+- (void)_extendPolygonPathWithPoint:(CGPoint)nextPoint
+{
+    [self.path addLineToPoint:nextPoint];
+}
+
+- (void)_endPath
+{
+    [self.path closePath];
+}
+
 
 
 #pragma mark - Public methods overwritten
@@ -81,20 +99,25 @@
 
 - (void)panBeganAtPoint:(CGPoint)beginPoint
 {
-    // pan began
+    [self _startPolygonPathAtPoint:beginPoint];
 }
 
 
 - (void)panChangedToPoint:(CGPoint)nextPoint
 {
-    // pan changed
+    CGFloat distance = [self distanceFrom:self.path.currentPoint toPoint:nextPoint];
+    if (distance > REQUIRED_GAP)
+    {
+        [self _extendPolygonPathWithPoint:nextPoint];
+    }
 }
 
 
 - (void)panEndedAtPoint:(CGPoint)endPoint
 {
-    // pan changed
+    [self _endPath];
 }
+
 
 - (CGAffineTransform)transformForScale:(CGFloat)scale atLocation:(CGPoint)location
 {
@@ -103,7 +126,6 @@
     CGAffineTransform comboTransform = CGAffineTransformConcat(toCenter, CGAffineTransformMakeScale(scale, scale));
     return CGAffineTransformConcat(comboTransform, toLocation);
 }
-
 
 - (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
 {
@@ -121,5 +143,7 @@
 {
     [self.path applyTransform:[self transformForScale:scale atLocation:location]];
 }
+
+
 
 @end

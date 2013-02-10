@@ -6,21 +6,21 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "GateCalculator.h"
-#import "FCSFile.h"
+#import "FGGateCalculator.h"
+#import "FGFCSFile.h"
 #import "CorePlot-CocoaTouch.h"
-#import "GraphPoint.h"
+#import "FGGraphPoint.h"
 #import "FGGate.h"
 #import "FGPlot.h"
 #import "FGAnalysis.h"
 #import "FGMeasurement.h"
 #import "FGKeyword.h"
 
-@implementation GateCalculator
+@implementation FGGateCalculator
 
-+ (GateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
++ (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
                                         gateType:(GateType)gateType
-                                         fcsFile:(FCSFile *)fcsFile
+                                         fcsFile:(FGFCSFile *)fcsFile
                                       insidePlot:(FGPlot *)plot
                                           subSet:(NSUInteger *)subSet
                                      subSetCount:(NSUInteger)subSetCount
@@ -28,7 +28,7 @@
     switch (gateType) {
         case kGateTypePolygon:
         case kGateTypeRectangle:
-            return [GateCalculator eventsInsidePolygonGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
+            return [FGGateCalculator eventsInsidePolygonGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeEllipse:
@@ -40,7 +40,7 @@
             break;
             
         case kGateTypeSingleRange:
-            return [GateCalculator eventsInsideSingleRangeGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
+            return [FGGateCalculator eventsInsideSingleRangeGateWithVertices:vertices fcsFile:fcsFile insidePlot:plot subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeTripleRange:
@@ -54,8 +54,8 @@
 }
 
 
-+ (GateCalculator *)eventsInsidePolygonGateWithVertices:(NSArray *)vertices
-                                                fcsFile:(FCSFile *)fcsFile
++ (FGGateCalculator *)eventsInsidePolygonGateWithVertices:(NSArray *)vertices
+                                                fcsFile:(FGFCSFile *)fcsFile
                                              insidePlot:(FGPlot *)plot
                                                  subSet:(NSUInteger *)subSet
                                             subSetCount:(NSUInteger)subSetCount
@@ -68,7 +68,7 @@
         eventsInside = fcsFile.noOfEvents;
     }
     
-    GateCalculator *gateCalculator = [GateCalculator.alloc init];
+    FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
     gateCalculator.numberOfCellsInside = 0;
     
@@ -111,8 +111,8 @@
 }
 
 
-+ (GateCalculator *)eventsInsideSingleRangeGateWithVertices:(NSArray *)vertices
-                                                    fcsFile:(FCSFile *)fcsFile
++ (FGGateCalculator *)eventsInsideSingleRangeGateWithVertices:(NSArray *)vertices
+                                                    fcsFile:(FGFCSFile *)fcsFile
                                                  insidePlot:(FGPlot *)plot
                                                      subSet:(NSUInteger *)subSet
                                                 subSetCount:(NSUInteger)subSetCount
@@ -125,13 +125,13 @@
         eventsInside = fcsFile.noOfEvents;
     }
     
-    GateCalculator *gateCalculator = [GateCalculator.alloc init];
+    FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
     gateCalculator.numberOfCellsInside = 0;
     
     NSInteger xPar = plot.xParNumber.integerValue - 1;
-    double xMin = [(GraphPoint *)vertices[0] x];
-    double xMax = [(GraphPoint *)vertices[1] x];
+    double xMin = [(FGGraphPoint *)vertices[0] x];
+    double xMax = [(FGGraphPoint *)vertices[1] x];
     double plotPoint;
     
     if (subSet)
@@ -173,7 +173,7 @@
     int counter = 0;
     int i;
     double xinters;
-    GraphPoint *p1, *p2;
+    FGGraphPoint *p1, *p2;
     
     if (polygonVertices.count == 0)
     {
@@ -210,7 +210,7 @@
 }
 
 + (BOOL)eventInsideGateVertices:(NSArray *)vertices
-                       onEvents:(FCSFile *)fcsFile
+                       onEvents:(FGFCSFile *)fcsFile
                         eventNo:(NSUInteger)eventNo
                          xParam:(NSUInteger)xPar
                          yParam:(NSUInteger)yPar

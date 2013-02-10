@@ -8,7 +8,7 @@
 
 #import "FGMeasurement+Management.h"
 #import <DropboxSDK/DBMetadata.h>
-#import "FCSFile.h"
+#import "FGFCSFile.h"
 #import "FileMD5Hash.h"
 #import "FGKeyword.h"
 
@@ -17,7 +17,7 @@
 - (NSError *)readInFCSKeyWords
 {
     if (self.isDownloaded) {
-        NSDictionary *fcsKeywords = [FCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:self.filePath]];
+        NSDictionary *fcsKeywords = [FGFCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:self.filePath]];
         self.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
         [self _addKeywordsWithDictionary:fcsKeywords];
     } else {

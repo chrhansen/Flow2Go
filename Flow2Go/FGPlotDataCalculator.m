@@ -6,35 +6,35 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "PlotDataCalculator.h"
-#import "FCSFile.h"
+#import "FGPlotDataCalculator.h"
+#import "FGFCSFile.h"
 #import "FGMeasurement.h"
 #import "FGAnalysis.h"
 #import "FGPlot.h"
 #import "FGKeyword.h"
 
-@implementation PlotDataCalculator
+@implementation FGPlotDataCalculator
 
 #define BIN_COUNT 512
 #define HISTOGRAM_AVERAGING 9
 
-+ (PlotDataCalculator *)plotDataForFCSFile:(FCSFile *)fcsFile
-                                insidePlot:(FGPlot *)plot
-                                    subset:(NSUInteger *)subset
-                               subsetCount:(NSUInteger)subsetCount
++ (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
+                                  insidePlot:(FGPlot *)plot
+                                      subset:(NSUInteger *)subset
+                                 subsetCount:(NSUInteger)subsetCount
 {
     switch (plot.plotType.integerValue)
     {
         case kPlotTypeDot:
-            return [PlotDataCalculator dotDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            return [FGPlotDataCalculator dotDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
             break;
             
         case kPlotTypeDensity:
-            return [PlotDataCalculator densityDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            return [FGPlotDataCalculator densityDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
             break;
             
         case kPlotTypeHistogram:
-            return [PlotDataCalculator histogramForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            return [FGPlotDataCalculator histogramForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
             break;
             
         default:
@@ -44,12 +44,12 @@
 }
 
 
-+ (PlotDataCalculator *)dotDataForFCSFile:(FCSFile *)fcsFile
++ (FGPlotDataCalculator *)dotDataForFCSFile:(FGFCSFile *)fcsFile
                                insidePlot:(FGPlot *)plot
                                    subset:(NSUInteger *)subset
                               subsetCount:(NSUInteger)subsetCount
 {  
-    PlotDataCalculator *dotPlotData = [PlotDataCalculator.alloc init];
+    FGPlotDataCalculator *dotPlotData = [FGPlotDataCalculator.alloc init];
     NSInteger eventsInside = fcsFile.noOfEvents;
 
     if (subset)
@@ -87,7 +87,7 @@
 }
 
 
-+ (PlotDataCalculator *)densityDataForFCSFile:(FCSFile *)fcsFile
++ (FGPlotDataCalculator *)densityDataForFCSFile:(FGFCSFile *)fcsFile
                                        insidePlot:(FGPlot *)plot
                                            subset:(NSUInteger *)subset
                                       subsetCount:(NSUInteger)subsetCount
@@ -210,7 +210,7 @@
         }
     }
     
-    PlotDataCalculator *densityPlotData = [PlotDataCalculator.alloc init];
+    FGPlotDataCalculator *densityPlotData = [FGPlotDataCalculator.alloc init];
     
     
     densityPlotData.points = calloc(BIN_COUNT * BIN_COUNT, sizeof(DensityPoint));
@@ -278,7 +278,7 @@
 }
 
 
-+ (PlotDataCalculator *)histogramForFCSFile:(FCSFile *)fcsFile
++ (FGPlotDataCalculator *)histogramForFCSFile:(FGFCSFile *)fcsFile
                                  insidePlot:(FGPlot *)plot
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount
@@ -354,7 +354,7 @@
         }
     }
     
-    PlotDataCalculator *histogramPlotData = PlotDataCalculator.alloc.init;
+    FGPlotDataCalculator *histogramPlotData = FGPlotDataCalculator.alloc.init;
     histogramPlotData.numberOfPoints = colCount;
     histogramPlotData.points = calloc(colCount, sizeof(DensityPoint));
     

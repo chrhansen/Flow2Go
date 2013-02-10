@@ -7,17 +7,17 @@
 //
 
 #import "FGPlotViewController.h"
-#import "FCSFile.h"
-#import "GateCalculator.h"
+#import "FGFCSFile.h"
+#import "FGGateCalculator.h"
 #import "FGGate+Management.h"
-#import "GraphPoint.h"
+#import "FGGraphPoint.h"
 #import "FGPlot+Management.h"
-#import "PlotDataCalculator.h"
-#import "GateTableViewController.h"
-#import "PlotDetailTableViewController.h"
-#import "PlotHelper.h"
+#import "FGPlotDataCalculator.h"
+#import "FGGateTableViewController.h"
+#import "FGPlotDetailTableViewController.h"
+#import "FGPlotHelper.h"
 #import "FGAddGateTableViewController.h"
-#import "GatesContainerView.h"
+#import "FGGatesContainerView.h"
 #import "PopoverView.h"
 
 @interface FGPlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
@@ -27,13 +27,13 @@
     PlotType _currentPlotType;
 }
 
-@property (nonatomic, strong) GateCalculator *parentGateCalculator;
+@property (nonatomic, strong) FGGateCalculator *parentGateCalculator;
 @property (nonatomic, strong) CPTXYGraph *graph;
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
-@property (nonatomic, strong) FCSFile *fcsFile;
-@property (nonatomic, strong) PlotDataCalculator *plotData;
+@property (nonatomic, strong) FGFCSFile *fcsFile;
+@property (nonatomic, strong) FGPlotDataCalculator *plotData;
 @property (nonatomic, strong) NSMutableArray *displayedGates;
-@property (nonatomic, strong) PlotHelper *plotHelper;
+@property (nonatomic, strong) FGPlotHelper *plotHelper;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
 @property (nonatomic, strong) PopoverView *popoverView;
@@ -145,7 +145,7 @@
 - (void)showDetailPopoverForGate:(FGGate *)gate inRect:(CGRect)anchorFrame editMode:(BOOL)editOn
 {
     UINavigationController *gateNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gateDetailTableViewController"];
-    GateTableViewController *gateTVC = (GateTableViewController *)gateNavigationVC.topViewController;
+    FGGateTableViewController *gateTVC = (FGGateTableViewController *)gateNavigationVC.topViewController;
     gateTVC.delegate = self;
     gateTVC.gate = gate;
     
@@ -190,7 +190,7 @@
 - (void)_toggleInfo:(UIButton *)sender
 {
     UINavigationController *plotNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"plotDetailTableViewController"];
-    PlotDetailTableViewController *plotTVC = (PlotDetailTableViewController *)plotNavigationVC.topViewController;
+    FGPlotDetailTableViewController *plotTVC = (FGPlotDetailTableViewController *)plotNavigationVC.topViewController;
     id delegate = self.delegate;
     plotTVC.delegate = delegate;
     
@@ -423,14 +423,14 @@
     if (parentGate
         && self.parentGateCalculator == nil) {
         NSLog(@"Loading parent gate data");
-        self.parentGateCalculator = GateCalculator.alloc.init;
+        self.parentGateCalculator = FGGateCalculator.alloc.init;
         self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
         self.parentGateCalculator.numberOfCellsInside = parentGate.cellCount.integerValue;
         memcpy(self.parentGateCalculator.eventsInside, [parentGate.subSet bytes], [parentGate.subSet length]);
     }
     [self.plotData cleanUpPlotData];
     self.plotData = nil;
-    self.plotData = [PlotDataCalculator plotDataForFCSFile:self.fcsFile
+    self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile
                                                 insidePlot:self.plot
                                                     subset:self.parentGateCalculator.eventsInside
                                                subsetCount:self.parentGateCalculator.numberOfCellsInside];
@@ -602,9 +602,9 @@ NSDecimal CPDecimalFromString(NSString *stringRepresentation)
 {
     NSString *unitName = self.fcsFile.calibrationUnitNames[[NSString stringWithFormat:@"%i", parNumber]];
     if (!unitName) {
-        return [FCSFile parameterShortNameForParameterIndex:parNumber - 1 inFCSFile:self.fcsFile];
+        return [FGFCSFile parameterShortNameForParameterIndex:parNumber - 1 inFCSFile:self.fcsFile];
     }
-    return [[FCSFile parameterShortNameForParameterIndex:parNumber - 1 inFCSFile:self.fcsFile] stringByAppendingFormat:@" %@", unitName];
+    return [[FGFCSFile parameterShortNameForParameterIndex:parNumber - 1 inFCSFile:self.fcsFile] stringByAppendingFormat:@" %@", unitName];
 }
 
 
@@ -648,7 +648,7 @@ static CPTPlotSymbol *plotSymbol;
 {
     if (_currentPlotType == kPlotTypeDensity) {
         if (!self.plotHelper) {
-            self.plotHelper = [PlotHelper coloredPlotSymbols:COLOR_LEVELS ofSize:CGSizeMake(PLOTSYMBOL_SIZE, PLOTSYMBOL_SIZE)];
+            self.plotHelper = [FGPlotHelper coloredPlotSymbols:COLOR_LEVELS ofSize:CGSizeMake(PLOTSYMBOL_SIZE, PLOTSYMBOL_SIZE)];
         }
         NSInteger cellCount = self.plotData.points[index].count;
         if (cellCount > 0) {
@@ -677,7 +677,7 @@ static CPTPlotSymbol *plotSymbol;
     NSMutableArray *viewVertices = NSMutableArray.array;
     double graphPoint[2];
     
-    for (GraphPoint *aPoint in gateVertices) {
+    for (FGGraphPoint *aPoint in gateVertices) {
         graphPoint[0] = aPoint.x;
         graphPoint[1] = aPoint.y;
         CGPoint viewPoint = [plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
@@ -698,7 +698,7 @@ static CPTPlotSymbol *plotSymbol;
         CGPoint pathPoint = aValue.CGPointValue;
         pathPoint = [aView.layer convertPoint:pathPoint toLayer:plotSpace.graph.plotAreaFrame.plotArea];
         [self.plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:pathPoint];        
-        GraphPoint *gateVertex = [GraphPoint pointWithX:(double)graphPoint[0] andY:(double)graphPoint[1]];
+        FGGraphPoint *gateVertex = [FGGraphPoint pointWithX:(double)graphPoint[0] andY:(double)graphPoint[1]];
         [gateVertices addObject:gateVertex];
     }    
     return gateVertices;
@@ -706,14 +706,14 @@ static CPTPlotSymbol *plotSymbol;
 
 
 #pragma mark - Gates Container View Delegate
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices
+- (void)gatesContainerView:(FGGatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices
 {
     if (updatedVertices.count == 0) return;
     
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
     FGGate *modifiedGate = self.displayedGates[gateNo];
     
-    GateCalculator *gateContents = [GateCalculator eventsInsideGateWithVertices:gateVertices
+    FGGateCalculator *gateContents = [FGGateCalculator eventsInsideGateWithVertices:gateVertices
                                                                        gateType:gateType
                                                                         fcsFile:self.fcsFile
                                                                      insidePlot:self.plot
@@ -729,13 +729,13 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didTapGate:(NSUInteger)gateNo inRect:(CGRect)rect
+- (void)gatesContainerView:(FGGatesContainerView *)gatesContainerView didTapGate:(NSUInteger)gateNo inRect:(CGRect)rect
 {
     [self showDetailPopoverForGate:self.displayedGates[gateNo] inRect:rect editMode:NO];
 }
 
 
-- (void)gatesContainerView:(GatesContainerView *)gatesContainerView didDoubleTapGate:(NSUInteger)gateNo
+- (void)gatesContainerView:(FGGatesContainerView *)gatesContainerView didDoubleTapGate:(NSUInteger)gateNo
 {
     FGGate *tappedGate = self.displayedGates[gateNo];
     [self.delegate plotViewController:self didSelectGate:tappedGate forPlot:self.plot];
@@ -743,7 +743,7 @@ static CPTPlotSymbol *plotSymbol;
 
 
 #pragma mark - Mark View Datasource
-- (NSUInteger)numberOfGatesInGatesContainerView:(GatesContainerView *)gatesContainerView
+- (NSUInteger)numberOfGatesInGatesContainerView:(FGGatesContainerView *)gatesContainerView
 {
     self.displayedGates = [[self.plot childGatesForXPar:self.plot.xParNumber.integerValue
                                                 andYPar:self.plot.yParNumber.integerValue] mutableCopy];
@@ -751,14 +751,14 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
-- (GateType)gatesContainerView:(GatesContainerView *)gatesContainerView gateTypeForGateNo:(NSUInteger)gateNo
+- (GateType)gatesContainerView:(FGGatesContainerView *)gatesContainerView gateTypeForGateNo:(NSUInteger)gateNo
 {
     FGGate *gate = self.displayedGates[gateNo];
     return gate.type.integerValue;
 }
 
 
-- (NSArray *)gatesContainerView:(GatesContainerView *)gatesContainerView verticesForGate:(NSUInteger)gateNo
+- (NSArray *)gatesContainerView:(FGGatesContainerView *)gatesContainerView verticesForGate:(NSUInteger)gateNo
 {
     FGGate *gate = self.displayedGates[gateNo];
 
@@ -767,7 +767,7 @@ static CPTPlotSymbol *plotSymbol;
                                            inView:self.gatesContainerView
                                         plotSpace:self.plotSpace];
     } else {
-        return [self viewVerticesFromGateVertices:[GraphPoint switchXandYForGraphpoints:gate.vertices]
+        return [self viewVerticesFromGateVertices:[FGGraphPoint switchXandYForGraphpoints:gate.vertices]
                                            inView:self.gatesContainerView
                                         plotSpace:self.plotSpace];
     }
@@ -775,14 +775,14 @@ static CPTPlotSymbol *plotSymbol;
 
 
 #pragma mark - Gate Table View Controller delegate
-- (void)didTapNewPlot:(GateTableViewController *)sender
+- (void)didTapNewPlot:(FGGateTableViewController *)sender
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
     [self.delegate plotViewController:self didSelectGate:sender.gate forPlot:self.plot];
 }
 
 
-- (void)didTapDeleteGate:(GateTableViewController *)sender
+- (void)didTapDeleteGate:(FGGateTableViewController *)sender
 {
     if (self.detailPopoverController.isPopoverVisible) {
         [self.detailPopoverController dismissPopoverAnimated:YES];

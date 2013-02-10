@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "FCSFile.h"
-#import "FCSHeader.h"
+#import "FGFCSFile.h"
+#import "FGFCSHeader.h"
 
 typedef enum
 {
@@ -26,17 +26,17 @@ typedef enum
     kParSize32,
 } kParSize;
 
-@interface FCSFile ()
+@interface FGFCSFile ()
 
-@property (nonatomic) FCSHeader *header;
+@property (nonatomic) FGFCSHeader *header;
 @property (nonatomic) NSUInteger bitsPerEvent;
 @property (nonatomic, strong) NSCharacterSet *seperatorCharacterset;
 
 @end
 
-@implementation FCSFile
+@implementation FGFCSFile
 
-+ (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FCSFile *fcsFile))completion
++ (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FGFCSFile *fcsFile))completion
 {
     dispatch_queue_t readerQueue = dispatch_queue_create("it.calcul8.flow2go.fcsreader", NULL);
     dispatch_async(readerQueue, ^{
@@ -46,9 +46,9 @@ typedef enum
 }
 
 
-+ (FCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error
++ (FGFCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error
 {
-    FCSFile *newFCSFile = [FCSFile.alloc init];
+    FGFCSFile *newFCSFile = [FGFCSFile.alloc init];
     
     BOOL succes = [newFCSFile _parseFileFromPath:path];
     
@@ -66,7 +66,7 @@ typedef enum
 
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path
 {
-    FCSFile *newFCSFile = [FCSFile.alloc init];
+    FGFCSFile *newFCSFile = [FGFCSFile.alloc init];
     [newFCSFile _parseTextSegmentFromPath:path];
     return newFCSFile.text;
 }
@@ -204,7 +204,7 @@ typedef enum
         NSLog(@"Error: Header string not valid");
         return NO;
     }
-    self.header = FCSHeader.alloc.init;
+    self.header = FGFCSHeader.alloc.init;
     self.header.textBegin     = [[headerString substringWithRange:NSMakeRange(10, 8)] integerValue];
     self.header.textEnd       = [[headerString substringWithRange:NSMakeRange(18, 8)] integerValue];
     self.header.dataBegin     = [[headerString substringWithRange:NSMakeRange(26, 8)] integerValue];
@@ -690,7 +690,7 @@ typedef enum
 
 #pragma mark - Public methods
 
-+ (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FCSFile *)fcsFile
++ (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile
 {
     for (NSUInteger parNO = 0; parNO < [fcsFile.text[@"$PAR"] integerValue]; parNO++)
     {
@@ -703,7 +703,7 @@ typedef enum
     return -1;
 }
 
-+ (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile
++ (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile
 {
     NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", parameterIndex + 1];
     
@@ -711,7 +711,7 @@ typedef enum
 }
 
 
-+ (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile
++ (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile
 {
     NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", parameterIndex + 1];
     NSString *longNameKey = [@"$P" stringByAppendingFormat:@"%iS", parameterIndex + 1];

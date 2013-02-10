@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 @class FGPlot;
-@class PlotDetailTableViewController;
+@class FGPlotDetailTableViewController;
 
 @protocol PlotDetailTableViewControllerDelegate <NSObject>
 
-- (void)didTapDeletePlot:(PlotDetailTableViewController *)sender;
+- (void)didTapDeletePlot:(FGPlotDetailTableViewController *)sender;
 
 @end
 
-@interface PlotDetailTableViewController : UITableViewController
+@interface FGPlotDetailTableViewController : UITableViewController
 
 @property (nonatomic, weak) FGPlot *plot;
 @property (nonatomic, weak) id<PlotDetailTableViewControllerDelegate> delegate;

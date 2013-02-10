@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
-#import "GatesContainerView.h"
+#import "FGGatesContainerView.h"
 
 @class FGMeasurement;
 @class FGPlot;
 @class FGGate;
-@class FCSFile;
+@class FGFCSFile;
 @class FGPlotViewController;
 
 @protocol PlotViewControllerDelegate <NSObject>
-- (FCSFile *)fcsFileForPlot:(FGPlot *)plot;
+- (FGFCSFile *)fcsFileForPlot:(FGPlot *)plot;
 - (void)plotViewController:(FGPlotViewController *)plotViewController didSelectGate:(FGGate *)gate forPlot:(FGPlot *)plot;
 - (void)plotViewController:(FGPlotViewController *)plotViewController didTapDoneForPlot:(FGPlot *)plot;
 
@@ -29,7 +29,7 @@
 
 @property (nonatomic, strong) FGPlot *plot;
 @property (nonatomic, weak) IBOutlet CPTGraphHostingView *graphHostingView;
-@property (nonatomic, weak) IBOutlet GatesContainerView *gatesContainerView;
+@property (nonatomic, weak) IBOutlet FGGatesContainerView *gatesContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *xAxisButton;
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;

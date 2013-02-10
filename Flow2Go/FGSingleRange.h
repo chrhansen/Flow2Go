@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "GateGraphic.h"
+#import "FGGateGraphic.h"
 
-@interface SingleRange : GateGraphic
+@interface FGSingleRange : FGGateGraphic
 
 @end

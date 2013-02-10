@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GraphPoint : NSObject
+@interface FGGraphPoint : NSObject
 
-+ (GraphPoint *)pointWithX:(double)xValue andY:(double)yValue;
++ (FGGraphPoint *)pointWithX:(double)xValue andY:(double)yValue;
 
 + (NSArray *)switchXandYForGraphpoints:(NSArray *)vertices;
 

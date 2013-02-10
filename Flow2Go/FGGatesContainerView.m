@@ -6,22 +6,22 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "GatesContainerView.h"
-#import "Polygon.h"
-#import "SingleRange.h"
-#import "Rectangle.h"
-#import "Ellipse.h"
+#import "FGGatesContainerView.h"
+#import "FGPolygon.h"
+#import "FGSingleRange.h"
+#import "FGRectangle.h"
+#import "FGEllipse.h"
 
-@interface GatesContainerView () <UIGestureRecognizerDelegate>
+@interface FGGatesContainerView () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *gateGraphics;
-@property (nonatomic, strong) GateGraphic *creatingGraphic;
-@property (nonatomic, strong) GateGraphic *modifyingGraphic;
+@property (nonatomic, strong) FGGateGraphic *creatingGraphic;
+@property (nonatomic, strong) FGGateGraphic *modifyingGraphic;
 @property (nonatomic) NSInteger simultaneousGestures;
 
 @end
 
-@implementation GatesContainerView
+@implementation FGGatesContainerView
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -73,29 +73,29 @@
 
 - (void)_insertExistingGate:(GateType)gateType gateTag:(NSInteger)tagNumber vertices:(NSArray *)vertices
 {
-    GateGraphic *existingGateGraphic = nil;
+    FGGateGraphic *existingGateGraphic = nil;
     switch (gateType)
     {
         case kGateTypeSingleRange:
-            existingGateGraphic = [SingleRange.alloc initWithVertices:vertices];
+            existingGateGraphic = [FGSingleRange.alloc initWithVertices:vertices];
             existingGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:existingGateGraphic];
             break;
             
         case kGateTypePolygon:
-            existingGateGraphic = [Polygon.alloc initWithVertices:vertices];
+            existingGateGraphic = [FGPolygon.alloc initWithVertices:vertices];
             existingGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:existingGateGraphic];
             break;
             
         case kGateTypeRectangle:
-            existingGateGraphic = [Rectangle.alloc initWithVertices:vertices];
+            existingGateGraphic = [FGRectangle.alloc initWithVertices:vertices];
             existingGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:existingGateGraphic];
             break;
             
         case kGateTypeEllipse:
-            existingGateGraphic = [Ellipse.alloc initWithVertices:vertices];
+            existingGateGraphic = [FGEllipse.alloc initWithVertices:vertices];
             existingGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:existingGateGraphic];
             break;
@@ -112,33 +112,33 @@
     CGFloat rightBound = 0.6 * self.bounds.size.width / 2;
     CGFloat halfHeight = self.bounds.size.height / 2;
     
-    GateGraphic *newGateGraphic = nil;
+    FGGateGraphic *newGateGraphic = nil;
     
     switch (gateType)
     {
         case kGateTypeSingleRange:
-            newGateGraphic = [SingleRange.alloc initWithVertices:@[[NSValue valueWithCGPoint:CGPointMake(leftBound, halfHeight)], [NSValue valueWithCGPoint:CGPointMake(rightBound, halfHeight)]]];
+            newGateGraphic = [FGSingleRange.alloc initWithVertices:@[[NSValue valueWithCGPoint:CGPointMake(leftBound, halfHeight)], [NSValue valueWithCGPoint:CGPointMake(rightBound, halfHeight)]]];
             newGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:newGateGraphic];
             [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
             break;
             
         case kGateTypePolygon:
-            self.creatingGraphic = Polygon.alloc.init;
+            self.creatingGraphic = FGPolygon.alloc.init;
             self.creatingGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:self.creatingGraphic];
             // report gate change/insert to delegate is carried out after the user has drawin a polygon path.
             break;
             
         case kGateTypeRectangle:
-            newGateGraphic = [Rectangle.alloc initWithBoundsOfContainerView:self.bounds];
+            newGateGraphic = [FGRectangle.alloc initWithBoundsOfContainerView:self.bounds];
             newGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:newGateGraphic];
             [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
             break;
             
         case kGateTypeEllipse:
-            newGateGraphic = [Ellipse.alloc initWithBoundsOfContainerView:self.bounds];
+            newGateGraphic = [FGEllipse.alloc initWithBoundsOfContainerView:self.bounds];
             newGateGraphic.gateTag = tagNumber;
             [self.gateGraphics addObject:newGateGraphic];
             [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
@@ -155,7 +155,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    for (GateGraphic *gateGraphic in self.gateGraphics)
+    for (FGGateGraphic *gateGraphic in self.gateGraphics)
     {
         [gateGraphic.fillColor setFill];
         [gateGraphic.path fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
@@ -210,9 +210,9 @@
 }
 
 
-- (GateGraphic *)_gateAtTapPoint:(CGPoint)tapPoint
+- (FGGateGraphic *)_gateAtTapPoint:(CGPoint)tapPoint
 {
-    for (GateGraphic *aGate in self.gateGraphics)
+    for (FGGateGraphic *aGate in self.gateGraphics)
     {
         if ([aGate isContentsUnderPoint:tapPoint])
         {
@@ -223,7 +223,7 @@
 }
 
 
-- (void)_toggleLongPressActionForGate:(GateGraphic *)gateGraphic
+- (void)_toggleLongPressActionForGate:(FGGateGraphic *)gateGraphic
 {
     if (gateGraphic)
     {
@@ -248,7 +248,7 @@
     }
     
     CGPoint tapPoint = [tapGesture locationInView:self];
-    GateGraphic *tappedGate = [self _gateAtTapPoint:tapPoint];
+    FGGateGraphic *tappedGate = [self _gateAtTapPoint:tapPoint];
     if (tappedGate)
     {
         CGRect rect = CGRectMake(tapPoint.x, tapPoint.y, 1.0f, 1.0f);
@@ -261,7 +261,7 @@
 {
     NSLog(@"double tap recognized!");
     CGPoint tapPoint = [doubleTapGesture locationInView:self];
-    GateGraphic *tappedGate = [self _gateAtTapPoint:tapPoint];
+    FGGateGraphic *tappedGate = [self _gateAtTapPoint:tapPoint];
     if (tappedGate != nil) {
         [self.delegate gatesContainerView:self didDoubleTapGate:tappedGate.gateTag];
     }

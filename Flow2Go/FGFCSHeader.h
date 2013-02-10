@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FCSHeader : NSObject
+@interface FGFCSHeader : NSObject
 
 @property (nonatomic) NSUInteger textBegin;
 @property (nonatomic) NSUInteger textEnd;

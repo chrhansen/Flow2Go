@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "PlotDetailTableViewController.h"
+#import "FGPlotDetailTableViewController.h"
 #import "FGPlot.h"
 #import "FGGate.h"
 #import "FGAnalysis.h"
 #import "FGMeasurement+Management.h"
 #import "NSString+UUID.h"
 
-@interface PlotDetailTableViewController () <UIActionSheetDelegate, UITextFieldDelegate>
+@interface FGPlotDetailTableViewController () <UIActionSheetDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *plotNameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *plotCount;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation PlotDetailTableViewController
+@implementation FGPlotDetailTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

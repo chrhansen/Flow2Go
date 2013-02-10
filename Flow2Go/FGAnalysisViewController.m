@@ -9,18 +9,18 @@
 #import "FGAnalysisViewController.h"
 #import "FGPlotViewController.h"
 #import "FGAnalysis.h"
-#import "FCSFile.h"
+#import "FGFCSFile.h"
 #import "FGMeasurement+Management.h"
 #import "FGPlot+Management.h"
 #import "FGGate+Management.h"
-#import "PlotDetailTableViewController.h"
+#import "FGPlotDetailTableViewController.h"
 #import "FGPlotCell.h"
 #import "KGNoise.h"
 #import "UIBarButtonItem+Customview.h"
 
 @interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, strong) FCSFile *fcsFile;
+@property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic, strong) FGPlot *presentedPlot;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -75,7 +75,7 @@
         return;
     }
     NSError *error;
-    self.fcsFile = [FCSFile fcsFileWithPath:self.analysis.measurement.fullFilePath error:&error];
+    self.fcsFile = [FGFCSFile fcsFileWithPath:self.analysis.measurement.fullFilePath error:&error];
     if (self.fcsFile == nil) NSLog(@"Error reloading FCS file: %@", error.localizedDescription);
 }
 
@@ -131,13 +131,13 @@
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     
     UINavigationController *plotNavigationVC = [self.storyboard instantiateViewControllerWithIdentifier:@"plotDetailTableViewController"];
-    PlotDetailTableViewController *plotTVC = (PlotDetailTableViewController *)plotNavigationVC.topViewController;
+    FGPlotDetailTableViewController *plotTVC = (FGPlotDetailTableViewController *)plotNavigationVC.topViewController;
     plotTVC.delegate = self;
     plotTVC.plot = [self.analysis.plots objectAtIndex:indexPath.row];
     if (self.detailPopoverController.isPopoverVisible) {
         UINavigationController *navCon = (UINavigationController *)self.detailPopoverController.contentViewController;
         [self.detailPopoverController dismissPopoverAnimated:YES];
-        if ([navCon.topViewController isKindOfClass:PlotDetailTableViewController.class]) {
+        if ([navCon.topViewController isKindOfClass:FGPlotDetailTableViewController.class]) {
             return;
         }
     }
@@ -152,11 +152,11 @@
 }
 
 
-- (FCSFile *)fcsFile
+- (FGFCSFile *)fcsFile
 {
     if (!_fcsFile) {
         NSError *error;
-        _fcsFile = [FCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename] error:&error];
+        _fcsFile = [FGFCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename] error:&error];
     }
     return _fcsFile;
 }
@@ -213,7 +213,7 @@
 
 
 #pragma mark - PlotViewController delegate
-- (FCSFile *)fcsFileForPlot:(FGPlot *)plot
+- (FGFCSFile *)fcsFileForPlot:(FGPlot *)plot
 {
     return self.fcsFile;
 }
@@ -251,7 +251,7 @@
 
 #pragma mark - Plot Table View Controller delegate
 
-- (void)didTapDeletePlot:(PlotDetailTableViewController *)sender
+- (void)didTapDeletePlot:(FGPlotDetailTableViewController *)sender
 {
     __weak FGPlot *plotToBeDeleted = sender.plot;
     if ([self.presentedViewController isKindOfClass:FGPlotViewController.class]) {

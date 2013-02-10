@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class FGMeasurement;
 
-@interface KeywordTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface FGKeywordTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, strong) FGMeasurement *measurement;
 

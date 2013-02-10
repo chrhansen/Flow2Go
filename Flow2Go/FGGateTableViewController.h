@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 @class FGGate;
-@class GateTableViewController;
+@class FGGateTableViewController;
 
 @protocol GateTableViewControllerDelegate <NSObject>
 
-- (void)didTapNewPlot:(GateTableViewController *)sender;
-- (void)didTapDeleteGate:(GateTableViewController *)sender;
+- (void)didTapNewPlot:(FGGateTableViewController *)sender;
+- (void)didTapDeleteGate:(FGGateTableViewController *)sender;
 
 @end
 
-@interface GateTableViewController : UITableViewController
+@interface FGGateTableViewController : UITableViewController
 
 @property (nonatomic, weak) FGGate *gate;
 @property (nonatomic, weak) id<GateTableViewControllerDelegate> delegate;

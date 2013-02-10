@@ -6,13 +6,13 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "GateTableViewController.h"
+#import "FGGateTableViewController.h"
 #import "FGGate.h"
 #import "FGAnalysis.h"
 #import "FGMeasurement.h"
 #import "NSString+UUID.h"
 
-@interface GateTableViewController () <UITextFieldDelegate, UIActionSheetDelegate>
+@interface FGGateTableViewController () <UITextFieldDelegate, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *gateName;
 @property (weak, nonatomic) IBOutlet UITextField *gateCount;
 @property (weak, nonatomic) IBOutlet UIButton *createNewPlotButton;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation GateTableViewController
+@implementation FGGateTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

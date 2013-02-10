@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "GateGraphic.h"
+#import "FGGateGraphic.h"
 
 
-@implementation GateGraphic
+@implementation FGGateGraphic
 
 - (void)baseInit
 {
@@ -22,7 +22,7 @@
 }
 
 
-- (GateGraphic *)initWithVertices:(NSArray *)vertices
+- (FGGateGraphic *)initWithVertices:(NSArray *)vertices
 {
     // override in subclass
     self = [super init];
@@ -33,7 +33,7 @@
     return self;
 }
 
-- (GateGraphic *)initWithBoundsOfContainerView:(CGRect)bounds
+- (FGGateGraphic *)initWithBoundsOfContainerView:(CGRect)bounds
 {
     // override in subclass
     self = [super init];

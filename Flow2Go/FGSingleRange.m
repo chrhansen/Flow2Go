@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "SingleRange.h"
+#import "FGSingleRange.h"
 
-@implementation SingleRange
+@implementation FGSingleRange
 
 @synthesize path = _path;
 
@@ -21,7 +21,7 @@
     self.gateType = kGateTypeSingleRange;
 }
 
-- (SingleRange *)initWithVertices:(NSArray *)vertices;
+- (FGSingleRange *)initWithVertices:(NSArray *)vertices;
 {
     self = [super init];
     if (self)

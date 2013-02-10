@@ -7,25 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-@class FCSFile;
+@class FGFCSFile;
 @protocol FGFCSProgressDelegate <NSObject>
 
-- (void)loadProgress:(CGFloat)progress forFCSFile:(FCSFile *)fcsFile;
+- (void)loadProgress:(CGFloat)progress forFCSFile:(FGFCSFile *)fcsFile;
 
 @end
 
 
-@interface FCSFile : NSObject
+@interface FGFCSFile : NSObject
 
-+ (FCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error;
++ (FGFCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error;
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
-+ (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FCSFile *fcsFile))completion;
++ (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FGFCSFile *fcsFile))completion;
 
 - (void)cleanUpEvents;
 
-+ (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FCSFile *)fcsFile;
-+ (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;
-+ (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FCSFile *)fcsFile;
++ (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile;
++ (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
++ (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
 - (NSInteger)rangeOfParameterIndex:(NSInteger)parameterIndex;
 - (AxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex;
 

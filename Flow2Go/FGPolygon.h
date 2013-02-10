@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Calcul8.it. All rights reserved.
 //
 
-#import "GateGraphic.h"
+#import "FGGateGraphic.h"
 
-@interface Polygon : GateGraphic
+@interface FGPolygon : FGGateGraphic
 
 @end

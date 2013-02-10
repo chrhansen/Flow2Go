@@ -6,16 +6,16 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "PlotHelper.h"
+#import "FGPlotHelper.h"
 #import "CPTPlotSymbol.h"
 #import "CPTColor.h"
 #import "CPTFill.h"
 
-@implementation PlotHelper
+@implementation FGPlotHelper
 
-+ (PlotHelper *)coloredPlotSymbols:(NSUInteger)colorLevels ofSize:(CGSize)symbolSize
++ (FGPlotHelper *)coloredPlotSymbols:(NSUInteger)colorLevels ofSize:(CGSize)symbolSize
 {
-    PlotHelper *newPlotHelper = PlotHelper.alloc.init;
+    FGPlotHelper *newPlotHelper = FGPlotHelper.alloc.init;
     NSMutableArray *plotSymbols = NSMutableArray.array;
     
     float hue = 2.0f/3.0f;

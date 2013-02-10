@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PlotHelper : NSObject
+@interface FGPlotHelper : NSObject
 
-+ (PlotHelper *)coloredPlotSymbols:(NSUInteger)colorLevels ofSize:(CGSize)symbolSize;
++ (FGPlotHelper *)coloredPlotSymbols:(NSUInteger)colorLevels ofSize:(CGSize)symbolSize;
 
 @property (nonatomic, strong) NSArray *plotSymbols;
 

@@ -353,7 +353,7 @@
         <!--Gate Table View Controller-->
         <scene sceneID="Jg4-EO-7Ty">
             <objects>
-                <tableViewController storyboardIdentifier="" id="mxv-GV-UYN" customClass="GateTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="" id="mxv-GV-UYN" customClass="FGGateTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="aZh-ec-cuE">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -507,7 +507,7 @@
         <!--Plot Detail Table View Controller-->
         <scene sceneID="w43-2p-xwZ">
             <objects>
-                <tableViewController storyboardIdentifier="" id="NlW-HW-ikJ" customClass="PlotDetailTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="" id="NlW-HW-ikJ" customClass="FGPlotDetailTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="D0o-Xc-fxH">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -679,17 +679,6 @@
         <class className="DropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DropboxViewController.h"/>
         </class>
-        <class className="GateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GateTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="deleteGateTapped:"/>
-                <relationship kind="action" name="newGateTapped:"/>
-                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="gateCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
         <class className="MarkView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MarkView.h"/>
         </class>
@@ -706,16 +695,6 @@
                 <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="xAxisName" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="yAxisName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="PlotDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PlotDetailTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="deletePlotTapped:"/>
-                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
             </relationships>
         </class>
         <class className="UICollectionReusableView" superclassName="UIView">

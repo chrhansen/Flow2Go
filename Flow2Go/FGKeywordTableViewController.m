@@ -6,17 +6,17 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "KeywordTableViewController.h"
+#import "FGKeywordTableViewController.h"
 #import "FGMeasurement+Management.h"
 #import "FGKeyword.h"
 
-@interface KeywordTableViewController () <UITextFieldDelegate>
+@interface FGKeywordTableViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
-@implementation KeywordTableViewController
+@implementation FGKeywordTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

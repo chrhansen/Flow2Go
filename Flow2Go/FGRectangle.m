@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "Rectangle.h"
+#import "FGRectangle.h"
 
-@implementation Rectangle
+@implementation FGRectangle
 
 
 
@@ -22,7 +22,7 @@
     self.fillColor = UIColor.redColor;
 }
 
-- (Rectangle *)initWithVertices:(NSArray *)vertices;
+- (FGRectangle *)initWithVertices:(NSArray *)vertices;
 {
     self = [super init];
     if (self)
@@ -34,7 +34,7 @@
 }
 
 
-- (Rectangle *)initWithBoundsOfContainerView:(CGRect)bounds
+- (FGRectangle *)initWithBoundsOfContainerView:(CGRect)bounds
 {
     CGFloat height = bounds.size.height;
     CGFloat width = bounds.size.width;
@@ -49,7 +49,7 @@
     [NSValue valueWithCGPoint:lowerRight],
     [NSValue valueWithCGPoint:lowerLeft]];
     
-    return [Rectangle.alloc initWithVertices:pathPoints];
+    return [FGRectangle.alloc initWithVertices:pathPoints];
 }
 
 - (void)_drawRectanglePathWithPoints:(NSArray *)pathPoints

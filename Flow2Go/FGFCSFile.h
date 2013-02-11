@@ -8,12 +8,21 @@
 
 #import <Foundation/Foundation.h>
 @class FGFCSFile;
+
 @protocol FGFCSProgressDelegate <NSObject>
-
 - (void)loadProgress:(CGFloat)progress forFCSFile:(FGFCSFile *)fcsFile;
-
 @end
 
+typedef NS_ENUM(NSInteger, FGParsingSegment)
+{
+    FGParsingSegmentBegan,
+    FGParsingSegmentHeader,
+    FGParsingSegmentText,
+    FGParsingSegmentData,
+    FGParsingSegmentAnalysis,
+    FGParsingSegmentFinished,
+    FGParsingSegmentFailed
+};
 
 @interface FGFCSFile : NSObject
 
@@ -37,5 +46,6 @@
 @property (nonatomic, strong) NSDictionary *analysis;
 @property (nonatomic) NSUInteger noOfEvents;
 @property (nonatomic) NSUInteger noOfParams;
+@property (nonatomic) FGParsingSegment parsingSegment;
 
 @end

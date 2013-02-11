@@ -17,7 +17,6 @@
 #import "KGNoise.h"
 #import "UIBarButtonItem+Customview.h"
 #import "FGMeasurementCell.h"
-#import "NSDate+HumanizedTime.h"
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
 

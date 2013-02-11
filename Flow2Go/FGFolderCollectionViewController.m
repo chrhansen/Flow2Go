@@ -14,7 +14,6 @@
 #import "FGFolderCell.h"
 #import "KGNoise.h"
 #import "FGFolderLayout.h"
-#import "NSDate+HumanizedTime.h"
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
@@ -47,6 +46,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self _updateVisibleCells];
     [FGDownloadManager.sharedInstance setProgressDelegate:self];
 }
 

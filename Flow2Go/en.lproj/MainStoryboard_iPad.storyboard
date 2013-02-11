@@ -817,13 +817,13 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="FPu-ix-Xt7" secondAttribute="trailing" constant="44" id="9n1-hS-3q9"/>
-                                                <constraint firstItem="FPu-ix-Xt7" firstAttribute="top" secondItem="dte-0u-Uae" secondAttribute="top" constant="24" id="E0g-Kb-FGC"/>
                                                 <constraint firstItem="qKo-Ss-nhR" firstAttribute="top" secondItem="dte-0u-Uae" secondAttribute="top" constant="20" symbolic="YES" type="default" id="IUI-tU-iAK"/>
                                                 <constraint firstAttribute="trailing" secondItem="qKo-Ss-nhR" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Nyu-Hf-38e"/>
                                                 <constraint firstItem="Niz-zb-VtP" firstAttribute="top" secondItem="dte-0u-Uae" secondAttribute="top" constant="20" symbolic="YES" type="default" id="PqH-LB-bWT"/>
                                                 <constraint firstAttribute="trailing" secondItem="Niz-zb-VtP" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="aPH-jD-pWx"/>
                                                 <constraint firstAttribute="bottom" secondItem="20Z-rZ-gu1" secondAttribute="bottom" constant="4" id="fBL-fd-jSJ"/>
                                                 <constraint firstAttribute="trailing" secondItem="20Z-rZ-gu1" secondAttribute="trailing" constant="7" id="fcG-Pf-Per"/>
+                                                <constraint firstItem="FPu-ix-Xt7" firstAttribute="centerY" secondItem="Niz-zb-VtP" secondAttribute="centerY" type="default" id="gHg-nd-pT0"/>
                                                 <constraint firstItem="qKo-Ss-nhR" firstAttribute="bottom" secondItem="Niz-zb-VtP" secondAttribute="bottom" type="default" id="oAQ-0R-cZK"/>
                                             </constraints>
                                         </view>

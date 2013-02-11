@@ -18,12 +18,13 @@
 #import "KGNoise.h"
 #import "UIBarButtonItem+Customview.h"
 
-@interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate>
+@interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate, FGFCSProgressDelegate>
 
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic, strong) FGPlot *presentedPlot;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
 
@@ -69,14 +70,36 @@
 
 - (void)_reloadFCSFile
 {
-    [self.fcsFile cleanUpEvents];
-    if (!self.analysis.measurement.fullFilePath) {
-        NSLog(@"Error: no file path for measurement: %@", self.analysis.measurement);
-        return;
+    [self.view addSubview:self.progressHUD];
+    [self.progressHUD show:NO];
+    [FGFCSFile readFCSFileAtPath:self.analysis.measurement.fullFilePath progressDelegate:self withCompletion:^(NSError *error, FGFCSFile *fcsFile) {
+        [self.fcsFile cleanUpEvents];
+        if (!error) {
+            self.fcsFile = fcsFile;
+        } else {
+            NSLog(@"Error reading fcs-file: %@", error.localizedDescription);
+        }
+        [self.progressHUD hide:YES];
+    }];
+}
+
+
+#pragma mark - FGFCSFile Progress Delegate
+- (void)loadProgress:(CGFloat)progress forFCSFile:(FGFCSFile *)fcsFile
+{
+    NSLog(@"progress: %f", progress); //TODO: delegate call back currently not implemented
+}
+
+- (MBProgressHUD *)progressHUD
+{
+    if (_progressHUD == nil) {
+        _progressHUD = [MBProgressHUD.alloc initWithView:self.view];
+        _progressHUD.labelText = NSLocalizedString(@"Reading FCS file", nil);
+        _progressHUD.detailsLabelFont = _progressHUD.labelFont;
+        [_progressHUD setMultipleTouchEnabled:YES];
+        [_progressHUD setUserInteractionEnabled:YES];;
     }
-    NSError *error;
-    self.fcsFile = [FGFCSFile fcsFileWithPath:self.analysis.measurement.fullFilePath error:&error];
-    if (self.fcsFile == nil) NSLog(@"Error reloading FCS file: %@", error.localizedDescription);
+    return _progressHUD;
 }
 
 

@@ -45,13 +45,13 @@
 
 
 + (FGPlotDataCalculator *)dotDataForFCSFile:(FGFCSFile *)fcsFile
-                               insidePlot:(FGPlot *)plot
-                                   subset:(NSUInteger *)subset
-                              subsetCount:(NSUInteger)subsetCount
-{  
+                                 insidePlot:(FGPlot *)plot
+                                     subset:(NSUInteger *)subset
+                                subsetCount:(NSUInteger)subsetCount
+{
     FGPlotDataCalculator *dotPlotData = [FGPlotDataCalculator.alloc init];
     NSInteger eventsInside = fcsFile.noOfEvents;
-
+    
     if (subset)
     {
         eventsInside = subsetCount;
@@ -75,12 +75,12 @@
     else
     {
         for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
-        {            
+        {
             dotPlotData.points[eventNo].xVal = (double)fcsFile.events[eventNo][xPar];
             dotPlotData.points[eventNo].yVal = (double)fcsFile.events[eventNo][yPar];
         }
     }
-
+    
     NSLog(@"Max count:  %i", dotPlotData.countForMaxBin);
     
     return dotPlotData;
@@ -88,12 +88,12 @@
 
 
 + (FGPlotDataCalculator *)densityDataForFCSFile:(FGFCSFile *)fcsFile
-                                       insidePlot:(FGPlot *)plot
-                                           subset:(NSUInteger *)subset
-                                      subsetCount:(NSUInteger)subsetCount
+                                     insidePlot:(FGPlot *)plot
+                                         subset:(NSUInteger *)subset
+                                    subsetCount:(NSUInteger)subsetCount
 {
     NSInteger eventsInside = subsetCount;
-        
+    
     if (!subset)
     {
         eventsInside = fcsFile.noOfEvents;
@@ -265,7 +265,7 @@
     free(binValues);
     
     NSLog(@"Max count:  %i", densityPlotData.countForMaxBin);
-
+    
     return densityPlotData;
 }
 
@@ -279,9 +279,9 @@
 
 
 + (FGPlotDataCalculator *)histogramForFCSFile:(FGFCSFile *)fcsFile
-                                 insidePlot:(FGPlot *)plot
-                                     subset:(NSUInteger *)subset
-                                subsetCount:(NSUInteger)subsetCount
+                                   insidePlot:(FGPlot *)plot
+                                       subset:(NSUInteger *)subset
+                                  subsetCount:(NSUInteger)subsetCount
 {
     NSInteger eventsInside = subsetCount;
     
@@ -296,7 +296,7 @@
     double minValue = fcsFile.ranges[parIndex].minValue;
     double maxValue = fcsFile.ranges[parIndex].maxValue;
     NSUInteger colCount = (NSUInteger)(maxValue + 1.0);
-
+    
     double factor = pow(minValue/maxValue, 1.0/(maxValue + 1.0));
     double log10Factor = log10(factor);
     double log10MinValue = log10(minValue);
@@ -349,7 +349,7 @@
                 default:
                     break;
             }
-                        
+            
             histogramValues[col] += 1;
         }
     }
@@ -388,28 +388,28 @@
                 runningAverage += (double)histogramValues[j];
             }
             
-            histogramPlotData.points[i].yVal = runningAverage / divideBy;            
+            histogramPlotData.points[i].yVal = runningAverage / divideBy;
         }
-//        else if (i < HISTOGRAM_AVERAGING)
-//        {
-//            for (NSUInteger j = 0; j <= i; j++)
-//            {
-//                runningAverage += (double)histogramValues[j];
-//            }
-//            
-//            histogramPlotData.points[i].yVal = runningAverage / (double)(i+1);
-//        }
-//        else if (i >= maxIndex - HISTOGRAM_AVERAGING)
-//        {
-//            NSUInteger loops = 0;
-//            for (NSUInteger j = i; j < maxIndex + 1; j++)
-//            {
-//                runningAverage += (double)histogramValues[j];
-//                loops += 1;
-//            }
-//            
-//            histogramPlotData.points[i].yVal = runningAverage / (double)loops;
-//        }
+        //        else if (i < HISTOGRAM_AVERAGING)
+        //        {
+        //            for (NSUInteger j = 0; j <= i; j++)
+        //            {
+        //                runningAverage += (double)histogramValues[j];
+        //            }
+        //
+        //            histogramPlotData.points[i].yVal = runningAverage / (double)(i+1);
+        //        }
+        //        else if (i >= maxIndex - HISTOGRAM_AVERAGING)
+        //        {
+        //            NSUInteger loops = 0;
+        //            for (NSUInteger j = i; j < maxIndex + 1; j++)
+        //            {
+        //                runningAverage += (double)histogramValues[j];
+        //                loops += 1;
+        //            }
+        //
+        //            histogramPlotData.points[i].yVal = runningAverage / (double)loops;
+        //        }
         [histogramPlotData _checkForMaxCount:(NSUInteger)histogramPlotData.points[i].yVal];
         runningAverage = 0.0;
     }

@@ -95,7 +95,6 @@
 		E59C49A616C4AFE500B5E0D5 /* 0099@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E59C49A216C4AFE300B5E0D5 /* 0099@2x.png */; };
 		E59C49A716C4AFE500B5E0D5 /* 104-index-cards.png in Resources */ = {isa = PBXBuildFile; fileRef = E59C49A316C4AFE400B5E0D5 /* 104-index-cards.png */; };
 		E59C49A816C4AFE500B5E0D5 /* 104-index-cards@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E59C49A416C4AFE400B5E0D5 /* 104-index-cards@2x.png */; };
-		E59C49B316C4B8D400B5E0D5 /* NSDate+HumanizedTime.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C49B216C4B8D400B5E0D5 /* NSDate+HumanizedTime.m */; };
 		E59C49BC16C4BC6F00B5E0D5 /* Localizable_full.strings in Resources */ = {isa = PBXBuildFile; fileRef = E59C49BA16C4BC6D00B5E0D5 /* Localizable_full.strings */; };
 		E59C49BD16C4BC6F00B5E0D5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E59C49BB16C4BC6E00B5E0D5 /* Localizable.strings */; };
 		E59C49C216C57EA300B5E0D5 /* FileMD5Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = E59C49C016C57EA300B5E0D5 /* FileMD5Hash.c */; };
@@ -104,6 +103,7 @@
 		E59D2E3515E365FF00944789 /* FGAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */; };
 		E5B480B015EF597D00BB6BAC /* FGGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */; };
 		E5C0117916C944F20059ED0F /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117816C944F10059ED0F /* NSDate+Formatting.m */; };
+		E5C0117C16C990630059ED0F /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117B16C990630059ED0F /* MBProgressHUD.m */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
@@ -345,8 +345,6 @@
 		E59C49A216C4AFE300B5E0D5 /* 0099@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0099@2x.png"; sourceTree = "<group>"; };
 		E59C49A316C4AFE400B5E0D5 /* 104-index-cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "104-index-cards.png"; sourceTree = "<group>"; };
 		E59C49A416C4AFE400B5E0D5 /* 104-index-cards@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "104-index-cards@2x.png"; sourceTree = "<group>"; };
-		E59C49B116C4B8D400B5E0D5 /* NSDate+HumanizedTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HumanizedTime.h"; sourceTree = "<group>"; };
-		E59C49B216C4B8D400B5E0D5 /* NSDate+HumanizedTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HumanizedTime.m"; sourceTree = "<group>"; };
 		E59C49BA16C4BC6D00B5E0D5 /* Localizable_full.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable_full.strings; sourceTree = "<group>"; };
 		E59C49BB16C4BC6E00B5E0D5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E59C49C016C57EA300B5E0D5 /* FileMD5Hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FileMD5Hash.c; sourceTree = "<group>"; };
@@ -361,6 +359,8 @@
 		E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateTableViewController.m; sourceTree = "<group>"; };
 		E5C0117716C944F10059ED0F /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
 		E5C0117816C944F10059ED0F /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
+		E5C0117A16C990630059ED0F /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		E5C0117B16C990630059ED0F /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
@@ -809,15 +809,6 @@
 			name = "Folder View";
 			sourceTree = "<group>";
 		};
-		E59C49B016C4B8B700B5E0D5 /* NSDate Humanized String */ = {
-			isa = PBXGroup;
-			children = (
-				E59C49B116C4B8D400B5E0D5 /* NSDate+HumanizedTime.h */,
-				E59C49B216C4B8D400B5E0D5 /* NSDate+HumanizedTime.m */,
-			);
-			name = "NSDate Humanized String";
-			sourceTree = "<group>";
-		};
 		E59C49BE16C4BC8100B5E0D5 /* Localization */ = {
 			isa = PBXGroup;
 			children = (
@@ -832,6 +823,15 @@
 				E59C49C116C57EA300B5E0D5 /* FileMD5Hash.h */,
 			);
 			name = MD5Hash;
+			sourceTree = "<group>";
+		};
+		E5C0117D16C9906B0059ED0F /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				E5C0117A16C990630059ED0F /* MBProgressHUD.h */,
+				E5C0117B16C990630059ED0F /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		E5FC6F3915CA7E8E0047A3DD = {
@@ -905,9 +905,9 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E5C0117D16C9906B0059ED0F /* MBProgressHUD */,
 				E598014D16C840F900BF1A2D /* PopoverView */,
 				E59C49BF16C57E9800B5E0D5 /* MD5Hash */,
-				E59C49B016C4B8B700B5E0D5 /* NSDate Humanized String */,
 				E59C493116C42A0300B5E0D5 /* KGNoise */,
 				E58556CD16C09CD100BF4546 /* MSDragableView */,
 				E54D717316046E05008CEC5D /* TestFlight */,
@@ -1234,12 +1234,12 @@
 				E59C494E16C4687200B5E0D5 /* FGEmblemView.m in Sources */,
 				E59C495516C4710F00B5E0D5 /* FGFolderLayout.m in Sources */,
 				E59C498616C4917D00B5E0D5 /* FGStyleController.m in Sources */,
-				E59C49B316C4B8D400B5E0D5 /* NSDate+HumanizedTime.m in Sources */,
 				E59C49C216C57EA300B5E0D5 /* FileMD5Hash.c in Sources */,
 				E59C49C816C5866100B5E0D5 /* FGMeasurement.m in Sources */,
 				E59C49CB16C5A97B00B5E0D5 /* FGMeasurementCell.m in Sources */,
 				E598014C16C840F500BF1A2D /* PopoverView.m in Sources */,
 				E5C0117916C944F20059ED0F /* NSDate+Formatting.m in Sources */,
+				E5C0117C16C990630059ED0F /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,4 +1,4 @@
- //
+//
 //  FCSFile.m
 //  Flow2Go
 //
@@ -8,15 +8,6 @@
 
 #import "FGFCSFile.h"
 #import "FGFCSHeader.h"
-
-typedef NS_ENUM(NSInteger, FGParsingSegment)
-{
-    FGParsingSegmentHeader,
-    FGParsingSegmentText,
-    FGParsingSegmentData,
-    FGParsingSegmentAnalysis,
-    FGParsingSegmentFailed
-};
 
 typedef NS_ENUM(NSInteger, FGParameterSize)
 {
@@ -38,11 +29,27 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 
 + (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FGFCSFile *fcsFile))completion
 {
-    dispatch_queue_t readerQueue = dispatch_queue_create("it.calcul8.flow2go.fcsreader", NULL);
-    dispatch_async(readerQueue, ^{
-
+    NSError *error = [self checkFilePath:path];
+    if (error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(error, nil);
+        });
         return;
+    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        FGFCSFile *newFCSFile = [FGFCSFile.alloc init];
+        NSError *error = [newFCSFile _parseFileFromPath:path];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(error, newFCSFile);
+        });
+
     });
+    
+//    dispatch_queue_t readerQueue = dispatch_queue_create("io.flow2go.fcsreader", NULL);
+//    dispatch_async(readerQueue, ^{
+//        
+//    });
 }
 
 
@@ -50,18 +57,29 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 {
     FGFCSFile *newFCSFile = [FGFCSFile.alloc init];
     
-    BOOL succes = [newFCSFile _parseFileFromPath:path];
+    *error = [newFCSFile _parseFileFromPath:path];
     
-    if (succes) {
+    if (error != NULL) {
         return newFCSFile;
     }
-    
-    if (error != NULL)
-    {
-        NSDictionary *errorDictionary = @{ NSLocalizedDescriptionKey : NSLocalizedString(@"Error: FCS file could not be read", nil)};
-        *error = [[NSError alloc] initWithDomain:FCSFile_Error_Domain code:-1 userInfo:errorDictionary];
-    }
     return nil;
+}
+
++ (NSError *)checkFilePath:(NSString *)path
+{
+    NSError *error;
+    if (!path) error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{@"userInfo": @"Error: Path for FCS file is nil."}];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{@"userInfo": @"Error: no file at specified path."}];
+    return error;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.parsingSegment = FGParsingSegmentBegan;
+    }
+    return self;
 }
 
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path
@@ -72,126 +90,139 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 }
 
 
-- (void)_parseTextSegmentFromPath:(NSString *)path
+- (NSError *)_parseTextSegmentFromPath:(NSString *)path
 {
+    NSError *error;
     NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
     [fcsFileStream open];
     
-    FGParsingSegment parsingSegment = FGParsingSegmentHeader;
-    
     while ([fcsFileStream hasBytesAvailable])
     {
-        switch (parsingSegment)
+        switch (_parsingSegment)
         {
+            case FGParsingSegmentBegan:
+                _parsingSegment = FGParsingSegmentHeader;
+                break;
+                
             case FGParsingSegmentHeader:
-                NSLog(@"CASE: kParsingSegmentHeader");
-                if ([self _readHeaderSegmentFromInputStream:fcsFileStream])
+                error = [self _readHeaderSegmentFromStream:fcsFileStream];
+                if (!error)
                 {
-                    parsingSegment = FGParsingSegmentText;
+                    _parsingSegment = FGParsingSegmentText;
                 }
                 else
                 {
-                    parsingSegment = FGParsingSegmentFailed;
+                    _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
             case FGParsingSegmentText:
-                NSLog(@"CASE: kParsingSegmentText");
-                if ([self _readTextSegmentFromInputStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd])
+                error = [self _readTextSegmentFromStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd];
+                if (!error)
                 {
-                    [fcsFileStream close];
+                    _parsingSegment = FGParsingSegmentData;
                 }
                 else
                 {
-                    parsingSegment = FGParsingSegmentFailed;
+                    _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
+            case FGParsingSegmentFinished:
             case FGParsingSegmentFailed:
-                NSLog(@"CASE: kParsingSegmentFailed");
                 [fcsFileStream close];
                 break;
                 
             default:
-                NSLog(@"no known parsing segment");
+                error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{@"userInfo": @"Error: FCS parser ended in an unknown state."}];
                 [fcsFileStream close];
                 break;
         }
     }
+    fcsFileStream = nil;
+    return error;
 }
 
 
-- (BOOL)_parseFileFromPath:(NSString *)path
+- (NSError *)_parseFileFromPath:(NSString *)path
 {
+    NSError *error;
     NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
     [fcsFileStream open];
-    
-    FGParsingSegment parsingSegment = FGParsingSegmentHeader;
-    
+        
     while ([fcsFileStream hasBytesAvailable])
     {
-        switch (parsingSegment)
-        {                
+        switch (_parsingSegment)
+        {
+            case FGParsingSegmentBegan:
+                _parsingSegment = FGParsingSegmentHeader;
+                break;
+
             case FGParsingSegmentHeader:
-                NSLog(@"CASE: kParsingSegmentHeader");
-                if ([self _readHeaderSegmentFromInputStream:fcsFileStream])
+                error = [self _readHeaderSegmentFromStream:fcsFileStream];
+                if (!error)
                 {
-                    parsingSegment = FGParsingSegmentText;
+                    _parsingSegment = FGParsingSegmentText;
                 }
                 else
                 {
-                    parsingSegment = FGParsingSegmentFailed;
+                    _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
             case FGParsingSegmentText:
-                NSLog(@"CASE: kParsingSegmentText");
-                if ([self _readTextSegmentFromInputStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd])
+                error = [self _readTextSegmentFromStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd];
+                if (!error)
                 {
-                    parsingSegment = FGParsingSegmentData;
+                    _parsingSegment = FGParsingSegmentData;
                 }
                 else
                 {
-                    parsingSegment = FGParsingSegmentFailed;
+                    _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
             case FGParsingSegmentData:
-                NSLog(@"CASE: kParsingSegmentData");
-                if ([self _readDataSegmentFromInputStream:fcsFileStream from:self.header.dataBegin to:self.header.dataEnd])
+                error = [self _readDataSegmentFromStream:fcsFileStream from:self.header.dataBegin to:self.header.dataEnd];
+                if (!error)
                 {
-                    parsingSegment = FGParsingSegmentAnalysis;
+                    _parsingSegment = FGParsingSegmentAnalysis;
                 }
                 else
                 {
-                    parsingSegment = FGParsingSegmentFailed;
+                    _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
             case FGParsingSegmentAnalysis:
-                NSLog(@"CASE: kParsingSegmentAnalysis");
-                [self _readAnalysisSegmentFromInputStream:fcsFileStream from:self.header.analysisBegin to:self.header.analysisEnd];
-                [fcsFileStream close];
-
+                error = [self _readAnalysisSegmentFromStream:fcsFileStream from:self.header.analysisBegin to:self.header.analysisEnd];
+                if (!error)
+                {
+                    _parsingSegment = FGParsingSegmentFinished;
+                }
+                else
+                {
+                    _parsingSegment = FGParsingSegmentFailed;
+                }                
                 break;
                 
+            case FGParsingSegmentFinished:
             case FGParsingSegmentFailed:
-                NSLog(@"CASE: kParsingSegmentFailed");
                 [fcsFileStream close];
-                return NO;
                 break;
                 
             default:
-                NSLog(@"no known parsing segment");
+                error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{@"userInfo": @"Error: FCS parser ended in an unknown state."}];
                 [fcsFileStream close];
                 break;
         }
     }
-    return YES;
+    fcsFileStream = nil;
+    return error;
 }
 
 
-- (BOOL)_readHeaderSegmentFromInputStream:(NSInputStream *)inputStream
+- (NSError *)_readHeaderSegmentFromStream:(NSInputStream *)inputStream
 {
     uint8_t buffer[HEADER_LENGTH];
     NSUInteger bytesRead = [inputStream read:buffer maxLength:sizeof(buffer)];
@@ -199,10 +230,8 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
                                                     length:bytesRead
                                                   encoding:NSASCIIStringEncoding];
     
-    if (!headerString || headerString.length < HEADER_LENGTH)
-    {
-        NSLog(@"Error: Header string not valid");
-        return NO;
+    if (!headerString || headerString.length < HEADER_LENGTH) {
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.headersegment" code:-100 userInfo:@{@"userInfo": @"Error: length of header in FCS file not correct."}];
     }
     self.header = FGFCSHeader.alloc.init;
     self.header.textBegin     = [[headerString substringWithRange:NSMakeRange(10, 8)] integerValue];
@@ -212,24 +241,21 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     self.header.analysisBegin = [[headerString substringWithRange:NSMakeRange(42, 8)] integerValue];
     self.header.analysisEnd   = [[headerString substringWithRange:NSMakeRange(50, 8)] integerValue];
     
-    return YES;
+    return nil;
 }
 
 
-- (BOOL)_readTextSegmentFromInputStream:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte
+- (NSError *)_readTextSegmentFromStream:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte
 {
     [self _setInputStream:inputStream toPosition:firstByte];
-
+    
     uint8_t buffer[lastByte-firstByte];
     NSUInteger bytesRead = [inputStream read:buffer maxLength:sizeof(buffer)];
-    NSString *textString = [NSString.alloc initWithBytes:buffer
-                                                  length:bytesRead
-                                                encoding:NSASCIIStringEncoding];
+    NSString *textString = [NSString.alloc initWithBytes:buffer length:bytesRead encoding:NSASCIIStringEncoding];
     
     if (!textString)
     {
-        NSLog(@"Error: Text string not valid");
-        return NO;
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{@"userInfo": @"Error: text segment in FCS file could not be read."}];
     }
     
     self.seperatorCharacterset = [NSCharacterSet characterSetWithCharactersInString:[textString substringToIndex:1]];
@@ -248,13 +274,16 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     if (textKeyValuePairs.count > 0)
     {
         self.text = [NSDictionary dictionaryWithDictionary:textKeyValuePairs];
-        return YES;
+        return nil;
     }
-    return NO;
+    else
+    {
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{@"userInfo": @"Error: no keywords could be read from FCS file."}];
+    }
 }
 
 
-- (BOOL)_readDataSegmentFromInputStream:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte
+- (NSError *)_readDataSegmentFromStream:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte
 {
     [self _setInputStream:inputStream toPosition:firstByte];
     
@@ -265,9 +294,9 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     if (_noOfEvents == 0
         || noOfParams == 0)
     {
-        return NO;
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment" code:-100 userInfo:@{@"userInfo": @"Error: parameter or event count is zero in FCS file"}];
     }
-
+    
     [self allocateDataArrayWithType:self.text[@"$DATATYPE"] forParameters:noOfParams];
     
     FGParameterSize *parSizes = [self _getParameterSizes:noOfParams];
@@ -328,7 +357,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         }
         else
         {
-            return NO;
+            return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment" code:-100 userInfo:@{@"userInfo": @"Error: could not read from data segment in FCS file"}];
         }
         eventNo++;
     }
@@ -341,34 +370,31 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     //[self _printOut:100 forPars:noOfParams];
     //[self _printOutScaledMinMax];
     
-    return YES;
+    return nil;
 }
 
-- (BOOL)_readAnalysisSegmentFromInputStream:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte
+- (NSError *)_readAnalysisSegmentFromStream:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte
 {
     if (firstByte == 0
         || lastByte == 0)
     {
-        return NO;
+        return nil;
     }
     
     [self _setInputStream:inputStream toPosition:firstByte];
     
     uint8_t buffer[lastByte-firstByte];
     NSUInteger bytesRead = [inputStream read:buffer maxLength:sizeof(buffer)];
-    NSString *analysisString = [NSString.alloc initWithBytes:buffer
-                                                      length:bytesRead
-                                                    encoding:NSASCIIStringEncoding];
+    NSString *analysisString = [NSString.alloc initWithBytes:buffer length:bytesRead encoding:NSASCIIStringEncoding];
     
     if (!analysisString)
     {
-        NSLog(@"analysis string not valid");
-        return NO;
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{@"userInfo": @"Error: analysis could not be read in FCS file"}];
     }
     
     if (!self.seperatorCharacterset)
     {
-        NSLog(@"self.seperatorCharacterset in Analysis Segment not set");
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{@"userInfo": @"Error: separator not set in analysis segment."}];
     }
     NSArray *textSeparated = [[analysisString substringFromIndex:1] componentsSeparatedByCharactersInSet:self.seperatorCharacterset];
     
@@ -385,9 +411,9 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     if (analysisKeyValuePairs.count > 0)
     {
         self.analysis = [NSDictionary dictionaryWithDictionary:analysisKeyValuePairs];
-        return YES;
+        return nil;
     }
-    return NO;
+    return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{@"userInfo": @"Error: no keywords could be read in the analysis segment."}];
 }
 
 
@@ -440,7 +466,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
                 parameterSizes[parNO] = FGParameterSize8;
                 self.bitsPerEvent += 8;
                 break;
-             
+                
             case 16:
                 parameterSizes[parNO] = FGParameterSize16;
                 self.bitsPerEvent += 16;
@@ -455,7 +481,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
                 parameterSizes[parNO] = FGParameterSizeUnknown;
                 break;
         }
-    }    
+    }
     return parameterSizes;
 }
 
@@ -478,7 +504,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 - (void)_convertChannelValuesToScaleValues:(double **)eventsAsChannelValues
 {
     self.ranges = calloc(_noOfParams, sizeof(FGRange));
-
+    
     for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
     {
         NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parNo + 1]];
@@ -504,8 +530,8 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
             self.ranges[parNo].minValue = f2;
             self.ranges[parNo].maxValue = pow(10, f1 + log10(f2));
         }
-    
-//        NSLog(@"Par%i,(f1,f2)=(%f,%f), g= %f, RangeValue (value=%f) (%f,%f)", parNo + 1, f1, f2, g, range + 1.0,self.ranges[parNo].minValue, self.ranges[parNo].maxValue);
+        
+        //        NSLog(@"Par%i,(f1,f2)=(%f,%f), g= %f, RangeValue (value=%f) (%f,%f)", parNo + 1, f1, f2, g, range + 1.0,self.ranges[parNo].minValue, self.ranges[parNo].maxValue);
         for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
         {
             switch (valueType)
@@ -551,11 +577,11 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 {
     NSString *spillOverString = self.text[@"$SPILLOVER"];
     if (spillOverString == nil)
-    {        
+    {
         return;
     }
     NSLog(@"Alert! ----------- Found spillover/compensation ----------");
-
+    
     NSArray *spillOverArray = [spillOverString componentsSeparatedByString:@","];
     if (spillOverArray.count == 0)
     {
@@ -567,7 +593,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         NSLog(@"Error: Not all required spill over parameters found: %@", spillOverString);
         return;
     }
-
+    
     double spillOverMatrix[n*n];
     for (NSUInteger i = 0; i < n * n; n++)
     {
@@ -597,7 +623,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         if (calibrationString)
         {
             NSLog(@"Alert! ----------- Found calibration for parameter %i. ----------", parNo + 1);
-
+            
             NSArray *calibrationComponents = [calibrationString componentsSeparatedByString:@","];
             if (calibrationComponents.count < 2)
             {
@@ -673,7 +699,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     
     NSUInteger firstByte  = [byteOrderStrings[0] integerValue];
     NSUInteger secondByte = [byteOrderStrings[1] integerValue];
-
+    
     if (firstByte < secondByte)
     {
         return CFByteOrderLittleEndian;

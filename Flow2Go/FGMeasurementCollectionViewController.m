@@ -19,6 +19,7 @@
 #import "FGMeasurementCell.h"
 #import "NSDate+HumanizedTime.h"
 #import "NSString+_Format.h"
+#import "NSDate+Formatting.h"
 
 @interface FGMeasurementCollectionViewController () <FGDownloadManagerProgressDelegate, UIActionSheetDelegate>
 
@@ -178,9 +179,8 @@
     FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     FGMeasurementCell *measurementCell = (FGMeasurementCell *)cell;
     measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
-    NSString *intervalAsString = [measurement.downloadDate stringWithHumanizedTimeDifference:NSDateHumanizedSuffixNone withFullString:NO];
     measurementCell.dateLabel.hidden = (measurement.isDownloaded) ? NO : YES;
-    measurementCell.dateLabel.text = intervalAsString;
+    measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
     measurementCell.infoButton.enabled = measurement.isDownloaded;
     measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
     measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";

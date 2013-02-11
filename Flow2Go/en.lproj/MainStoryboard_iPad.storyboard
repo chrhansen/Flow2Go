@@ -892,7 +892,7 @@
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ok8-vp-oZy">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="20" id="Ok8-vp-oZy">
                             <size key="itemSize" width="300" height="300"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -1201,9 +1201,6 @@
         </class>
         <class className="FGDropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneTapped:"/>
-            </relationships>
         </class>
         <class className="FGFolderCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCell.h"/>
@@ -1225,10 +1222,21 @@
         </class>
         <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
+        </class>
+        <class className="FGGateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGateTableViewController.h"/>
             <relationships>
-                <relationship kind="action" name="cancelTapped:"/>
-                <relationship kind="action" name="newFolderTapped:"/>
+                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
             </relationships>
+        </class>
+        <class className="FGGatesContainerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGatesContainerView.h"/>
+        </class>
+        <class className="FGKeywordTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGKeywordTableViewController.h"/>
         </class>
         <class className="FGMeasurementCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCell.h"/>
@@ -1256,21 +1264,24 @@
                 <relationship kind="outlet" name="plotImageView" candidateClass="UIImageView"/>
             </relationships>
         </class>
+        <class className="FGPlotDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
         <class className="FGPlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
             <relationships>
-                <relationship kind="action" name="plotTypeChanged:" candidateClass="UISegmentedControl"/>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
-                <relationship kind="outlet" name="gatesContainerView" candidateClass="GatesContainerView"/>
+                <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
             </relationships>
-        </class>
-        <class className="GatesContainerView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GatesContainerView.h"/>
         </class>
         <class className="MSNavigationPaneViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
@@ -1289,9 +1300,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="UIRefreshControl" superclassName="UIControl">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>

@@ -17,6 +17,7 @@
 #import "NSDate+HumanizedTime.h"
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
+#import "NSDate+Formatting.h"
 
 @interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate>
 @property (nonatomic, strong) NSMutableArray *editItems;
@@ -191,27 +192,9 @@
     folderCell.countLabel.text = (folder.measurements.count > 0) ? [NSString stringWithFormat:@"%d", folder.measurements.count] : @"0";
     if (![folder hasActiveDownloads]) [folderCell.spinner stopAnimating];
     folderCell.downloadCountLabel.hidden = ![folder hasActiveDownloads];
-    folderCell.dateLabel.text = [self readableDate:[folder downloadDateOfNewestMeasurement]];
+    folderCell.dateLabel.text = [[folder downloadDateOfNewestMeasurement] readableDate];
 }
 
-
-- (NSString *)readableDate:(NSDate *)date
-{
-    static NSDateFormatter *dateFormatter = nil;
-    if (dateFormatter == nil) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [dateFormatter setLocale:[NSLocale currentLocale]];
-        [dateFormatter setDoesRelativeDateFormatting:YES];
-        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    }
-    NSString *dateString = [dateFormatter stringFromDate:date];
-    if (dateString.length > 0) {
-        NSString *firstCapChar = [[dateString substringToIndex:1] capitalizedString];
-        dateString = [dateString stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:firstCapChar];
-    }
-    return dateString;
-}
 
 - (void)newFolderTapped:(UIBarButtonItem *)addButton
 {

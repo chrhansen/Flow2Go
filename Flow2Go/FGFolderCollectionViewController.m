@@ -305,12 +305,6 @@
     }];
 }
 
-#pragma mark - Save changes from other contexts
-- (void)handleDidSaveNotification:(NSNotification *)notification
-{
-    [[NSManagedObjectContext MR_defaultContext] mergeChangesFromContextDidSaveNotification:notification];
-}
-
 #pragma mark - Fetched results controller
 
 - (NSFetchedResultsController *)fetchedResultsController

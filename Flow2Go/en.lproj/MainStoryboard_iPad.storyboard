@@ -1222,6 +1222,10 @@
         </class>
         <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelTapped:"/>
+                <relationship kind="action" name="newFolderTapped:"/>
+            </relationships>
         </class>
         <class className="FGGateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGateTableViewController.h"/>

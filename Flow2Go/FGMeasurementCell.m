@@ -24,7 +24,6 @@
 {
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
-        
         self.measurementImageView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:1.0f];
         self.measurementImageView.layer.borderColor = [UIColor whiteColor].CGColor;
         self.measurementImageView.layer.borderWidth = 0.5f;
@@ -32,11 +31,15 @@
         self.measurementImageView.layer.shadowRadius = 3.0f;
         self.measurementImageView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
         self.measurementImageView.layer.shadowOpacity = 0.5f;
+        self.measurementImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.measurementImageView.layer.shouldRasterize = YES;
         
         self.fileNameLabel.layer.shadowOpacity = 0.7;
         self.fileNameLabel.layer.shadowRadius = 3.0;
         self.fileNameLabel.layer.shadowColor = [UIColor blackColor].CGColor;
         self.fileNameLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+        self.fileNameLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.fileNameLabel.layer.shouldRasterize = YES;
     }
 }
 

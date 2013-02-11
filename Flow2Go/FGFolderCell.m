@@ -30,24 +30,30 @@
         self.topContentView.layer.shadowRadius = 3.0f;
         self.topContentView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
         self.topContentView.layer.shadowOpacity = 0.5f;
-        
+        self.topContentView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.topContentView.layer.shouldRasterize = YES;
+
         
         self.nameLabel.layer.shadowOpacity = 0.7;
         self.nameLabel.layer.shadowRadius = 3.0;
         self.nameLabel.layer.shadowColor = [UIColor blackColor].CGColor;
         self.nameLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
-        
+        self.nameLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.nameLabel.layer.shouldRasterize = YES;
+
         self.dateLabel.layer.shadowOpacity = 0.7;
         self.dateLabel.layer.shadowRadius = 3.0;
         self.dateLabel.layer.shadowColor = [UIColor blackColor].CGColor;
         self.dateLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+        self.dateLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.dateLabel.layer.shouldRasterize = YES;
 
         self.countLabel.layer.shadowOpacity = 0.7;
         self.countLabel.layer.shadowRadius = 1.0;
         self.countLabel.layer.shadowColor = [UIColor blackColor].CGColor;
         self.countLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
-
-
+        self.countLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.countLabel.layer.shouldRasterize = YES;
     }
 }
 

@@ -19,11 +19,11 @@
 @implementation FGGateCalculator
 
 + (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
-                                        gateType:(GateType)gateType
-                                         fcsFile:(FGFCSFile *)fcsFile
-                                      insidePlot:(FGPlot *)plot
-                                          subSet:(NSUInteger *)subSet
-                                     subSetCount:(NSUInteger)subSetCount
+                                          gateType:(GateType)gateType
+                                           fcsFile:(FGFCSFile *)fcsFile
+                                        insidePlot:(FGPlot *)plot
+                                            subSet:(NSUInteger *)subSet
+                                       subSetCount:(NSUInteger)subSetCount
 {
     switch (gateType) {
         case kGateTypePolygon:
@@ -55,10 +55,10 @@
 
 
 + (FGGateCalculator *)eventsInsidePolygonGateWithVertices:(NSArray *)vertices
-                                                fcsFile:(FGFCSFile *)fcsFile
-                                             insidePlot:(FGPlot *)plot
-                                                 subSet:(NSUInteger *)subSet
-                                            subSetCount:(NSUInteger)subSetCount
+                                                  fcsFile:(FGFCSFile *)fcsFile
+                                               insidePlot:(FGPlot *)plot
+                                                   subSet:(NSUInteger *)subSet
+                                              subSetCount:(NSUInteger)subSetCount
 {
     FGGate *parentGate = (FGGate *)plot.parentNode;
     NSInteger eventsInside = parentGate.cellCount.integerValue;
@@ -112,10 +112,10 @@
 
 
 + (FGGateCalculator *)eventsInsideSingleRangeGateWithVertices:(NSArray *)vertices
-                                                    fcsFile:(FGFCSFile *)fcsFile
-                                                 insidePlot:(FGPlot *)plot
-                                                     subSet:(NSUInteger *)subSet
-                                                subSetCount:(NSUInteger)subSetCount
+                                                      fcsFile:(FGFCSFile *)fcsFile
+                                                   insidePlot:(FGPlot *)plot
+                                                       subSet:(NSUInteger *)subSet
+                                                  subSetCount:(NSUInteger)subSetCount
 {
     FGGate *parentGate = (FGGate *)plot.parentNode;
     NSInteger eventsInside = parentGate.cellCount.integerValue;
@@ -155,7 +155,7 @@
         for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
         {
             plotPoint = fcsFile.events[eventNo][xPar];
-
+            
             if (plotPoint > xMin
                 && plotPoint < xMax)
             {

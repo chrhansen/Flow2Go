@@ -21,11 +21,11 @@
                          yParam:(NSUInteger)yPar;
 
 + (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
-                                        gateType:(GateType)gateType
-                                         fcsFile:(FGFCSFile *)fcsFile
-                                      insidePlot:(FGPlot *)plot
-                                          subSet:(NSUInteger *)subSet
-                                     subSetCount:(NSUInteger)subSetCount;
+                                          gateType:(GateType)gateType
+                                           fcsFile:(FGFCSFile *)fcsFile
+                                        insidePlot:(FGPlot *)plot
+                                            subSet:(NSUInteger *)subSet
+                                       subSetCount:(NSUInteger)subSetCount;
 
 @property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;

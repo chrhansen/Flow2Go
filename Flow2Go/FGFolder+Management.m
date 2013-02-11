@@ -18,8 +18,23 @@
     }];
 }
 
++ (NSArray *)obtainPermanentObjectIDsForObjects:(NSArray *)managedObjects
+{
+    NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
+    NSError *permanentIDError;
+    [context obtainPermanentIDsForObjects:managedObjects error:&permanentIDError];
+    if (permanentIDError) {
+        return nil;
+    }
+    NSMutableArray *objectIDs = [NSMutableArray array];
+    for (NSManagedObject *anObject in managedObjects){
+        [objectIDs addObject:anObject.objectID];
+    }
+    return objectIDs;
+}
 
-+ (void)deleteFolders:(NSArray *)foldersToDelete completion:(void (^)(NSError *error))completion
+
++ (void)deleteFolders:(NSArray *)foldersToDelete completion:(void (^)(NSError *))completion
 {
     NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
     NSError *permanentIDError;
@@ -36,22 +51,17 @@
     }
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        for (NSManagedObjectID *anID in objectIDs) {
+        for (NSManagedObjectID *anID in objectIDs)
+        {
             NSError *error;
             FGFolder *aFolder = (FGFolder *)[localContext existingObjectWithID:anID error:&error];
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (completion) completion(error);
+                    NSLog(@"Error: could not retrieve existing object from objectID: %@", error.localizedDescription);
                 });
-                return;
             }
-            error = [FGFolder deleteFolder:aFolder];
-            if (error) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (completion) completion(error);
-                });
-                return;
-            }
+            [FGMeasurement deleteMeasurements:aFolder.measurements.array];
+            [aFolder deleteInContext:localContext];
         }
     }  completion:^(BOOL success, NSError *error) {
         NSAssert([NSThread isMainThread], @"Callback in delete is NOT on Main Thread");
@@ -59,15 +69,20 @@
     }];
 }
 
-+ (NSError *)deleteFolder:(FGFolder *)aFolder
-{
-    if ([aFolder deleteInContext:aFolder.managedObjectContext]) {
-        return nil;
-    } else {
-        NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", @"Error deleting folder:", aFolder.name];
-        return [NSError errorWithDomain:@"flow2go.datamodel.folder" code:50 userInfo:@{@"userInfo": errorMessage}];
-    }
-}
+
+
+
+//+ (NSError *)deleteFolder:(FGFolder *)aFolder inContext:(NSManagedObjectContext *)context
+//{
+//    NSArray *measurements = aFolder.measurements.array;
+//    [FGMeasurement deleteMeasurements:measurements completion:^(NSError *error) {
+//        if (![aFolder MR_deleteInContext:context]) {
+//            NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", @"Error deleting folder:", aFolder.name];
+//            error = [NSError errorWithDomain:@"flow2go.datamodel.folder" code:50 userInfo:@{@"userInfo": errorMessage}];
+//        }
+//     }];
+//    return nil; // TODO: figure out what to return, should deleting measurements be made synchronically?
+//}
 
 - (NSDate *)downloadDateOfNewestMeasurement
 {

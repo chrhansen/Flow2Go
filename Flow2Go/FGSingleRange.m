@@ -24,8 +24,7 @@
 - (FGSingleRange *)initWithVertices:(NSArray *)vertices;
 {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         [self baseInit];
         [self _drawSingleRangePathWithPoints:vertices];
     }

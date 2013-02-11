@@ -26,31 +26,46 @@
     return nil;
 }
 
-+ (void)deleteMeasurements:(NSArray *)measurements
++ (NSError *)deleteMeasurements:(NSArray *)measurementsToDelete;
 {
-    for (FGMeasurement *aMeasurement in measurements) {
-        [FGMeasurement deleteMeasurement:aMeasurement];
+    NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
+    NSError *permanentIDError;
+    [context obtainPermanentIDsForObjects:measurementsToDelete error:&permanentIDError];
+    if (permanentIDError) {
+        return permanentIDError;
     }
-}
-
-
-+ (void)deleteMeasurement:(FGMeasurement *)measurement
-{
-    NSManagedObjectID *objectID = measurement.objectID;
-    __block NSError *fileError;
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        FGMeasurement *localMeasurement = (FGMeasurement *)[localContext objectWithID:objectID];
-        if (localMeasurement) {
-            NSError *fileError;
-            [NSFileManager.defaultManager removeItemAtPath:[HOME_DIR stringByAppendingPathComponent:measurement.filePath] error:&fileError];
-            [localMeasurement deleteInContext:localContext];
+    NSMutableArray *objectIDs = [NSMutableArray array];
+    for (NSManagedObject *anObject in measurementsToDelete){
+        [objectIDs addObject:anObject.objectID];
+    }
+    __block NSError *error;
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+        for (NSManagedObjectID *anID in objectIDs) {
+            FGMeasurement *aMeasurment = (FGMeasurement *)[localContext existingObjectWithID:anID error:&error];
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"Error: could not retrieve existing object from objectID: %@", error.localizedDescription);
+                });
+            }
+            error = [FGMeasurement deleteMeasurement:aMeasurment];
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"Error: could not delete measurement and/or measurement file: %@", error.localizedDescription);
+                });
+            }
         }
-    } completion:^(BOOL success, NSError *error) {
-        if (fileError) NSLog(@"Error: file could not be deleted: %@", fileError.localizedDescription);
-        if (error) NSLog(@"Error: deleting object: %@", error.localizedDescription);
     }];
+    return error;
 }
 
+
++ (NSError *)deleteMeasurement:(FGMeasurement *)measurement
+{
+    NSError *error;
+    [NSFileManager.defaultManager removeItemAtPath:measurement.enclosingFolder error:&error];
+    [measurement deleteInContext:measurement.managedObjectContext];
+    return error;
+}
 
 - (NSString *)md5Hash
 {

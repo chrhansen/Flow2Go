@@ -10,12 +10,11 @@
 @class FGKeyword;
 
 @interface FGMeasurement (Management)
++ (NSError *)deleteMeasurements:(NSArray *)measurementsToDelete;
 
 - (NSError *)readInFCSKeyWords;
 - (FGKeyword *)existingKeywordForKey:(NSString *)key;
 - (NSString *)md5Hash;
-+ (void)deleteMeasurement:(FGMeasurement *)measurement;
-+ (void)deleteMeasurements:(NSArray *)measurements;
 
 - (FGFileType)fileType;
 + (FGFileType)fileTypeForFileName:(NSString *)fileNameWithExtension;

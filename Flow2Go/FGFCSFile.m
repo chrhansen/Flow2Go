@@ -9,22 +9,22 @@
 #import "FGFCSFile.h"
 #import "FGFCSHeader.h"
 
-typedef enum
+typedef NS_ENUM(NSInteger, FGParsingSegment)
 {
-    kParsingSegmentHeader,
-    kParsingSegmentText,
-    kParsingSegmentData,
-    kParsingSegmentAnalysis,
-    kParsingSegmentFailed
-} kParsingSegment;
+    FGParsingSegmentHeader,
+    FGParsingSegmentText,
+    FGParsingSegmentData,
+    FGParsingSegmentAnalysis,
+    FGParsingSegmentFailed
+};
 
-typedef enum
+typedef NS_ENUM(NSInteger, FGParameterSize)
 {
-    kParSizeUnknown,
-    kParSize8,
-    kParSize16,
-    kParSize32,
-} kParSize;
+    FGParameterSizeUnknown,
+    FGParameterSize8,
+    FGParameterSize16,
+    FGParameterSize32,
+};
 
 @interface FGFCSFile ()
 
@@ -77,25 +77,25 @@ typedef enum
     NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
     [fcsFileStream open];
     
-    kParsingSegment parsingSegment = kParsingSegmentHeader;
+    FGParsingSegment parsingSegment = FGParsingSegmentHeader;
     
     while ([fcsFileStream hasBytesAvailable])
     {
         switch (parsingSegment)
         {
-            case kParsingSegmentHeader:
+            case FGParsingSegmentHeader:
                 NSLog(@"CASE: kParsingSegmentHeader");
                 if ([self _readHeaderSegmentFromInputStream:fcsFileStream])
                 {
-                    parsingSegment = kParsingSegmentText;
+                    parsingSegment = FGParsingSegmentText;
                 }
                 else
                 {
-                    parsingSegment = kParsingSegmentFailed;
+                    parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
-            case kParsingSegmentText:
+            case FGParsingSegmentText:
                 NSLog(@"CASE: kParsingSegmentText");
                 if ([self _readTextSegmentFromInputStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd])
                 {
@@ -103,11 +103,11 @@ typedef enum
                 }
                 else
                 {
-                    parsingSegment = kParsingSegmentFailed;
+                    parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
-            case kParsingSegmentFailed:
+            case FGParsingSegmentFailed:
                 NSLog(@"CASE: kParsingSegmentFailed");
                 [fcsFileStream close];
                 break;
@@ -126,56 +126,56 @@ typedef enum
     NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
     [fcsFileStream open];
     
-    kParsingSegment parsingSegment = kParsingSegmentHeader;
+    FGParsingSegment parsingSegment = FGParsingSegmentHeader;
     
     while ([fcsFileStream hasBytesAvailable])
     {
         switch (parsingSegment)
         {                
-            case kParsingSegmentHeader:
+            case FGParsingSegmentHeader:
                 NSLog(@"CASE: kParsingSegmentHeader");
                 if ([self _readHeaderSegmentFromInputStream:fcsFileStream])
                 {
-                    parsingSegment = kParsingSegmentText;
+                    parsingSegment = FGParsingSegmentText;
                 }
                 else
                 {
-                    parsingSegment = kParsingSegmentFailed;
+                    parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
-            case kParsingSegmentText:
+            case FGParsingSegmentText:
                 NSLog(@"CASE: kParsingSegmentText");
                 if ([self _readTextSegmentFromInputStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd])
                 {
-                    parsingSegment = kParsingSegmentData;
+                    parsingSegment = FGParsingSegmentData;
                 }
                 else
                 {
-                    parsingSegment = kParsingSegmentFailed;
+                    parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
-            case kParsingSegmentData:
+            case FGParsingSegmentData:
                 NSLog(@"CASE: kParsingSegmentData");
                 if ([self _readDataSegmentFromInputStream:fcsFileStream from:self.header.dataBegin to:self.header.dataEnd])
                 {
-                    parsingSegment = kParsingSegmentAnalysis;
+                    parsingSegment = FGParsingSegmentAnalysis;
                 }
                 else
                 {
-                    parsingSegment = kParsingSegmentFailed;
+                    parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
-            case kParsingSegmentAnalysis:
+            case FGParsingSegmentAnalysis:
                 NSLog(@"CASE: kParsingSegmentAnalysis");
                 [self _readAnalysisSegmentFromInputStream:fcsFileStream from:self.header.analysisBegin to:self.header.analysisEnd];
                 [fcsFileStream close];
 
                 break;
                 
-            case kParsingSegmentFailed:
+            case FGParsingSegmentFailed:
                 NSLog(@"CASE: kParsingSegmentFailed");
                 [fcsFileStream close];
                 return NO;
@@ -270,7 +270,7 @@ typedef enum
 
     [self allocateDataArrayWithType:self.text[@"$DATATYPE"] forParameters:noOfParams];
     
-    kParSize *parSizes = [self _getParameterSizes:noOfParams];
+    FGParameterSize *parSizes = [self _getParameterSizes:noOfParams];
     
     uint8_t bufferOneEvent[self.bitsPerEvent/8];
     CFByteOrder byteOrder = [self _byteOrderFromString:self.text[@"$BYTEORD"]];
@@ -292,12 +292,12 @@ typedef enum
             {
                 switch (parSizes[parNo])
                 {
-                    case kParSize8:
+                    case FGParameterSize8:
                         self.events[eventNo][parNo] = (double)bufferOneEvent[byteOffset];
                         byteOffset += 1;
                         break;
                         
-                    case kParSize16:
+                    case FGParameterSize16:
                         if (byteOrder == CFByteOrderBigEndian)
                         {
                             self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset] << 8) | bufferOneEvent[byteOffset + 1]);
@@ -309,7 +309,7 @@ typedef enum
                         byteOffset += 2;
                         break;
                         
-                    case kParSize32:
+                    case FGParameterSize32:
                         if (byteOrder == CFByteOrderBigEndian)
                         {
                             self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset] << 24) | (bufferOneEvent[byteOffset + 1]  << 16) | (bufferOneEvent[byteOffset + 2]  << 8) | bufferOneEvent[byteOffset + 3]);
@@ -426,9 +426,9 @@ typedef enum
 }
 
 
-- (kParSize *)_getParameterSizes:(NSUInteger)numberOfParameters
+- (FGParameterSize *)_getParameterSizes:(NSUInteger)numberOfParameters
 {
-    kParSize *parameterSizes = calloc(numberOfParameters, sizeof(kParSize));
+    FGParameterSize *parameterSizes = calloc(numberOfParameters, sizeof(FGParameterSize));
     self.bitsPerEvent = 0;
     
     for (NSUInteger parNO = 0; parNO < numberOfParameters; parNO++)
@@ -437,22 +437,22 @@ typedef enum
         switch ([self.text[key] integerValue])
         {
             case 8:
-                parameterSizes[parNO] = kParSize8;
+                parameterSizes[parNO] = FGParameterSize8;
                 self.bitsPerEvent += 8;
                 break;
              
             case 16:
-                parameterSizes[parNO] = kParSize16;
+                parameterSizes[parNO] = FGParameterSize16;
                 self.bitsPerEvent += 16;
                 break;
                 
             case 32:
-                parameterSizes[parNO] = kParSize32;
+                parameterSizes[parNO] = FGParameterSize32;
                 self.bitsPerEvent += 32;
                 break;
                 
             default:
-                parameterSizes[parNO] = kParSizeUnknown;
+                parameterSizes[parNO] = FGParameterSizeUnknown;
                 break;
         }
     }    
@@ -765,8 +765,8 @@ typedef enum
     for (NSUInteger i = 0; i < _noOfEvents; i++) {
         free(_events[i]);
     }
-    free(self.events);
-    free(self.ranges);
+    free(_events);
+    free(_ranges);
 }
 
 @end

@@ -24,7 +24,7 @@
 {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
-    PlotType _currentPlotType;
+    FGPlotType _currentPlotType;
 }
 
 @property (nonatomic, strong) FGGateCalculator *parentGateCalculator;
@@ -232,13 +232,13 @@
 
 
 #pragma mark - Add Gate Table View Controller Delegate
-- (PlotType)addGateTableViewControllerCurrentPlotType:(id)sender
+- (FGPlotType)addGateTableViewControllerCurrentPlotType:(id)sender
 {
     return self.plot.plotType.integerValue;
 }
 
 
-- (void)addGateTableViewController:(id)sender didSelectGate:(GateType)gateType
+- (void)addGateTableViewController:(id)sender didSelectGate:(FGGateType)gateType
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
     FGGate *newGate = [FGGate createChildGateInPlot:self.plot type:gateType vertices:nil];
@@ -706,7 +706,7 @@ static CPTPlotSymbol *plotSymbol;
 
 
 #pragma mark - Gates Container View Delegate
-- (void)gatesContainerView:(FGGatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(GateType)gateType vertices:(NSArray *)updatedVertices
+- (void)gatesContainerView:(FGGatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(FGGateType)gateType vertices:(NSArray *)updatedVertices
 {
     if (updatedVertices.count == 0) return;
     
@@ -752,7 +752,7 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
-- (GateType)gatesContainerView:(FGGatesContainerView *)gatesContainerView gateTypeForGateNo:(NSUInteger)gateNo
+- (FGGateType)gatesContainerView:(FGGatesContainerView *)gatesContainerView gateTypeForGateNo:(NSUInteger)gateNo
 {
     FGGate *gate = self.displayedGates[gateNo];
     return gate.type.integerValue;

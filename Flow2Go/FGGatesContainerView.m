@@ -52,7 +52,7 @@
     
     for (NSUInteger gateNo = 0; gateNo < gateCount; gateNo++)
     {
-        GateType gateType = [self.delegate gatesContainerView:self gateTypeForGateNo:gateNo];
+        FGGateType gateType = [self.delegate gatesContainerView:self gateTypeForGateNo:gateNo];
         NSArray *vertices = [self.delegate gatesContainerView:self verticesForGate:gateNo];
         
         [self _insertExistingGate:gateType gateTag:gateNo vertices:vertices];
@@ -71,7 +71,7 @@
 }
 
 
-- (void)_insertExistingGate:(GateType)gateType gateTag:(NSInteger)tagNumber vertices:(NSArray *)vertices
+- (void)_insertExistingGate:(FGGateType)gateType gateTag:(NSInteger)tagNumber vertices:(NSArray *)vertices
 {
     FGGateGraphic *existingGateGraphic = nil;
     switch (gateType)
@@ -106,7 +106,7 @@
 }
 
 
-- (void)insertNewGate:(GateType)gateType gateTag:(NSInteger)tagNumber
+- (void)insertNewGate:(FGGateType)gateType gateTag:(NSInteger)tagNumber
 {
     CGFloat leftBound = 0.4 * self.bounds.size.width / 2;
     CGFloat rightBound = 0.6 * self.bounds.size.width / 2;

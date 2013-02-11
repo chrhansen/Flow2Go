@@ -19,7 +19,7 @@
 @dynamic analysis;
 
 + (FGGate *)createChildGateInPlot:(FGPlot *)parentNode
-                             type:(GateType)gateType
+                             type:(FGGateType)gateType
                          vertices:(NSArray *)vertices
 {
     FGGate *newGate = [FGGate createInContext:parentNode.managedObjectContext];
@@ -47,7 +47,7 @@
 }
 
 
-+ (BOOL)is1DGateType:(GateType)gateType
++ (BOOL)is1DGateType:(FGGateType)gateType
 {
     switch (gateType) {
         case kGateTypeSingleRange:
@@ -62,7 +62,7 @@
 }
 
 
-+ (BOOL)is2DGateType:(GateType)gateType
++ (BOOL)is2DGateType:(FGGateType)gateType
 {
     switch (gateType) {
         case kGateTypeEllipse:

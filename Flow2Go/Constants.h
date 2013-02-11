@@ -33,48 +33,48 @@ static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 #define HEADER_LENGTH 58
 
 // Structs
-struct Event
+struct FGEvent
 {
 	NSUInteger eventNo;
 };
-typedef struct Event Event;
-typedef Event* EventPtr;
+typedef struct FGEvent FGEvent;
+typedef FGEvent* FGEventPtr;
 
 
-struct PlotPoint
+struct FGPlotPoint
 {
     double xVal;
     double yVal;
 };
-typedef struct PlotPoint PlotPoint;
+typedef struct FGPlotPoint FGPlotPoint;
 
 
-struct DensityPoint
+struct FGDensityPoint
 {
     double xVal;
     double yVal;
     NSUInteger count;
 };
-typedef struct DensityPoint DensityPoint;
+typedef struct FGDensityPoint FGDensityPoint;
 
 
-struct Range
+struct FGRange
 {
     double minValue;
     double maxValue;
 };
-typedef struct Range Range;
+typedef struct FGRange FGRange;
 
 
-struct HistogramPoint
+struct FGHistogramPoint
 {
     double xVal;
     NSUInteger count;
 };
-typedef struct HistogramPoint HistogramPoint;
+typedef struct FGHistogramPoint FGHistogramPoint;
 
 
-typedef NS_ENUM(NSInteger, GateType)
+typedef NS_ENUM(NSInteger, FGGateType)
 {
     kGateTypePolygon,
     kGateTypeRectangle,
@@ -84,14 +84,14 @@ typedef NS_ENUM(NSInteger, GateType)
     kGateTypeEllipse
 };
 
-typedef NS_ENUM(NSInteger, AxisType)
+typedef NS_ENUM(NSInteger, FGAxisType)
 {
     kAxisTypeUnknown,
     kAxisTypeLinear,
     kAxisTypeLogarithmic
 };
 
-typedef NS_ENUM(NSInteger, PlotType)
+typedef NS_ENUM(NSInteger, FGPlotType)
 {
     kPlotTypeDot,
     kPlotTypeDensity,

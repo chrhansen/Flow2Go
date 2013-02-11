@@ -477,7 +477,7 @@ typedef enum
 
 - (void)_convertChannelValuesToScaleValues:(double **)eventsAsChannelValues
 {
-    self.ranges = calloc(_noOfParams, sizeof(Range));
+    self.ranges = calloc(_noOfParams, sizeof(FGRange));
 
     for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
     {
@@ -489,7 +489,7 @@ typedef enum
         double f2 = [scaleComponents[1] doubleValue];
         double g = [self _gainValueWithString:self.text[[@"$P" stringByAppendingFormat:@"%iG", parNo + 1]]];
         double range = [self.text[[@"$P" stringByAppendingFormat:@"%iR", parNo + 1]] doubleValue] - 1.0;
-        AxisType valueType;
+        FGAxisType valueType;
         if (f1 <= 0.0)
         {
             valueType = kAxisTypeLinear;
@@ -743,7 +743,7 @@ typedef enum
 }
 
 
-- (AxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex
+- (FGAxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex
 {
     NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parameterIndex + 1]];
     if (!scaleString) NSLog(@"Required scale Value for par %i not found.", parameterIndex + 1);

@@ -19,7 +19,7 @@
 @implementation FGGateCalculator
 
 + (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
-                                          gateType:(GateType)gateType
+                                          gateType:(FGGateType)gateType
                                            fcsFile:(FGFCSFile *)fcsFile
                                         insidePlot:(FGPlot *)plot
                                             subSet:(NSUInteger *)subSet
@@ -75,7 +75,7 @@
     NSInteger xPar = plot.xParNumber.integerValue - 1;
     NSInteger yPar = plot.yParNumber.integerValue - 1;
     
-    PlotPoint plotPoint;
+    FGPlotPoint plotPoint;
     
     if (subSet)
     {
@@ -168,7 +168,7 @@
 }
 
 
-+ (BOOL)_point:(PlotPoint)point insidePolygon:(NSArray *)polygonVertices
++ (BOOL)_point:(FGPlotPoint)point insidePolygon:(NSArray *)polygonVertices
 {
     int counter = 0;
     int i;
@@ -215,7 +215,7 @@
                          xParam:(NSUInteger)xPar
                          yParam:(NSUInteger)yPar
 {
-    PlotPoint plotPoint;
+    FGPlotPoint plotPoint;
     
     plotPoint.xVal = fcsFile.events[eventNo][xPar];
     plotPoint.yVal = fcsFile.events[eventNo][yPar];

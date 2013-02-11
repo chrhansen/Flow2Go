@@ -54,12 +54,12 @@
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber
 {
     NSMutableArray *relevantGates = NSMutableArray.array;
-    PlotType plotType = self.plotType.integerValue;
+    FGPlotType plotType = self.plotType.integerValue;
     
     for (FGGate *aGate in self.childNodes) {
         if ((aGate.xParNumber.integerValue == xParNumber && aGate.yParNumber.integerValue == yParNumber)
             || (aGate.yParNumber.integerValue == xParNumber && aGate.xParNumber.integerValue == yParNumber)) {
-            GateType gateType = aGate.type.integerValue;
+            FGGateType gateType = aGate.type.integerValue;
             
             if ([FGGate is1DGateType:gateType]
                 && plotType == kPlotTypeHistogram) {

@@ -59,7 +59,7 @@
     
     NSInteger xPar = plot.xParNumber.integerValue - 1;
     NSInteger yPar = plot.yParNumber.integerValue - 1;
-    dotPlotData.points = calloc(eventsInside, sizeof(DensityPoint));
+    dotPlotData.points = calloc(eventsInside, sizeof(FGDensityPoint));
     dotPlotData.numberOfPoints = eventsInside;
     
     if (subset)
@@ -102,8 +102,8 @@
     NSInteger xPar = plot.xParNumber.integerValue - 1;
     NSInteger yPar = plot.yParNumber.integerValue - 1;
     
-    AxisType xAxisType = plot.xAxisType.integerValue;
-    AxisType yAxisType = plot.yAxisType.integerValue;
+    FGAxisType xAxisType = plot.xAxisType.integerValue;
+    FGAxisType yAxisType = plot.yAxisType.integerValue;
     
     double xMin = fcsFile.ranges[xPar].minValue;
     double xMax = fcsFile.ranges[xPar].maxValue;
@@ -121,7 +121,7 @@
     
     double maxIndex = (double)(BIN_COUNT - 1);
     
-    PlotPoint plotPoint;
+    FGPlotPoint plotPoint;
     NSUInteger col = 0;
     NSUInteger row = 0;
     
@@ -213,7 +213,7 @@
     FGPlotDataCalculator *densityPlotData = [FGPlotDataCalculator.alloc init];
     
     
-    densityPlotData.points = calloc(BIN_COUNT * BIN_COUNT, sizeof(DensityPoint));
+    densityPlotData.points = calloc(BIN_COUNT * BIN_COUNT, sizeof(FGDensityPoint));
     NSUInteger recordNo = 0;
     NSInteger count = 0;
     for (NSUInteger rowNo = 0; rowNo < BIN_COUNT; rowNo++)
@@ -292,7 +292,7 @@
     
     NSInteger parIndex = plot.xParNumber.integerValue - 1;
     
-    AxisType axisType = plot.xAxisType.integerValue;
+    FGAxisType axisType = plot.xAxisType.integerValue;
     double minValue = fcsFile.ranges[parIndex].minValue;
     double maxValue = fcsFile.ranges[parIndex].maxValue;
     NSUInteger colCount = (NSUInteger)(maxValue + 1.0);
@@ -356,7 +356,7 @@
     
     FGPlotDataCalculator *histogramPlotData = FGPlotDataCalculator.alloc.init;
     histogramPlotData.numberOfPoints = colCount;
-    histogramPlotData.points = calloc(colCount, sizeof(DensityPoint));
+    histogramPlotData.points = calloc(colCount, sizeof(FGDensityPoint));
     
     for (NSUInteger colNo = 0; colNo < colCount; colNo++)
     {

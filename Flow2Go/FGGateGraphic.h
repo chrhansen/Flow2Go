@@ -33,7 +33,7 @@
 @property (nonatomic, strong) UIColor *hookColor;
 @property (nonatomic) CGFloat strokeWidth;
 @property (nonatomic) NSInteger gateTag;
-@property (nonatomic) GateType gateType;
+@property (nonatomic) FGGateType gateType;
 @property (nonatomic, strong) NSMutableArray *hooks;
 
 //@property (nonatomic) BOOL isDrawing;

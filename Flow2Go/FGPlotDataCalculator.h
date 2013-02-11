@@ -13,33 +13,33 @@
 @interface FGPlotDataCalculator : NSObject
 
 + (FGPlotDataCalculator *)dotDataForFCSFile:(FGFCSFile *)fcsFile
-                               insidePlot:(FGPlot *)plot
-                                   subset:(NSUInteger *)subset
-                              subsetCount:(NSUInteger)subsetCount;
-
-
-+ (FGPlotDataCalculator *)densityDataForFCSFile:(FGFCSFile *)fcsFile
-                                   insidePlot:(FGPlot *)plot
-                                       subset:(NSUInteger *)subset
-                                  subsetCount:(NSUInteger)subsetCount;
-
-
-+ (FGPlotDataCalculator *)histogramForFCSFile:(FGFCSFile *)fcsFile
                                  insidePlot:(FGPlot *)plot
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount;
 
 
++ (FGPlotDataCalculator *)densityDataForFCSFile:(FGFCSFile *)fcsFile
+                                     insidePlot:(FGPlot *)plot
+                                         subset:(NSUInteger *)subset
+                                    subsetCount:(NSUInteger)subsetCount;
+
+
++ (FGPlotDataCalculator *)histogramForFCSFile:(FGFCSFile *)fcsFile
+                                   insidePlot:(FGPlot *)plot
+                                       subset:(NSUInteger *)subset
+                                  subsetCount:(NSUInteger)subsetCount;
+
+
 + (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
-                                insidePlot:(FGPlot *)plot
-                                    subset:(NSUInteger *)subset
-                               subsetCount:(NSUInteger)subsetCount;
+                                  insidePlot:(FGPlot *)plot
+                                      subset:(NSUInteger *)subset
+                                 subsetCount:(NSUInteger)subsetCount;
 
 
 - (void)cleanUpPlotData;
 
 @property (nonatomic) NSUInteger numberOfPoints;
-@property (nonatomic) DensityPoint *points;
+@property (nonatomic) FGDensityPoint *points;
 @property (nonatomic) NSUInteger countForMaxBin;
 
 @end

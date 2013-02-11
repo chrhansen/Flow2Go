@@ -86,7 +86,7 @@
 
 - (void)_loadValidGates
 {
-    PlotType plotType = [self.delegate addGateTableViewControllerCurrentPlotType:self];
+    FGPlotType plotType = [self.delegate addGateTableViewControllerCurrentPlotType:self];
     NSLog(@"plotType: %i", plotType);
     
     if (plotType == kPlotTypeDot

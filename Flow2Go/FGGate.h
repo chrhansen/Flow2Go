@@ -14,10 +14,10 @@
 
 @interface FGGate : FGNode
 
-+ (FGGate *)createChildGateInPlot:(FGNode *)parentNode type:(GateType)gateType vertices:(NSArray *)vertices;
++ (FGGate *)createChildGateInPlot:(FGNode *)parentNode type:(FGGateType)gateType vertices:(NSArray *)vertices;
 
-+ (BOOL)is1DGateType:(GateType)gateType;
-+ (BOOL)is2DGateType:(GateType)gateType;
++ (BOOL)is1DGateType:(FGGateType)gateType;
++ (BOOL)is2DGateType:(FGGateType)gateType;
 
 @property (nonatomic, retain) NSNumber * cellCount;
 @property (nonatomic, retain) NSData * subSet;

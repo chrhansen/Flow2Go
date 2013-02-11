@@ -10,8 +10,8 @@
 
 @protocol AddGateTableViewControllerDelegate <NSObject>
 
-- (PlotType)addGateTableViewControllerCurrentPlotType:(id)sender;
-- (void)addGateTableViewController:(id)sender didSelectGate:(GateType)gateType;
+- (FGPlotType)addGateTableViewControllerCurrentPlotType:(id)sender;
+- (void)addGateTableViewController:(id)sender didSelectGate:(FGGateType)gateType;
 
 @end
 

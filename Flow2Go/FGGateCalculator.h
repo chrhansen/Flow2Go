@@ -21,7 +21,7 @@
                          yParam:(NSUInteger)yPar;
 
 + (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
-                                          gateType:(GateType)gateType
+                                          gateType:(FGGateType)gateType
                                            fcsFile:(FGFCSFile *)fcsFile
                                         insidePlot:(FGPlot *)plot
                                             subSet:(NSUInteger *)subSet
@@ -30,7 +30,7 @@
 @property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;
 @property (nonatomic) NSUInteger numberOfDensityPoints;
-@property (nonatomic) DensityPoint *densityPoints;
+@property (nonatomic) FGDensityPoint *densityPoints;
 @property (nonatomic, strong) NSArray *gateVertices;
 
 @end

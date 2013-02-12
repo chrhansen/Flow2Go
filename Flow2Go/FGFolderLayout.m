@@ -10,7 +10,6 @@
 #import "FGEmblemView.h"
 
 static NSString * const FGPhotoEmblemKind = @"Emblem";
-
 @interface FGFolderLayout ()
 
 @property (nonatomic, strong) NSDictionary *layoutInfo;
@@ -45,7 +44,7 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
     self.minimumLineSpacing = 20.0f;
     self.minimumInteritemSpacing = 20.0f;
     self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
-//    self.headerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 50.0f);
+    self.headerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 50.0f);
     [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGPhotoEmblemKind];
 }
 
@@ -61,6 +60,18 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
     
     self.layoutInfo = newLayoutInfo;
 }
+
+
+- (CGSize)collectionViewContentSize
+{
+    CGSize size = [super collectionViewContentSize];
+    CGFloat boundsHeight = self.collectionView.bounds.size.height;
+    if (size.height <= boundsHeight) {
+        size.height = boundsHeight + self.headerReferenceSize.height;
+    }
+    return size;
+}
+
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
     NSArray *attributes = [super layoutAttributesForElementsInRect:rect];

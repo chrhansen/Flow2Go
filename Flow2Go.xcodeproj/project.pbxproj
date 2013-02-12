@@ -104,6 +104,18 @@
 		E5B480B015EF597D00BB6BAC /* FGGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */; };
 		E5C0117916C944F20059ED0F /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117816C944F10059ED0F /* NSDate+Formatting.m */; };
 		E5C0117C16C990630059ED0F /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117B16C990630059ED0F /* MBProgressHUD.m */; };
+		E5C0118F16CA962D0059ED0F /* MKSKProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0118616CA962D0059ED0F /* MKSKProduct.m */; };
+		E5C0119016CA962D0059ED0F /* MKSKSubscriptionProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0118816CA962D0059ED0F /* MKSKSubscriptionProduct.m */; };
+		E5C0119116CA962D0059ED0F /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = E5C0118A16CA962D0059ED0F /* MKStoreKitConfigs.plist */; };
+		E5C0119216CA962D0059ED0F /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0118C16CA962D0059ED0F /* MKStoreManager.m */; };
+		E5C0119316CA962D0059ED0F /* VerificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0118E16CA962D0059ED0F /* VerificationController.m */; };
+		E5C0119516CA96570059ED0F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C0119416CA96570059ED0F /* StoreKit.framework */; };
+		E5C0119816CA971A0059ED0F /* FGStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0119716CA971A0059ED0F /* FGStoreViewController.m */; };
+		E5C0119E16CA99280059ED0F /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0119B16CA99280059ED0F /* NSData+MKBase64.m */; };
+		E5C0119F16CA99280059ED0F /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0119D16CA99280059ED0F /* SFHFKeychainUtils.m */; };
+		E5C011A216CA9E830059ED0F /* FGFolderHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011A116CA9E820059ED0F /* FGFolderHeaderView.m */; };
+		E5C011A516CAA05B0059ED0F /* 80-shopping-cart.png in Resources */ = {isa = PBXBuildFile; fileRef = E5C011A316CAA05B0059ED0F /* 80-shopping-cart.png */; };
+		E5C011A616CAA05B0059ED0F /* 80-shopping-cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
@@ -361,6 +373,27 @@
 		E5C0117816C944F10059ED0F /* NSDate+Formatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatting.m"; sourceTree = "<group>"; };
 		E5C0117A16C990630059ED0F /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		E5C0117B16C990630059ED0F /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		E5C0118516CA962D0059ED0F /* MKSKProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSKProduct.h; sourceTree = "<group>"; };
+		E5C0118616CA962D0059ED0F /* MKSKProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSKProduct.m; sourceTree = "<group>"; };
+		E5C0118716CA962D0059ED0F /* MKSKSubscriptionProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSKSubscriptionProduct.h; sourceTree = "<group>"; };
+		E5C0118816CA962D0059ED0F /* MKSKSubscriptionProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSKSubscriptionProduct.m; sourceTree = "<group>"; };
+		E5C0118916CA962D0059ED0F /* MKStoreKitConfigs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreKitConfigs.h; sourceTree = "<group>"; };
+		E5C0118A16CA962D0059ED0F /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
+		E5C0118B16CA962D0059ED0F /* MKStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKStoreManager.h; sourceTree = "<group>"; };
+		E5C0118C16CA962D0059ED0F /* MKStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKStoreManager.m; sourceTree = "<group>"; };
+		E5C0118D16CA962D0059ED0F /* VerificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerificationController.h; sourceTree = "<group>"; };
+		E5C0118E16CA962D0059ED0F /* VerificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerificationController.m; sourceTree = "<group>"; };
+		E5C0119416CA96570059ED0F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		E5C0119616CA971A0059ED0F /* FGStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStoreViewController.h; sourceTree = "<group>"; };
+		E5C0119716CA971A0059ED0F /* FGStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreViewController.m; sourceTree = "<group>"; };
+		E5C0119A16CA99280059ED0F /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
+		E5C0119B16CA99280059ED0F /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
+		E5C0119C16CA99280059ED0F /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		E5C0119D16CA99280059ED0F /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		E5C011A016CA9E820059ED0F /* FGFolderHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolderHeaderView.h; sourceTree = "<group>"; };
+		E5C011A116CA9E820059ED0F /* FGFolderHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolderHeaderView.m; sourceTree = "<group>"; };
+		E5C011A316CAA05B0059ED0F /* 80-shopping-cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "80-shopping-cart.png"; sourceTree = "<group>"; };
+		E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "80-shopping-cart@2x.png"; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
@@ -447,6 +480,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5C0119516CA96570059ED0F /* StoreKit.framework in Frameworks */,
 				E54D717C16046EEE008CEC5D /* libTestFlight.a in Frameworks */,
 				E546B73616034F920073178C /* DropboxSDK.framework in Frameworks */,
 				E50BA4101600F38000E85118 /* libz.dylib in Frameworks */,
@@ -529,6 +563,8 @@
 			children = (
 				E59C498416C4917D00B5E0D5 /* FGStyleController.h */,
 				E59C498516C4917D00B5E0D5 /* FGStyleController.m */,
+				E5C011A016CA9E820059ED0F /* FGFolderHeaderView.h */,
+				E5C011A116CA9E820059ED0F /* FGFolderHeaderView.m */,
 				E58556DF16C0B11D00BF4546 /* FGFolderCell.h */,
 				E58556E016C0B11D00BF4546 /* FGFolderCell.m */,
 				E59C49C916C5A97A00B5E0D5 /* FGMeasurementCell.h */,
@@ -719,6 +755,8 @@
 				E585572216C1A46600BF4546 /* FGDropboxViewController.m */,
 				E50427C516C1DEAE00692AD7 /* FGFolderPickerTableViewController.h */,
 				E50427C616C1DEB000692AD7 /* FGFolderPickerTableViewController.m */,
+				E5C0119616CA971A0059ED0F /* FGStoreViewController.h */,
+				E5C0119716CA971A0059ED0F /* FGStoreViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -793,6 +831,8 @@
 		E59C49A916C4AFF700B5E0D5 /* Folder View */ = {
 			isa = PBXGroup;
 			children = (
+				E5C011A316CAA05B0059ED0F /* 80-shopping-cart.png */,
+				E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */,
 				E59C493C16C4597000B5E0D5 /* 0210.png */,
 				E59C493D16C4597000B5E0D5 /* 0210@2x.png */,
 				E577B48F1607D76F002348EE /* 39-circle-check.png */,
@@ -834,6 +874,35 @@
 			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		E5C0118416CA961B0059ED0F /* MKStoreKit */ = {
+			isa = PBXGroup;
+			children = (
+				E5C0119916CA99280059ED0F /* Externals */,
+				E5C0118516CA962D0059ED0F /* MKSKProduct.h */,
+				E5C0118616CA962D0059ED0F /* MKSKProduct.m */,
+				E5C0118716CA962D0059ED0F /* MKSKSubscriptionProduct.h */,
+				E5C0118816CA962D0059ED0F /* MKSKSubscriptionProduct.m */,
+				E5C0118916CA962D0059ED0F /* MKStoreKitConfigs.h */,
+				E5C0118A16CA962D0059ED0F /* MKStoreKitConfigs.plist */,
+				E5C0118B16CA962D0059ED0F /* MKStoreManager.h */,
+				E5C0118C16CA962D0059ED0F /* MKStoreManager.m */,
+				E5C0118D16CA962D0059ED0F /* VerificationController.h */,
+				E5C0118E16CA962D0059ED0F /* VerificationController.m */,
+			);
+			name = MKStoreKit;
+			sourceTree = "<group>";
+		};
+		E5C0119916CA99280059ED0F /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				E5C0119A16CA99280059ED0F /* NSData+MKBase64.h */,
+				E5C0119B16CA99280059ED0F /* NSData+MKBase64.m */,
+				E5C0119C16CA99280059ED0F /* SFHFKeychainUtils.h */,
+				E5C0119D16CA99280059ED0F /* SFHFKeychainUtils.m */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
 		E5FC6F3915CA7E8E0047A3DD = {
 			isa = PBXGroup;
 			children = (
@@ -855,6 +924,7 @@
 		E5FC6F4715CA7E8E0047A3DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E5C0119416CA96570059ED0F /* StoreKit.framework */,
 				E50BA40F1600F38000E85118 /* libz.dylib */,
 				E5FC703415CA9F890047A3DD /* QuartzCore.framework */,
 				E5FC703215CA9F580047A3DD /* Security.framework */,
@@ -905,6 +975,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E5C0118416CA961B0059ED0F /* MKStoreKit */,
 				E5C0117D16C9906B0059ED0F /* MBProgressHUD */,
 				E598014D16C840F900BF1A2D /* PopoverView */,
 				E59C49BF16C57E9800B5E0D5 /* MD5Hash */,
@@ -1145,6 +1216,9 @@
 				E59C49A816C4AFE500B5E0D5 /* 104-index-cards@2x.png in Resources */,
 				E59C49BC16C4BC6F00B5E0D5 /* Localizable_full.strings in Resources */,
 				E59C49BD16C4BC6F00B5E0D5 /* Localizable.strings in Resources */,
+				E5C0119116CA962D0059ED0F /* MKStoreKitConfigs.plist in Resources */,
+				E5C011A516CAA05B0059ED0F /* 80-shopping-cart.png in Resources */,
+				E5C011A616CAA05B0059ED0F /* 80-shopping-cart@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1240,6 +1314,14 @@
 				E598014C16C840F500BF1A2D /* PopoverView.m in Sources */,
 				E5C0117916C944F20059ED0F /* NSDate+Formatting.m in Sources */,
 				E5C0117C16C990630059ED0F /* MBProgressHUD.m in Sources */,
+				E5C0118F16CA962D0059ED0F /* MKSKProduct.m in Sources */,
+				E5C0119016CA962D0059ED0F /* MKSKSubscriptionProduct.m in Sources */,
+				E5C0119216CA962D0059ED0F /* MKStoreManager.m in Sources */,
+				E5C0119316CA962D0059ED0F /* VerificationController.m in Sources */,
+				E5C0119816CA971A0059ED0F /* FGStoreViewController.m in Sources */,
+				E5C0119E16CA99280059ED0F /* NSData+MKBase64.m in Sources */,
+				E5C0119F16CA99280059ED0F /* SFHFKeychainUtils.m in Sources */,
+				E5C011A216CA9E830059ED0F /* FGFolderHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

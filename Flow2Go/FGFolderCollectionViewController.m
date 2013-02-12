@@ -17,8 +17,9 @@
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
+#import "FGFolderHeaderView.h"
 
-@interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate>
+@interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
@@ -48,6 +49,7 @@
     [super viewWillAppear:animated];
     [self _updateVisibleCells];
     [FGDownloadManager.sharedInstance setProgressDelegate:self];
+    [self.collectionView setContentOffset:CGPointMake(0, 50.0f)];
 }
 
 
@@ -181,6 +183,18 @@
     }
 }
 
+- (void)storeButtonTapped:(id)sender
+{
+    [self performSegueWithIdentifier:@"Show Store" sender:sender];
+}
+
+
+#pragma mark UISearchBar delegate
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSLog(@"search text: %@", searchText);
+}
+
 
 #define FOLDER_NAME_MAX_CHARACTER_COUNT 29
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -262,6 +276,18 @@
     return cell;
 }
 
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        FGFolderHeaderView *headerView = (FGFolderHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Folder Header" forIndexPath:indexPath];
+        headerView.searchBar.delegate = self;
+        [headerView.storeButton addTarget:self action:@selector(storeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        return headerView;
+    }
+    return nil;
+}
+
 #pragma mark - UICollectionView delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -306,7 +332,6 @@
 }
 
 #pragma mark - Fetched results controller
-
 - (NSFetchedResultsController *)fetchedResultsController
 {
     if (_fetchedResultsController != nil) {

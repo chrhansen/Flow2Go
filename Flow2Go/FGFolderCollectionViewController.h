@@ -11,5 +11,6 @@
 @interface FGFolderCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (weak, nonatomic) IBOutlet UIButton *showStore;
 
 @end

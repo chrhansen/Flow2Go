@@ -921,44 +921,6 @@
             </objects>
             <point key="canvasLocation" x="-2043" y="-4192"/>
         </scene>
-        <!--Store View Controller - Store-->
-        <scene sceneID="5ew-uu-RNg">
-            <objects>
-                <viewController id="DWm-Oj-x7I" customClass="FGStoreViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="QVH-v1-4lp">
-                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SxK-kJ-gfr"/>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" hidesForSinglePage="YES" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="0rb-OE-aix"/>
-                        </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="0rb-OE-aix" secondAttribute="bottom" constant="20" type="user" id="1f6-QQ-CGW"/>
-                            <constraint firstItem="0rb-OE-aix" firstAttribute="centerX" secondItem="SxK-kJ-gfr" secondAttribute="centerX" type="default" id="EF8-sd-42L"/>
-                            <constraint firstItem="SxK-kJ-gfr" firstAttribute="trailing" secondItem="QVH-v1-4lp" secondAttribute="trailing" type="default" id="Ehj-hP-nsk"/>
-                            <constraint firstItem="SxK-kJ-gfr" firstAttribute="bottom" secondItem="QVH-v1-4lp" secondAttribute="bottom" type="default" id="NcU-7n-Ey4"/>
-                            <constraint firstItem="SxK-kJ-gfr" firstAttribute="leading" secondItem="QVH-v1-4lp" secondAttribute="leading" type="default" id="Wld-XD-re0"/>
-                            <constraint firstItem="SxK-kJ-gfr" firstAttribute="top" secondItem="QVH-v1-4lp" secondAttribute="top" type="default" id="rGC-eh-ukJ"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Store" id="f4c-pY-jUb">
-                        <barButtonItem key="leftBarButtonItem" title="Restore" id="df9-8E-1ji"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="12P-hS-UeY">
-                            <connections>
-                                <action selector="doneTapped:" destination="DWm-Oj-x7I" id="f7U-Qp-31l"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="pageControl" destination="0rb-OE-aix" id="rB0-gO-hfr"/>
-                        <outlet property="scrollView" destination="SxK-kJ-gfr" id="7be-h6-yVC"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7V0-8h-j6z" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-264" y="-2917"/>
-        </scene>
         <!--Analysis View Controller-->
         <scene sceneID="oNq-71-xLe">
             <objects>
@@ -1263,12 +1225,116 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="DWm-Oj-x7I" kind="relationship" relationship="rootViewController" id="rIn-Cd-Qxu"/>
+                        <segue destination="LeP-Rd-wuG" kind="relationship" relationship="rootViewController" id="iZ8-iI-Iv4"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xbf-gd-GaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1010" y="-2917"/>
+        </scene>
+        <!--Store View Controller - Store-->
+        <scene sceneID="Tzk-eu-E5q">
+            <objects>
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="LeP-Rd-wuG" customClass="FGStoreViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="VzY-J1-K6H">
+                        <rect key="frame" x="0.0" y="64" width="540" height="556"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mf4-jX-mfR">
+                            <size key="itemSize" width="540" height="556"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Store Cell" id="Eaf-rk-aIL" customClass="FGStoreCell">
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="556"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="540" height="556"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SK8-fH-41C">
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="336" id="X1Q-pA-nG4"/>
+                                            </constraints>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PyR-Wv-mvZ">
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <state key="normal" title="Button">
+                                                <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mdg-jg-new">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="408" id="0Yb-jx-0na"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Description" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="500" translatesAutoresizingMaskIntoConstraints="NO" id="8Ed-zH-AYA">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="117" id="Y8Q-Kd-AvX"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="Mdg-jg-new" firstAttribute="leading" secondItem="Eaf-rk-aIL" secondAttribute="leading" constant="20" type="default" id="1za-bb-Mlx"/>
+                                    <constraint firstItem="Mdg-jg-new" firstAttribute="top" secondItem="SK8-fH-41C" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="3jv-N2-kOg"/>
+                                    <constraint firstAttribute="trailing" secondItem="PyR-Wv-mvZ" secondAttribute="trailing" constant="20" type="default" id="9ck-ku-Bod"/>
+                                    <constraint firstItem="SK8-fH-41C" firstAttribute="leading" secondItem="Eaf-rk-aIL" secondAttribute="leading" constant="20" type="default" id="AVk-Ua-Uvw"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8Ed-zH-AYA" secondAttribute="bottom" constant="28" type="user" id="DLd-9G-nUu"/>
+                                    <constraint firstItem="8Ed-zH-AYA" firstAttribute="top" secondItem="PyR-Wv-mvZ" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="JrQ-V6-D7C"/>
+                                    <constraint firstAttribute="trailing" secondItem="8Ed-zH-AYA" secondAttribute="trailing" constant="20" type="default" id="LyB-QE-0X0"/>
+                                    <constraint firstItem="SK8-fH-41C" firstAttribute="top" secondItem="Eaf-rk-aIL" secondAttribute="top" constant="20" type="default" id="NgS-py-NIl"/>
+                                    <constraint firstItem="8Ed-zH-AYA" firstAttribute="leading" secondItem="Eaf-rk-aIL" secondAttribute="leading" constant="20" type="default" id="Qqu-dZ-dpr"/>
+                                    <constraint firstItem="PyR-Wv-mvZ" firstAttribute="top" secondItem="SK8-fH-41C" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Tbe-JC-7lC"/>
+                                    <constraint firstAttribute="trailing" secondItem="SK8-fH-41C" secondAttribute="trailing" constant="20" type="default" id="WZt-JQ-Wiq"/>
+                                    <constraint firstItem="Mdg-jg-new" firstAttribute="baseline" secondItem="PyR-Wv-mvZ" secondAttribute="baseline" type="default" id="z58-PU-VGl"/>
+                                </constraints>
+                                <size key="customSize" width="540" height="556"/>
+                                <connections>
+                                    <outlet property="buyButton" destination="PyR-Wv-mvZ" id="7Ru-LR-7GX"/>
+                                    <outlet property="descriptionLabel" destination="8Ed-zH-AYA" id="XoK-Sw-4XI"/>
+                                    <outlet property="mainImageView" destination="SK8-fH-41C" id="p77-az-dpH"/>
+                                    <outlet property="titleLabel" destination="Mdg-jg-new" id="NIA-lc-wvp"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="LeP-Rd-wuG" id="kVU-gV-YFe"/>
+                            <outlet property="delegate" destination="LeP-Rd-wuG" id="8EX-IG-lOi"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="Store" id="CZl-gB-Rge">
+                        <barButtonItem key="leftBarButtonItem" title="Restore" id="47j-zu-tss">
+                            <connections>
+                                <action selector="restoreTapped:" destination="LeP-Rd-wuG" id="dvF-Jt-fq5"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="HxQ-uj-9z9">
+                            <connections>
+                                <action selector="doneTapped:" destination="LeP-Rd-wuG" id="B2k-jQ-TWy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="restoreButton" destination="47j-zu-tss" id="96r-Er-ZqZ"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xCn-I2-4yx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-301" y="-2917"/>
         </scene>
     </scenes>
     <resources>
@@ -1380,9 +1446,6 @@
         <class className="FGPlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
             <relationships>
-                <relationship kind="action" name="plotTypeChanged:" candidateClass="UISegmentedControl"/>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
@@ -1390,13 +1453,21 @@
                 <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
             </relationships>
         </class>
-        <class className="FGStoreViewController" superclassName="UIViewController">
+        <class className="FGStoreCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGStoreViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreViewController.h"/>
             <relationships>
                 <relationship kind="action" name="doneTapped:"/>
-                <relationship kind="outlet" name="pageControl" candidateClass="UIPageControl"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="MSNavigationPaneViewController" superclassName="UIViewController">

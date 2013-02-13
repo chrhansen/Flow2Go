@@ -19,6 +19,7 @@
     #import "Constants.h"
     #import "TestFlight.h"
     #import "MBProgressHUD.h"
+    #import "KGNoise.h"
 #endif
 
 

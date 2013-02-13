@@ -9,5 +9,5 @@
 #import <StoreKit/StoreKit.h>
 
 @interface SKProduct (PriceAsString)
-
+@property (nonatomic, readonly) NSString *priceAsString;
 @end

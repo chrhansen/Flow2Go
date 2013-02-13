@@ -35,6 +35,7 @@
 		E511FD7715CC36BD00637D39 /* icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7615CC36BD00637D39 /* icon_144.png */; };
 		E511FD7915CC36C200637D39 /* icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7815CC36C200637D39 /* icon_72.png */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
+		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
@@ -110,12 +111,13 @@
 		E5C0119216CA962D0059ED0F /* MKStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0118C16CA962D0059ED0F /* MKStoreManager.m */; };
 		E5C0119316CA962D0059ED0F /* VerificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0118E16CA962D0059ED0F /* VerificationController.m */; };
 		E5C0119516CA96570059ED0F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C0119416CA96570059ED0F /* StoreKit.framework */; };
-		E5C0119816CA971A0059ED0F /* FGStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0119716CA971A0059ED0F /* FGStoreViewController.m */; };
 		E5C0119E16CA99280059ED0F /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0119B16CA99280059ED0F /* NSData+MKBase64.m */; };
 		E5C0119F16CA99280059ED0F /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0119D16CA99280059ED0F /* SFHFKeychainUtils.m */; };
 		E5C011A216CA9E830059ED0F /* FGFolderHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011A116CA9E820059ED0F /* FGFolderHeaderView.m */; };
 		E5C011A516CAA05B0059ED0F /* 80-shopping-cart.png in Resources */ = {isa = PBXBuildFile; fileRef = E5C011A316CAA05B0059ED0F /* 80-shopping-cart.png */; };
 		E5C011A616CAA05B0059ED0F /* 80-shopping-cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */; };
+		E5C011B616CB073D0059ED0F /* FGStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011B516CB073D0059ED0F /* FGStoreCell.m */; };
+		E5C011B916CB07C10059ED0F /* FGStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011B816CB07C10059ED0F /* FGStoreViewController.m */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
@@ -203,6 +205,8 @@
 		E511FD7815CC36C200637D39 /* icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_72.png; path = ../icon_72.png; sourceTree = "<group>"; };
 		E511FDD815CC6C4800637D39 /* FGPlotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotViewController.h; sourceTree = "<group>"; };
 		E511FDD915CC6C4800637D39 /* FGPlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotViewController.m; sourceTree = "<group>"; };
+		E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+PriceAsString.h"; sourceTree = "<group>"; };
+		E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+PriceAsString.m"; sourceTree = "<group>"; };
 		E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotHelper.h; sourceTree = "<group>"; };
 		E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotHelper.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
@@ -384,8 +388,6 @@
 		E5C0118D16CA962D0059ED0F /* VerificationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerificationController.h; sourceTree = "<group>"; };
 		E5C0118E16CA962D0059ED0F /* VerificationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerificationController.m; sourceTree = "<group>"; };
 		E5C0119416CA96570059ED0F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		E5C0119616CA971A0059ED0F /* FGStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStoreViewController.h; sourceTree = "<group>"; };
-		E5C0119716CA971A0059ED0F /* FGStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreViewController.m; sourceTree = "<group>"; };
 		E5C0119A16CA99280059ED0F /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
 		E5C0119B16CA99280059ED0F /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MKBase64.m"; sourceTree = "<group>"; };
 		E5C0119C16CA99280059ED0F /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
@@ -394,6 +396,10 @@
 		E5C011A116CA9E820059ED0F /* FGFolderHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolderHeaderView.m; sourceTree = "<group>"; };
 		E5C011A316CAA05B0059ED0F /* 80-shopping-cart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "80-shopping-cart.png"; sourceTree = "<group>"; };
 		E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "80-shopping-cart@2x.png"; sourceTree = "<group>"; };
+		E5C011B416CB073D0059ED0F /* FGStoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStoreCell.h; sourceTree = "<group>"; };
+		E5C011B516CB073D0059ED0F /* FGStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreCell.m; sourceTree = "<group>"; };
+		E5C011B716CB07C00059ED0F /* FGStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStoreViewController.h; sourceTree = "<group>"; };
+		E5C011B816CB07C10059ED0F /* FGStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreViewController.m; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
@@ -573,6 +579,8 @@
 				E585571816C15B0400BF4546 /* FGPlotCell.m */,
 				E504277D16C1A73A00692AD7 /* FGDropboxCell.h */,
 				E504277E16C1A73A00692AD7 /* FGDropboxCell.m */,
+				E5C011B416CB073D0059ED0F /* FGStoreCell.h */,
+				E5C011B516CB073D0059ED0F /* FGStoreCell.m */,
 				E54D71AC16049C98008CEC5D /* FGGatesContainerView.h */,
 				E54D71B616049E09008CEC5D /* FGGatesContainerView.m */,
 				E54BC30D160246D400E55A28 /* GateDrawing */,
@@ -689,6 +697,8 @@
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */,
+				E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */,
 				E5C0117716C944F10059ED0F /* NSDate+Formatting.h */,
 				E5C0117816C944F10059ED0F /* NSDate+Formatting.m */,
 				E59C493916C4525600B5E0D5 /* UIImage+Extensions.h */,
@@ -755,8 +765,8 @@
 				E585572216C1A46600BF4546 /* FGDropboxViewController.m */,
 				E50427C516C1DEAE00692AD7 /* FGFolderPickerTableViewController.h */,
 				E50427C616C1DEB000692AD7 /* FGFolderPickerTableViewController.m */,
-				E5C0119616CA971A0059ED0F /* FGStoreViewController.h */,
-				E5C0119716CA971A0059ED0F /* FGStoreViewController.m */,
+				E5C011B716CB07C00059ED0F /* FGStoreViewController.h */,
+				E5C011B816CB07C10059ED0F /* FGStoreViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1318,10 +1328,12 @@
 				E5C0119016CA962D0059ED0F /* MKSKSubscriptionProduct.m in Sources */,
 				E5C0119216CA962D0059ED0F /* MKStoreManager.m in Sources */,
 				E5C0119316CA962D0059ED0F /* VerificationController.m in Sources */,
-				E5C0119816CA971A0059ED0F /* FGStoreViewController.m in Sources */,
 				E5C0119E16CA99280059ED0F /* NSData+MKBase64.m in Sources */,
 				E5C0119F16CA99280059ED0F /* SFHFKeychainUtils.m in Sources */,
 				E5C011A216CA9E830059ED0F /* FGFolderHeaderView.m in Sources */,
+				E5C011B616CB073D0059ED0F /* FGStoreCell.m in Sources */,
+				E5C011B916CB07C10059ED0F /* FGStoreViewController.m in Sources */,
+				E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

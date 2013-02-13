@@ -7,7 +7,7 @@
 //
 
 #import "FGStoreCell.h"
-
+#import <QuartzCore/QuartzCore.h>
 @implementation FGStoreCell
 
 - (id)initWithFrame:(CGRect)frame
@@ -17,6 +17,22 @@
         // Initialization code
     }
     return self;
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    if (newSuperview) {
+        self.mainImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.mainImageView.layer.borderWidth = 0.5f;
+        self.mainImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.mainImageView.layer.shadowRadius = 3.0f;
+        self.mainImageView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+        self.mainImageView.layer.shadowOpacity = 0.5f;
+        self.mainImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.mainImageView.layer.shouldRasterize = YES;
+        
+    }
 }
 
 /*

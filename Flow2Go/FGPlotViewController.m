@@ -49,7 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
     if (!self.plot) {
         NSLog(@"plot was nil");
         return;
@@ -63,6 +62,7 @@
 {
     [super viewWillAppear:animated];
     [self _configureButtons];
+    [self _configureBarButtons];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -107,6 +107,14 @@
     self.navigationItem.leftBarButtonItems = @[addGateButton, infoBarButton];
     self.plotTypeSegmentedControl.selectedSegmentIndex = self.plot.plotType.integerValue;
     [self.yAxisButton setTransform:CGAffineTransformMakeRotation(-M_PI / 2)];
+}
+
+
+- (void)_configureBarButtons
+{
+    UIBarButtonItem *doneButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
+    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
+    self.navigationItem.rightBarButtonItems = @[doneButton, threeDButton];
 }
 
 
@@ -169,6 +177,12 @@
     [self.delegate plotViewController:self didTapDoneForPlot:self.plot];
 }
 
+
+- (void)threeDTapped:(UIBarButtonItem *)barButton
+{
+    NSLog(@"3D not yet available");
+    [self performSegueWithIdentifier:@"Show 3D graph" sender:barButton];
+}
 
 - (void)_toggleInfo:(UIButton *)sender
 {

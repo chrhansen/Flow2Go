@@ -33,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[MKStoreManager sharedManager] removeAllKeychainData];
+//    [[MKStoreManager sharedManager] removeAllKeychainData];
     [self _addObservings];
     [self _addNoiseBackground];
 }

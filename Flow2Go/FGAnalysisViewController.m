@@ -197,7 +197,7 @@
     navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
     navigationController.navigationBar.translucent = YES;
-    [navigationController setNavigationBarHidden:YES animated:NO];
+//    [navigationController setNavigationBarHidden:YES animated:NO];
     [self presentViewController:navigationController animated:YES completion:^{
         self.presentedPlot = plot;
         [self.collectionView reloadData];

@@ -68,7 +68,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self _setControlsVisible:YES];
     [self _createGraphAndConfigurePlotSpace];
     [self _insertScatterPlot];
     [self _reloadPlotDataAndLayout];
@@ -80,8 +79,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self _setControlsVisible:NO];
-    [self _grabImageOfPlot];
+    [self _grabImageOfPlot]; //TODO: downscale image in background thread before adding. (consider thumbnail res. for measurement/and high res for sharing)
     [super viewWillDisappear:animated];
 }
 
@@ -97,21 +95,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-
-- (void)_setControlsVisible:(BOOL)visible
-{
-    CGFloat alpha = 0.0f;
-    if (visible) alpha = 1.0f;
-    [self.navigationController setNavigationBarHidden:!visible animated:YES];
-    self.navigationController.navigationBar.alpha = 0.0;
-
-    [UIView animateWithDuration:0.3 animations:^{
-        self.navigationController.navigationBar.alpha = alpha;
-        self.xAxisButton.alpha = alpha * 0.3;
-        self.yAxisButton.alpha = alpha * 0.3;
-    } completion:nil];
 }
 
 
@@ -288,7 +271,7 @@
             point = CGPointMake(axisButton.frame.origin.x + axisButton.bounds.size.width / 2.0f, axisButton.frame.origin.y);
             break;
         case Y_AXIS_TAG:
-            point = CGPointMake(axisButton.bounds.size.height, axisButton.frame.origin.y + axisButton.bounds.size.width / 2.0f);
+            point = CGPointMake(axisButton.frame.origin.x + axisButton.bounds.size.height / 2.0f, axisButton.frame.origin.y);
             break;
         default:
             break;

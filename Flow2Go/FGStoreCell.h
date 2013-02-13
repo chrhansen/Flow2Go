@@ -1,5 +1,5 @@
 //
-//  FGStoreViewController.h
+//  FGStoreCell.h
 //  Flow2Go
 //
 //  Created by Christian Hansen on 13/02/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FGStoreViewController : UICollectionViewController
+@interface FGStoreCell : UICollectionViewCell
 
 @end

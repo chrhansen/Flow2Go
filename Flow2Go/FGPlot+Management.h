@@ -12,7 +12,7 @@
 
 + (FGPlot *)createRootPlotForAnalysis:(FGAnalysis *)analysis;
 + (FGPlot *)createPlotForAnalysis:(FGAnalysis *)analysis parentNode:(FGNode *)parentNode;
-
+- (NSArray *)parentGateNames;
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber;
 
 - (NSInteger)countOfParentGates;

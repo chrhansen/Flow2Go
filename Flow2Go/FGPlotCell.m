@@ -24,15 +24,37 @@
 {
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
-        self.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.0f];
-        self.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.layer.borderWidth = 0.5f;
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowRadius = 3.0f;
-        self.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-        self.layer.shadowOpacity = 0.5f;
-        self.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        self.layer.shouldRasterize = YES;
+        self.plotImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.plotImageView.layer.borderWidth = 0.5f;
+        self.plotImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.plotImageView.layer.shadowRadius = 3.0f;
+        self.plotImageView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+        self.plotImageView.layer.shadowOpacity = 0.5f;
+        self.plotImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.plotImageView.layer.shouldRasterize = YES;
+        
+        self.nameLabel.layer.shadowOpacity = 0.7;
+        self.nameLabel.layer.shadowRadius = 3.0;
+        self.nameLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.nameLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+        self.nameLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.nameLabel.layer.shouldRasterize = YES;
+
+        self.countLabel.layer.shadowOpacity = 0.7;
+        self.countLabel.layer.shadowRadius = 3.0;
+        self.countLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.countLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+        self.countLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.countLabel.layer.shouldRasterize = YES;
+        
+        self.populationLabel.layer.shadowOpacity = 0.7;
+        self.populationLabel.layer.shadowRadius = 3.0;
+        self.populationLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.populationLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+        self.populationLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.populationLabel.layer.shouldRasterize = YES;
+
+
     }
 }
 

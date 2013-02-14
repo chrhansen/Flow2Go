@@ -13,6 +13,6 @@
 + (NSString *)getUUID;
 
 + (NSString *)percentageAsString:(NSInteger)subsetCount ofAll:(NSInteger)totalCount;
-
++ (NSString *)countsAndPercentageAsString:(NSInteger)subsetCount ofAll:(NSInteger)totalCount;
 
 @end

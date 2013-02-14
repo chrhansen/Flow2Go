@@ -15,7 +15,6 @@
 		E504279416C1AC2C00692AD7 /* FGAnalysis.m in Sources */ = {isa = PBXBuildFile; fileRef = E504279316C1AC2C00692AD7 /* FGAnalysis.m */; };
 		E504279716C1AC2D00692AD7 /* FGKeyword.m in Sources */ = {isa = PBXBuildFile; fileRef = E504279616C1AC2D00692AD7 /* FGKeyword.m */; };
 		E504279D16C1AC7D00692AD7 /* FGAnalysis+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E504279C16C1AC7D00692AD7 /* FGAnalysis+Management.m */; };
-		E50427A316C1B05100692AD7 /* FGGate.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427A216C1B05000692AD7 /* FGGate.m */; };
 		E50427A616C1B05200692AD7 /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427A516C1B05100692AD7 /* FGPlot.m */; };
 		E50427A916C1B08700692AD7 /* FGNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427A816C1B08600692AD7 /* FGNode.m */; };
 		E50427AC16C1B12E00692AD7 /* FGPlot+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427AB16C1B12E00692AD7 /* FGPlot+Management.m */; };
@@ -118,6 +117,7 @@
 		E5C011A616CAA05B0059ED0F /* 80-shopping-cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */; };
 		E5C011B616CB073D0059ED0F /* FGStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011B516CB073D0059ED0F /* FGStoreCell.m */; };
 		E5C011B916CB07C10059ED0F /* FGStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011B816CB07C10059ED0F /* FGStoreViewController.m */; };
+		E5D3147616CD988000700F57 /* FGGate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3147516CD988000700F57 /* FGGate.m */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
@@ -178,8 +178,6 @@
 		E504279616C1AC2D00692AD7 /* FGKeyword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGKeyword.m; sourceTree = "<group>"; };
 		E504279B16C1AC7D00692AD7 /* FGAnalysis+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FGAnalysis+Management.h"; sourceTree = "<group>"; };
 		E504279C16C1AC7D00692AD7 /* FGAnalysis+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FGAnalysis+Management.m"; sourceTree = "<group>"; };
-		E50427A116C1B05000692AD7 /* FGGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGate.h; sourceTree = "<group>"; };
-		E50427A216C1B05000692AD7 /* FGGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGate.m; sourceTree = "<group>"; };
 		E50427A416C1B05100692AD7 /* FGPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlot.h; sourceTree = "<group>"; };
 		E50427A516C1B05100692AD7 /* FGPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlot.m; sourceTree = "<group>"; };
 		E50427A716C1B08600692AD7 /* FGNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGNode.h; sourceTree = "<group>"; };
@@ -400,6 +398,8 @@
 		E5C011B516CB073D0059ED0F /* FGStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreCell.m; sourceTree = "<group>"; };
 		E5C011B716CB07C00059ED0F /* FGStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStoreViewController.h; sourceTree = "<group>"; };
 		E5C011B816CB07C10059ED0F /* FGStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreViewController.m; sourceTree = "<group>"; };
+		E5D3147416CD988000700F57 /* FGGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGate.h; sourceTree = "<group>"; };
+		E5D3147516CD988000700F57 /* FGGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGate.m; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
@@ -742,8 +742,8 @@
 				E50427A816C1B08600692AD7 /* FGNode.m */,
 				E50427A416C1B05100692AD7 /* FGPlot.h */,
 				E50427A516C1B05100692AD7 /* FGPlot.m */,
-				E50427A116C1B05000692AD7 /* FGGate.h */,
-				E50427A216C1B05000692AD7 /* FGGate.m */,
+				E5D3147416CD988000700F57 /* FGGate.h */,
+				E5D3147516CD988000700F57 /* FGGate.m */,
 			);
 			name = "CoreData managed subclasses";
 			sourceTree = "<group>";
@@ -1307,7 +1307,6 @@
 				E504279416C1AC2C00692AD7 /* FGAnalysis.m in Sources */,
 				E504279716C1AC2D00692AD7 /* FGKeyword.m in Sources */,
 				E504279D16C1AC7D00692AD7 /* FGAnalysis+Management.m in Sources */,
-				E50427A316C1B05100692AD7 /* FGGate.m in Sources */,
 				E50427A616C1B05200692AD7 /* FGPlot.m in Sources */,
 				E50427A916C1B08700692AD7 /* FGNode.m in Sources */,
 				E50427AC16C1B12E00692AD7 /* FGPlot+Management.m in Sources */,
@@ -1334,6 +1333,7 @@
 				E5C011B616CB073D0059ED0F /* FGStoreCell.m in Sources */,
 				E5C011B916CB07C10059ED0F /* FGStoreViewController.m in Sources */,
 				E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */,
+				E5D3147616CD988000700F57 /* FGGate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

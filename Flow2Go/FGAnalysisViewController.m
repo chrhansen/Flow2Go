@@ -17,11 +17,12 @@
 #import "FGPlotCell.h"
 #import "KGNoise.h"
 #import "UIBarButtonItem+Customview.h"
+#import "NSString+UUID.h"
+#import "NSString+_Format.h"
 
 @interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate, FGFCSProgressDelegate>
 
 @property (nonatomic, strong) FGFCSFile *fcsFile;
-@property (nonatomic, strong) FGPlot *presentedPlot;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
@@ -114,23 +115,18 @@
 {
     FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
     FGPlotCell *plotCell = (FGPlotCell *)cell;
-    if (plot == self.presentedPlot) {
-        //        [plotCell setHidden:YES];
-        return;
-    } else {
-        //        [plotCell setHidden:NO];
-    }
     FGGate *parentGate = (FGGate *)plot.parentNode;
-    plotCell.nameLabel.text = plot.name;
-    plotCell.countLabel.text = [NSString stringWithFormat:@"%i cells", parentGate.cellCount.integerValue];
-    plotCell.plotImageView.image = plot.image;
-    
-    [plotCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (parentGate == nil) {
-        plotCell.nameLabel.text = [NSString stringWithFormat:@"%@", self.analysis.measurement.filename];
-        plotCell.countLabel.text = [NSString stringWithFormat:@"%i cells", self.analysis.measurement.countOfEvents.integerValue];
+    NSUInteger allEvents = self.analysis.measurement.countOfEvents.integerValue;
+    if (parentGate) {
+        plotCell.nameLabel.text = plot.name;
+        plotCell.countLabel.text = [NSString countsAndPercentageAsString:parentGate.cellCount.integerValue ofAll:allEvents];
+    } else {
+        plotCell.nameLabel.text = [self.analysis.measurement.filename.stringByDeletingPathExtension fitToLength:32];
+        plotCell.countLabel.text = [NSString countsAndPercentageAsString:allEvents ofAll:allEvents];
     }
+    plotCell.plotImageView.image = plot.image;
+    [plotCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    plotCell.populationLabel.text = [plot.parentGateNames componentsJoinedByString:@"/"];
 }
 
 #pragma mark - UICollectionView Datasource
@@ -197,12 +193,8 @@
     navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
     navigationController.navigationBar.translucent = YES;
-//    [navigationController setNavigationBarHidden:YES animated:NO];
     [self presentViewController:navigationController animated:YES completion:^{
-        self.presentedPlot = plot;
-        [self.collectionView reloadData];
-        //        NSUInteger row = [self.analysis.plots indexOfObject:plot];
-        //        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]]];
+        
     }];
 }
 
@@ -263,7 +255,6 @@
 - (void)plotViewController:(FGPlotViewController *)plotViewController didTapDoneForPlot:(FGPlot *)plot
 {
     [self dismissViewControllerAnimated:YES completion:^{
-        self.presentedPlot = nil;
         NSUInteger row = [self.analysis.plots indexOfObject:plot];
         [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]]];
         NSError *error;

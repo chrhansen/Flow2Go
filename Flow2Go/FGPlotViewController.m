@@ -113,8 +113,8 @@
 - (void)_configureBarButtons
 {
     UIBarButtonItem *doneButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
-    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
-    self.navigationItem.rightBarButtonItems = @[doneButton, threeDButton];
+//    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
+    self.navigationItem.rightBarButtonItems = @[doneButton];
 }
 
 

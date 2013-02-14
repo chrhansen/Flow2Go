@@ -29,4 +29,14 @@
     return [NSString stringWithFormat:@"%.1f%%", 100.0*subset/total];
 }
 
+
++ (NSString *)countsAndPercentageAsString:(NSInteger)subsetCount ofAll:(NSInteger)totalCount
+{
+    if (totalCount == 0 ) return @"0%";
+    
+    double subset = (double)subsetCount;
+    double total = (double)totalCount;
+    
+    return [NSString stringWithFormat:@"%d/%d (%.1f%%)", subsetCount, totalCount, 100.0*subset/total];
+}
 @end

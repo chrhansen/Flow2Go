@@ -138,4 +138,16 @@
     }
 }
 
+- (NSArray *)parentGateNames
+{
+    NSMutableArray *names = [NSMutableArray array];
+    FGGate *parentNode = (FGGate *)self.parentNode;
+    while (parentNode) {
+        [names addObject:[parentNode name]];
+        parentNode = (FGGate *)parentNode.parentNode.parentNode;
+    }
+    [names addObject:NSLocalizedString(@"All", nil)];
+    return [[names reverseObjectEnumerator] allObjects];
+}
+
 @end

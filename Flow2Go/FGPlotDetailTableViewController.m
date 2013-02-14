@@ -62,7 +62,7 @@
     if (!parentGate) {
         self.plotNameTextField.text = self.plot.analysis.measurement.filename;
         percentageString = [NSString percentageAsString:self.plot.analysis.measurement.countOfEvents.integerValue
-                                                            ofAll:self.plot.analysis.measurement.countOfEvents.integerValue];
+                                                  ofAll:self.plot.analysis.measurement.countOfEvents.integerValue];
         self.plotCount.text = [NSString stringWithFormat:@"%@ (%@)", self.plot.analysis.measurement.countOfEvents, percentageString];
         self.parentGateName.text = NSLocalizedString(@"ungated", nil);
         self.parentGateName.alpha = 0.5;

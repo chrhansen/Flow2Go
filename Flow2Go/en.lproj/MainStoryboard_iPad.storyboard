@@ -959,43 +959,43 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="20" id="Ok8-vp-oZy">
-                            <size key="itemSize" width="300" height="300"/>
+                            <size key="itemSize" width="300" height="350"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="30" minY="20" maxX="30" maxY="20"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Plot Cell" id="gW7-Gj-KLn" customClass="FGPlotCell">
-                                <rect key="frame" x="30" y="20" width="300" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Plot Cell" id="WQi-pP-nAl" customClass="FGPlotCell">
+                                <rect key="frame" x="30" y="20" width="300" height="350"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="350"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yYr-xP-NnC">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="- - " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPH-Ki-VEK">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="25" id="3Bi-UM-4he"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mus-py-zqV">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="206" id="Svk-AS-o8U"/>
+                                                <constraint firstAttribute="height" constant="25" id="hgd-QA-l62"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7xS-3p-Y6G">
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="300" id="MDM-Pz-bzH"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gC-b7-18h">
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="HQE-a0-xyp"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" text="count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DlU-Wy-8la">
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="PDP-Ha-xeW"/>
-                                                <constraint firstAttribute="width" constant="189" id="Tf9-yj-zEx"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l9Y-13-w7e">
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="18" id="aHe-XG-o4d"/>
-                                            </constraints>
+                                        <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VPf-LT-HRv">
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <state key="normal">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1005,30 +1005,37 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="/" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ry1-rA-ZDI">
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="284" id="bpa-oB-vcU"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="yYr-xP-NnC" firstAttribute="leading" secondItem="gW7-Gj-KLn" secondAttribute="leading" type="user" id="4Qr-G8-lFh"/>
-                                    <constraint firstAttribute="bottom" secondItem="DlU-Wy-8la" secondAttribute="bottom" constant="48" id="5Xg-Df-Ugy"/>
-                                    <constraint firstItem="8gC-b7-18h" firstAttribute="top" secondItem="DlU-Wy-8la" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="D7b-Im-F8j"/>
-                                    <constraint firstItem="yYr-xP-NnC" firstAttribute="leading" secondItem="gW7-Gj-KLn" secondAttribute="leading" type="user" id="Hcp-12-yJN"/>
-                                    <constraint firstItem="yYr-xP-NnC" firstAttribute="top" secondItem="gW7-Gj-KLn" secondAttribute="top" type="default" id="Ht5-EL-dmK"/>
-                                    <constraint firstItem="yYr-xP-NnC" firstAttribute="trailing" secondItem="gW7-Gj-KLn" secondAttribute="trailing" type="default" id="MLq-YP-49d"/>
-                                    <constraint firstItem="DlU-Wy-8la" firstAttribute="leading" secondItem="gW7-Gj-KLn" secondAttribute="leading" constant="20" type="default" id="OLp-IV-G44"/>
-                                    <constraint firstItem="8gC-b7-18h" firstAttribute="leading" secondItem="gW7-Gj-KLn" secondAttribute="leading" constant="20" type="default" id="PZt-Jk-AkE"/>
-                                    <constraint firstAttribute="trailing" secondItem="l9Y-13-w7e" secondAttribute="trailing" constant="20" type="default" id="Qwm-JZ-5kV"/>
-                                    <constraint firstItem="yYr-xP-NnC" firstAttribute="bottom" secondItem="gW7-Gj-KLn" secondAttribute="bottom" type="default" id="geD-YH-hcw"/>
-                                    <constraint firstItem="l9Y-13-w7e" firstAttribute="leading" secondItem="8gC-b7-18h" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="jWF-1G-OvN"/>
-                                    <constraint firstAttribute="bottom" secondItem="l9Y-13-w7e" secondAttribute="bottom" constant="20" type="default" id="stg-Fm-aYm"/>
+                                    <constraint firstAttribute="bottom" secondItem="VPf-LT-HRv" secondAttribute="bottom" constant="59" id="0H3-Ro-wvN"/>
+                                    <constraint firstAttribute="bottom" secondItem="PPH-Ki-VEK" secondAttribute="bottom" constant="22" id="8iy-yv-QzO"/>
+                                    <constraint firstItem="7xS-3p-Y6G" firstAttribute="top" secondItem="WQi-pP-nAl" secondAttribute="top" type="default" id="Jik-ee-fGn"/>
+                                    <constraint firstItem="Mus-py-zqV" firstAttribute="leading" secondItem="PPH-Ki-VEK" secondAttribute="leading" type="default" id="Nll-b8-FJj"/>
+                                    <constraint firstItem="Mus-py-zqV" firstAttribute="bottom" secondItem="WQi-pP-nAl" secondAttribute="bottom" type="default" id="PhF-8p-50U"/>
+                                    <constraint firstItem="VPf-LT-HRv" firstAttribute="trailing" secondItem="PPH-Ki-VEK" secondAttribute="trailing" type="default" id="SXn-oS-7YP"/>
+                                    <constraint firstItem="VPf-LT-HRv" firstAttribute="trailing" secondItem="Ry1-rA-ZDI" secondAttribute="trailing" type="default" id="TT1-bm-8gg"/>
+                                    <constraint firstItem="7xS-3p-Y6G" firstAttribute="centerX" secondItem="Ry1-rA-ZDI" secondAttribute="centerX" type="default" id="VmV-jo-I1E"/>
+                                    <constraint firstItem="7xS-3p-Y6G" firstAttribute="trailing" secondItem="WQi-pP-nAl" secondAttribute="trailing" type="default" id="hAp-HB-Dph"/>
+                                    <constraint firstItem="Ry1-rA-ZDI" firstAttribute="top" secondItem="WQi-pP-nAl" secondAttribute="top" constant="8" id="hGJ-gh-26g"/>
+                                    <constraint firstItem="7xS-3p-Y6G" firstAttribute="leading" secondItem="WQi-pP-nAl" secondAttribute="leading" type="default" id="j92-ew-3d9"/>
+                                    <constraint firstItem="Ry1-rA-ZDI" firstAttribute="leading" secondItem="PPH-Ki-VEK" secondAttribute="leading" type="default" id="jI7-Cs-Ecg"/>
                                 </constraints>
-                                <size key="customSize" width="300" height="300"/>
                                 <connections>
-                                    <outlet property="countLabel" destination="DlU-Wy-8la" id="HWl-Nh-4hA"/>
-                                    <outlet property="infoButton" destination="l9Y-13-w7e" id="W2a-XB-oUa"/>
-                                    <outlet property="nameLabel" destination="8gC-b7-18h" id="hfD-Kc-wmt"/>
-                                    <outlet property="plotImageView" destination="yYr-xP-NnC" id="NfE-H9-6YN"/>
+                                    <outlet property="countLabel" destination="Mus-py-zqV" id="Hr7-7y-FJb"/>
+                                    <outlet property="infoButton" destination="VPf-LT-HRv" id="Y76-d8-XkM"/>
+                                    <outlet property="nameLabel" destination="PPH-Ki-VEK" id="ZzS-6Z-ygK"/>
+                                    <outlet property="plotImageView" destination="7xS-3p-Y6G" id="y6G-c0-VXX"/>
+                                    <outlet property="populationLabel" destination="Ry1-rA-ZDI" id="Wc7-4J-Qdc"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -1184,7 +1191,7 @@
             </objects>
             <point key="canvasLocation" x="-1164" y="-5248"/>
         </scene>
-        <!--Folder Picker Table View Controller-->
+        <!--Folder Picker Table View Controller - Select Folder-->
         <scene sceneID="TfF-j8-v7I">
             <objects>
                 <tableViewController modalPresentationStyle="currentContext" id="Go1-9u-NCJ" customClass="FGFolderPickerTableViewController" sceneMemberID="viewController">
@@ -1208,7 +1215,7 @@
                             <outlet property="delegate" destination="Go1-9u-NCJ" id="upP-nO-wV1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="e2H-H5-gEL">
+                    <navigationItem key="navigationItem" title="Select Folder" id="e2H-H5-gEL">
                         <barButtonItem key="leftBarButtonItem" title="New Folder" id="FXj-8a-DCa">
                             <connections>
                                 <action selector="newFolderTapped:" destination="Go1-9u-NCJ" id="9n2-MY-prz"/>
@@ -1370,6 +1377,175 @@
         <image name="39-circle-check.png" width="28" height="28"/>
         <image name="80-shopping-cart.png" width="26" height="19"/>
     </resources>
+    <classes>
+        <class className="CPTGraphHostingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
+        </class>
+        <class className="FGAddGateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateTableViewController.h"/>
+        </class>
+        <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>
+        </class>
+        <class className="FGDropboxCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGDropboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneTapped:"/>
+            </relationships>
+        </class>
+        <class className="FGFolderCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="downloadCountLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="topContentView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="FGFolderCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCollectionViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="showStore" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FGFolderHeaderView" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderHeaderView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="storeButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FGFolderLayout" superclassName="UICollectionViewFlowLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderLayout.h"/>
+        </class>
+        <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelTapped:"/>
+                <relationship kind="action" name="newFolderTapped:"/>
+            </relationships>
+        </class>
+        <class className="FGGateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGateTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="deleteGateTapped:"/>
+                <relationship kind="action" name="newPlotTapped:"/>
+                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FGGatesContainerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGatesContainerView.h"/>
+        </class>
+        <class className="FGKeywordTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGKeywordTableViewController.h"/>
+        </class>
+        <class className="FGMeasurementCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="eventCountLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="fileNameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="measurementImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
+            </relationships>
+        </class>
+        <class className="FGMeasurementCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCollectionViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="infoButtonTapped:" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FGPlotCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="populationLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGPlotDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="deletePlotTapped:"/>
+                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FGPlotViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="plotTypeChanged:" candidateClass="UISegmentedControl"/>
+                <relationship kind="action" name="xAxisTapped:"/>
+                <relationship kind="action" name="yAxisTapped:"/>
+                <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
+                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
+                <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FGStoreCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGStoreViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="doneTapped:"/>
+                <relationship kind="action" name="restoreTapped:"/>
+                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
+        <class className="UIRefreshControl" superclassName="UIControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

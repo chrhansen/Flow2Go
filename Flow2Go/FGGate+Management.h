@@ -10,4 +10,8 @@
 
 @interface FGGate (Management)
 
++ (FGGate *)createChildGateInPlot:(FGNode *)parentNode type:(FGGateType)gateType vertices:(NSArray *)vertices;
++ (BOOL)is1DGateType:(FGGateType)gateType;
++ (BOOL)is2DGateType:(FGGateType)gateType;
+
 @end

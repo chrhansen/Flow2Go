@@ -37,6 +37,14 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self showAddFolderPromptIfEmpty];
+    
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -48,9 +56,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)showAddFolderPromptIfEmpty
+{
+    if (self.fetchedResultsController.fetchedObjects.count == 0) {
+        [self presentFolderPromptWithTitle:NSLocalizedString(@"Create your first folder", nil)];
+    }
+}
+
 - (IBAction)newFolderTapped:(id)sender
 {
-    UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Folder Name", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add", nil), nil];
+    [self presentFolderPromptWithTitle:NSLocalizedString(@"Folder Name", nil)];
+}
+
+
+- (void)presentFolderPromptWithTitle:(NSString *)title
+{
+    UIAlertView *alertView = [UIAlertView.alloc initWithTitle:title message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add", nil), nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
 }

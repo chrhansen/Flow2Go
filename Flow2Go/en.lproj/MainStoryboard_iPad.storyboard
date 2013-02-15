@@ -819,12 +819,12 @@
                                             <subviews>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" image="39-circle-check.png" translatesAutoresizingMaskIntoConstraints="NO" id="Niz-zb-VtP">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="hvv-lj-qJG"/>
+                                                        <constraint firstAttribute="height" constant="20" id="m8t-NK-oBi"/>
                                                     </constraints>
                                                 </imageView>
                                                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="qKo-Ss-nhR">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="Kwu-cd-kRf"/>
+                                                        <constraint firstAttribute="width" constant="20" id="ewy-Mu-Dcu"/>
                                                     </constraints>
                                                 </activityIndicatorView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FPu-ix-Xt7">
@@ -849,11 +849,11 @@
                                                 <constraint firstItem="qKo-Ss-nhR" firstAttribute="top" secondItem="dte-0u-Uae" secondAttribute="top" constant="20" symbolic="YES" type="default" id="IUI-tU-iAK"/>
                                                 <constraint firstAttribute="trailing" secondItem="qKo-Ss-nhR" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Nyu-Hf-38e"/>
                                                 <constraint firstItem="Niz-zb-VtP" firstAttribute="top" secondItem="dte-0u-Uae" secondAttribute="top" constant="20" symbolic="YES" type="default" id="PqH-LB-bWT"/>
+                                                <constraint firstItem="Niz-zb-VtP" firstAttribute="leading" secondItem="qKo-Ss-nhR" secondAttribute="leading" type="default" id="SST-B2-F3x"/>
                                                 <constraint firstAttribute="trailing" secondItem="Niz-zb-VtP" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="aPH-jD-pWx"/>
                                                 <constraint firstAttribute="bottom" secondItem="20Z-rZ-gu1" secondAttribute="bottom" constant="4" id="fBL-fd-jSJ"/>
                                                 <constraint firstAttribute="trailing" secondItem="20Z-rZ-gu1" secondAttribute="trailing" constant="7" id="fcG-Pf-Per"/>
-                                                <constraint firstItem="FPu-ix-Xt7" firstAttribute="centerY" secondItem="Niz-zb-VtP" secondAttribute="centerY" type="default" id="gHg-nd-pT0"/>
-                                                <constraint firstItem="qKo-Ss-nhR" firstAttribute="bottom" secondItem="Niz-zb-VtP" secondAttribute="bottom" type="default" id="oAQ-0R-cZK"/>
+                                                <constraint firstItem="qKo-Ss-nhR" firstAttribute="centerY" secondItem="FPu-ix-Xt7" secondAttribute="centerY" type="default" id="lxG-aW-B5R"/>
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="- - " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z0x-RA-gh4">
@@ -1005,7 +1005,7 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="/" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ry1-rA-ZDI">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="/" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ry1-rA-ZDI">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="284" id="bpa-oB-vcU"/>
                                             </constraints>
@@ -1397,9 +1397,6 @@
         </class>
         <class className="FGDropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="doneTapped:"/>
-            </relationships>
         </class>
         <class className="FGFolderCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCell.h"/>
@@ -1493,9 +1490,6 @@
         <class className="FGPlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
             <relationships>
-                <relationship kind="action" name="plotTypeChanged:" candidateClass="UISegmentedControl"/>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
                 <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>

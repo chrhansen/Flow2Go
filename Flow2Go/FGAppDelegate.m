@@ -9,19 +9,17 @@
 #import "FGAppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "FGStyleController.h"
+#import "ATConnect.h"
 
 @implementation FGAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [TestFlight takeOff:@"043c6b53e9c4be16677615865b03e754_MTMxNDE4MjAxMi0wOS0xMiAxMjo0NzoyMS40ODMwNjg"];
-
+//    [TestFlight takeOff:@"043c6b53e9c4be16677615865b03e754_MTMxNDE4MjAxMi0wOS0xMiAxMjo0NzoyMS40ODMwNjg"];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Flow2Go.sqlite"];
-
-    DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"jnrnwsyo6j65b4a"
-                                                    appSecret:@"3hlpks700kooxv8"
-                                                         root:kDBRootDropbox];
-    
+    DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"jnrnwsyo6j65b4a" appSecret:@"3hlpks700kooxv8" root:kDBRootDropbox];
+    ATConnect *connection = [ATConnect sharedConnection];
+    connection.apiKey = kApptentiveAPIKey;
     [FGStyleController applyAppearance];
     return YES;
 }

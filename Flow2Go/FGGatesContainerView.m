@@ -11,6 +11,7 @@
 #import "FGSingleRange.h"
 #import "FGRectangle.h"
 #import "FGEllipse.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface FGGatesContainerView () <UIGestureRecognizerDelegate>
 
@@ -39,6 +40,7 @@
     if (self) {
         self.gateGraphics = NSMutableArray.array;
         [self _addGestures];
+        self.layer.drawsAsynchronously = YES;
     }
     return self;
 }
@@ -259,7 +261,6 @@
 
 - (void)doubleTapDetected:(UITapGestureRecognizer *)doubleTapGesture
 {
-    NSLog(@"double tap recognized!");
     CGPoint tapPoint = [doubleTapGesture locationInView:self];
     FGGateGraphic *tappedGate = [self _gateAtTapPoint:tapPoint];
     if (tappedGate != nil) {
@@ -279,15 +280,18 @@
         {
             case UIGestureRecognizerStateBegan:
                 [self.creatingGraphic panBeganAtPoint:location];
+                [self setNeedsDisplayInRect:self.creatingGraphic.path.bounds];
                 break;
                 
             case UIGestureRecognizerStateChanged:
                 [self.creatingGraphic panChangedToPoint:location];
+                [self setNeedsDisplayInRect:self.creatingGraphic.path.bounds];
                 break;
                 
             case UIGestureRecognizerStateEnded:
                 [self.creatingGraphic panEndedAtPoint:location];
                 [self.delegate gatesContainerView:self didModifyGateNo:self.creatingGraphic.gateTag gateType:self.creatingGraphic.gateType vertices:[self.creatingGraphic getPathPoints]];
+                [self setNeedsDisplayInRect:self.creatingGraphic.path.bounds];
                 self.creatingGraphic = nil;
                 break;
                 
@@ -324,10 +328,9 @@
                 
             default:
                 break;
-        }    }
-    
-    
-    [self setNeedsDisplay];
+        }
+        if (self.modifyingGraphic) [self setNeedsDisplay];
+    }
     [panGesture setTranslation:CGPointZero inView:self];
 }
 
@@ -364,7 +367,6 @@
                 {
                     [self.modifyingGraphic pinchEndedAtLocation:location withScale:pinchRecognizer.scale];
                     [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
-                    
                     self.modifyingGraphic = nil;
                 }
                 break;

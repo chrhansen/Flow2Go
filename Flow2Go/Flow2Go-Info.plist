@@ -14,10 +14,10 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>icon_114.png</string>
-				<string>icon_57.png</string>
-				<string>icon_144.png</string>
-				<string>icon_72.png</string>
+				<string>flow2go-logo.png</string>
+				<string>flow2go-logo-72.png</string>
+				<string>flow2go-logo-114.png</string>
+				<string>flow2go-logo-57.png</string>
 			</array>
 		</dict>
 	</dict>

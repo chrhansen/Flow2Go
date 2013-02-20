@@ -18,6 +18,8 @@
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
 #import "FGFolderHeaderView.h"
+#import "ATConnect.h"
+#import "ATSurveys.h"
 
 @interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
 @property (nonatomic, strong) NSMutableArray *editItems;
@@ -41,6 +43,7 @@
     [super viewDidLoad];
     [self _configureBarButtonItemsForEditing:NO];
     [self _addNoiseBackground];
+    [self _observeApptentiveSurveys];
 }
 
 
@@ -53,6 +56,10 @@
 }
 
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -183,10 +190,36 @@
     }
 }
 
+#pragma mark - Button actions
+
 - (void)storeButtonTapped:(id)sender
 {
     [self performSegueWithIdentifier:@"Show Store" sender:sender];
 }
+
+
+- (void)feedbackButtonTapped:(id)sender
+{
+    ATConnect *connection = [ATConnect sharedConnection];
+    [connection presentFeedbackControllerFromViewController:self];
+}
+
+
+#pragma mark Apptentive
+#pragma mark - Apptentive
+- (void)_observeApptentiveSurveys
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(surveyBecameAvailable:)
+                                                 name:ATSurveyNewSurveyAvailableNotification object:nil];
+    [ATSurveys checkForAvailableSurveys];
+}
+
+- (void)surveyBecameAvailable:(NSNotification *)notification
+{
+    [ATSurveys presentSurveyControllerFromViewController:self];
+}
+
 
 
 #pragma mark UISearchBar delegate
@@ -283,6 +316,7 @@
         FGFolderHeaderView *headerView = (FGFolderHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Folder Header" forIndexPath:indexPath];
         headerView.searchBar.delegate = self;
         [headerView.storeButton addTarget:self action:@selector(storeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [headerView.feedbackButton addTarget:self action:@selector(feedbackButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         return headerView;
     }
     return nil;

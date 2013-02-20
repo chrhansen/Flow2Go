@@ -29,21 +29,26 @@
 		E50427DF16C206E400692AD7 /* FGBarButtonIconNavigationPane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427DD16C206E200692AD7 /* FGBarButtonIconNavigationPane@2x.png */; };
 		E50427E016C206E400692AD7 /* FGBarButtonIconNavigationPane.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427DE16C206E300692AD7 /* FGBarButtonIconNavigationPane.png */; };
 		E50BA4101600F38000E85118 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA40F1600F38000E85118 /* libz.dylib */; };
-		E511FD7315CC365D00637D39 /* icon_114.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7215CC365D00637D39 /* icon_114.png */; };
-		E511FD7515CC367F00637D39 /* icon_57.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7415CC367F00637D39 /* icon_57.png */; };
-		E511FD7715CC36BD00637D39 /* icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7615CC36BD00637D39 /* icon_144.png */; };
-		E511FD7915CC36C200637D39 /* icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = E511FD7815CC36C200637D39 /* icon_72.png */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
+		E53E31CE16D452680075DBA3 /* FGAnalysisLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */; };
 		E53FA66615CB0CC0000B048C /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA66515CB0CC0000B048C /* FGMeasurementCollectionViewController.m */; };
 		E542F4C6160933280041A60A /* FGFolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */; };
 		E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */; };
 		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
 		E54D71B516049CC5008CEC5D /* FGPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* FGPolygon.m */; };
 		E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* FGGatesContainerView.m */; };
+		E55923AD16D3817C00A087D8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55923AC16D3817C00A087D8 /* CoreTelephony.framework */; };
+		E55923AF16D3819900A087D8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55923AE16D3819900A087D8 /* SystemConfiguration.framework */; };
+		E55923C016D3824000A087D8 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E55923B716D381DB00A087D8 /* libApptentiveConnect.a */; };
+		E55923C116D3829D00A087D8 /* ApptentiveResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E55923BB16D381DB00A087D8 /* ApptentiveResources.bundle */; };
+		E55923C516D382D200A087D8 /* ATConnect.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923C316D382D200A087D8 /* ATConnect.h */; };
+		E55923C616D382D200A087D8 /* ATSurveys.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923C416D382D200A087D8 /* ATSurveys.h */; };
+		E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C716D3838800A087D8 /* 09-chat-2@2x.png */; };
+		E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C816D3838800A087D8 /* 09-chat-2.png */; };
 		E5659AF015E56A87006D23B0 /* FGFCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */; };
 		E577B4911607D76F002348EE /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B48F1607D76F002348EE /* 39-circle-check.png */; };
 		E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B4901607D76F002348EE /* 39-circle-check@2x.png */; };
@@ -94,6 +99,10 @@
 		E59C49C816C5866100B5E0D5 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C49C716C5866100B5E0D5 /* FGMeasurement.m */; };
 		E59C49CB16C5A97B00B5E0D5 /* FGMeasurementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */; };
 		E59D2E3515E365FF00944789 /* FGAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */; };
+		E5A1BC9516D05310001CABF8 /* flow2go-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9416D05310001CABF8 /* flow2go-logo.png */; };
+		E5A1BC9716D0535B001CABF8 /* flow2go-logo-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */; };
+		E5A1BC9916D05433001CABF8 /* flow2go-logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */; };
+		E5A1BC9B16D05456001CABF8 /* flow2go-logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */; };
 		E5B480B015EF597D00BB6BAC /* FGGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */; };
 		E5C0117916C944F20059ED0F /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117816C944F10059ED0F /* NSDate+Formatting.m */; };
 		E5C0117C16C990630059ED0F /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117B16C990630059ED0F /* MBProgressHUD.m */; };
@@ -160,6 +169,44 @@
 		E5FC703515CA9F8A0047A3DD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC703415CA9F890047A3DD /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E55923B616D381DB00A087D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 496DC37F1333D35600743F65;
+			remoteInfo = ApptentiveConnect;
+		};
+		E55923B816D381DB00A087D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 496DC38C1333D35600743F65;
+			remoteInfo = ApptentiveConnectTests;
+		};
+		E55923BA16D381DB00A087D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 49D1118C13341A7C00603373;
+			remoteInfo = ApptentiveResources;
+		};
+		E55923BC16D3822E00A087D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 496DC37E1333D35600743F65;
+			remoteInfo = ApptentiveConnect;
+		};
+		E55923BE16D3822E00A087D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 49D1118B13341A7C00603373;
+			remoteInfo = ApptentiveResources;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		E504277D16C1A73A00692AD7 /* FGDropboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGDropboxCell.h; sourceTree = "<group>"; };
 		E504277E16C1A73A00692AD7 /* FGDropboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGDropboxCell.m; sourceTree = "<group>"; };
@@ -209,6 +256,8 @@
 		E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* FGGraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
+		E53E31CC16D452670075DBA3 /* FGAnalysisLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisLayout.h; sourceTree = "<group>"; };
+		E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisLayout.m; sourceTree = "<group>"; };
 		E53FA66415CB0CC0000B048C /* FGMeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCollectionViewController.h; sourceTree = "<group>"; };
 		E53FA66515CB0CC0000B048C /* FGMeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCollectionViewController.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGFolderCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolderCollectionViewController.h; sourceTree = "<group>"; };
@@ -221,6 +270,13 @@
 		E54D71B216049CC5008CEC5D /* FGPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPolygon.h; sourceTree = "<group>"; };
 		E54D71B316049CC5008CEC5D /* FGPolygon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPolygon.m; sourceTree = "<group>"; };
 		E54D71B616049E09008CEC5D /* FGGatesContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGatesContainerView.m; sourceTree = "<group>"; };
+		E55923AC16D3817C00A087D8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		E55923AE16D3819900A087D8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ApptentiveConnect.xcodeproj; path = Flow2Go/ApptentiveConnect/ApptentiveConnect.xcodeproj; sourceTree = "<group>"; };
+		E55923C316D382D200A087D8 /* ATConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATConnect.h; path = Flow2Go/ApptentiveConnect/source/ATConnect.h; sourceTree = "<group>"; };
+		E55923C416D382D200A087D8 /* ATSurveys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATSurveys.h; path = Flow2Go/ApptentiveConnect/source/Surveys/ATSurveys.h; sourceTree = "<group>"; };
+		E55923C716D3838800A087D8 /* 09-chat-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "09-chat-2@2x.png"; sourceTree = "<group>"; };
+		E55923C816D3838800A087D8 /* 09-chat-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "09-chat-2.png"; sourceTree = "<group>"; };
 		E5659AEE15E56A87006D23B0 /* FGFCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSHeader.h; sourceTree = "<group>"; };
 		E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSHeader.m; sourceTree = "<group>"; };
 		E577B48F1607D76F002348EE /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "39-circle-check.png"; path = "Images/39-circle-check.png"; sourceTree = "<group>"; };
@@ -297,6 +353,10 @@
 		E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCell.m; sourceTree = "<group>"; };
 		E59D2E3315E365FF00944789 /* FGAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisViewController.h; sourceTree = "<group>"; };
 		E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisViewController.m; sourceTree = "<group>"; };
+		E5A1BC9416D05310001CABF8 /* flow2go-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo.png"; sourceTree = "<group>"; };
+		E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-72.png"; sourceTree = "<group>"; };
+		E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-114.png"; sourceTree = "<group>"; };
+		E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-57.png"; sourceTree = "<group>"; };
 		E5B480AE15EF597D00BB6BAC /* FGGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateTableViewController.h; sourceTree = "<group>"; };
 		E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateTableViewController.m; sourceTree = "<group>"; };
 		E5C0117716C944F10059ED0F /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
@@ -482,7 +542,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E55923C016D3824000A087D8 /* libApptentiveConnect.a in Frameworks */,
+				E55923AF16D3819900A087D8 /* SystemConfiguration.framework in Frameworks */,
 				E5C0119516CA96570059ED0F /* StoreKit.framework in Frameworks */,
+				E55923AD16D3817C00A087D8 /* CoreTelephony.framework in Frameworks */,
 				E50BA4101600F38000E85118 /* libz.dylib in Frameworks */,
 				E5FC703515CA9F8A0047A3DD /* QuartzCore.framework in Frameworks */,
 				E5FC703315CA9F580047A3DD /* Security.framework in Frameworks */,
@@ -563,6 +626,8 @@
 		E53FA67015CB3E6F000B048C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E53E31CC16D452670075DBA3 /* FGAnalysisLayout.h */,
+				E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */,
 				E59C498416C4917D00B5E0D5 /* FGStyleController.h */,
 				E59C498516C4917D00B5E0D5 /* FGStyleController.m */,
 				E5C011A016CA9E820059ED0F /* FGFolderHeaderView.h */,
@@ -606,6 +671,25 @@
 			children = (
 			);
 			path = TestFlight;
+			sourceTree = "<group>";
+		};
+		E55923B116D381DB00A087D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E55923B716D381DB00A087D8 /* libApptentiveConnect.a */,
+				E55923B916D381DB00A087D8 /* ApptentiveConnectTests.octest */,
+				E55923BB16D381DB00A087D8 /* ApptentiveResources.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E55923C216D382BD00A087D8 /* Apptentive */ = {
+			isa = PBXGroup;
+			children = (
+				E55923C316D382D200A087D8 /* ATConnect.h */,
+				E55923C416D382D200A087D8 /* ATSurveys.h */,
+			);
+			name = Apptentive;
 			sourceTree = "<group>";
 		};
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
@@ -755,6 +839,8 @@
 		E59C49A916C4AFF700B5E0D5 /* Folder View */ = {
 			isa = PBXGroup;
 			children = (
+				E55923C716D3838800A087D8 /* 09-chat-2@2x.png */,
+				E55923C816D3838800A087D8 /* 09-chat-2.png */,
 				E5C011A316CAA05B0059ED0F /* 80-shopping-cart.png */,
 				E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */,
 				E59C493C16C4597000B5E0D5 /* 0210.png */,
@@ -782,8 +868,8 @@
 		E59C49BF16C57E9800B5E0D5 /* MD5Hash */ = {
 			isa = PBXGroup;
 			children = (
-				E59C49C016C57EA300B5E0D5 /* FileMD5Hash.c */,
 				E59C49C116C57EA300B5E0D5 /* FileMD5Hash.h */,
+				E59C49C016C57EA300B5E0D5 /* FileMD5Hash.c */,
 			);
 			name = MD5Hash;
 			sourceTree = "<group>";
@@ -1022,6 +1108,11 @@
 		E5FC6F3915CA7E8E0047A3DD = {
 			isa = PBXGroup;
 			children = (
+				E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */,
+				E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */,
+				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
+				E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */,
+				E5A1BC9416D05310001CABF8 /* flow2go-logo.png */,
 				E5FC6F5015CA7E8E0047A3DD /* Flow2Go */,
 				E5FC6F4715CA7E8E0047A3DD /* Frameworks */,
 				E5FC6F4515CA7E8E0047A3DD /* Products */,
@@ -1039,6 +1130,8 @@
 		E5FC6F4715CA7E8E0047A3DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E55923AE16D3819900A087D8 /* SystemConfiguration.framework */,
+				E55923AC16D3817C00A087D8 /* CoreTelephony.framework */,
 				E5C0119416CA96570059ED0F /* StoreKit.framework */,
 				E50BA40F1600F38000E85118 /* libz.dylib */,
 				E5FC703415CA9F890047A3DD /* QuartzCore.framework */,
@@ -1090,6 +1183,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E55923C216D382BD00A087D8 /* Apptentive */,
 				E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */,
 				E5D314F916CE5F0700700F57 /* CorePlot */,
 				E5D314F116CE5EDD00700F57 /* TestFlight */,
@@ -1149,6 +1243,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				E55923BD16D3822E00A087D8 /* PBXTargetDependency */,
+				E55923BF16D3822E00A087D8 /* PBXTargetDependency */,
 			);
 			name = Flow2Go;
 			productName = Flow2Go;
@@ -1174,6 +1270,12 @@
 			mainGroup = E5FC6F3915CA7E8E0047A3DD;
 			productRefGroup = E5FC6F4515CA7E8E0047A3DD /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E55923B116D381DB00A087D8 /* Products */;
+					ProjectRef = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E5FC6F4315CA7E8E0047A3DD /* Flow2Go */,
@@ -1181,18 +1283,39 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		E55923B716D381DB00A087D8 /* libApptentiveConnect.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libApptentiveConnect.a;
+			remoteRef = E55923B616D381DB00A087D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E55923B916D381DB00A087D8 /* ApptentiveConnectTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ApptentiveConnectTests.octest;
+			remoteRef = E55923B816D381DB00A087D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E55923BB16D381DB00A087D8 /* ApptentiveResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ApptentiveResources.bundle;
+			remoteRef = E55923BA16D381DB00A087D8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		E5FC6F4215CA7E8E0047A3DD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E55923C116D3829D00A087D8 /* ApptentiveResources.bundle in Resources */,
 				E5FC6F5515CA7E8E0047A3DD /* InfoPlist.strings in Resources */,
 				E5FC6F5E15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard in Resources */,
 				E5FC6F6115CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard in Resources */,
-				E511FD7315CC365D00637D39 /* icon_114.png in Resources */,
-				E511FD7515CC367F00637D39 /* icon_57.png in Resources */,
-				E511FD7715CC36BD00637D39 /* icon_144.png in Resources */,
-				E511FD7915CC36C200637D39 /* icon_72.png in Resources */,
 				E577B4911607D76F002348EE /* 39-circle-check.png in Resources */,
 				E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */,
 				E58556D916C0AE9800BF4546 /* 0108.png in Resources */,
@@ -1231,6 +1354,14 @@
 				E5C011A616CAA05B0059ED0F /* 80-shopping-cart@2x.png in Resources */,
 				E5D314F716CE5EDD00700F57 /* README.md in Resources */,
 				E5D314F816CE5EDD00700F57 /* release_notes.md in Resources */,
+				E5A1BC9516D05310001CABF8 /* flow2go-logo.png in Resources */,
+				E5A1BC9716D0535B001CABF8 /* flow2go-logo-72.png in Resources */,
+				E5A1BC9916D05433001CABF8 /* flow2go-logo-114.png in Resources */,
+				E5A1BC9B16D05456001CABF8 /* flow2go-logo-57.png in Resources */,
+				E55923C516D382D200A087D8 /* ATConnect.h in Resources */,
+				E55923C616D382D200A087D8 /* ATSurveys.h in Resources */,
+				E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */,
+				E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1336,10 +1467,24 @@
 				E5D314EE16CE5E7A00700F57 /* MagicalRecord+Setup.m in Sources */,
 				E5D314EF16CE5E7A00700F57 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */,
+				E53E31CE16D452680075DBA3 /* FGAnalysisLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E55923BD16D3822E00A087D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ApptentiveConnect;
+			targetProxy = E55923BC16D3822E00A087D8 /* PBXContainerItemProxy */;
+		};
+		E55923BF16D3822E00A087D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ApptentiveResources;
+			targetProxy = E55923BE16D3822E00A087D8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E5FC6F5315CA7E8E0047A3DD /* InfoPlist.strings */ = {
@@ -1466,7 +1611,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1474,8 +1619,8 @@
 		E5FC6F6F15CA7E8E0047A3DD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Christian Hansen";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Christian Hansen";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1498,8 +1643,10 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
 				SHARED_PRECOMPS_DIR = "";
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

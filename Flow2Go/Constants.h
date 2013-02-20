@@ -19,7 +19,6 @@
 #define IS_IPAD (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad)
 
 static NSString * const DropboxBaseURL = @"/";
-
 static NSString * const DropboxLinkedNotification = @"DropboxLinkedNotification";
 static NSString * const DropboxFileDownloadedNotification = @"DropboxFileDownloadedNotification";
 static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownloadNotification";
@@ -28,6 +27,8 @@ static NSString * const AnalysisUpdatedNotification = @"AnalysisUpdatedNotificat
 
 static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 
+//Apptentive API-key
+#define kApptentiveAPIKey @"054ed3017042a2823a0b7354b8530f1e98457f02307d8b58b23948586f21d082"
 
 // FCS file specific
 #define HEADER_LENGTH 58

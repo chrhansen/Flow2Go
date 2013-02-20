@@ -25,6 +25,9 @@
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSMutableArray *objectChanges;
+@property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
@@ -34,6 +37,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _objectChanges = [NSMutableArray array];
+    _sectionChanges = [NSMutableArray array];
     [self _addNoiseBackground];
 }
 
@@ -65,7 +70,8 @@
     if (self.analysis.plots.count == 0 || self.analysis.plots == nil) {
         [FGPlot createRootPlotForAnalysis:self.analysis];
     }
-    [self.collectionView reloadData];
+    [self _updateFetchedAnalysis:analysis];
+    [self updateCollectionViewAfterFetch];
     [self _reloadFCSFile];
 }
 
@@ -113,7 +119,7 @@
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
+    FGPlot *plot = [self.fetchedResultsController objectAtIndexPath:indexPath];
     FGPlotCell *plotCell = (FGPlotCell *)cell;
     FGGate *parentGate = (FGGate *)plot.parentNode;
     NSUInteger allEvents = self.analysis.measurement.countOfEvents.integerValue;
@@ -132,7 +138,8 @@
 #pragma mark - UICollectionView Datasource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.analysis.plots.count;
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    return sectionInfo.numberOfObjects;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -287,5 +294,181 @@
 }
 
 
+
+
+
+
+
+
+
+#pragma mark - Fetched results controller
+- (void)_updateFetchedAnalysis:(FGAnalysis *)newAnalysis
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", newAnalysis.plots];
+    [self.fetchedResultsController.fetchRequest setPredicate:predicate];
+    NSError *error = nil;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    if (self.analysis == nil) {
+        return nil;
+    }
+    _fetchedResultsController = [FGPlot fetchAllGroupedBy:nil
+                                            withPredicate:[NSPredicate predicateWithFormat:@"SELF IN %@", self.analysis.plots]
+                                                 sortedBy:@"dateCreated"
+                                                ascending:YES
+                                                 delegate:self
+                                                inContext:[NSManagedObjectContext MR_defaultContext]];
+    return _fetchedResultsController;
+}
+
+
+
+
+#pragma mark - Fetched Results Controller Delegate methods
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = @(sectionIndex);
+            break;
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = @(sectionIndex);
+            break;
+    }
+    [_sectionChanges addObject:change];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
+    NSMutableDictionary *change = [NSMutableDictionary new];
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = newIndexPath;
+            break;
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = indexPath;
+            break;
+        case NSFetchedResultsChangeUpdate:
+            change[@(type)] = indexPath;
+            break;
+        case NSFetchedResultsChangeMove:
+            change[@(type)] = @[indexPath, newIndexPath];
+            break;
+    }
+    [_objectChanges addObject:change];
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self _performOutstandingCollectionViewUpdates];
+}
+
+
+- (void)_performOutstandingCollectionViewUpdates
+{
+    if (self.navigationController.visibleViewController != self)
+    {
+        [self.collectionView reloadData];
+    }
+    else
+    {
+        if ([_sectionChanges count] > 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _sectionChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+        
+        if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
+        {
+            [self.collectionView performBatchUpdates:^{
+                
+                for (NSDictionary *change in _objectChanges)
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
+                        
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeMove:
+                                [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                                break;
+                        }
+                    }];
+                }
+            } completion:nil];
+        }
+    }
+    [_sectionChanges removeAllObjects];
+    [_objectChanges removeAllObjects];
+}
+
+
+- (void)updateCollectionViewAfterFetch
+{
+    NSUInteger initialItemCount = [self.collectionView numberOfItemsInSection:0];
+    NSUInteger currentItemCount = [self.fetchedResultsController.fetchedObjects count];
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    if (initialItemCount > currentItemCount) {
+        for (NSUInteger itemNo = currentItemCount; itemNo < initialItemCount; itemNo++) {
+            [indexPaths addObject:[NSIndexPath indexPathForItem:itemNo inSection:0]];
+        }
+        [self.collectionView deleteItemsAtIndexPaths:indexPaths];
+    } else if (initialItemCount < currentItemCount) {
+        for (NSUInteger itemNo = initialItemCount; itemNo < currentItemCount; itemNo++) {
+            [indexPaths addObject:[NSIndexPath indexPathForItem:itemNo inSection:0]];
+        }
+        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    }
+    for (NSUInteger itemNo = 0; itemNo < currentItemCount; itemNo++) {
+        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:itemNo inSection:0]]];
+    }
+}
 
 @end

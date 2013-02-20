@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, weak) IBOutlet UIButton *storeButton;
+@property (nonatomic, weak) IBOutlet UIButton *feedbackButton;
 
 @end

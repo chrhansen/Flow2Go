@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MSNavigationPaneViewController, FGAnalysisViewController;
 
 @interface FGFolderCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (weak, nonatomic) IBOutlet UIButton *showStore;
+@property (nonatomic, weak) MSNavigationPaneViewController *navigationPaneViewController;
+@property (nonatomic, weak) FGAnalysisViewController *analysisViewController;
 
 @end

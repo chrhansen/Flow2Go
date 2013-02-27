@@ -41,15 +41,12 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         NSError *error = [newFCSFile _parseFileFromPath:path];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            completion(error, newFCSFile);
+            if (completion) {
+                completion(error, newFCSFile);
+            }
         });
-
+        
     });
-    
-//    dispatch_queue_t readerQueue = dispatch_queue_create("io.flow2go.fcsreader", NULL);
-//    dispatch_async(readerQueue, ^{
-//        
-//    });
 }
 
 
@@ -149,7 +146,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     NSError *error;
     NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
     [fcsFileStream open];
-        
+    
     while ([fcsFileStream hasBytesAvailable])
     {
         switch (_parsingSegment)
@@ -157,7 +154,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
             case FGParsingSegmentBegan:
                 _parsingSegment = FGParsingSegmentHeader;
                 break;
-
+                
             case FGParsingSegmentHeader:
                 error = [self _readHeaderSegmentFromStream:fcsFileStream];
                 if (!error)
@@ -203,7 +200,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
                 else
                 {
                     _parsingSegment = FGParsingSegmentFailed;
-                }                
+                }
                 break;
                 
             case FGParsingSegmentFinished:
@@ -297,16 +294,39 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment" code:-100 userInfo:@{@"userInfo": @"Error: parameter or event count is zero in FCS file"}];
     }
     
-    [self allocateDataArrayWithType:self.text[@"$DATATYPE"] forParameters:noOfParams];
+    [self allocateDataArrayWithType:self.text[@"$DATATYPE"]];
+    CFByteOrder fcsByteOrder = [self _byteOrderFromString:self.text[@"$BYTEORD"]];
+    NSError *error;
+    if ([self.text[@"$DATATYPE"] isEqualToString:@"I"])
+    {
+        error = [self _readIntegerDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
+    }
+    else if ([self.text[@"$DATATYPE"] isEqualToString:@"F"])
+    {
+        error = [self _readFloatDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
+    }
+    else if ([self.text[@"$DATATYPE"] isEqualToString:@"D"])
+    {
+        // TODO: read doubles
+    }
     
-    FGParameterSize *parSizes = [self _getParameterSizes:noOfParams];
+    [self _convertChannelValuesToScaleValues:self.events];
+    [self _applyCompensationToScaleValues:self.events];
+    [self _applyCalibrationToScaledValues:self.events];
+    //[self _printOut:100 forPars:noOfParams];
+    //[self _printOutScaledMinMax];
     
-    uint8_t bufferOneEvent[self.bitsPerEvent/8];
-    CFByteOrder byteOrder = [self _byteOrderFromString:self.text[@"$BYTEORD"]];
-    
+    return error;
+}
+
+
+- (NSError *)_readIntegerDataType:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte byteOrder:(CFByteOrder)fcsFileByteOrder
+{
     NSUInteger totalBytesRead = 0;
     NSInteger bytesRead = 0;
     NSUInteger eventNo = 0;
+    FGParameterSize *parSizes = [self _getParameterSizes:_noOfParams];
+    uint8_t bufferOneEvent[self.bitsPerEvent/8];
     
     while (totalBytesRead < lastByte - firstByte
            && [inputStream hasBytesAvailable])
@@ -317,7 +337,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         if (bytesRead > 0)
         {
             NSUInteger byteOffset = 0;
-            for (NSUInteger parNo = 0; parNo < noOfParams; parNo++)
+            for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
             {
                 switch (parSizes[parNo])
                 {
@@ -327,7 +347,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
                         break;
                         
                     case FGParameterSize16:
-                        if (byteOrder == CFByteOrderBigEndian)
+                        if (fcsFileByteOrder == CFByteOrderBigEndian)
                         {
                             self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset] << 8) | bufferOneEvent[byteOffset + 1]);
                         }
@@ -339,7 +359,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
                         break;
                         
                     case FGParameterSize32:
-                        if (byteOrder == CFByteOrderBigEndian)
+                        if (fcsFileByteOrder == CFByteOrderBigEndian)
                         {
                             self.events[eventNo][parNo] = (double)((bufferOneEvent[byteOffset] << 24) | (bufferOneEvent[byteOffset + 1]  << 16) | (bufferOneEvent[byteOffset + 2]  << 8) | bufferOneEvent[byteOffset + 3]);
                         }
@@ -357,21 +377,44 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         }
         else
         {
-            return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment" code:-100 userInfo:@{@"userInfo": @"Error: could not read from data segment in FCS file"}];
+            return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment.integer" code:-100 userInfo:@{@"userInfo": @"Error: could not read from integer-data segment in FCS file"}];
         }
         eventNo++;
     }
-    
     if (parSizes) free(parSizes);
-    
-    [self _convertChannelValuesToScaleValues:self.events];
-    [self _applyCompensationToScaleValues:self.events];
-    [self _applyCalibrationToScaledValues:self.events];
-    //[self _printOut:100 forPars:noOfParams];
-    //[self _printOutScaledMinMax];
     
     return nil;
 }
+
+
+- (NSError *)_readFloatDataType:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte byteOrder:(CFByteOrder)fcsFileByteOrder
+{
+    NSInteger bytesRead = 0;
+    uint8_t bufferAllData[_noOfParams * _noOfEvents * sizeof(Float32)];
+    bytesRead = [inputStream read:bufferAllData maxLength:sizeof(bufferAllData)];
+    
+    NSLog(@"Float buffer size: %lu (#par: %d, #events: %d)\nbytesRead: %d", sizeof(bufferAllData), _noOfParams, _noOfEvents, bytesRead);
+    
+    NSUInteger byteOffset = 0;
+    for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
+    {
+        for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
+        {
+            if (fcsFileByteOrder == CFByteOrderBigEndian)
+            {
+                self.events[eventNo][parNo] = (double)((bufferAllData[byteOffset] << 24) | (bufferAllData[byteOffset + 1]  << 16) | (bufferAllData[byteOffset + 2]  << 8) | bufferAllData[byteOffset + 3]);
+            }
+            else
+            {
+                self.events[eventNo][parNo] = (double)((bufferAllData[byteOffset + 3] << 24) | (bufferAllData[byteOffset + 2]  << 16) | (bufferAllData[byteOffset + 1]  << 8) | bufferAllData[byteOffset]);
+            }
+            byteOffset += 4;
+        }
+    }
+
+    return nil;
+}
+
 
 - (NSError *)_readAnalysisSegmentFromStream:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte
 {
@@ -417,14 +460,14 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 }
 
 
-- (void)allocateDataArrayWithType:(NSString *)dataTypeString forParameters:(NSUInteger)noOfParams
+- (void)allocateDataArrayWithType:(NSString *)dataTypeString
 {
     if ([dataTypeString isEqualToString: @"I"])
     {
         self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
         for (NSUInteger i = 0; i < _noOfEvents; i++)
         {
-            self.events[i] = calloc(noOfParams, sizeof(double));
+            self.events[i] = calloc(_noOfParams, sizeof(double));
         }
         return;
     }
@@ -435,7 +478,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
         for (NSUInteger i = 0; i < _noOfEvents; i++)
         {
-            self.events[i] = calloc(noOfParams, sizeof(double));
+            self.events[i] = calloc(_noOfParams, sizeof(double));
         }
         return;
     }
@@ -445,7 +488,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
         for (NSUInteger i = 0; i < _noOfEvents; i++)
         {
-            self.events[i] = calloc(noOfParams, sizeof(double));
+            self.events[i] = calloc(_noOfParams, sizeof(double));
         }
         return;
     }

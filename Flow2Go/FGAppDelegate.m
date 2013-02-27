@@ -10,16 +10,38 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "FGStyleController.h"
 #import "ATConnect.h"
+#import "MSNavigationPaneViewController.h"
+#import "FGFolderCollectionViewController.h"
+
+@class FGAnalysisViewController;
 
 @implementation FGAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // TODO: switch to testflight 1.2
 //    [TestFlight takeOff:@"043c6b53e9c4be16677615865b03e754_MTMxNDE4MjAxMi0wOS0xMiAxMjo0NzoyMS40ODMwNjg"];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Flow2Go.sqlite"];
     DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"jnrnwsyo6j65b4a" appSecret:@"3hlpks700kooxv8" root:kDBRootDropbox];
     ATConnect *connection = [ATConnect sharedConnection];
     connection.apiKey = kApptentiveAPIKey;
+    
+    // Navigation Pane View Controller
+    MSNavigationPaneViewController *navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;
+    
+    // Slave View Controller
+    UINavigationController *paneViewController = (UINavigationController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"analysisViewControllerNavigationController"];
+
+    // Master View Controller
+    UINavigationController *navigationControllerFolder = (UINavigationController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"folderNavigationViewController"];
+    FGFolderCollectionViewController *folderViewController = (FGFolderCollectionViewController * )navigationControllerFolder.topViewController;
+    folderViewController.navigationPaneViewController = navigationPaneViewController;
+    navigationPaneViewController.masterViewController = navigationControllerFolder;
+    navigationPaneViewController.paneState = MSNavigationPaneStateOpen;
+    folderViewController.analysisViewController = (FGAnalysisViewController *)paneViewController.topViewController;
+    
+    [navigationPaneViewController setPaneViewController:paneViewController animated:YES completion:nil];
+    
     [FGStyleController applyAppearance];
     return YES;
 }

@@ -35,7 +35,7 @@
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
 		E53E31CE16D452680075DBA3 /* FGAnalysisLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */; };
-		E53FA66615CB0CC0000B048C /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53FA66515CB0CC0000B048C /* FGMeasurementCollectionViewController.m */; };
+		E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */; };
 		E542F4C6160933280041A60A /* FGFolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */; };
 		E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */; };
 		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
@@ -50,6 +50,7 @@
 		E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C716D3838800A087D8 /* 09-chat-2@2x.png */; };
 		E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C816D3838800A087D8 /* 09-chat-2.png */; };
 		E5659AF015E56A87006D23B0 /* FGFCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */; };
+		E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E570CCDC16DCF03800418413 /* FGStackedLayout.m */; };
 		E577B4911607D76F002348EE /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B48F1607D76F002348EE /* 39-circle-check.png */; };
 		E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B4901607D76F002348EE /* 39-circle-check@2x.png */; };
 		E579564915DAFE6800B77795 /* FGGateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* FGGateCalculator.m */; };
@@ -258,8 +259,7 @@
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
 		E53E31CC16D452670075DBA3 /* FGAnalysisLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisLayout.h; sourceTree = "<group>"; };
 		E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisLayout.m; sourceTree = "<group>"; };
-		E53FA66415CB0CC0000B048C /* FGMeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCollectionViewController.h; sourceTree = "<group>"; };
-		E53FA66515CB0CC0000B048C /* FGMeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCollectionViewController.m; sourceTree = "<group>"; };
+		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGFolderCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolderCollectionViewController.h; sourceTree = "<group>"; };
 		E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolderCollectionViewController.m; sourceTree = "<group>"; };
 		E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSFile.h; sourceTree = "<group>"; };
@@ -279,6 +279,8 @@
 		E55923C816D3838800A087D8 /* 09-chat-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "09-chat-2.png"; sourceTree = "<group>"; };
 		E5659AEE15E56A87006D23B0 /* FGFCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSHeader.h; sourceTree = "<group>"; };
 		E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSHeader.m; sourceTree = "<group>"; };
+		E570CCDB16DCF03800418413 /* FGStackedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStackedLayout.h; sourceTree = "<group>"; };
+		E570CCDC16DCF03800418413 /* FGStackedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStackedLayout.m; sourceTree = "<group>"; };
 		E577B48F1607D76F002348EE /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "39-circle-check.png"; path = "Images/39-circle-check.png"; sourceTree = "<group>"; };
 		E577B4901607D76F002348EE /* 39-circle-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "39-circle-check@2x.png"; path = "Images/39-circle-check@2x.png"; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* FGGateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGGateCalculator.h; path = Flow2Go/FGGateCalculator.h; sourceTree = SOURCE_ROOT; };
@@ -753,8 +755,6 @@
 				E542F4C4160933270041A60A /* FGFolderCollectionViewController.h */,
 				E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */,
 				E59C494816C4677800B5E0D5 /* Folder Layout */,
-				E53FA66415CB0CC0000B048C /* FGMeasurementCollectionViewController.h */,
-				E53FA66515CB0CC0000B048C /* FGMeasurementCollectionViewController.m */,
 				E59D2E3315E365FF00944789 /* FGAnalysisViewController.h */,
 				E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */,
 				E511FDD815CC6C4800637D39 /* FGPlotViewController.h */,
@@ -817,6 +817,8 @@
 			children = (
 				E59C494C16C4687200B5E0D5 /* FGEmblemView.h */,
 				E59C494D16C4687200B5E0D5 /* FGEmblemView.m */,
+				E570CCDB16DCF03800418413 /* FGStackedLayout.h */,
+				E570CCDC16DCF03800418413 /* FGStackedLayout.m */,
 				E59C495316C4710F00B5E0D5 /* FGFolderLayout.h */,
 				E59C495416C4710F00B5E0D5 /* FGFolderLayout.m */,
 			);
@@ -1108,6 +1110,7 @@
 		E5FC6F3915CA7E8E0047A3DD = {
 			isa = PBXGroup;
 			children = (
+				E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */,
 				E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */,
 				E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */,
 				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
@@ -1362,6 +1365,7 @@
 				E55923C616D382D200A087D8 /* ATSurveys.h in Resources */,
 				E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */,
 				E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */,
+				E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1376,7 +1380,6 @@
 				E5FC6F5B15CA7E8E0047A3DD /* FGAppDelegate.m in Sources */,
 				E5FC6F6415CA7E8E0047A3DD /* Flow2Go.xcdatamodeld in Sources */,
 				E5FC701F15CA997C0047A3DD /* FGDownloadManager.m in Sources */,
-				E53FA66615CB0CC0000B048C /* FGMeasurementCollectionViewController.m in Sources */,
 				E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */,
 				E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */,
 				E579564915DAFE6800B77795 /* FGGateCalculator.m in Sources */,
@@ -1468,6 +1471,7 @@
 				E5D314EF16CE5E7A00700F57 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */,
 				E53E31CE16D452680075DBA3 /* FGAnalysisLayout.m in Sources */,
+				E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

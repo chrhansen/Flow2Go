@@ -40,10 +40,17 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
 
 - (void)setup
 {
-    self.itemSize = CGSizeMake(220.0f, 274.0f);
-    self.minimumLineSpacing = 20.0f;
-    self.minimumInteritemSpacing = 20.0f;
-    self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
+    if (IS_IPAD) {
+        self.itemSize = CGSizeMake(260.0f, 120.0f);
+        self.minimumLineSpacing = 20.0f;
+        self.minimumInteritemSpacing = 20.0f;
+        self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
+    } else {
+        self.itemSize = CGSizeMake(260.0f, 120.0f);
+        self.minimumLineSpacing = 20.0f;
+        self.minimumInteritemSpacing = 10.0f;
+        self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    }
     self.headerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 50.0f);
     [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGPhotoEmblemKind];
 }

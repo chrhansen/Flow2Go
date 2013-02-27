@@ -428,9 +428,9 @@
     [self.plotData cleanUpPlotData];
     self.plotData = nil;
     self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile
-                                                insidePlot:self.plot
-                                                    subset:self.parentGateCalculator.eventsInside
-                                               subsetCount:self.parentGateCalculator.numberOfCellsInside];
+                                                  insidePlot:self.plot
+                                                      subset:self.parentGateCalculator.eventsInside
+                                                 subsetCount:self.parentGateCalculator.numberOfCellsInside];
 }
 
 

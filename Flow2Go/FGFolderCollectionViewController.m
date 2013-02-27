@@ -9,19 +9,24 @@
 #import "FGFolderCollectionViewController.h"
 #import "FGFolder+Management.h"
 #import "FGDownloadManager.h"
-#import "FGMeasurementCollectionViewController.h"
 #import "UIBarButtonItem+Customview.h"
 #import "FGFolderCell.h"
+#import "FGMeasurementCell.h"
 #import "KGNoise.h"
 #import "FGFolderLayout.h"
+#import "FGStackedLayout.h"
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
 #import "FGFolderHeaderView.h"
 #import "ATConnect.h"
 #import "ATSurveys.h"
+#import "FGAnalysisViewController.h"
+#import "FGAnalysis+Management.h"
+#import "MSNavigationPaneViewController.h"
 
-@interface FGFolderCollectionViewController () <UIAlertViewDelegate, MeasurementCollectionViewControllerDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
+@interface FGFolderCollectionViewController () <UIAlertViewDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
+
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
@@ -29,7 +34,7 @@
 
 @end
 
-@implementation FGFolderCollectionViewController 
+@implementation FGFolderCollectionViewController
 
 - (void)awakeFromNib
 {
@@ -44,6 +49,7 @@
     [self _configureBarButtonItemsForEditing:NO];
     [self _addNoiseBackground];
     [self _observeApptentiveSurveys];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 
@@ -73,12 +79,6 @@
     [self _configureBarButtonItemsForEditing:editing];
     if (!editing) [self _discardEditItems];
     [self _updateVisibleCells];
-}
-
-
-- (void)measurementCollectionViewControllerDidTapDismiss:(id)sender
-{
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -122,6 +122,15 @@
 }
 
 
+- (void)togglePaneTapped:(UIBarButtonItem *)doneButton
+{
+    MSNavigationPaneState paneState = MSNavigationPaneStateOpen;
+    if (self.navigationPaneViewController.paneState == MSNavigationPaneStateOpen) {
+        paneState = MSNavigationPaneStateClosed;
+    }
+    [self.navigationPaneViewController setPaneState:paneState animated:YES];
+}
+
 - (void)deleteTapped:(UIButton *)deleteButton
 {
     NSString *deleteString = nil;
@@ -144,9 +153,7 @@
         NSArray *deleteItems = [self.editItems copy];
         [self.editItems removeAllObjects];
         [self _toggleBarButtonStateOnChangedEditItems];
-        [FGFolder deleteFolders:deleteItems completion:^(NSError *error) {
-            if (error) NSLog(@"Error: %@", error.localizedDescription);
-        }];
+        [FGMeasurement deleteMeasurements:deleteItems];
     }
     [self setEditing:NO animated:YES];
 }
@@ -155,7 +162,7 @@
 - (void)_updateCheckmarkVisibilityForCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     id anObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [(FGFolderCell *)cell checkMarkImageView].hidden = ![self.editItems containsObject:anObject];
+    [(FGMeasurementCell *)cell checkMarkImageView].hidden = ![self.editItems containsObject:anObject];
 }
 
 
@@ -190,7 +197,7 @@
     }
 }
 
-#pragma mark - Button actions
+#pragma mark - Header Button actions
 
 - (void)storeButtonTapped:(id)sender
 {
@@ -205,13 +212,23 @@
 }
 
 
+- (void)layoutControlTapped:(UISegmentedControl *)layoutControl
+{
+    NSLog(@"%s, %i", __PRETTY_FUNCTION__, layoutControl.selectedSegmentIndex);
+    if (layoutControl.selectedSegmentIndex == 0 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGStackedLayout class]]) {
+        FGStackedLayout *stackedLayout = [[FGStackedLayout alloc] init];
+        [self.collectionView setCollectionViewLayout:stackedLayout animated:YES];
+    } else if (layoutControl.selectedSegmentIndex == 1 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGFolderLayout class]]) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        [self.collectionView setCollectionViewLayout:flowLayout animated:YES];
+    }
+}
+
 #pragma mark Apptentive
 #pragma mark - Apptentive
 - (void)_observeApptentiveSurveys
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(surveyBecameAvailable:)
-                                                 name:ATSurveyNewSurveyAvailableNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
     [ATSurveys checkForAvailableSurveys];
 }
 
@@ -230,22 +247,24 @@
 
 
 #define FOLDER_NAME_MAX_CHARACTER_COUNT 29
+#define FILENAME_CHARACTER_COUNT 35
+
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    FGFolder *folder = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    FGFolderCell *folderCell = (FGFolderCell *)cell;
-    folderCell.nameLabel.text = [folder.name fitToLength:FOLDER_NAME_MAX_CHARACTER_COUNT];
-    folderCell.checkMarkImageView.hidden = (![self.editItems containsObject:folder]);
-    folderCell.countLabel.text = (folder.measurements.count > 0) ? [NSString stringWithFormat:@"%d", folder.measurements.count] : @"0";
-    if (![folder hasActiveDownloads]) [folderCell.spinner stopAnimating];
-    folderCell.downloadCountLabel.hidden = ![folder hasActiveDownloads];
-    folderCell.dateLabel.text = [[folder downloadDateOfNewestMeasurement] readableDate];
+    FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    FGMeasurementCell *measurementCell = (FGMeasurementCell *)cell;
+    measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
+    measurementCell.dateLabel.hidden = (measurement.isDownloaded) ? NO : YES;
+    measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
+    measurementCell.infoButton.enabled = measurement.isDownloaded;
+    measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
+    measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
 }
 
 
 - (void)newFolderTapped:(UIBarButtonItem *)addButton
 {
-    UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Add Name", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add", nil), nil];
+    UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Add new collection", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add", nil), nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
 }
@@ -262,39 +281,42 @@
 #pragma mark - Download Manager progress delegate
 - (void)downloadManager:(FGDownloadManager *)downloadManager beganDownloadingMeasurement:(FGMeasurement *)measurement
 {
-    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+    [self _updateDownloadProgressViewForMeasurement:measurement progress:0.0f];
 }
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager loadProgress:(CGFloat)progress forMeasurement:(FGMeasurement *)measurement
 {
-    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+    [self _updateDownloadProgressViewForMeasurement:measurement progress:progress];
 }
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager finishedDownloadingMeasurement:(FGMeasurement *)measurement
 {
-    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+    [self _updateDownloadProgressViewForMeasurement:measurement progress:1.0f];
 }
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingMeasurement:(FGMeasurement *)measurement
 {
     //TODO: figure out how to configure cell when a download failed
-//    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
+    //    [self _updateDownloadProgressView:downloadManager forMeasurement:measurement];
     NSLog(@"failedDownloadingMeasurement: %@", measurement);
 }
 
 
-- (void)_updateDownloadProgressView:(FGDownloadManager *)manager forMeasurement:(FGMeasurement *)measurement
+- (void)_updateDownloadProgressViewForMeasurement:(FGMeasurement *)measurement progress:(CGFloat)progress
 {
-    FGFolder *folder = measurement.folder;
-    FGFolderCell *downloadCell = (FGFolderCell *)[self.collectionView cellForItemAtIndexPath:[self.fetchedResultsController indexPathForObject:folder]];
-    NSArray *downloadsForFolder = [folder.measurements.array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isDownloaded == NO"]];
-    downloadCell.spinner.hidden = (downloadsForFolder.count == 0) ? YES : NO;
-    if (!downloadCell.spinner.isHidden && !downloadCell.spinner.isAnimating) [downloadCell.spinner startAnimating];
-    downloadCell.downloadCountLabel.hidden = (downloadsForFolder.count == 0) ? YES : NO;
-    downloadCell.downloadCountLabel.text = [NSString stringWithFormat:@"%d", downloadsForFolder.count];
+    FGMeasurementCell *downloadCell = (FGMeasurementCell *)[self.collectionView cellForItemAtIndexPath:[self.fetchedResultsController indexPathForObject:measurement]];
+    downloadCell.progressView.progress = progress;
+    downloadCell.progressView.hidden = (progress == 1.0f) ? YES : NO;
 }
 
+
+
 #pragma mark - Collection View Data source
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return self.fetchedResultsController.sections.count;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
@@ -304,7 +326,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Folder Cell" forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Measurement Cell" forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -312,11 +334,12 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+    if (indexPath.section == 0 && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
         FGFolderHeaderView *headerView = (FGFolderHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Folder Header" forIndexPath:indexPath];
         headerView.searchBar.delegate = self;
         [headerView.storeButton addTarget:self action:@selector(storeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [headerView.feedbackButton addTarget:self action:@selector(feedbackButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [headerView.layoutSegmentedControl addTarget:self action:@selector(layoutControlTapped:) forControlEvents:UIControlEventValueChanged];
         return headerView;
     }
     return nil;
@@ -325,45 +348,33 @@
 #pragma mark - UICollectionView delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FGFolder *selectedFolder = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    id object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
     switch (self.isEditing) {
         case YES:
-            [self _togglePresenceInEditItems:selectedFolder];
+            [self _togglePresenceInEditItems:object];
             [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
             [self _toggleBarButtonStateOnChangedEditItems];
             break;
             
         case NO:
-            [self _showFolder:selectedFolder];
+            [self _presentMeasurement:(FGMeasurement *)object];
             break;
     }
 }
 
 
-- (void)_showFolder:(FGFolder *)folder
+- (void)_presentMeasurement:(FGMeasurement *)aMeasurement
 {
-    MSNavigationPaneViewController *navigationPaneViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"paneNavigationController"];
-    UINavigationController *measurementNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"measurement VC NavigationCon"];
-    FGMeasurementCollectionViewController *measurementViewController = (FGMeasurementCollectionViewController *)[measurementNavigationController topViewController];
-    measurementViewController.delegate = self;
-    measurementViewController.folder = folder;
-    measurementViewController.navigationPaneViewController = navigationPaneViewController;
-    navigationPaneViewController.masterViewController = measurementNavigationController;
-    [navigationPaneViewController setPaneState:MSNavigationPaneStateClosed animated:NO];
-    
-    UINavigationController *analysisNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"analysisViewControllerNavigationController"];
-    [navigationPaneViewController setPaneViewController:analysisNavigationController animated:NO completion:nil];
-    measurementViewController.analysisViewController = (FGAnalysisViewController *)analysisNavigationController.topViewController;
-
-    UIBarButtonItem *navigationPaneBarButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStylePlain target:measurementViewController action:@selector(togglePaneTapped:)];
-    [(UIViewController *)measurementViewController.analysisViewController navigationItem].leftBarButtonItem = navigationPaneBarButton;
-    
-    navigationPaneViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self presentViewController:navigationPaneViewController animated:YES completion:^{
-        [navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES];
-    }];
+    FGAnalysis *analysis = aMeasurement.analyses.lastObject;
+    if (analysis == nil) {
+        analysis = [FGAnalysis createAnalysisForMeasurement:aMeasurement];
+        NSError *error;
+        if(![analysis.managedObjectContext obtainPermanentIDsForObjects:@[analysis] error:&error]) NSLog(@"Error obtaining perm ID: %@", error.localizedDescription);
+    }
+    [self.analysisViewController showAnalysis:analysis];
 }
+
 
 #pragma mark - Fetched results controller
 - (NSFetchedResultsController *)fetchedResultsController
@@ -371,14 +382,68 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    _fetchedResultsController = [FGFolder fetchAllGroupedBy:nil
-                                              withPredicate:nil
-                                                   sortedBy:@"name"
-                                                  ascending:YES
-                                                   delegate:self
-                                                  inContext:[NSManagedObjectContext MR_defaultContext]];
+    _fetchedResultsController = [FGMeasurement fetchAllGroupedBy:@"folder"
+                                                   withPredicate:nil
+                                                        sortedBy:@"filename"
+                                                       ascending:YES
+                                                        delegate:self
+                                                       inContext:[NSManagedObjectContext MR_defaultContext]];
     return _fetchedResultsController;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #pragma mark Fetched Results Controller Delegate methods
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
@@ -491,7 +556,6 @@
             } completion:nil];
         }
     }
-    
     [_sectionChanges removeAllObjects];
     [_objectChanges removeAllObjects];
 }

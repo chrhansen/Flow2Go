@@ -34,7 +34,7 @@
 //#define LAYOUT_DEBUG
 
 // Sizes
-const CGFloat MSNavigationPaneOpenStateMasterDisplayWidth = 290.0f;
+const CGFloat MSNavigationPaneOpenStateMasterDisplayWidth = 300.0f;
 
 // Animation Durations
 const CGFloat MSNavigationPaneAnimationDurationOpenToSide = 0.2;
@@ -100,9 +100,8 @@ const CGFloat MSNavigationPaneAppearanceTypeParallaxOffsetFraction = 0.35;
     self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     
     _appearanceType = MSNavigationPaneAppearanceTypeNone;
-    CGRect smallerMasterView = CGRectMake(0, 0, 320, self.view.bounds.size.height);
-    _masterView = [[UIView alloc] initWithFrame: smallerMasterView];
-    _masterView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    _masterView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _masterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     _masterView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_masterView];
     

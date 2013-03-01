@@ -92,6 +92,8 @@
     self.collectionView.backgroundView = collectionNoiseView;
 }
 
+
+
 #pragma mark - Editing state
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
 {
@@ -128,7 +130,18 @@
     if (self.navigationPaneViewController.paneState == MSNavigationPaneStateOpen) {
         paneState = MSNavigationPaneStateClosed;
     }
-    [self.navigationPaneViewController setPaneState:paneState animated:YES];
+    [self.navigationPaneViewController setPaneState:paneState animated:YES completion:nil];
+}
+
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        self.navigationPaneViewController.openStateRevealWidth = 980.0f;
+    } else {
+        self.navigationPaneViewController.openStateRevealWidth = 700.0f;
+    }
+    [self.navigationPaneViewController setPaneState:self.navigationPaneViewController.paneState animated:YES completion:nil];
 }
 
 - (void)deleteTapped:(UIButton *)deleteButton

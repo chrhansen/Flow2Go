@@ -33,6 +33,9 @@
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5173B5C16E0F1CF00A314D4 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5173B5916E0F1CF00A314D4 /* libTestFlight.a */; };
 		E5173B5D16E0F1CF00A314D4 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E5173B5A16E0F1CF00A314D4 /* release_notes.md */; };
+		E5173B6416E1073900A314D4 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6316E1073900A314D4 /* MSNavigationPaneViewController.m */; };
+		E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6816E107CF00A314D4 /* PRTween.m */; };
+		E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6A16E107CF00A314D4 /* PRTweenTimingFunctions.m */; };
 		E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
@@ -59,8 +62,6 @@
 		E57AD84515FF7E0100A6815C /* FGAddGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E57AD84415FF7E0100A6815C /* FGAddGateTableViewController.m */; };
 		E57BA89315ED8D94008EA346 /* FGPlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */; };
 		E580999C15F79C8B000E0B34 /* FGKeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* FGKeywordTableViewController.m */; };
-		E58556D216C09CE000BF4546 /* MSDraggableView.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556CF16C09CE000BF4546 /* MSDraggableView.m */; };
-		E58556D316C09CE000BF4546 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */; };
 		E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556D516C0ADE200BF4546 /* UIBarButtonItem+Customview.m */; };
 		E58556D916C0AE9800BF4546 /* 0108.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556D716C0AE9800BF4546 /* 0108.png */; };
 		E58556DA16C0AE9800BF4546 /* 0108@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556D816C0AE9800BF4546 /* 0108@2x.png */; };
@@ -253,6 +254,12 @@
 		E5173B5916E0F1CF00A314D4 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = Flow2Go/TestFlightSDK1.2beta2/libTestFlight.a; sourceTree = SOURCE_ROOT; };
 		E5173B5A16E0F1CF00A314D4 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = release_notes.md; path = Flow2Go/TestFlightSDK1.2beta2/release_notes.md; sourceTree = SOURCE_ROOT; };
 		E5173B5B16E0F1CF00A314D4 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = Flow2Go/TestFlightSDK1.2beta2/TestFlight.h; sourceTree = SOURCE_ROOT; };
+		E5173B6216E1073900A314D4 /* MSNavigationPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNavigationPaneViewController.h; sourceTree = "<group>"; };
+		E5173B6316E1073900A314D4 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
+		E5173B6716E107CF00A314D4 /* PRTween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRTween.h; sourceTree = "<group>"; };
+		E5173B6816E107CF00A314D4 /* PRTween.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRTween.m; sourceTree = "<group>"; };
+		E5173B6916E107CF00A314D4 /* PRTweenTimingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRTweenTimingFunctions.h; sourceTree = "<group>"; };
+		E5173B6A16E107CF00A314D4 /* PRTweenTimingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRTweenTimingFunctions.m; sourceTree = "<group>"; };
 		E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotHelper.h; sourceTree = "<group>"; };
 		E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotHelper.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
@@ -293,10 +300,6 @@
 		E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotDataCalculator.m; sourceTree = "<group>"; };
 		E580999A15F79C8B000E0B34 /* FGKeywordTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGKeywordTableViewController.h; sourceTree = "<group>"; };
 		E580999B15F79C8B000E0B34 /* FGKeywordTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGKeywordTableViewController.m; sourceTree = "<group>"; };
-		E58556CE16C09CE000BF4546 /* MSDraggableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDraggableView.h; path = Flow2Go/MSSlidingPane/MSDraggableView.h; sourceTree = "<group>"; };
-		E58556CF16C09CE000BF4546 /* MSDraggableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDraggableView.m; path = Flow2Go/MSSlidingPane/MSDraggableView.m; sourceTree = "<group>"; };
-		E58556D016C09CE000BF4546 /* MSNavigationPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSNavigationPaneViewController.h; path = Flow2Go/MSSlidingPane/MSNavigationPaneViewController.h; sourceTree = "<group>"; };
-		E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSNavigationPaneViewController.m; path = Flow2Go/MSSlidingPane/MSNavigationPaneViewController.m; sourceTree = "<group>"; };
 		E58556D416C0ADE200BF4546 /* UIBarButtonItem+Customview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Customview.h"; sourceTree = "<group>"; };
 		E58556D516C0ADE200BF4546 /* UIBarButtonItem+Customview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Customview.m"; sourceTree = "<group>"; };
 		E58556D716C0AE9800BF4546 /* 0108.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 0108.png; path = Images/0108.png; sourceTree = "<group>"; };
@@ -618,6 +621,35 @@
 			path = TestFlightSDK1.2beta2;
 			sourceTree = "<group>";
 		};
+		E5173B5E16E1050200A314D4 /* MSNavigationPaneViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E5173B6516E107C600A314D4 /* PRTween */,
+				E5173B6216E1073900A314D4 /* MSNavigationPaneViewController.h */,
+				E5173B6316E1073900A314D4 /* MSNavigationPaneViewController.m */,
+			);
+			name = MSNavigationPaneViewController;
+			sourceTree = "<group>";
+		};
+		E5173B6516E107C600A314D4 /* PRTween */ = {
+			isa = PBXGroup;
+			children = (
+				E5173B6616E107CF00A314D4 /* lib */,
+			);
+			name = PRTween;
+			sourceTree = "<group>";
+		};
+		E5173B6616E107CF00A314D4 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				E5173B6716E107CF00A314D4 /* PRTween.h */,
+				E5173B6816E107CF00A314D4 /* PRTween.m */,
+				E5173B6916E107CF00A314D4 /* PRTweenTimingFunctions.h */,
+				E5173B6A16E107CF00A314D4 /* PRTweenTimingFunctions.m */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		E52BECB815DE861D002A3819 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -721,17 +753,6 @@
 				E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */,
 			);
 			name = Categories;
-			sourceTree = "<group>";
-		};
-		E58556CD16C09CD100BF4546 /* MSDragableView */ = {
-			isa = PBXGroup;
-			children = (
-				E58556CE16C09CE000BF4546 /* MSDraggableView.h */,
-				E58556CF16C09CE000BF4546 /* MSDraggableView.m */,
-				E58556D016C09CE000BF4546 /* MSNavigationPaneViewController.h */,
-				E58556D116C09CE000BF4546 /* MSNavigationPaneViewController.m */,
-			);
-			name = MSDragableView;
 			sourceTree = "<group>";
 		};
 		E585572016C160B200BF4546 /* CoreData managed subclasses */ = {
@@ -1182,6 +1203,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E5173B5E16E1050200A314D4 /* MSNavigationPaneViewController */,
 				E5173B5316E0F12000A314D4 /* TestFlightSDK1.2beta2 */,
 				E55923C216D382BD00A087D8 /* Apptentive */,
 				E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */,
@@ -1192,7 +1214,6 @@
 				E598014D16C840F900BF1A2D /* PopoverView */,
 				E59C49BF16C57E9800B5E0D5 /* MD5Hash */,
 				E59C493116C42A0300B5E0D5 /* KGNoise */,
-				E58556CD16C09CD100BF4546 /* MSDragableView */,
 				E54D717316046E05008CEC5D /* TestFlight */,
 			);
 			name = "3rd Party";
@@ -1396,8 +1417,6 @@
 				E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */,
 				E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */,
 				E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */,
-				E58556D216C09CE000BF4546 /* MSDraggableView.m in Sources */,
-				E58556D316C09CE000BF4546 /* MSNavigationPaneViewController.m in Sources */,
 				E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */,
 				E58556E116C0B11E00BF4546 /* FGFolderCell.m in Sources */,
 				E585571916C15B0400BF4546 /* FGPlotCell.m in Sources */,
@@ -1467,6 +1486,9 @@
 				E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */,
 				E53E31CE16D452680075DBA3 /* FGAnalysisLayout.m in Sources */,
 				E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */,
+				E5173B6416E1073900A314D4 /* MSNavigationPaneViewController.m in Sources */,
+				E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */,
+				E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

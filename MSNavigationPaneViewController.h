@@ -3,7 +3,7 @@
 //  MSNavigationPaneViewController
 //
 //  Created by Eric Horacek on 9/4/12.
-//  Copyright (c) 2012 Monospace Ltd. All rights reserved.
+//  Copyright (c) 2012-2013 Monospace Ltd. All rights reserved.
 //
 //  This code is distributed under the terms and conditions of the MIT license.
 //
@@ -16,7 +16,7 @@
 //
 //  The above copyright notice and this permission notice shall be included in
 //  all copies or substantial portions of the Software.
-//  
+//
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -26,18 +26,15 @@
 //  THE SOFTWARE.
 //
 
-#import "MSDraggableView.h"
-
 // Sizes
-extern const CGFloat MSNavigationPaneOpenStateMasterDisplayWidth;
+extern const CGFloat MSNavigationPaneDefaultOpenStateRevealWidthLeft;
+extern const CGFloat MSNavigationPaneDefaultOpenStateRevealWidthRight;
+extern const CGFloat MSNavigationPaneDefaultOpenStateRevealWidthTop;
 
-// Animation Durations
-extern const CGFloat MSNavigationPaneAnimationDurationOpenToSide;
-extern const CGFloat MSNavigationPaneAnimationDurationSideToClosed;
-extern const CGFloat MSNavigationPaneAnimationDurationOpenToClosed;
-extern const CGFloat MSNavigationPaneAnimationDurationClosedToOpen;
-extern const CGFloat MSNavigationPaneAnimationDurationSnap;
-extern const CGFloat MSNavigationPaneAnimationDurationSnapBack;
+typedef NS_ENUM(NSUInteger, MSNavigationPaneOpenDirection) {
+    MSNavigationPaneOpenDirectionLeft,
+    MSNavigationPaneOpenDirectionTop,
+};
 
 typedef NS_ENUM(NSUInteger, MSNavigationPaneState) {
     MSNavigationPaneStateOpen,
@@ -48,6 +45,7 @@ typedef NS_ENUM(NSUInteger, MSNavigationPaneAppearanceType) {
     MSNavigationPaneAppearanceTypeNone,
     MSNavigationPaneAppearanceTypeZoom,
     MSNavigationPaneAppearanceTypeParallax,
+    MSNavigationPaneAppearanceTypeFade,
 };
 
 @protocol MSNavigationPaneViewControllerDelegate;
@@ -56,6 +54,7 @@ typedef NS_ENUM(NSUInteger, MSNavigationPaneAppearanceType) {
 
 @property (nonatomic, assign) id<MSNavigationPaneViewControllerDelegate> delegate;
 
+@property (nonatomic, assign) MSNavigationPaneOpenDirection openDirection;
 @property (nonatomic, assign) MSNavigationPaneState paneState;
 @property (nonatomic, assign) MSNavigationPaneAppearanceType appearanceType;
 
@@ -63,10 +62,22 @@ typedef NS_ENUM(NSUInteger, MSNavigationPaneAppearanceType) {
 @property (nonatomic, strong) UIViewController *masterViewController;
 
 @property (nonatomic, readonly) UIView *masterView;
-@property (nonatomic, readonly) MSDraggableView *paneView;
+@property (nonatomic, readonly) UIView *paneView;
+
+// The width that the pane should open to reveal the master
+@property (nonatomic, assign) CGFloat openStateRevealWidth;
+
+// If a pan gesture on the pane view should slide the pane view
+@property (nonatomic, assign) BOOL paneDraggingEnabled;
+
+// If setting a new pane view controller should cause an animation that slides off the old view controller before animating the new one back on
+@property (nonatomic, assign) BOOL paneViewSlideOffAnimationEnabled;
+
+// Classes that the pane view should forward dragging through to (UISlider, UISwitch by default)
+@property (nonatomic, readonly) NSMutableSet *touchForwardingClasses;
 
 - (void)setPaneViewController:(UIViewController *)paneViewController animated:(BOOL)animated completion:(void (^)(void))completion;
-- (void)setPaneState:(MSNavigationPaneState)paneState animated:(BOOL)animated;
+- (void)setPaneState:(MSNavigationPaneState)paneState animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end
 
@@ -76,5 +87,6 @@ typedef NS_ENUM(NSUInteger, MSNavigationPaneAppearanceType) {
 
 - (void)navigationPaneViewController:(MSNavigationPaneViewController *)navigationPaneViewController willAnimateToPane:(UIViewController *)paneViewController;
 - (void)navigationPaneViewController:(MSNavigationPaneViewController *)navigationPaneViewController didAnimateToPane:(UIViewController *)paneViewController;
+- (void)navigationPaneViewController:(MSNavigationPaneViewController *)navigationPaneViewController didUpdateToPaneState:(MSNavigationPaneState)state;
 
 @end

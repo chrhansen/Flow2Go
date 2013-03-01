@@ -693,15 +693,15 @@
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="CN0-Vx-klr" customClass="FGFolderLayout">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="CN0-Vx-klr" customClass="FGFolderLayout">
                             <size key="itemSize" width="260" height="120"/>
                             <size key="headerReferenceSize" width="0.0" height="50"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="30" minY="20" maxX="30" maxY="20"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Measurement Cell" id="geG-Em-saE" customClass="FGMeasurementCell">
-                                <rect key="frame" x="30" y="70" width="260" height="120"/>
+                                <rect key="frame" x="0.0" y="50" width="260" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="260" height="120"/>
@@ -710,7 +710,6 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8dN-1p-yba">
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="259" id="thO-Ch-5AJ"/>
                                                 <constraint firstAttribute="height" constant="86" id="w9l-JI-P5c"/>
                                             </constraints>
                                         </imageView>
@@ -760,20 +759,23 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="8dN-1p-yba" secondAttribute="centerX" type="user" id="64y-Ul-oII"/>
                                     <constraint firstItem="AuM-Qp-u0N" firstAttribute="baseline" secondItem="3NS-TA-vzc" secondAttribute="baseline" type="default" id="7Hv-es-WDS"/>
                                     <constraint firstItem="shv-RS-Y20" firstAttribute="top" secondItem="AuM-Qp-u0N" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="9MR-hZ-ca5"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="leading" secondItem="geG-Em-saE" secondAttribute="leading" type="user" id="CVz-l2-Fc3"/>
                                     <constraint firstItem="AuM-Qp-u0N" firstAttribute="top" secondItem="3NS-TA-vzc" secondAttribute="top" type="default" id="DGN-uX-oWd"/>
-                                    <constraint firstItem="shv-RS-Y20" firstAttribute="centerX" secondItem="geG-Em-saE" secondAttribute="centerX" type="default" id="KG1-sW-qcS"/>
                                     <constraint firstAttribute="bottom" secondItem="shv-RS-Y20" secondAttribute="bottom" constant="10" id="KmN-Uv-Hwh"/>
                                     <constraint firstItem="TjF-ix-N3g" firstAttribute="leading" secondItem="shv-RS-Y20" secondAttribute="leading" type="default" id="KxA-4r-OgQ"/>
-                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="centerY" secondItem="AuM-Qp-u0N" secondAttribute="centerY" type="default" id="Md8-ES-IxE"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="centerX" secondItem="TjF-ix-N3g" secondAttribute="centerX" type="default" id="Rmb-a6-5vO"/>
                                     <constraint firstItem="TjF-ix-N3g" firstAttribute="trailing" secondItem="shv-RS-Y20" secondAttribute="trailing" type="default" id="UEB-sG-ktW"/>
-                                    <constraint firstItem="8dN-1p-yba" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" type="default" id="YJt-ad-2nu"/>
-                                    <constraint firstItem="8dN-1p-yba" firstAttribute="leading" secondItem="geG-Em-saE" secondAttribute="leading" type="default" id="fGS-fJ-Lc2"/>
+                                    <constraint firstItem="AuM-Qp-u0N" firstAttribute="centerY" secondItem="TjF-ix-N3g" secondAttribute="centerY" type="default" id="auA-pq-2k8"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" type="default" id="hx1-Tx-nJ8"/>
                                     <constraint firstItem="ykc-iz-eAo" firstAttribute="centerX" secondItem="Cnh-Pa-DpH" secondAttribute="centerX" type="default" id="igD-6X-vG9"/>
                                     <constraint firstItem="Cnh-Pa-DpH" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" constant="10" type="user" id="jxB-IF-1Lo"/>
                                     <constraint firstAttribute="trailing" secondItem="Cnh-Pa-DpH" secondAttribute="trailing" constant="10" type="user" id="oCA-rH-a1W"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="trailing" secondItem="geG-Em-saE" secondAttribute="trailing" type="user" id="sqH-DT-38v"/>
                                     <constraint firstItem="TjF-ix-N3g" firstAttribute="leading" secondItem="AuM-Qp-u0N" secondAttribute="leading" type="default" id="tyC-yn-rfw"/>
                                     <constraint firstItem="ykc-iz-eAo" firstAttribute="centerY" secondItem="Cnh-Pa-DpH" secondAttribute="centerY" type="default" id="uR0-qW-v6X"/>
                                     <constraint firstItem="Cnh-Pa-DpH" firstAttribute="trailing" secondItem="TjF-ix-N3g" secondAttribute="trailing" type="default" id="x9Q-pt-rvw"/>
@@ -795,9 +797,6 @@
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gFc-ar-5fp">
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="73" id="XU7-lX-mSC"/>
-                                    </constraints>
                                     <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                     <state key="normal" image="80-shopping-cart.png">
                                         <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -822,7 +821,7 @@
                                 </button>
                                 <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="zwC-nd-6dl">
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="333" id="Ovs-Cf-kRH"/>
+                                        <constraint firstAttribute="width" constant="300" type="user" id="U7f-Mh-UEu"/>
                                     </constraints>
                                     <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 </searchBar>
@@ -834,16 +833,17 @@
                                 </segmentedControl>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="gFc-ar-5fp" firstAttribute="centerY" secondItem="Vxh-IR-EjR" secondAttribute="centerY" type="default" id="1wL-YH-NAI"/>
+                                <constraint firstItem="zwC-nd-6dl" firstAttribute="leading" secondItem="Vxh-IR-EjR" secondAttribute="leading" type="default" id="2mj-mz-70p"/>
                                 <constraint firstItem="Srr-dX-yvQ" firstAttribute="bottom" secondItem="gFc-ar-5fp" secondAttribute="bottom" type="default" id="72N-wN-Pmf"/>
+                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="leading" secondItem="gFc-ar-5fp" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="HSc-Lw-jML"/>
+                                <constraint firstItem="gFc-ar-5fp" firstAttribute="leading" secondItem="zwC-nd-6dl" secondAttribute="trailing" type="default" id="QfW-QC-RFq"/>
                                 <constraint firstItem="zwC-nd-6dl" firstAttribute="bottom" secondItem="gFc-ar-5fp" secondAttribute="bottom" type="default" id="W9I-jf-47X"/>
-                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="leading" secondItem="gFc-ar-5fp" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="XbD-8l-oj6"/>
+                                <constraint firstItem="FfR-ga-tNz" firstAttribute="leading" secondItem="Srr-dX-yvQ" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Yl0-Hb-xM7"/>
+                                <constraint firstItem="FfR-ga-tNz" firstAttribute="top" secondItem="Srr-dX-yvQ" secondAttribute="top" type="default" id="ZdH-6k-gmC"/>
                                 <constraint firstItem="zwC-nd-6dl" firstAttribute="top" secondItem="gFc-ar-5fp" secondAttribute="top" type="default" id="cRv-ej-tde"/>
-                                <constraint firstItem="FfR-ga-tNz" firstAttribute="leading" secondItem="Srr-dX-yvQ" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="eLC-w0-kyQ"/>
-                                <constraint firstItem="gFc-ar-5fp" firstAttribute="centerX" secondItem="Vxh-IR-EjR" secondAttribute="centerX" type="default" id="fsq-d6-8QT"/>
-                                <constraint firstItem="FfR-ga-tNz" firstAttribute="top" secondItem="Vxh-IR-EjR" secondAttribute="top" constant="2" id="oc2-Bs-4K4"/>
-                                <constraint firstItem="gFc-ar-5fp" firstAttribute="leading" secondItem="zwC-nd-6dl" secondAttribute="trailing" type="default" id="qFI-TU-cJ9"/>
                                 <constraint firstItem="Srr-dX-yvQ" firstAttribute="top" secondItem="gFc-ar-5fp" secondAttribute="top" type="default" id="wwU-YI-VwC"/>
+                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="leading" secondItem="Vxh-IR-EjR" secondAttribute="leading" constant="381" id="yAl-Fe-EbK"/>
+                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="centerY" secondItem="Vxh-IR-EjR" secondAttribute="centerY" type="default" id="ytB-sW-ibq"/>
                             </constraints>
                             <connections>
                                 <outlet property="feedbackButton" destination="Srr-dX-yvQ" id="dlK-53-yc4"/>
@@ -1387,8 +1387,6 @@
         <class className="FGStoreViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreViewController.h"/>
             <relationships>
-                <relationship kind="action" name="doneTapped:"/>
-                <relationship kind="action" name="restoreTapped:"/>
                 <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
@@ -1409,6 +1407,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="UIRefreshControl" superclassName="UIControl">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>

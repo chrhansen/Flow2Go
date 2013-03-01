@@ -34,7 +34,7 @@
 //#define LAYOUT_DEBUG
 
 // Sizes
-const CGFloat MSNavigationPaneOpenStateMasterDisplayWidth = 300.0f;
+const CGFloat MSNavigationPaneOpenStateMasterDisplayWidth = 700.0f;
 
 // Animation Durations
 const CGFloat MSNavigationPaneAnimationDurationOpenToSide = 0.2;

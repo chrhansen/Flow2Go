@@ -42,13 +42,13 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
 {
     if (IS_IPAD) {
         self.itemSize = CGSizeMake(260.0f, 120.0f);
-        self.minimumLineSpacing = 20.0f;
-        self.minimumInteritemSpacing = 20.0f;
+        self.minimumLineSpacing = 5.0f;
+        self.minimumInteritemSpacing = 5.0f;
         self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
     } else {
         self.itemSize = CGSizeMake(260.0f, 120.0f);
-        self.minimumLineSpacing = 20.0f;
-        self.minimumInteritemSpacing = 10.0f;
+        self.minimumLineSpacing = 5.0f;
+        self.minimumInteritemSpacing = 5.0f;
         self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     }
     self.headerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 50.0f);

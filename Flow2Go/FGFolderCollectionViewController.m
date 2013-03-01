@@ -133,7 +133,7 @@
 
 - (void)deleteTapped:(UIButton *)deleteButton
 {
-    NSString *deleteString = nil;
+    NSString *deleteString;
     if (self.editItems.count == 1) {
         deleteString = NSLocalizedString(@"Are you sure you want to delete the selected folder?", nil);
     } else {

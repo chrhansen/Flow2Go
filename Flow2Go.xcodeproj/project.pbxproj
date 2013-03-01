@@ -31,6 +31,8 @@
 		E50BA4101600F38000E85118 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA40F1600F38000E85118 /* libz.dylib */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
+		E5173B5C16E0F1CF00A314D4 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5173B5916E0F1CF00A314D4 /* libTestFlight.a */; };
+		E5173B5D16E0F1CF00A314D4 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E5173B5A16E0F1CF00A314D4 /* release_notes.md */; };
 		E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
@@ -147,9 +149,6 @@
 		E5D314EE16CE5E7A00700F57 /* MagicalRecord+Setup.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D314D016CE5E7A00700F57 /* MagicalRecord+Setup.m */; };
 		E5D314EF16CE5E7A00700F57 /* MagicalRecord+ShorthandSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D314D216CE5E7A00700F57 /* MagicalRecord+ShorthandSupport.m */; };
 		E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D314D416CE5E7A00700F57 /* MagicalRecord.m */; };
-		E5D314F616CE5EDD00700F57 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D314F216CE5EDD00700F57 /* libTestFlight.a */; };
-		E5D314F716CE5EDD00700F57 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E5D314F316CE5EDD00700F57 /* README.md */; };
-		E5D314F816CE5EDD00700F57 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E5D314F416CE5EDD00700F57 /* release_notes.md */; };
 		E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153916CE5F0700700F57 /* libCorePlot-CocoaTouch.a */; };
 		E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
@@ -251,6 +250,9 @@
 		E511FDD915CC6C4800637D39 /* FGPlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotViewController.m; sourceTree = "<group>"; };
 		E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+PriceAsString.h"; sourceTree = "<group>"; };
 		E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+PriceAsString.m"; sourceTree = "<group>"; };
+		E5173B5916E0F1CF00A314D4 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = Flow2Go/TestFlightSDK1.2beta2/libTestFlight.a; sourceTree = SOURCE_ROOT; };
+		E5173B5A16E0F1CF00A314D4 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = release_notes.md; path = Flow2Go/TestFlightSDK1.2beta2/release_notes.md; sourceTree = SOURCE_ROOT; };
+		E5173B5B16E0F1CF00A314D4 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = Flow2Go/TestFlightSDK1.2beta2/TestFlight.h; sourceTree = SOURCE_ROOT; };
 		E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotHelper.h; sourceTree = "<group>"; };
 		E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotHelper.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
@@ -444,10 +446,6 @@
 		E5D314D416CE5E7A00700F57 /* MagicalRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MagicalRecord.m; sourceTree = "<group>"; };
 		E5D314D516CE5E7A00700F57 /* MagicalRecordShorthand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MagicalRecordShorthand.h; sourceTree = "<group>"; };
 		E5D314D616CE5E7A00700F57 /* CoreData+MagicalRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CoreData+MagicalRecord.h"; sourceTree = "<group>"; };
-		E5D314F216CE5EDD00700F57 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		E5D314F316CE5EDD00700F57 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		E5D314F416CE5EDD00700F57 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		E5D314F516CE5EDD00700F57 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		E5D314FB16CE5F0700700F57 /* CorePlot-CocoaTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CorePlot-CocoaTouch.h"; sourceTree = "<group>"; };
 		E5D314FC16CE5F0700700F57 /* CPTAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTAnnotation.h; sourceTree = "<group>"; };
 		E5D314FD16CE5F0700700F57 /* CPTAnnotationHostLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTAnnotationHostLayer.h; sourceTree = "<group>"; };
@@ -555,9 +553,9 @@
 				E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */,
 				E5FC6F4D15CA7E8E0047A3DD /* CoreGraphics.framework in Frameworks */,
 				E5FC6F4F15CA7E8E0047A3DD /* CoreData.framework in Frameworks */,
-				E5D314F616CE5EDD00700F57 /* libTestFlight.a in Frameworks */,
 				E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */,
 				E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */,
+				E5173B5C16E0F1CF00A314D4 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +606,16 @@
 				E59C494516C460D600B5E0D5 /* 53-house@2x.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		E5173B5316E0F12000A314D4 /* TestFlightSDK1.2beta2 */ = {
+			isa = PBXGroup;
+			children = (
+				E5173B5916E0F1CF00A314D4 /* libTestFlight.a */,
+				E5173B5A16E0F1CF00A314D4 /* release_notes.md */,
+				E5173B5B16E0F1CF00A314D4 /* TestFlight.h */,
+			);
+			path = TestFlightSDK1.2beta2;
 			sourceTree = "<group>";
 		};
 		E52BECB815DE861D002A3819 /* Utilities */ = {
@@ -1016,18 +1024,6 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
-		E5D314F116CE5EDD00700F57 /* TestFlight */ = {
-			isa = PBXGroup;
-			children = (
-				E5D314F216CE5EDD00700F57 /* libTestFlight.a */,
-				E5D314F316CE5EDD00700F57 /* README.md */,
-				E5D314F416CE5EDD00700F57 /* release_notes.md */,
-				E5D314F516CE5EDD00700F57 /* TestFlight.h */,
-			);
-			name = TestFlight;
-			path = Flow2Go/TestFlight;
-			sourceTree = "<group>";
-		};
 		E5D314F916CE5F0700700F57 /* CorePlot */ = {
 			isa = PBXGroup;
 			children = (
@@ -1186,10 +1182,10 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E5173B5316E0F12000A314D4 /* TestFlightSDK1.2beta2 */,
 				E55923C216D382BD00A087D8 /* Apptentive */,
 				E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */,
 				E5D314F916CE5F0700700F57 /* CorePlot */,
-				E5D314F116CE5EDD00700F57 /* TestFlight */,
 				E5D3149B16CE5E7A00700F57 /* MagicalRecord */,
 				E5C0118416CA961B0059ED0F /* MKStoreKit */,
 				E5C0117D16C9906B0059ED0F /* MBProgressHUD */,
@@ -1355,8 +1351,6 @@
 				E5C0119116CA962D0059ED0F /* MKStoreKitConfigs.plist in Resources */,
 				E5C011A516CAA05B0059ED0F /* 80-shopping-cart.png in Resources */,
 				E5C011A616CAA05B0059ED0F /* 80-shopping-cart@2x.png in Resources */,
-				E5D314F716CE5EDD00700F57 /* README.md in Resources */,
-				E5D314F816CE5EDD00700F57 /* release_notes.md in Resources */,
 				E5A1BC9516D05310001CABF8 /* flow2go-logo.png in Resources */,
 				E5A1BC9716D0535B001CABF8 /* flow2go-logo-72.png in Resources */,
 				E5A1BC9916D05433001CABF8 /* flow2go-logo-114.png in Resources */,
@@ -1366,6 +1360,7 @@
 				E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */,
 				E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */,
 				E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */,
+				E5173B5D16E0F1CF00A314D4 /* release_notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1540,7 +1535,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/Users/brugernavn/Desktop/core-plot-latest/framework";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Flow2Go/TestFlightSDK1.2beta2";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -1573,7 +1568,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "/Users/brugernavn/Desktop/core-plot-latest/framework";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Flow2Go/TestFlightSDK1.2beta2";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
@@ -1604,8 +1599,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Flow2Go/TestFlight\"",
 					"\"$(SRCROOT)/Flow2Go/CorePlot\"",
+					"\"$(SRCROOT)/Flow2Go/TestFlightSDK1.2beta2\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1635,8 +1630,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/Flow2Go/TestFlight\"",
 					"\"$(SRCROOT)/Flow2Go/CorePlot\"",
+					"\"$(SRCROOT)/Flow2Go/TestFlightSDK1.2beta2\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

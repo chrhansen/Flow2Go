@@ -24,6 +24,7 @@
 #import "FGAnalysisViewController.h"
 #import "FGAnalysis+Management.h"
 #import "MSNavigationPaneViewController.h"
+#import "FGHeaderControlsView.h"
 
 @interface FGFolderCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
 
@@ -58,11 +59,17 @@
     [super viewWillAppear:animated];
     [self _updateVisibleCells];
     [FGDownloadManager.sharedInstance setProgressDelegate:self];
-    [self.collectionView setContentOffset:CGPointMake(0, 50.0f)];
     [self _updatePaneViewControllerOpenWidthForInterfaceOrientation:self.interfaceOrientation];
+    [self.collectionView.collectionViewLayout prepareLayout];
+    [self.collectionView setContentOffset:CGPointMake(0, [FGHeaderControlsView defaultSize].height)];
     [self _updateFrameToFitUnderPaneViewController];
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
 
 - (void)dealloc
 {

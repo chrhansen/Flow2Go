@@ -10,7 +10,7 @@
 #import "FGEmblemView.h"
 #import "FGHeaderControlsView.h"
 
-static NSString * const FGEmblemKind = @"Emblem";
+static NSString * const FGEmblemKind         = @"Emblem";
 static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
 @interface FGFolderLayout ()
 
@@ -48,14 +48,15 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     self.itemSize = CGSizeMake(260.0f, 120.0f);
     self.minimumLineSpacing = 5.0f;
     self.minimumInteritemSpacing = 5.0f;
-    self.headerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 50.0f);
     [self registerClass:[FGEmblemView class]         forDecorationViewOfKind:FGEmblemKind];
     [self registerClass:[FGHeaderControlsView class] forDecorationViewOfKind:FGHeaderControlsKind];
 }
 
 - (void)prepareLayout
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    self.collectionView.contentSize = [self collectionViewContentSize];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathWithIndex:0];
     //Emblem
     UICollectionViewLayoutAttributes *emblemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGEmblemKind withIndexPath:indexPath];
     emblemAttributes.frame = [self frameForDecorationViewOfKind:FGEmblemKind];
@@ -65,8 +66,8 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
 
     
     NSMutableDictionary *newLayoutInfo = [NSMutableDictionary dictionary];
-    newLayoutInfo[FGEmblemKind] = @{indexPath: emblemAttributes};
-    newLayoutInfo[FGHeaderControlsKind] = @{indexPath: headerControlsAttributes};
+    newLayoutInfo[FGEmblemKind]         = @{indexPath : emblemAttributes};
+    newLayoutInfo[FGHeaderControlsKind] = @{indexPath : headerControlsAttributes};
 
     
     self.layoutInfo = newLayoutInfo;
@@ -78,7 +79,7 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     CGSize size = [super collectionViewContentSize];
     CGFloat boundsHeight = self.collectionView.bounds.size.height;
     if (size.height <= boundsHeight) {
-        size.height = boundsHeight + self.headerReferenceSize.height;
+        size.height = boundsHeight + [self frameForDecorationViewOfKind:FGHeaderControlsKind].size.height;
     }
     return size;
 }
@@ -105,7 +106,7 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString*)decorationViewKind atIndexPath:(NSIndexPath *)indexPath
 {
-    return self.layoutInfo[FGEmblemKind][indexPath];
+    return self.layoutInfo[decorationViewKind][indexPath];
 }
 
 

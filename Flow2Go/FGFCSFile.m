@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     
     *error = [newFCSFile _parseFileFromPath:path];
     
-    if (error != NULL) {
+    if (!error) {
         return newFCSFile;
     }
     return nil;
@@ -250,11 +250,11 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     NSUInteger bytesRead = [inputStream read:buffer maxLength:sizeof(buffer)];
     NSString *textString = [NSString.alloc initWithBytes:buffer length:bytesRead encoding:NSASCIIStringEncoding];
     
-    if (!textString)
+    if (!textString || textString.length == 0)
     {
         return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{@"userInfo": @"Error: text segment in FCS file could not be read."}];
     }
-    
+
     self.seperatorCharacterset = [NSCharacterSet characterSetWithCharactersInString:[textString substringToIndex:1]];
     NSArray *textSeparated = [[textString substringFromIndex:1] componentsSeparatedByCharactersInSet:self.seperatorCharacterset];
     

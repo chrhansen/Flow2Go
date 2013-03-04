@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class MSNavigationPaneViewController, FGAnalysisViewController;
 
 @interface FGFolderCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>

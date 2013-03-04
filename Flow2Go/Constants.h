@@ -30,8 +30,8 @@ static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 //Apptentive API-key
 #define kApptentiveAPIKey @"054ed3017042a2823a0b7354b8530f1e98457f02307d8b58b23948586f21d082"
 
-// FCS file specific
-#define HEADER_LENGTH 58
+//Pane View Controller
+#define PANE_COVER_WIDTH 40.0f
 
 // Structs
 struct FGEvent

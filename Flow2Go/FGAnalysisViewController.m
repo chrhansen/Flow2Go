@@ -24,7 +24,6 @@
 
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
-@property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
@@ -90,6 +89,12 @@
     }];
 }
 
+- (void)addNavigationPaneBarbuttonWithTarget:(id)barButtonResponder selector:(SEL)barButtonSelector;
+{
+    UIBarButtonItem *barButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStylePlain target:barButtonResponder action:barButtonSelector];
+    self.navigationItem.leftBarButtonItem = barButton;
+}
+
 
 #pragma mark - FGFCSFile Progress Delegate
 - (void)loadProgress:(CGFloat)progress forFCSFile:(FGFCSFile *)fcsFile
@@ -151,6 +156,26 @@
 }
 
 
+#pragma mark - UICollectionView Delegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
+    [self _presentPlot:plot];
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+
+- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
+{
+    return YES;
+}
+
+
 - (void)infoButtonTapped:(UIButton *)infoButton
 {
     UICollectionViewCell *cell = (UICollectionViewCell *)infoButton.superview.superview;
@@ -178,16 +203,6 @@
 }
 
 
-- (FGFCSFile *)fcsFile
-{
-    if (!_fcsFile) {
-        NSError *error;
-        _fcsFile = [FGFCSFile fcsFileWithPath:[DOCUMENTS_DIR stringByAppendingPathComponent:self.analysis.measurement.filename] error:&error];
-    }
-    return _fcsFile;
-}
-
-
 #define PLOTVIEWSIZE 700
 #define NAVIGATION_BAR_HEIGHT 44
 
@@ -200,9 +215,7 @@
     navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
     navigationController.navigationBar.translucent = YES;
-    [self presentViewController:navigationController animated:YES completion:^{
-        
-    }];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 
@@ -287,20 +300,6 @@
     }
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
-    [self _presentPlot:plot];
-}
-
-
-
-
-
-
-
-
-
 #pragma mark - Fetched results controller
 - (void)_updateFetchedAnalysis:(FGAnalysis *)newAnalysis
 {
@@ -330,6 +329,95 @@
                                                 inContext:[NSManagedObjectContext MR_defaultContext]];
     return _fetchedResultsController;
 }
+
+
+- (void)updateCollectionViewAfterFetch
+{
+    NSUInteger initialItemCount = [self.collectionView numberOfItemsInSection:0];
+    NSUInteger currentItemCount = [self.fetchedResultsController.fetchedObjects count];
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    if (initialItemCount > currentItemCount) {
+        for (NSUInteger itemNo = currentItemCount; itemNo < initialItemCount; itemNo++) {
+            [indexPaths addObject:[NSIndexPath indexPathForItem:itemNo inSection:0]];
+        }
+        [self.collectionView deleteItemsAtIndexPaths:indexPaths];
+    } else if (initialItemCount < currentItemCount) {
+        for (NSUInteger itemNo = initialItemCount; itemNo < currentItemCount; itemNo++) {
+            [indexPaths addObject:[NSIndexPath indexPathForItem:itemNo inSection:0]];
+        }
+        [self.collectionView insertItemsAtIndexPaths:indexPaths];
+    }
+    for (NSUInteger itemNo = 0; itemNo < currentItemCount; itemNo++) {
+        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:itemNo inSection:0]]];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -449,26 +537,5 @@
     [_objectChanges removeAllObjects];
 }
 
-
-- (void)updateCollectionViewAfterFetch
-{
-    NSUInteger initialItemCount = [self.collectionView numberOfItemsInSection:0];
-    NSUInteger currentItemCount = [self.fetchedResultsController.fetchedObjects count];
-    NSMutableArray *indexPaths = [NSMutableArray array];
-    if (initialItemCount > currentItemCount) {
-        for (NSUInteger itemNo = currentItemCount; itemNo < initialItemCount; itemNo++) {
-            [indexPaths addObject:[NSIndexPath indexPathForItem:itemNo inSection:0]];
-        }
-        [self.collectionView deleteItemsAtIndexPaths:indexPaths];
-    } else if (initialItemCount < currentItemCount) {
-        for (NSUInteger itemNo = initialItemCount; itemNo < currentItemCount; itemNo++) {
-            [indexPaths addObject:[NSIndexPath indexPathForItem:itemNo inSection:0]];
-        }
-        [self.collectionView insertItemsAtIndexPaths:indexPaths];
-    }
-    for (NSUInteger itemNo = 0; itemNo < currentItemCount; itemNo++) {
-        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:itemNo inSection:0]]];
-    }
-}
 
 @end

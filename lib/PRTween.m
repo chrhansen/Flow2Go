@@ -702,11 +702,11 @@ complete:
 
         // @HACK: Come up with a better pattern for removing observers.
         @try {
-            [tweenOperation removeObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedValue"];
+//            [tweenOperation removeObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedValue"];
         } @catch (id exception) {
         }
         @try {
-            [tweenOperation removeObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedLerp"];
+//            [tweenOperation removeObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedLerp"];
         } @catch (id exception) {
         }
         

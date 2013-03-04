@@ -36,10 +36,10 @@
 		E5173B6416E1073900A314D4 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6316E1073900A314D4 /* MSNavigationPaneViewController.m */; };
 		E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6816E107CF00A314D4 /* PRTween.m */; };
 		E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6A16E107CF00A314D4 /* PRTweenTimingFunctions.m */; };
+		E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6F16E4FB9800A314D4 /* FGHeaderControlsView.m */; };
 		E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
-		E53E31CE16D452680075DBA3 /* FGAnalysisLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */; };
 		E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */; };
 		E542F4C6160933280041A60A /* FGFolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */; };
 		E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */; };
@@ -260,14 +260,14 @@
 		E5173B6816E107CF00A314D4 /* PRTween.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRTween.m; sourceTree = "<group>"; };
 		E5173B6916E107CF00A314D4 /* PRTweenTimingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRTweenTimingFunctions.h; sourceTree = "<group>"; };
 		E5173B6A16E107CF00A314D4 /* PRTweenTimingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRTweenTimingFunctions.m; sourceTree = "<group>"; };
+		E5173B6E16E4FB9800A314D4 /* FGHeaderControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGHeaderControlsView.h; sourceTree = "<group>"; };
+		E5173B6F16E4FB9800A314D4 /* FGHeaderControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGHeaderControlsView.m; sourceTree = "<group>"; };
 		E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotHelper.h; sourceTree = "<group>"; };
 		E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotHelper.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* FGGraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
-		E53E31CC16D452670075DBA3 /* FGAnalysisLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisLayout.h; sourceTree = "<group>"; };
-		E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisLayout.m; sourceTree = "<group>"; };
 		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGFolderCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolderCollectionViewController.h; sourceTree = "<group>"; };
 		E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolderCollectionViewController.m; sourceTree = "<group>"; };
@@ -668,8 +668,6 @@
 		E53FA67015CB3E6F000B048C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E53E31CC16D452670075DBA3 /* FGAnalysisLayout.h */,
-				E53E31CD16D452670075DBA3 /* FGAnalysisLayout.m */,
 				E59C498416C4917D00B5E0D5 /* FGStyleController.h */,
 				E59C498516C4917D00B5E0D5 /* FGStyleController.m */,
 				E5C011A016CA9E820059ED0F /* FGFolderHeaderView.h */,
@@ -846,6 +844,8 @@
 			children = (
 				E59C494C16C4687200B5E0D5 /* FGEmblemView.h */,
 				E59C494D16C4687200B5E0D5 /* FGEmblemView.m */,
+				E5173B6E16E4FB9800A314D4 /* FGHeaderControlsView.h */,
+				E5173B6F16E4FB9800A314D4 /* FGHeaderControlsView.m */,
 				E570CCDB16DCF03800418413 /* FGStackedLayout.h */,
 				E570CCDC16DCF03800418413 /* FGStackedLayout.m */,
 				E59C495316C4710F00B5E0D5 /* FGFolderLayout.h */,
@@ -1484,11 +1484,11 @@
 				E5D314EE16CE5E7A00700F57 /* MagicalRecord+Setup.m in Sources */,
 				E5D314EF16CE5E7A00700F57 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */,
-				E53E31CE16D452680075DBA3 /* FGAnalysisLayout.m in Sources */,
 				E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */,
 				E5173B6416E1073900A314D4 /* MSNavigationPaneViewController.m in Sources */,
 				E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */,
 				E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */,
+				E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,7 +30,7 @@
     
     // Slave View Controller
     UINavigationController *paneViewController = (UINavigationController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"analysisViewControllerNavigationController"];
-
+    
     // Master View Controller
     UINavigationController *navigationControllerFolder = (UINavigationController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"folderNavigationViewController"];
     FGFolderCollectionViewController *folderViewController = (FGFolderCollectionViewController * )navigationControllerFolder.topViewController;

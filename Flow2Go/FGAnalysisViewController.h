@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class FGAnalysis;
-@class FGMeasurement;
 
-@interface FGAnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UISplitViewControllerDelegate>
+@interface FGAnalysisViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 - (void)showAnalysis:(FGAnalysis *)analysis;
+- (void)addNavigationPaneBarbuttonWithTarget:(id)barButtonResponder selector:(SEL)barButtonSelector;
 
 @property (nonatomic, strong) FGAnalysis *analysis;
 

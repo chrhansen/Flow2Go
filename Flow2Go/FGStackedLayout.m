@@ -15,7 +15,7 @@ static NSUInteger const PhotoCellBaseZIndex = 100;
 
 static NSString * const BHPhotoAlbumLayoutPhotoCellKind = @"PhotoCell";
 NSString * const BHPhotoAlbumLayoutAlbumTitleKind = @"AlbumTitle";
-static NSString * const FGPhotoEmblemKind = @"Emblem";
+static NSString * const FGEmblemKind = @"Emblem";
 
 @interface FGStackedLayout ()
 
@@ -140,7 +140,7 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
     
     self.rotations = rotations;
     
-    [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGPhotoEmblemKind];
+    [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGEmblemKind];
 }
 
 
@@ -156,10 +156,10 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
     
     UICollectionViewLayoutAttributes *emblemAttributes = [UICollectionViewLayoutAttributes
-                                                          layoutAttributesForDecorationViewOfKind:FGPhotoEmblemKind withIndexPath:indexPath];
+                                                          layoutAttributesForDecorationViewOfKind:FGEmblemKind withIndexPath:indexPath];
     emblemAttributes.frame = [self frameForEmblem];
     
-    newLayoutInfo[FGPhotoEmblemKind] = @{indexPath: emblemAttributes};
+    newLayoutInfo[FGEmblemKind] = @{indexPath: emblemAttributes};
     
     for (NSInteger section = 0; section < sectionCount; section++) {
         NSInteger itemCount = [self.collectionView numberOfItemsInSection:section];
@@ -233,7 +233,7 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString*)decorationViewKind atIndexPath:(NSIndexPath *)indexPath
 {
-    return self.layoutInfo[FGPhotoEmblemKind][indexPath];
+    return self.layoutInfo[FGEmblemKind][indexPath];
 }
 
 

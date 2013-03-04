@@ -694,17 +694,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="CN0-Vx-klr" customClass="FGFolderLayout">
-                            <size key="itemSize" width="260" height="120"/>
-                            <size key="headerReferenceSize" width="0.0" height="50"/>
+                            <size key="itemSize" width="230" height="120"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Measurement Cell" id="geG-Em-saE" customClass="FGMeasurementCell">
-                                <rect key="frame" x="0.0" y="50" width="260" height="120"/>
+                                <rect key="frame" x="0.0" y="0.0" width="230" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="260" height="120"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="230" height="120"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8dN-1p-yba">
@@ -721,8 +721,8 @@
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Count" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuM-Qp-u0N">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="86" id="02g-6S-kCS"/>
                                                 <constraint firstAttribute="height" constant="21" id="NfB-lg-K6U"/>
+                                                <constraint firstAttribute="width" constant="70" id="ifo-4T-doo"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -739,7 +739,7 @@
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NS-TA-vzc">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="122" id="Uj9-uV-zwb"/>
+                                                <constraint firstAttribute="width" constant="134" id="2PN-hg-gSu"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -759,27 +759,25 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="8dN-1p-yba" secondAttribute="centerX" type="user" id="64y-Ul-oII"/>
                                     <constraint firstItem="AuM-Qp-u0N" firstAttribute="baseline" secondItem="3NS-TA-vzc" secondAttribute="baseline" type="default" id="7Hv-es-WDS"/>
                                     <constraint firstItem="shv-RS-Y20" firstAttribute="top" secondItem="AuM-Qp-u0N" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="9MR-hZ-ca5"/>
                                     <constraint firstItem="8dN-1p-yba" firstAttribute="leading" secondItem="geG-Em-saE" secondAttribute="leading" type="user" id="CVz-l2-Fc3"/>
                                     <constraint firstItem="AuM-Qp-u0N" firstAttribute="top" secondItem="3NS-TA-vzc" secondAttribute="top" type="default" id="DGN-uX-oWd"/>
-                                    <constraint firstAttribute="bottom" secondItem="shv-RS-Y20" secondAttribute="bottom" constant="10" id="KmN-Uv-Hwh"/>
-                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="leading" secondItem="shv-RS-Y20" secondAttribute="leading" type="default" id="KxA-4r-OgQ"/>
-                                    <constraint firstItem="8dN-1p-yba" firstAttribute="centerX" secondItem="TjF-ix-N3g" secondAttribute="centerX" type="default" id="Rmb-a6-5vO"/>
-                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="trailing" secondItem="shv-RS-Y20" secondAttribute="trailing" type="default" id="UEB-sG-ktW"/>
-                                    <constraint firstItem="AuM-Qp-u0N" firstAttribute="centerY" secondItem="TjF-ix-N3g" secondAttribute="centerY" type="default" id="auA-pq-2k8"/>
-                                    <constraint firstItem="8dN-1p-yba" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" type="default" id="hx1-Tx-nJ8"/>
-                                    <constraint firstItem="ykc-iz-eAo" firstAttribute="centerX" secondItem="Cnh-Pa-DpH" secondAttribute="centerX" type="default" id="igD-6X-vG9"/>
+                                    <constraint firstItem="3NS-TA-vzc" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" constant="60" id="G7k-5c-H3K"/>
+                                    <constraint firstItem="Cnh-Pa-DpH" firstAttribute="leading" secondItem="ykc-iz-eAo" secondAttribute="leading" type="default" id="S8o-Ji-4RK"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" type="default" id="SHp-Cz-P33"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="trailing" secondItem="geG-Em-saE" secondAttribute="trailing" type="default" id="VVC-q1-yKc"/>
+                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="centerY" secondItem="3NS-TA-vzc" secondAttribute="centerY" type="default" id="Xos-ke-IV6"/>
+                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="trailing" secondItem="3NS-TA-vzc" secondAttribute="trailing" type="default" id="ako-3j-w4G"/>
+                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="trailing" secondItem="shv-RS-Y20" secondAttribute="trailing" type="default" id="cml-ZY-zHm"/>
+                                    <constraint firstItem="AuM-Qp-u0N" firstAttribute="leading" secondItem="shv-RS-Y20" secondAttribute="leading" type="default" id="fMK-IL-S9T"/>
+                                    <constraint firstAttribute="trailing" secondItem="ykc-iz-eAo" secondAttribute="trailing" constant="10" id="gbW-xn-pYn"/>
                                     <constraint firstItem="Cnh-Pa-DpH" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" constant="10" type="user" id="jxB-IF-1Lo"/>
-                                    <constraint firstAttribute="trailing" secondItem="Cnh-Pa-DpH" secondAttribute="trailing" constant="10" type="user" id="oCA-rH-a1W"/>
-                                    <constraint firstItem="8dN-1p-yba" firstAttribute="trailing" secondItem="geG-Em-saE" secondAttribute="trailing" type="user" id="sqH-DT-38v"/>
-                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="leading" secondItem="AuM-Qp-u0N" secondAttribute="leading" type="default" id="tyC-yn-rfw"/>
+                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="centerX" secondItem="shv-RS-Y20" secondAttribute="centerX" type="default" id="kSq-Cy-JeU"/>
+                                    <constraint firstItem="3NS-TA-vzc" firstAttribute="leading" secondItem="AuM-Qp-u0N" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="qZ8-NF-cFb"/>
+                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="centerX" secondItem="8dN-1p-yba" secondAttribute="centerX" type="default" id="sWx-ht-cGw"/>
                                     <constraint firstItem="ykc-iz-eAo" firstAttribute="centerY" secondItem="Cnh-Pa-DpH" secondAttribute="centerY" type="default" id="uR0-qW-v6X"/>
-                                    <constraint firstItem="Cnh-Pa-DpH" firstAttribute="trailing" secondItem="TjF-ix-N3g" secondAttribute="trailing" type="default" id="x9Q-pt-rvw"/>
-                                    <constraint firstItem="TjF-ix-N3g" firstAttribute="trailing" secondItem="3NS-TA-vzc" secondAttribute="trailing" type="default" id="zCa-Y2-rR5"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="checkMarkImageView" destination="ykc-iz-eAo" id="pVM-be-QX9"/>
@@ -792,66 +790,6 @@
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Folder Header" id="Vxh-IR-EjR" customClass="FGFolderHeaderView">
-                            <rect key="frame" x="0.0" y="0.0" width="768" height="50"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gFc-ar-5fp">
-                                    <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                    <state key="normal" image="80-shopping-cart.png">
-                                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Srr-dX-yvQ">
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="73" id="0yO-g1-CKZ"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                    <state key="normal" image="09-chat-2.png">
-                                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                                <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="zwC-nd-6dl">
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="300" type="user" id="U7f-Mh-UEu"/>
-                                    </constraints>
-                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                </searchBar>
-                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FfR-ga-tNz">
-                                    <segments>
-                                        <segment title="Stacks"/>
-                                        <segment title="Flat"/>
-                                    </segments>
-                                </segmentedControl>
-                            </subviews>
-                            <constraints>
-                                <constraint firstItem="zwC-nd-6dl" firstAttribute="leading" secondItem="Vxh-IR-EjR" secondAttribute="leading" type="default" id="2mj-mz-70p"/>
-                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="bottom" secondItem="gFc-ar-5fp" secondAttribute="bottom" type="default" id="72N-wN-Pmf"/>
-                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="leading" secondItem="gFc-ar-5fp" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="HSc-Lw-jML"/>
-                                <constraint firstItem="gFc-ar-5fp" firstAttribute="leading" secondItem="zwC-nd-6dl" secondAttribute="trailing" type="default" id="QfW-QC-RFq"/>
-                                <constraint firstItem="zwC-nd-6dl" firstAttribute="bottom" secondItem="gFc-ar-5fp" secondAttribute="bottom" type="default" id="W9I-jf-47X"/>
-                                <constraint firstItem="FfR-ga-tNz" firstAttribute="leading" secondItem="Srr-dX-yvQ" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Yl0-Hb-xM7"/>
-                                <constraint firstItem="FfR-ga-tNz" firstAttribute="top" secondItem="Srr-dX-yvQ" secondAttribute="top" type="default" id="ZdH-6k-gmC"/>
-                                <constraint firstItem="zwC-nd-6dl" firstAttribute="top" secondItem="gFc-ar-5fp" secondAttribute="top" type="default" id="cRv-ej-tde"/>
-                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="top" secondItem="gFc-ar-5fp" secondAttribute="top" type="default" id="wwU-YI-VwC"/>
-                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="leading" secondItem="Vxh-IR-EjR" secondAttribute="leading" constant="381" id="yAl-Fe-EbK"/>
-                                <constraint firstItem="Srr-dX-yvQ" firstAttribute="centerY" secondItem="Vxh-IR-EjR" secondAttribute="centerY" type="default" id="ytB-sW-ibq"/>
-                            </constraints>
-                            <connections>
-                                <outlet property="feedbackButton" destination="Srr-dX-yvQ" id="dlK-53-yc4"/>
-                                <outlet property="layoutSegmentedControl" destination="FfR-ga-tNz" id="DiZ-Ya-3KX"/>
-                                <outlet property="searchBar" destination="zwC-nd-6dl" id="Gl4-Zn-zu3"/>
-                                <outlet property="storeButton" destination="gFc-ar-5fp" id="hsu-Lg-3WK"/>
-                            </connections>
-                        </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="IjC-wp-IEm" id="hDW-Tv-Ja8"/>
                             <outlet property="delegate" destination="IjC-wp-IEm" id="lSp-jR-Xg9"/>
@@ -875,7 +813,7 @@
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="20" id="Ok8-vp-oZy" customClass="FGAnalysisLayout">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="20" id="Ok8-vp-oZy">
                             <size key="itemSize" width="300" height="350"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -992,7 +930,6 @@
                     <view key="view" contentMode="scaleToFill" id="8UQ-dE-2eV">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                 </viewController>
@@ -1272,9 +1209,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="09-chat-2.png" width="24" height="22"/>
         <image name="39-circle-check.png" width="28" height="28"/>
-        <image name="80-shopping-cart.png" width="26" height="19"/>
     </resources>
     <classes>
         <class className="CPTGraphHostingView" superclassName="UIView">
@@ -1282,9 +1217,6 @@
         </class>
         <class className="FGAddGateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateTableViewController.h"/>
-        </class>
-        <class className="FGAnalysisLayout" superclassName="UICollectionViewFlowLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisLayout.h"/>
         </class>
         <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>
@@ -1302,15 +1234,6 @@
         </class>
         <class className="FGFolderCollectionViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCollectionViewController.h"/>
-        </class>
-        <class className="FGFolderHeaderView" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderHeaderView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="feedbackButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="layoutSegmentedControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="storeButton" candidateClass="UIButton"/>
-            </relationships>
         </class>
         <class className="FGFolderLayout" superclassName="UICollectionViewFlowLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderLayout.h"/>
@@ -1407,9 +1330,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="UIRefreshControl" superclassName="UIControl">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UIRefreshControl.h"/>

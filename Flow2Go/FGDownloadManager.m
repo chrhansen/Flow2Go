@@ -102,8 +102,8 @@
         return;
     }
     NSString *relativePath = [directoryPath stringByAppendingPathComponent:metadata.filename];
-    NSDictionary *objectDetails = @{@"metadata" : metadata,
-                                    @"filePath" : relativePath,
+    NSDictionary *objectDetails = @{@"metadata"    : metadata,
+                                    @"filePath"    : relativePath,
                                     @"downloadDate": NSDate.date};
     FGMeasurement *newMeasurement = [[FGMeasurement MR_importFromArray:@[objectDetails]] lastObject];
     newMeasurement.folder = folder;

@@ -25,7 +25,7 @@
 #import "FGAnalysis+Management.h"
 #import "MSNavigationPaneViewController.h"
 
-@interface FGFolderCollectionViewController () <UIAlertViewDelegate, UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
+@interface FGFolderCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
 
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
@@ -49,7 +49,7 @@
     [self _configureBarButtonItemsForEditing:NO];
     [self _addNoiseBackground];
     [self _observeApptentiveSurveys];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.analysisViewController addNavigationPaneBarbuttonWithTarget:self selector:@selector(navigationPaneBarButtonItemTapped:)];
 }
 
 
@@ -59,6 +59,8 @@
     [self _updateVisibleCells];
     [FGDownloadManager.sharedInstance setProgressDelegate:self];
     [self.collectionView setContentOffset:CGPointMake(0, 50.0f)];
+    [self _updatePaneViewControllerOpenWidthForInterfaceOrientation:self.interfaceOrientation];
+    [self _updateFrameToFitUnderPaneViewController];
 }
 
 
@@ -87,12 +89,28 @@
     KGNoiseRadialGradientView *collectionNoiseView = [[KGNoiseRadialGradientView alloc] initWithFrame:self.collectionView.bounds];
     collectionNoiseView.backgroundColor            = [UIColor colorWithWhite:0.7032 alpha:1.000];
     collectionNoiseView.alternateBackgroundColor   = [UIColor colorWithWhite:0.7051 alpha:1.000];
-    collectionNoiseView.noiseOpacity = 0.07;
-    collectionNoiseView.noiseBlendMode = kCGBlendModeNormal;
-    self.collectionView.backgroundView = collectionNoiseView;
+    collectionNoiseView.noiseOpacity               = 0.07;
+    collectionNoiseView.noiseBlendMode             = kCGBlendModeNormal;
+    self.collectionView.backgroundView             = collectionNoiseView;
 }
 
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self _updatePaneViewControllerOpenWidthForInterfaceOrientation:toInterfaceOrientation];
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self _updateFrameToFitUnderPaneViewController];
+}
+
+
+- (void)navigationPaneBarButtonItemTapped:(id)sender
+{
+    [self.navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES completion:nil];
+}
 
 #pragma mark - Editing state
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
@@ -134,12 +152,21 @@
 }
 
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)_updateFrameToFitUnderPaneViewController
 {
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        self.navigationPaneViewController.openStateRevealWidth = 980.0f;
+    CGRect newFrame = CGRectMake(0, 0, self.navigationPaneViewController.openStateRevealWidth, self.navigationController.view.bounds.size.height);
+    self.navigationController.view.frame = newFrame;
+}
+
+- (void)_updatePaneViewControllerOpenWidthForInterfaceOrientation:(UIInterfaceOrientation)orientation
+{
+    if (self.interfaceOrientation == orientation) {
+        self.navigationPaneViewController.openStateRevealWidth = self.view.bounds.size.width - PANE_COVER_WIDTH;
     } else {
-        self.navigationPaneViewController.openStateRevealWidth = 700.0f;
+        CGFloat revealWidth = self.view.bounds.size.height - PANE_COVER_WIDTH;
+        if (![[UIApplication sharedApplication] isStatusBarHidden]) revealWidth += 20.0f;
+        if (!self.navigationController.navigationBar.isHidden) revealWidth += self.navigationController.navigationBar.frame.size.height;
+        self.navigationPaneViewController.openStateRevealWidth = revealWidth;
     }
     [self.navigationPaneViewController setPaneState:self.navigationPaneViewController.paneState animated:YES completion:nil];
 }
@@ -259,8 +286,7 @@
 }
 
 
-#define FOLDER_NAME_MAX_CHARACTER_COUNT 29
-#define FILENAME_CHARACTER_COUNT 35
+#define FILENAME_CHARACTER_COUNT 32
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
@@ -272,24 +298,10 @@
     measurementCell.infoButton.enabled = measurement.isDownloaded;
     measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
     measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
+    measurementCell.infoButton.hidden = self.isEditing;
+    if (!self.isEditing) measurementCell.checkMarkImageView.hidden = YES;
 }
 
-
-- (void)newFolderTapped:(UIBarButtonItem *)addButton
-{
-    UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Add new collection", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Add", nil), nil];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alertView show];
-}
-
-#pragma mark - UIAlertView delegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 1) {
-        NSString *folderName = [alertView textFieldAtIndex:0].text;
-        [FGFolder createWithName:folderName];
-    }
-}
 
 #pragma mark - Download Manager progress delegate
 - (void)downloadManager:(FGDownloadManager *)downloadManager beganDownloadingMeasurement:(FGMeasurement *)measurement
@@ -305,6 +317,7 @@
 - (void)downloadManager:(FGDownloadManager *)downloadManager finishedDownloadingMeasurement:(FGMeasurement *)measurement
 {
     [self _updateDownloadProgressViewForMeasurement:measurement progress:1.0f];
+    [self.collectionView layoutSubviews];
 }
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingMeasurement:(FGMeasurement *)measurement
@@ -318,6 +331,9 @@
 - (void)_updateDownloadProgressViewForMeasurement:(FGMeasurement *)measurement progress:(CGFloat)progress
 {
     FGMeasurementCell *downloadCell = (FGMeasurementCell *)[self.collectionView cellForItemAtIndexPath:[self.fetchedResultsController indexPathForObject:measurement]];
+    if (!downloadCell) {
+        NSLog(@"downloadCell nil: %@", measurement);
+    }
     downloadCell.progressView.progress = progress;
     downloadCell.progressView.hidden = (progress == 1.0f) ? YES : NO;
 }
@@ -348,12 +364,12 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        FGFolderHeaderView *headerView = (FGFolderHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Folder Header" forIndexPath:indexPath];
-        headerView.searchBar.delegate = self;
-        [headerView.storeButton addTarget:self action:@selector(storeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [headerView.feedbackButton addTarget:self action:@selector(feedbackButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [headerView.layoutSegmentedControl addTarget:self action:@selector(layoutControlTapped:) forControlEvents:UIControlEventValueChanged];
-        return headerView;
+//        FGFolderHeaderView *headerView = (FGFolderHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Folder Header" forIndexPath:indexPath];
+//        headerView.searchBar.delegate = self;
+//        [headerView.storeButton addTarget:self action:@selector(storeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+//        [headerView.feedbackButton addTarget:self action:@selector(feedbackButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+//        [headerView.layoutSegmentedControl addTarget:self action:@selector(layoutControlTapped:) forControlEvents:UIControlEventValueChanged];
+//        return headerView;
     }
     return nil;
 }
@@ -379,6 +395,8 @@
 
 - (void)_presentMeasurement:(FGMeasurement *)aMeasurement
 {
+    if (aMeasurement.isDownloaded == NO) return;
+    
     FGAnalysis *analysis = aMeasurement.analyses.lastObject;
     if (analysis == nil) {
         analysis = [FGAnalysis createAnalysisForMeasurement:aMeasurement];
@@ -395,12 +413,11 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    _fetchedResultsController = [FGMeasurement fetchAllGroupedBy:@"folder"
+    _fetchedResultsController = [FGMeasurement fetchAllGroupedBy:@"folder.name"
                                                    withPredicate:nil
                                                         sortedBy:@"filename"
                                                        ascending:YES
-                                                        delegate:self
-                                                       inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                        delegate:self];
     return _fetchedResultsController;
 }
 

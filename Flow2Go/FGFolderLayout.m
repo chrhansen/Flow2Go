@@ -8,8 +8,10 @@
 
 #import "FGFolderLayout.h"
 #import "FGEmblemView.h"
+#import "FGHeaderControlsView.h"
 
-static NSString * const FGPhotoEmblemKind = @"Emblem";
+static NSString * const FGEmblemKind = @"Emblem";
+static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
 @interface FGFolderLayout ()
 
 @property (nonatomic, strong) NSDictionary *layoutInfo;
@@ -24,7 +26,6 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
     if (self) {
         [self setup];
     }
-    
     return self;
 }
 
@@ -34,35 +35,38 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
     if (self) {
         [self setup];
     }
-    
     return self;
 }
 
 - (void)setup
 {
     if (IS_IPAD) {
-        self.itemSize = CGSizeMake(260.0f, 120.0f);
-        self.minimumLineSpacing = 5.0f;
-        self.minimumInteritemSpacing = 5.0f;
         self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
     } else {
-        self.itemSize = CGSizeMake(260.0f, 120.0f);
-        self.minimumLineSpacing = 5.0f;
-        self.minimumInteritemSpacing = 5.0f;
         self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     }
+    self.itemSize = CGSizeMake(260.0f, 120.0f);
+    self.minimumLineSpacing = 5.0f;
+    self.minimumInteritemSpacing = 5.0f;
     self.headerReferenceSize = CGSizeMake(self.collectionView.bounds.size.width, 50.0f);
-    [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGPhotoEmblemKind];
+    [self registerClass:[FGEmblemView class]         forDecorationViewOfKind:FGEmblemKind];
+    [self registerClass:[FGHeaderControlsView class] forDecorationViewOfKind:FGHeaderControlsKind];
 }
 
 - (void)prepareLayout
 {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];    
-    UICollectionViewLayoutAttributes *emblemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGPhotoEmblemKind withIndexPath:indexPath];
-    emblemAttributes.frame = [self frameForEmblem];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    //Emblem
+    UICollectionViewLayoutAttributes *emblemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGEmblemKind withIndexPath:indexPath];
+    emblemAttributes.frame = [self frameForDecorationViewOfKind:FGEmblemKind];
+    //Header Controls
+    UICollectionViewLayoutAttributes *headerControlsAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGHeaderControlsKind withIndexPath:indexPath];
+    headerControlsAttributes.frame = [self frameForDecorationViewOfKind:FGHeaderControlsKind];
+
     
     NSMutableDictionary *newLayoutInfo = [NSMutableDictionary dictionary];
-    newLayoutInfo[FGPhotoEmblemKind] = @{indexPath: emblemAttributes};
+    newLayoutInfo[FGEmblemKind] = @{indexPath: emblemAttributes};
+    newLayoutInfo[FGHeaderControlsKind] = @{indexPath: headerControlsAttributes};
 
     
     self.layoutInfo = newLayoutInfo;
@@ -101,18 +105,28 @@ static NSString * const FGPhotoEmblemKind = @"Emblem";
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString*)decorationViewKind atIndexPath:(NSIndexPath *)indexPath
 {
-    return self.layoutInfo[FGPhotoEmblemKind][indexPath];
+    return self.layoutInfo[FGEmblemKind][indexPath];
 }
 
 
-- (CGRect)frameForEmblem
+- (CGRect)frameForDecorationViewOfKind:(NSString *)kind
 {
-    CGSize size = [FGEmblemView defaultSize];
-    
-    CGFloat originX = floorf((self.collectionView.bounds.size.width - size.width) * 0.5f);
-    CGFloat originY = -size.height - 30.0f;
-    
-    return CGRectMake(originX, originY, size.width, size.height);
+    if ([kind isEqualToString:FGEmblemKind]) {
+        CGSize size = [FGEmblemView defaultSize];
+        
+        CGFloat originX = floorf((self.collectionView.bounds.size.width - size.width) * 0.5f);
+        CGFloat originY = -size.height - 55.0f;
+        
+        return CGRectMake(originX, originY, size.width, size.height);
+    } else if ([kind isEqualToString:FGHeaderControlsKind]) {
+        CGSize size = [FGHeaderControlsView defaultSize];
+        
+        CGFloat originX = floorf((self.collectionView.bounds.size.width - size.width) * 0.5f);
+        CGFloat originY = 0.0f;
+        
+        return CGRectMake(originX, originY, size.width, size.height);
+    }
+    return CGRectZero;
 }
 
 @end

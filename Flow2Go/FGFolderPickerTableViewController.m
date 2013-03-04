@@ -17,27 +17,6 @@
 
 @implementation FGFolderPickerTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -107,7 +86,6 @@
     static NSString *CellIdentifier = @"Folder Table View Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     [self configureCell:cell atIndexPath:indexPath];
-    
     return cell;
 }
 
@@ -131,9 +109,8 @@
     _fetchedResultsController = [FGFolder fetchAllGroupedBy:nil
                                               withPredicate:nil
                                                    sortedBy:@"name"
-                                                  ascending:NO
-                                                   delegate:self
-                                                  inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                  ascending:YES
+                                                   delegate:self];
     return _fetchedResultsController;
 }
 

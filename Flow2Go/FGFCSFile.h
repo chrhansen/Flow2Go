@@ -13,8 +13,10 @@
 - (void)loadProgress:(CGFloat)progress forFCSFile:(FGFCSFile *)fcsFile;
 @end
 
-typedef NS_ENUM(NSInteger, FGParsingSegment)
-{
+// FCS file specific
+#define HEADER_LENGTH 58
+
+typedef NS_ENUM(NSInteger, FGParsingSegment) {
     FGParsingSegmentBegan,
     FGParsingSegmentHeader,
     FGParsingSegmentText,

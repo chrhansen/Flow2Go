@@ -92,7 +92,7 @@ CGFloat PRTweenTimingFunctionCubicInOut (CGFloat t, CGFloat b, CGFloat c, CGFloa
 
 CGFloat PRTweenTimingFunctionElasticOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     CGFloat p = d*.3;
-    CGFloat s, a;
+    CGFloat s, a = 0.0;
     if (t==0) return b;  if ((t/=d)==1) return b+c;
     if (!a || a < ABS(c)) { a=c; s=p/4; }
     else s = p/(2*M_PI) * asin (c/a);
@@ -101,7 +101,7 @@ CGFloat PRTweenTimingFunctionElasticOut (CGFloat t, CGFloat b, CGFloat c, CGFloa
 
 CGFloat PRTweenTimingFunctionElasticIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     CGFloat p = d*.3;
-    CGFloat s, a;
+    CGFloat s, a = 0.0;
     if (t==0) return b;  if ((t/=d)==1) return b+c;
     if (!a || a < ABS(c)) { a=c; s=p/4; }
     else s = p/(2*M_PI) * asin (c/a);
@@ -110,7 +110,7 @@ CGFloat PRTweenTimingFunctionElasticIn (CGFloat t, CGFloat b, CGFloat c, CGFloat
 
 CGFloat PRTweenTimingFunctionElasticInOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     CGFloat p = d*(.3*1.5);
-    CGFloat s, a;
+    CGFloat s, a = 0.0;
     if (t==0) return b;  if ((t/=d/2)==2) return b+c;
     if (!a || a < ABS(c)) { a=c; s=p/4; }
     else s = p/(2*M_PI) * asin (c/a);

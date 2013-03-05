@@ -12,20 +12,21 @@
 
 + (CGSize)defaultSize
 {
-    return CGSizeMake(320, 50);
+    if (IS_IPAD) {
+        return CGSizeMake(768, 50);
+    } else {
+        return CGSizeMake(320, 100);
+    }
 }
 
-- (id)initWithFrame:(CGRect)frame
+
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor redColor];
-        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 200, 50)];
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeContactAdd];
-        button.center = CGPointMake(250.0f, 25.0f);
-        [self addSubview:searchBar];
-        [self addSubview:button];
-    }
-    return self;
+    [super willMoveToSuperview:newSuperview];
+    [self.searchBar setBackgroundImage:[UIImage new]];
+    [self.searchBar setTranslucent:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:FGSearchBarWillAppearNotification object:nil userInfo:@{@"searchBar": self.searchBar}];
 }
+
 @end

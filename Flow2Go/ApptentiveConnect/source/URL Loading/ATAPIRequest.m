@@ -114,12 +114,12 @@ NSString *const ATAPIRequestStatusChanged = @"ATAPIRequestStatusChanged";
 		 // */
 		
 		if (self.failed) {
-			NSData *d = [sender responseData];
-			NSString *a = [[[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding] autorelease];
+//			NSData *d = [sender responseData];
+//			NSString *a = [[[NSString alloc] initWithData:d encoding:NSUTF8StringEncoding] autorelease];
 			NSLog(@"Connection failed. %@, %@", self.errorTitle, self.errorMessage);
-			NSLog(@"Status was: %d", sender.statusCode);
-			NSLog(@"Request was: %@", [connection requestAsString]);
-			NSLog(@"Response was: %@", a);
+//			NSLog(@"Status was: %d", sender.statusCode);
+//			NSLog(@"Request was: %@", [connection requestAsString]);
+//			NSLog(@"Response was: %@", a);
 		}
 		
 		if (!d) break;

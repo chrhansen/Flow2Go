@@ -24,6 +24,7 @@ static NSString * const DropboxFileDownloadedNotification = @"DropboxFileDownloa
 static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownloadNotification";
 
 static NSString * const AnalysisUpdatedNotification = @"AnalysisUpdatedNotification";
+extern NSString * const FGSearchBarWillAppearNotification;
 
 static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 
@@ -31,7 +32,7 @@ static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 #define kApptentiveAPIKey @"054ed3017042a2823a0b7354b8530f1e98457f02307d8b58b23948586f21d082"
 
 //Pane View Controller
-#define PANE_COVER_WIDTH 40.0f
+#define PANE_COVER_WIDTH 50.0f
 
 // Structs
 struct FGEvent

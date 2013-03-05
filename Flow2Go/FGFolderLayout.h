@@ -10,4 +10,6 @@
 
 @interface FGFolderLayout : UICollectionViewFlowLayout
 
+@property (nonatomic) CGFloat headerControlsHeight;
+
 @end

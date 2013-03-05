@@ -18,6 +18,8 @@ NSString *const DropboxUpLoadedError = @"DropboxUpLoadedError";
 NSString *const DropboxUploadFolderSelected = @"DropboxUploadFolderSelected";
 
 NSString *const FileOpenFromEmailNotification = @"FileOpenFromEmailNotification";
+NSString *const FGSearchBarWillAppearNotification = @"FGSearchBarWillAppearNotification";
+
 
 NSString *const PolygonAnsysModelLimitPassed = @"PolygonAnsysModelLimitPassed";
 NSString *const PolygonModelTypeNotPurchased = @"PolygonModelTypeNotPurchased";

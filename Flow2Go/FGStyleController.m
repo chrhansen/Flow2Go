@@ -15,6 +15,7 @@
 + (void)applyAppearance
 {
     [self styleNavigationBar];
+    [self styleSegmentedControl];
 }
 
 
@@ -30,6 +31,12 @@
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithView:defaultNoiseView] forBarMetrics:UIBarMetricsLandscapePhone];
     
     [[UINavigationBar appearance] setShadowImage:[UIImage imageNamed:@"ShadowImage-NavBar"]];
+}
+
+
++ (void)styleSegmentedControl
+{
+//    [[UISegmentedControl appearance] setTintColor:[UIColor clearColor]];
 }
 
 @end

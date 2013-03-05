@@ -12,4 +12,9 @@
 
 + (CGSize)defaultSize;
 
+@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, weak) IBOutlet UIButton *storeButton;
+@property (nonatomic, weak) IBOutlet UIButton *feedbackButton;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *layoutSegmentedControl;
+
 @end

@@ -18,7 +18,6 @@
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
-#import "FGFolderHeaderView.h"
 #import "ATConnect.h"
 #import "ATSurveys.h"
 #import "FGAnalysisViewController.h"
@@ -32,6 +31,7 @@
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
+@property (nonatomic) CGFloat verticalContentOffsetFraction;
 
 @end
 
@@ -49,7 +49,7 @@
     [super viewDidLoad];
     [self _configureBarButtonItemsForEditing:NO];
     [self _addNoiseBackground];
-    [self _observeApptentiveSurveys];
+    [self _observings];
     [self.analysisViewController addNavigationPaneBarbuttonWithTarget:self selector:@selector(navigationPaneBarButtonItemTapped:)];
 }
 
@@ -60,9 +60,10 @@
     [self _updateVisibleCells];
     [FGDownloadManager.sharedInstance setProgressDelegate:self];
     [self _updatePaneViewControllerOpenWidthForInterfaceOrientation:self.interfaceOrientation];
-    [self.collectionView.collectionViewLayout prepareLayout];
-    [self.collectionView setContentOffset:CGPointMake(0, [FGHeaderControlsView defaultSize].height)];
     [self _updateFrameToFitUnderPaneViewController];
+    [self.collectionView.collectionViewLayout prepareLayout];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+    [self.collectionView setContentOffset:CGPointMake(0, [FGHeaderControlsView defaultSize].height)];
 }
 
 
@@ -104,9 +105,20 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    self.verticalContentOffsetFraction = self.collectionView.contentOffset.y / self.collectionView.contentSize.height;
     [self _updatePaneViewControllerOpenWidthForInterfaceOrientation:toInterfaceOrientation];
 }
 
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (self.verticalContentOffsetFraction > 0.0f && self.verticalContentOffsetFraction < 1.0f) {
+        CGFloat verticalContentOffset = self.collectionView.contentSize.height * self.verticalContentOffsetFraction;
+        self.collectionView.contentOffset = CGPointMake(0, verticalContentOffset);
+    } else {
+        self.collectionView.contentOffset = CGPointMake(0, [FGHeaderControlsView defaultSize].height);
+    }
+}
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
@@ -118,6 +130,7 @@
 {
     [self.navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES completion:nil];
 }
+
 
 #pragma mark - Editing state
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
@@ -246,37 +259,39 @@
 
 #pragma mark - Header Button actions
 
-- (void)storeButtonTapped:(id)sender
+- (IBAction)storeButtonTapped:(id)sender
 {
     [self performSegueWithIdentifier:@"Show Store" sender:sender];
 }
 
 
-- (void)feedbackButtonTapped:(id)sender
+- (IBAction)feedbackButtonTapped:(id)sender
 {
     ATConnect *connection = [ATConnect sharedConnection];
     [connection presentFeedbackControllerFromViewController:self];
 }
 
 
-- (void)layoutControlTapped:(UISegmentedControl *)layoutControl
+- (IBAction)layoutControlTapped:(UISegmentedControl *)layoutControl
 {
-    NSLog(@"%s, %i", __PRETTY_FUNCTION__, layoutControl.selectedSegmentIndex);
     if (layoutControl.selectedSegmentIndex == 0 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGStackedLayout class]]) {
         FGStackedLayout *stackedLayout = [[FGStackedLayout alloc] init];
         [self.collectionView setCollectionViewLayout:stackedLayout animated:YES];
     } else if (layoutControl.selectedSegmentIndex == 1 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGFolderLayout class]]) {
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        [self.collectionView setCollectionViewLayout:flowLayout animated:YES];
+        FGFolderLayout *folderLayout = [[FGFolderLayout alloc] init];
+        [self.collectionView setCollectionViewLayout:folderLayout animated:YES];
     }
 }
 
 #pragma mark Apptentive
 #pragma mark - Apptentive
-- (void)_observeApptentiveSurveys
+- (void)_observings
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
     [ATSurveys checkForAvailableSurveys];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchBarWillAppear:) name:FGSearchBarWillAppearNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidSaveNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
 - (void)surveyBecameAvailable:(NSNotification *)notification
@@ -287,6 +302,13 @@
 
 
 #pragma mark UISearchBar delegate
+- (void)searchBarWillAppear:(NSNotification *)notification
+{
+    UISearchBar *searchBar = notification.userInfo[@"searchBar"];
+    searchBar.delegate = self;
+}
+
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     NSLog(@"search text: %@", searchText);
@@ -338,9 +360,6 @@
 - (void)_updateDownloadProgressViewForMeasurement:(FGMeasurement *)measurement progress:(CGFloat)progress
 {
     FGMeasurementCell *downloadCell = (FGMeasurementCell *)[self.collectionView cellForItemAtIndexPath:[self.fetchedResultsController indexPathForObject:measurement]];
-    if (!downloadCell) {
-        NSLog(@"downloadCell nil: %@", measurement);
-    }
     downloadCell.progressView.progress = progress;
     downloadCell.progressView.hidden = (progress == 1.0f) ? YES : NO;
 }
@@ -424,7 +443,8 @@
                                                    withPredicate:nil
                                                         sortedBy:@"filename"
                                                        ascending:YES
-                                                        delegate:self];
+                                                        delegate:self
+                                                       inContext:[NSManagedObjectContext defaultContext]];
     return _fetchedResultsController;
 }
 
@@ -479,7 +499,11 @@
 
 
 
-
+#pragma mark - NSManagedContext
+- (void)handleDidSaveNotification:(NSNotification *)notification
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
 
 
 #pragma mark Fetched Results Controller Delegate methods
@@ -487,8 +511,7 @@
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
     NSMutableDictionary *change = [NSMutableDictionary new];
-    switch(type)
-    {
+    switch(type) {
         case NSFetchedResultsChangeInsert:
             change[@(type)] = @(sectionIndex);
             break;
@@ -505,8 +528,7 @@
       newIndexPath:(NSIndexPath *)newIndexPath
 {
     NSMutableDictionary *change = [NSMutableDictionary new];
-    switch(type)
-    {
+    switch(type) {
         case NSFetchedResultsChangeInsert:
             change[@(type)] = newIndexPath;
             break;
@@ -593,6 +615,7 @@
             } completion:nil];
         }
     }
+    
     [_sectionChanges removeAllObjects];
     [_objectChanges removeAllObjects];
 }

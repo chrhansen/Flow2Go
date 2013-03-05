@@ -42,21 +42,28 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
 {
     if (IS_IPAD) {
         self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
+        [self registerNib:[UINib nibWithNibName:@"FGHeaderControlsView" bundle:nil] forDecorationViewOfKind:FGHeaderControlsKind];
     } else {
         self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     }
     self.itemSize = CGSizeMake(260.0f, 120.0f);
     self.minimumLineSpacing = 5.0f;
     self.minimumInteritemSpacing = 5.0f;
+    self.headerControlsHeight = [self frameForDecorationViewOfKind:FGHeaderControlsKind].size.height;
     [self registerClass:[FGEmblemView class]         forDecorationViewOfKind:FGEmblemKind];
-    [self registerClass:[FGHeaderControlsView class] forDecorationViewOfKind:FGHeaderControlsKind];
 }
 
 - (void)prepareLayout
 {
     self.collectionView.contentSize = [self collectionViewContentSize];
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathWithIndex:0];
+    NSIndexPath *indexPath;
+    if (self.collectionView.numberOfSections == 0) {
+        indexPath = [NSIndexPath indexPathWithIndex:0];
+    } else {
+        indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    }
+    
     //Emblem
     UICollectionViewLayoutAttributes *emblemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGEmblemKind withIndexPath:indexPath];
     emblemAttributes.frame = [self frameForDecorationViewOfKind:FGEmblemKind];
@@ -69,7 +76,6 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     newLayoutInfo[FGEmblemKind]         = @{indexPath : emblemAttributes};
     newLayoutInfo[FGHeaderControlsKind] = @{indexPath : headerControlsAttributes};
 
-    
     self.layoutInfo = newLayoutInfo;
 }
 
@@ -79,7 +85,9 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     CGSize size = [super collectionViewContentSize];
     CGFloat boundsHeight = self.collectionView.bounds.size.height;
     if (size.height <= boundsHeight) {
-        size.height = boundsHeight + [self frameForDecorationViewOfKind:FGHeaderControlsKind].size.height;
+        size.height = boundsHeight + _headerControlsHeight;
+    } else {
+        size.height = size.height + _headerControlsHeight;
     }
     return size;
 }
@@ -89,6 +97,7 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     NSArray *attributes = [super layoutAttributesForElementsInRect:rect];
     NSMutableArray *newAttributes = [NSMutableArray arrayWithCapacity:attributes.count];
     for (UICollectionViewLayoutAttributes *attribute in attributes) {
+        attribute.center = CGPointMake(attribute.center.x, attribute.center.y + _headerControlsHeight);
         if (attribute.frame.origin.x + attribute.frame.size.width <= self.collectionViewContentSize.width) {
             [newAttributes addObject:attribute];
         }
@@ -122,7 +131,7 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     } else if ([kind isEqualToString:FGHeaderControlsKind]) {
         CGSize size = [FGHeaderControlsView defaultSize];
         
-        CGFloat originX = floorf((self.collectionView.bounds.size.width - size.width) * 0.5f);
+        CGFloat originX = 0.0f;
         CGFloat originY = 0.0f;
         
         return CGRectMake(originX, originY, size.width, size.height);

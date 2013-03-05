@@ -24,7 +24,7 @@ static NSString * const DropboxFileDownloadedNotification = @"DropboxFileDownloa
 static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownloadNotification";
 
 static NSString * const AnalysisUpdatedNotification = @"AnalysisUpdatedNotification";
-extern NSString * const FGSearchBarWillAppearNotification;
+extern NSString * const FGHeaderControlsWillAppearNotification;
 
 static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 

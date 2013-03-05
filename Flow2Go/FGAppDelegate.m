@@ -35,12 +35,12 @@
     UINavigationController *navigationControllerFolder = (UINavigationController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"folderNavigationViewController"];
     FGFolderCollectionViewController *folderViewController = (FGFolderCollectionViewController * )navigationControllerFolder.topViewController;
     folderViewController.navigationPaneViewController = navigationPaneViewController;
+    [navigationPaneViewController.touchForwardingClasses addObject:[UICollectionView class]];
     navigationPaneViewController.masterViewController = navigationControllerFolder;
-    navigationPaneViewController.paneState = MSNavigationPaneStateOpen;
     folderViewController.analysisViewController = (FGAnalysisViewController *)paneViewController.topViewController;
     
-    [navigationPaneViewController setPaneViewController:paneViewController animated:YES completion:nil];
-    
+    [navigationPaneViewController setPaneViewController:paneViewController animated:NO completion:nil];
+
     [FGStyleController applyAppearance];
     return YES;
 }

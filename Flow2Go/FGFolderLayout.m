@@ -46,7 +46,7 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     } else {
         self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     }
-    self.itemSize = CGSizeMake(260.0f, 120.0f);
+    self.itemSize = CGSizeMake(210.0f, 120.0f);
     self.minimumLineSpacing = 5.0f;
     self.minimumInteritemSpacing = 5.0f;
     self.headerControlsHeight = [self frameForDecorationViewOfKind:FGHeaderControlsKind].size.height;

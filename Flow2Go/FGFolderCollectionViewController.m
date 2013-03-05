@@ -290,7 +290,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
     [ATSurveys checkForAvailableSurveys];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchBarWillAppear:) name:FGSearchBarWillAppearNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerControlsWillAppear:) name:FGHeaderControlsWillAppearNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidSaveNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
@@ -302,10 +302,12 @@
 
 
 #pragma mark UISearchBar delegate
-- (void)searchBarWillAppear:(NSNotification *)notification
+- (void)headerControlsWillAppear:(NSNotification *)notification
 {
     UISearchBar *searchBar = notification.userInfo[@"searchBar"];
     searchBar.delegate = self;
+    UISegmentedControl *segmentedControl = notification.userInfo[@"segmentedControl"];
+    segmentedControl.selectedSegmentIndex = [self.collectionView.collectionViewLayout isKindOfClass:[FGStackedLayout class]] ? 0 : 1;
 }
 
 
@@ -315,7 +317,7 @@
 }
 
 
-#define FILENAME_CHARACTER_COUNT 32
+#define FILENAME_CHARACTER_COUNT 30
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {

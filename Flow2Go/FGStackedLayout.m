@@ -117,7 +117,7 @@ static NSString * const FGEmblemKind = @"Emblem";
 
     self.itemInsets = UIEdgeInsetsMake(22.0f, 22.0f, 13.0f, 22.0f);
     self.interItemSpacingY = 12.0f;
-    self.numberOfColumns = 2;
+    self.numberOfColumns = 3;
 //    self.titleHeight = 26.0f;
     
     // create rotations at load so that they are consistent during prepareLayout

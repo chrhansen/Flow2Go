@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface FGMeasurementCell : UICollectionViewCell
+
+
 @property (weak, nonatomic) IBOutlet UILabel *fileNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *eventCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;

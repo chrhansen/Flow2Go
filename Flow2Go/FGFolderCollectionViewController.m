@@ -24,14 +24,16 @@
 #import "FGAnalysis+Management.h"
 #import "MSNavigationPaneViewController.h"
 #import "FGHeaderControlsView.h"
+#import "FGKeywordTableViewController.h"
 
-@interface FGFolderCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UISearchBarDelegate>
+@interface FGFolderCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
 @property (nonatomic, strong) NSMutableArray *objectChanges;
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic) CGFloat verticalContentOffsetFraction;
+@property (nonatomic, strong) UIPopoverController *infoPopoverController;
 
 @end
 
@@ -317,7 +319,7 @@
 }
 
 
-#define FILENAME_CHARACTER_COUNT 30
+#define FILENAME_CHARACTER_COUNT 29
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
@@ -330,9 +332,28 @@
     measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
     measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
     measurementCell.infoButton.hidden = self.isEditing;
+    [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     if (!self.isEditing) measurementCell.checkMarkImageView.hidden = YES;
 }
 
+#pragma - Info Popover
+- (void)infoButtonTapped:(UIButton *)infoButton
+{
+    CGPoint popoverLocation = [infoButton.superview convertPoint:infoButton.center toView:self.view];
+    CGPoint buttonLocationInCollectionView = [infoButton.superview convertPoint:infoButton.center toView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonLocationInCollectionView];
+    FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    FGKeywordTableViewController *keywordViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"keywordTableViewController"];
+    keywordViewController.measurement = measurement;    
+    if (self.infoPopoverController.isPopoverVisible) [self.infoPopoverController dismissPopoverAnimated:YES];
+    if (IS_IPAD) {
+        self.infoPopoverController = [UIPopoverController.alloc initWithContentViewController:keywordViewController];
+        self.infoPopoverController.delegate = self;
+        [self.infoPopoverController presentPopoverFromRect:CGRectMake(popoverLocation.x - 0.5f, popoverLocation.y - 0.5f, 1, 1) inView:self.view permittedArrowDirections:(UIPopoverArrowDirectionDown | UIPopoverArrowDirectionUp) animated:YES];
+    } else {
+//        [self presentViewController:plotNavigationVC animated:YES completion:nil];
+    }
+}
 
 #pragma mark - Download Manager progress delegate
 - (void)downloadManager:(FGDownloadManager *)downloadManager beganDownloadingMeasurement:(FGMeasurement *)measurement
@@ -419,6 +440,7 @@
             break;
     }
 }
+
 
 
 - (void)_presentMeasurement:(FGMeasurement *)aMeasurement
@@ -605,8 +627,11 @@
                             case NSFetchedResultsChangeDelete:
                                 [self.collectionView deleteItemsAtIndexPaths:@[obj]];
                                 break;
-                            case NSFetchedResultsChangeUpdate:
-                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                            case NSFetchedResultsChangeUpdate:{
+                                UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:obj];
+                                [self configureCell:cell atIndexPath:obj];
+
+                            }
                                 break;
                             case NSFetchedResultsChangeMove:
                                 [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];

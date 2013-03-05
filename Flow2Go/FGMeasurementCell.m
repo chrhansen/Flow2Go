@@ -31,10 +31,15 @@
         self.fileNameLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
         self.fileNameLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         self.fileNameLabel.layer.shouldRasterize = YES;
+        
     }
 }
 
-
+- (void)setSelected:(BOOL)selected
+{
+    self.measurementImageView.layer.shadowColor = selected ? [UIColor blueColor].CGColor : [UIColor blackColor].CGColor;
+    self.measurementImageView.layer.shadowRadius = selected ? 10.0f : 3.0f;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

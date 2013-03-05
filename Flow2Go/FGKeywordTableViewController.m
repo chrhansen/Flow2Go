@@ -51,10 +51,8 @@
     FGKeyword *keyword = (FGKeyword *)object;
     UITextField *keyTextField = (UITextField *)[cell viewWithTag:1];
     keyTextField.text = keyword.key;
-    keyTextField.enabled = NO;
     UITextField *valueTextField = (UITextField *)[cell viewWithTag:2];
     valueTextField.text = keyword.value;
-    valueTextField.enabled = NO;
 }
 
 #pragma mark - Text Field data source
@@ -95,7 +93,7 @@
     }
     
     NSFetchRequest *fetchRequest = [NSFetchRequest.alloc init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Keyword" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"FGKeyword" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
     fetchRequest.fetchBatchSize = 20;
     fetchRequest.sortDescriptors = @[[NSSortDescriptor.alloc initWithKey:@"key" ascending:YES]];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.measurement.keywords];

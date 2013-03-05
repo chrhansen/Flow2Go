@@ -33,7 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    [[MKStoreManager sharedManager] removeAllKeychainData];
+    //    [[MKStoreManager sharedManager] removeAllKeychainData];
     [self _addObservings];
     [self _addNoiseBackground];
 }
@@ -114,7 +114,7 @@
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
                                                         message:errorMessage
                                                        delegate:nil
-                                              cancelButtonTitle:nil
+                                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                               otherButtonTitles: nil];
     [alertView show];
 }

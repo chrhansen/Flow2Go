@@ -328,9 +328,9 @@
     measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
     measurementCell.dateLabel.hidden = (measurement.isDownloaded) ? NO : YES;
     measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
+    measurementCell.thumbImageView.image = measurement.thumbImage;
     measurementCell.infoButton.enabled = measurement.isDownloaded;
     measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
-    measurementCell.infoButton.alpha = 0.6f;
     measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
     measurementCell.infoButton.hidden = self.isEditing;
     [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];

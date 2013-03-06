@@ -19,6 +19,9 @@
 #import "FGAddGateTableViewController.h"
 #import "FGGatesContainerView.h"
 #import "PopoverView.h"
+#import "UIImage+Resize.h"  
+#import "FGMeasurement+Management.h"
+#import "FGAnalysis+Management.h"
 
 @interface FGPlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
 {
@@ -113,8 +116,8 @@
 - (void)_configureBarButtons
 {
     UIBarButtonItem *doneButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
-//    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
-    self.navigationItem.rightBarButtonItems = @[doneButton];
+    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
+    self.navigationItem.rightBarButtonItems = @[doneButton, threeDButton];
 }
 
 
@@ -128,8 +131,25 @@
 
 - (void)_grabImageOfPlot
 {
-    UIImage *newImage = [self.graph imageOfLayer];
-    [self.plot setImage:newImage];
+    UIImage *newImage = [self captureLayer:self.graphHostingView.layer];
+    __weak FGPlot *weakPlot = self.plot;
+    [UIImage resizeImage:newImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
+        [weakPlot setImage:resizedImage];
+    }];
+    __weak FGMeasurement *weakMeasurement = self.plot.analysis.measurement;
+    [UIImage resizeImage:newImage toSize:CGSizeMake(74, 74) completion:^(UIImage *resizedImage) {
+        [weakMeasurement setThumbImage:resizedImage];
+    }];
+}
+
+
+- (UIImage *)captureLayer:(CALayer *)layer
+{
+    UIGraphicsBeginImageContextWithOptions(layer.bounds.size, NO, 0.0f);
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screenImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return screenImage;
 }
 
 
@@ -379,19 +399,6 @@
     scatterPlot.borderColor = [CPTColor redColor].cgColor;//[self _currentThemeLineColor];
     
     [self.graph addPlot:scatterPlot toPlotSpace:self.graph.defaultPlotSpace];
-}
-
-
-- (void)_insertBarPlot
-{
-    CPTBarPlot *barPlot = [CPTBarPlot.alloc init];
-    barPlot.dataSource = self;
-    barPlot.delegate = self;
-    barPlot.identifier = @"Bar Plot 1";
-    barPlot.borderWidth = 2.0f;
-    barPlot.borderColor = [self _currentThemeLineColor];
-    
-    [self.graph addPlot:barPlot toPlotSpace:self.graph.defaultPlotSpace];
 }
 
 

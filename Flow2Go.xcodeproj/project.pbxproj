@@ -15,7 +15,6 @@
 		E504279416C1AC2C00692AD7 /* FGAnalysis.m in Sources */ = {isa = PBXBuildFile; fileRef = E504279316C1AC2C00692AD7 /* FGAnalysis.m */; };
 		E504279716C1AC2D00692AD7 /* FGKeyword.m in Sources */ = {isa = PBXBuildFile; fileRef = E504279616C1AC2D00692AD7 /* FGKeyword.m */; };
 		E504279D16C1AC7D00692AD7 /* FGAnalysis+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E504279C16C1AC7D00692AD7 /* FGAnalysis+Management.m */; };
-		E50427A616C1B05200692AD7 /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427A516C1B05100692AD7 /* FGPlot.m */; };
 		E50427A916C1B08700692AD7 /* FGNode.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427A816C1B08600692AD7 /* FGNode.m */; };
 		E50427AC16C1B12E00692AD7 /* FGPlot+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427AB16C1B12E00692AD7 /* FGPlot+Management.m */; };
 		E50427AF16C1B14600692AD7 /* FGGate+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427AE16C1B14500692AD7 /* FGGate+Management.m */; };
@@ -101,7 +100,6 @@
 		E59C49BC16C4BC6F00B5E0D5 /* Localizable_full.strings in Resources */ = {isa = PBXBuildFile; fileRef = E59C49BA16C4BC6D00B5E0D5 /* Localizable_full.strings */; };
 		E59C49BD16C4BC6F00B5E0D5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E59C49BB16C4BC6E00B5E0D5 /* Localizable.strings */; };
 		E59C49C216C57EA300B5E0D5 /* FileMD5Hash.c in Sources */ = {isa = PBXBuildFile; fileRef = E59C49C016C57EA300B5E0D5 /* FileMD5Hash.c */; };
-		E59C49C816C5866100B5E0D5 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C49C716C5866100B5E0D5 /* FGMeasurement.m */; };
 		E59C49CB16C5A97B00B5E0D5 /* FGMeasurementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */; };
 		E59D2E3515E365FF00944789 /* FGAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */; };
 		E5A1BC9516D05310001CABF8 /* flow2go-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9416D05310001CABF8 /* flow2go-logo.png */; };
@@ -153,6 +151,9 @@
 		E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153916CE5F0700700F57 /* libCorePlot-CocoaTouch.a */; };
 		E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
+		E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */; };
+		E5F0AF0816E7E98A00C765D8 /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0716E7E98A00C765D8 /* FGPlot.m */; };
+		E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
@@ -224,8 +225,6 @@
 		E504279616C1AC2D00692AD7 /* FGKeyword.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGKeyword.m; sourceTree = "<group>"; };
 		E504279B16C1AC7D00692AD7 /* FGAnalysis+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FGAnalysis+Management.h"; sourceTree = "<group>"; };
 		E504279C16C1AC7D00692AD7 /* FGAnalysis+Management.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FGAnalysis+Management.m"; sourceTree = "<group>"; };
-		E50427A416C1B05100692AD7 /* FGPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlot.h; sourceTree = "<group>"; };
-		E50427A516C1B05100692AD7 /* FGPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlot.m; sourceTree = "<group>"; };
 		E50427A716C1B08600692AD7 /* FGNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGNode.h; sourceTree = "<group>"; };
 		E50427A816C1B08600692AD7 /* FGNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGNode.m; sourceTree = "<group>"; };
 		E50427AA16C1B12D00692AD7 /* FGPlot+Management.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FGPlot+Management.h"; sourceTree = "<group>"; };
@@ -355,8 +354,6 @@
 		E59C49BB16C4BC6E00B5E0D5 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E59C49C016C57EA300B5E0D5 /* FileMD5Hash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = FileMD5Hash.c; path = Flow2Go/MD5Hash/FileMD5Hash.c; sourceTree = "<group>"; };
 		E59C49C116C57EA300B5E0D5 /* FileMD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileMD5Hash.h; path = Flow2Go/MD5Hash/FileMD5Hash.h; sourceTree = "<group>"; };
-		E59C49C616C5866100B5E0D5 /* FGMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurement.h; sourceTree = "<group>"; };
-		E59C49C716C5866100B5E0D5 /* FGMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurement.m; sourceTree = "<group>"; };
 		E59C49C916C5A97A00B5E0D5 /* FGMeasurementCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCell.h; sourceTree = "<group>"; };
 		E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCell.m; sourceTree = "<group>"; };
 		E59D2E3315E365FF00944789 /* FGAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisViewController.h; sourceTree = "<group>"; };
@@ -514,6 +511,12 @@
 		E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = Flow2Go/DropboxSDK.framework; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
+		E5F0AF0016E7E46100C765D8 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		E5F0AF0616E7E98A00C765D8 /* FGPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlot.h; sourceTree = "<group>"; };
+		E5F0AF0716E7E98A00C765D8 /* FGPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlot.m; sourceTree = "<group>"; };
+		E5F0AF0916E7E9A800C765D8 /* FGMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurement.h; sourceTree = "<group>"; };
+		E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurement.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
 		E5F1DAFD160E64A200591F2A /* FGRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGRectangle.m; sourceTree = "<group>"; };
 		E5F1DB04160E7BD200591F2A /* FGEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGEllipse.h; sourceTree = "<group>"; };
@@ -745,6 +748,8 @@
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				E5F0AF0016E7E46100C765D8 /* UIImage+Resize.h */,
+				E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */,
 				E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */,
 				E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */,
 				E5C0117716C944F10059ED0F /* NSDate+Formatting.h */,
@@ -769,16 +774,16 @@
 				E5FC6F6215CA7E8E0047A3DD /* Flow2Go.xcdatamodeld */,
 				E585571A16C1609200BF4546 /* FGFolder.h */,
 				E585571B16C1609200BF4546 /* FGFolder.m */,
-				E59C49C616C5866100B5E0D5 /* FGMeasurement.h */,
-				E59C49C716C5866100B5E0D5 /* FGMeasurement.m */,
+				E5F0AF0916E7E9A800C765D8 /* FGMeasurement.h */,
+				E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */,
 				E504279216C1AC2C00692AD7 /* FGAnalysis.h */,
 				E504279316C1AC2C00692AD7 /* FGAnalysis.m */,
 				E504279516C1AC2D00692AD7 /* FGKeyword.h */,
 				E504279616C1AC2D00692AD7 /* FGKeyword.m */,
 				E50427A716C1B08600692AD7 /* FGNode.h */,
 				E50427A816C1B08600692AD7 /* FGNode.m */,
-				E50427A416C1B05100692AD7 /* FGPlot.h */,
-				E50427A516C1B05100692AD7 /* FGPlot.m */,
+				E5F0AF0616E7E98A00C765D8 /* FGPlot.h */,
+				E5F0AF0716E7E98A00C765D8 /* FGPlot.m */,
 				E5D3147416CD988000700F57 /* FGGate.h */,
 				E5D3147516CD988000700F57 /* FGGate.m */,
 			);
@@ -1437,7 +1442,6 @@
 				E504279416C1AC2C00692AD7 /* FGAnalysis.m in Sources */,
 				E504279716C1AC2D00692AD7 /* FGKeyword.m in Sources */,
 				E504279D16C1AC7D00692AD7 /* FGAnalysis+Management.m in Sources */,
-				E50427A616C1B05200692AD7 /* FGPlot.m in Sources */,
 				E50427A916C1B08700692AD7 /* FGNode.m in Sources */,
 				E50427AC16C1B12E00692AD7 /* FGPlot+Management.m in Sources */,
 				E50427AF16C1B14600692AD7 /* FGGate+Management.m in Sources */,
@@ -1448,7 +1452,6 @@
 				E59C495516C4710F00B5E0D5 /* FGFolderLayout.m in Sources */,
 				E59C498616C4917D00B5E0D5 /* FGStyleController.m in Sources */,
 				E59C49C216C57EA300B5E0D5 /* FileMD5Hash.c in Sources */,
-				E59C49C816C5866100B5E0D5 /* FGMeasurement.m in Sources */,
 				E59C49CB16C5A97B00B5E0D5 /* FGMeasurementCell.m in Sources */,
 				E598014C16C840F500BF1A2D /* PopoverView.m in Sources */,
 				E5C0117916C944F20059ED0F /* NSDate+Formatting.m in Sources */,
@@ -1495,6 +1498,9 @@
 				E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */,
 				E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */,
 				E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */,
+				E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */,
+				E5F0AF0816E7E98A00C765D8 /* FGPlot.m in Sources */,
+				E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

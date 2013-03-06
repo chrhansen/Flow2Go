@@ -160,5 +160,21 @@
     self.filename = filePath.lastPathComponent;
 }
 
+- (void)setThumbImage:(UIImage *)thumbImage
+{
+    [self willChangeValueForKey:@"thumbImage"];
+    
+    NSData *data = UIImagePNGRepresentation(thumbImage);
+    [self setPrimitiveValue:data forKey:@"thumbImage"];
+    [self didChangeValueForKey:@"thumbImage"];
+}
+
+- (UIImage*)thumbImage
+{
+    [self willAccessValueForKey:@"thumbImage"];
+    UIImage *image = [UIImage imageWithData:[self primitiveValueForKey:@"thumbImage"]];
+    [self didAccessValueForKey:@"thumbImage"];
+    return image;
+}
 
 @end

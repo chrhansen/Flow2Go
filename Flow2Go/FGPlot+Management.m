@@ -86,14 +86,10 @@
 }
 
 #pragma mark - Image getters/setters
-
-
 - (void)setImage:(UIImage*)image
 {
     [self willChangeValueForKey:@"image"];
-    
     NSData *data = UIImagePNGRepresentation(image);
-    //[self setImage:data];
     [self setPrimitiveValue:data forKey:@"image"];
     [self didChangeValueForKey:@"image"];
 }
@@ -105,8 +101,6 @@
     [self didAccessValueForKey:@"image"];
     return image;
 }
-
-
 
 
 - (void)setXParNumber:(NSNumber *)newXParNumber

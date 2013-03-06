@@ -10,7 +10,7 @@
 #import "FGFolder+Management.h"
 #import "FGDownloadManager.h"
 #import "UIBarButtonItem+Customview.h"
-#import "FGFolderCell.h"
+#import "FGMeasurementHeaderView.h"
 #import "FGMeasurementCell.h"
 #import "KGNoise.h"
 #import "FGFolderLayout.h"
@@ -254,7 +254,7 @@
 - (void)_updateVisibleCells
 {
     for (NSIndexPath *indexPath in self.collectionView.indexPathsForVisibleItems) {
-        FGFolderCell *cell = (FGFolderCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         [self configureCell:cell atIndexPath:indexPath];
     }
 }
@@ -330,6 +330,7 @@
     measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
     measurementCell.infoButton.enabled = measurement.isDownloaded;
     measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
+    measurementCell.infoButton.alpha = 0.6f;
     measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
     measurementCell.infoButton.hidden = self.isEditing;
     [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -404,7 +405,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Measurement Cell" forIndexPath:indexPath];
+    static NSString *MeasurementCellIdentifier = @"Measurement Cell";
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:MeasurementCellIdentifier forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -412,13 +414,12 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && [kind isEqualToString:UICollectionElementKindSectionHeader]) {
-//        FGFolderHeaderView *headerView = (FGFolderHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Folder Header" forIndexPath:indexPath];
-//        headerView.searchBar.delegate = self;
-//        [headerView.storeButton addTarget:self action:@selector(storeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//        [headerView.feedbackButton addTarget:self action:@selector(feedbackButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//        [headerView.layoutSegmentedControl addTarget:self action:@selector(layoutControlTapped:) forControlEvents:UIControlEventValueChanged];
-//        return headerView;
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        static NSString *MeasurementHeaderIdentifier = @"Measurement Header View";
+        FGMeasurementHeaderView *headerView = (FGMeasurementHeaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:MeasurementHeaderIdentifier forIndexPath:indexPath];
+        id <NSFetchedResultsSectionInfo> section = self.fetchedResultsController.sections[indexPath.section];
+        headerView.titleLabel.text = [section name];
+        return headerView;
     }
     return nil;
 }
@@ -627,11 +628,8 @@
                             case NSFetchedResultsChangeDelete:
                                 [self.collectionView deleteItemsAtIndexPaths:@[obj]];
                                 break;
-                            case NSFetchedResultsChangeUpdate:{
-                                UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:obj];
-                                [self configureCell:cell atIndexPath:obj];
-
-                            }
+                            case NSFetchedResultsChangeUpdate:
+                                [self configureCell:[self.collectionView cellForItemAtIndexPath:obj] atIndexPath:obj];
                                 break;
                             case NSFetchedResultsChangeMove:
                                 [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];

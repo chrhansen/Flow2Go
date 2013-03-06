@@ -41,7 +41,7 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
 - (void)setup
 {
     if (IS_IPAD) {
-        self.sectionInset = UIEdgeInsetsMake(25, 25, 25, 25);
+        self.sectionInset = UIEdgeInsetsMake(5, 25, 40, 25);
         [self registerNib:[UINib nibWithNibName:@"FGHeaderControlsView" bundle:nil] forDecorationViewOfKind:FGHeaderControlsKind];
     } else {
         self.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
@@ -49,8 +49,9 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     self.itemSize = CGSizeMake(210.0f, 120.0f);
     self.minimumLineSpacing = 5.0f;
     self.minimumInteritemSpacing = 5.0f;
+    self.headerReferenceSize = CGSizeMake(700, 40);
     self.headerControlsHeight = [self frameForDecorationViewOfKind:FGHeaderControlsKind].size.height;
-    [self registerClass:[FGEmblemView class]         forDecorationViewOfKind:FGEmblemKind];
+    [self registerClass:[FGEmblemView class] forDecorationViewOfKind:FGEmblemKind];
 }
 
 - (void)prepareLayout

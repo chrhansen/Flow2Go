@@ -78,8 +78,8 @@
 {
     [self.view addSubview:self.progressHUD];
     [self.progressHUD show:NO];
+    [self.fcsFile cleanUpEvents];
     [FGFCSFile readFCSFileAtPath:self.analysis.measurement.fullFilePath progressDelegate:self withCompletion:^(NSError *error, FGFCSFile *fcsFile) {
-        [self.fcsFile cleanUpEvents];
         if (!error) {
             self.fcsFile = fcsFile;
         } else {

@@ -15,7 +15,7 @@
 {
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
-        self.measurementImageView.backgroundColor = [UIColor colorWithWhite:1.0f alpha:1.0f];
+        self.measurementImageView.backgroundColor = [UIColor whiteColor];
         self.measurementImageView.layer.borderColor = [UIColor whiteColor].CGColor;
         self.measurementImageView.layer.borderWidth = 0.5f;
         self.measurementImageView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -35,10 +35,16 @@
     }
 }
 
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+    self.measurementImageView.backgroundColor = highlighted ? [UIColor lightGrayColor] : [UIColor whiteColor];
+}
+
 - (void)setSelected:(BOOL)selected
 {
     self.measurementImageView.layer.shadowColor = selected ? [UIColor blueColor].CGColor : [UIColor blackColor].CGColor;
-    self.measurementImageView.layer.shadowRadius = selected ? 10.0f : 3.0f;
+    self.measurementImageView.layer.shadowRadius = selected ? 5.0f : 3.0f;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

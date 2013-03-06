@@ -44,6 +44,7 @@
 		E52883AF16E52BC00057AA07 /* stacked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883AD16E52BC00057AA07 /* stacked@2x.png */; };
 		E52883BD16E535220057AA07 /* 83-calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883BB16E535220057AA07 /* 83-calendar.png */; };
 		E52883BE16E535220057AA07 /* 83-calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883BC16E535220057AA07 /* 83-calendar@2x.png */; };
+		E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
 		E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */; };
 		E542F4C6160933280041A60A /* FGFolderCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGFolderCollectionViewController.m */; };
@@ -72,7 +73,6 @@
 		E58556DA16C0AE9800BF4546 /* 0108@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556D816C0AE9800BF4546 /* 0108@2x.png */; };
 		E58556DD16C0B02900BF4546 /* 0107.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556DB16C0B02900BF4546 /* 0107.png */; };
 		E58556DE16C0B02900BF4546 /* 0107@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E58556DC16C0B02900BF4546 /* 0107@2x.png */; };
-		E58556E116C0B11E00BF4546 /* FGFolderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E58556E016C0B11D00BF4546 /* FGFolderCell.m */; };
 		E585571916C15B0400BF4546 /* FGPlotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571816C15B0400BF4546 /* FGPlotCell.m */; };
 		E585571C16C1609200BF4546 /* FGFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571B16C1609200BF4546 /* FGFolder.m */; };
 		E585571F16C160AE00BF4546 /* FGFolder+Management.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571E16C160AD00BF4546 /* FGFolder+Management.m */; };
@@ -271,6 +271,8 @@
 		E52883AD16E52BC00057AA07 /* stacked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stacked@2x.png"; sourceTree = "<group>"; };
 		E52883BB16E535220057AA07 /* 83-calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "83-calendar.png"; sourceTree = "<group>"; };
 		E52883BC16E535220057AA07 /* 83-calendar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "83-calendar@2x.png"; sourceTree = "<group>"; };
+		E52883C716E791770057AA07 /* FGMeasurementHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementHeaderView.h; sourceTree = "<group>"; };
+		E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementHeaderView.m; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* FGGraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
 		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -311,8 +313,6 @@
 		E58556D816C0AE9800BF4546 /* 0108@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "0108@2x.png"; path = "Images/0108@2x.png"; sourceTree = "<group>"; };
 		E58556DB16C0B02900BF4546 /* 0107.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 0107.png; path = Images/0107.png; sourceTree = "<group>"; };
 		E58556DC16C0B02900BF4546 /* 0107@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "0107@2x.png"; path = "Images/0107@2x.png"; sourceTree = "<group>"; };
-		E58556DF16C0B11D00BF4546 /* FGFolderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolderCell.h; sourceTree = "<group>"; };
-		E58556E016C0B11D00BF4546 /* FGFolderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolderCell.m; sourceTree = "<group>"; };
 		E585571716C15B0300BF4546 /* FGPlotCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCell.h; sourceTree = "<group>"; };
 		E585571816C15B0400BF4546 /* FGPlotCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCell.m; sourceTree = "<group>"; };
 		E585571A16C1609200BF4546 /* FGFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolder.h; sourceTree = "<group>"; };
@@ -649,6 +649,22 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		E52883C616E7906D0057AA07 /* Measurement Views */ = {
+			isa = PBXGroup;
+			children = (
+				E59C494C16C4687200B5E0D5 /* FGEmblemView.h */,
+				E59C494D16C4687200B5E0D5 /* FGEmblemView.m */,
+				E5173B6E16E4FB9800A314D4 /* FGHeaderControlsView.h */,
+				E5173B6F16E4FB9800A314D4 /* FGHeaderControlsView.m */,
+				E52883A316E5207D0057AA07 /* FGHeaderControlsView.xib */,
+				E52883C716E791770057AA07 /* FGMeasurementHeaderView.h */,
+				E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */,
+				E59C49C916C5A97A00B5E0D5 /* FGMeasurementCell.h */,
+				E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */,
+			);
+			name = "Measurement Views";
+			sourceTree = "<group>";
+		};
 		E52BECB815DE861D002A3819 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -669,15 +685,7 @@
 			children = (
 				E59C498416C4917D00B5E0D5 /* FGStyleController.h */,
 				E59C498516C4917D00B5E0D5 /* FGStyleController.m */,
-				E59C494C16C4687200B5E0D5 /* FGEmblemView.h */,
-				E59C494D16C4687200B5E0D5 /* FGEmblemView.m */,
-				E5173B6E16E4FB9800A314D4 /* FGHeaderControlsView.h */,
-				E5173B6F16E4FB9800A314D4 /* FGHeaderControlsView.m */,
-				E52883A316E5207D0057AA07 /* FGHeaderControlsView.xib */,
-				E58556DF16C0B11D00BF4546 /* FGFolderCell.h */,
-				E58556E016C0B11D00BF4546 /* FGFolderCell.m */,
-				E59C49C916C5A97A00B5E0D5 /* FGMeasurementCell.h */,
-				E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */,
+				E52883C616E7906D0057AA07 /* Measurement Views */,
 				E585571716C15B0300BF4546 /* FGPlotCell.h */,
 				E585571816C15B0400BF4546 /* FGPlotCell.m */,
 				E504277D16C1A73A00692AD7 /* FGDropboxCell.h */,
@@ -1417,7 +1425,6 @@
 				E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */,
 				E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */,
 				E58556D616C0ADE200BF4546 /* UIBarButtonItem+Customview.m in Sources */,
-				E58556E116C0B11E00BF4546 /* FGFolderCell.m in Sources */,
 				E585571916C15B0400BF4546 /* FGPlotCell.m in Sources */,
 				E585571C16C1609200BF4546 /* FGFolder.m in Sources */,
 				E585571F16C160AE00BF4546 /* FGFolder+Management.m in Sources */,
@@ -1487,6 +1494,7 @@
 				E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */,
 				E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */,
 				E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */,
+				E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

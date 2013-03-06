@@ -6,19 +6,19 @@
 //  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
-#import "FGFolderLayout.h"
+#import "FGMeasurementGridLayout.h"
 #import "FGEmblemView.h"
 #import "FGHeaderControlsView.h"
 
 static NSString * const FGEmblemKind         = @"Emblem";
 static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
-@interface FGFolderLayout ()
+@interface FGMeasurementGridLayout ()
 
 @property (nonatomic, strong) NSDictionary *layoutInfo;
 
 @end
 
-@implementation FGFolderLayout
+@implementation FGMeasurementGridLayout
 
 - (id)init
 {

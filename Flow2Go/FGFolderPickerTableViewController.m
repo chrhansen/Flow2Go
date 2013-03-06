@@ -7,7 +7,7 @@
 //
 
 #import "FGFolderPickerTableViewController.h"
-#import "FGFolder+Management.h"
+#import "FGFolder.h"
 
 @interface FGFolderPickerTableViewController () <NSFetchedResultsControllerDelegate, UIAlertViewDelegate>
 
@@ -59,7 +59,8 @@
 {
     if (buttonIndex == 1) {
         NSString *folderName = [alertView textFieldAtIndex:0].text;
-        [FGFolder createWithName:folderName];
+        FGFolder *newFolder = [FGFolder createEntity];
+        newFolder.name = folderName;
     }
 }
 

@@ -9,7 +9,7 @@
 #import "FGDownloadManager.h"
 #import "FGMeasurement+Management.h"
 #import "NSString+UUID.h"
-#import "FGFolder+Management.h"
+#import "FGFolder.h"
 
 @interface FGDownloadManager ()
 

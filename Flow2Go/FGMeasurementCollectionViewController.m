@@ -6,14 +6,13 @@
 //  Copyright (c) 2012 Christian Hansen. All rights reserved.
 //
 
-#import "FGFolderCollectionViewController.h"
-#import "FGFolder+Management.h"
+#import "FGMeasurementCollectionViewController.h"
 #import "FGDownloadManager.h"
 #import "UIBarButtonItem+Customview.h"
 #import "FGMeasurementHeaderView.h"
 #import "FGMeasurementCell.h"
 #import "KGNoise.h"
-#import "FGFolderLayout.h"
+#import "FGMeasurementGridLayout.h"
 #import "FGStackedLayout.h"
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
@@ -26,7 +25,7 @@
 #import "FGHeaderControlsView.h"
 #import "FGKeywordTableViewController.h"
 
-@interface FGFolderCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate>
+@interface FGMeasurementCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
@@ -37,7 +36,7 @@
 
 @end
 
-@implementation FGFolderCollectionViewController
+@implementation FGMeasurementCollectionViewController
 
 - (void)awakeFromNib
 {
@@ -279,8 +278,8 @@
     if (layoutControl.selectedSegmentIndex == 0 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGStackedLayout class]]) {
         FGStackedLayout *stackedLayout = [[FGStackedLayout alloc] init];
         [self.collectionView setCollectionViewLayout:stackedLayout animated:YES];
-    } else if (layoutControl.selectedSegmentIndex == 1 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGFolderLayout class]]) {
-        FGFolderLayout *folderLayout = [[FGFolderLayout alloc] init];
+    } else if (layoutControl.selectedSegmentIndex == 1 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGMeasurementGridLayout class]]) {
+        FGMeasurementGridLayout *folderLayout = [[FGMeasurementGridLayout alloc] init];
         [self.collectionView setCollectionViewLayout:folderLayout animated:YES];
     }
 }

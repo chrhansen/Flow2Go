@@ -131,15 +131,23 @@
 
 - (void)_grabImageOfPlot
 {
-    UIImage *newImage = [self captureLayer:self.graphHostingView.layer];
+    UIImage *bigImage = [self captureLayer:self.graphHostingView.layer];
     __weak FGPlot *weakPlot = self.plot;
-    [UIImage resizeImage:newImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
+    [UIImage resizeImage:bigImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
         [weakPlot setImage:resizedImage];
     }];
-    __weak FGMeasurement *weakMeasurement = self.plot.analysis.measurement;
-    [UIImage resizeImage:newImage toSize:CGSizeMake(74, 74) completion:^(UIImage *resizedImage) {
-        [weakMeasurement setThumbImage:resizedImage];
-    }];
+    [self _saveThumbIfRootPlot:bigImage];
+}
+
+
+- (void)_saveThumbIfRootPlot:(UIImage *)imageForThumb
+{
+    if (self.plot.parentNode == nil) {
+        __weak FGMeasurement *weakMeasurement = self.plot.analysis.measurement;
+        [UIImage resizeImage:imageForThumb toSize:CGSizeMake(74, 74) completion:^(UIImage *resizedImage) {
+            [weakMeasurement setThumbImage:resizedImage];
+        }];
+    }
 }
 
 
@@ -396,7 +404,7 @@
     scatterPlot.identifier = @"Scatter Plot 1";
     scatterPlot.plotSymbolMarginForHitDetection = 5.0;
     scatterPlot.borderWidth = 2.0f;
-    scatterPlot.borderColor = [CPTColor redColor].cgColor;//[self _currentThemeLineColor];
+    scatterPlot.borderColor = [self _currentThemeLineColor];
     
     [self.graph addPlot:scatterPlot toPlotSpace:self.graph.defaultPlotSpace];
 }

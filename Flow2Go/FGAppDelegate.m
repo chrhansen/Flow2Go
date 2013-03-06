@@ -11,7 +11,7 @@
 #import "FGStyleController.h"
 #import "ATConnect.h"
 #import "MSNavigationPaneViewController.h"
-#import "FGFolderCollectionViewController.h"
+#import "FGMeasurementCollectionViewController.h"
 
 @class FGAnalysisViewController;
 
@@ -33,7 +33,7 @@
     
     // Master View Controller
     UINavigationController *navigationControllerFolder = (UINavigationController *)[navigationPaneViewController.storyboard instantiateViewControllerWithIdentifier:@"folderNavigationViewController"];
-    FGFolderCollectionViewController *folderViewController = (FGFolderCollectionViewController * )navigationControllerFolder.topViewController;
+    FGMeasurementCollectionViewController *folderViewController = (FGMeasurementCollectionViewController * )navigationControllerFolder.topViewController;
     folderViewController.navigationPaneViewController = navigationPaneViewController;
     navigationPaneViewController.masterViewController = navigationControllerFolder;
     folderViewController.analysisViewController = (FGAnalysisViewController *)paneViewController.topViewController;

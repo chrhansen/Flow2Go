@@ -253,7 +253,6 @@
     return self.fcsFile;
 }
 
-
 - (void)plotViewController:(FGPlotViewController *)plotViewController didSelectGate:(FGGate *)gate forPlot:(FGPlot *)plot
 {
     [self dismissViewControllerAnimated:YES completion:^{
@@ -275,8 +274,8 @@
 - (void)plotViewController:(FGPlotViewController *)plotViewController didTapDoneForPlot:(FGPlot *)plot
 {
     [self dismissViewControllerAnimated:YES completion:^{
-        NSUInteger row = [self.analysis.plots indexOfObject:plot];
-        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:row inSection:0]]];
+        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:plot];
+        [self configureCell:[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
         NSError *error;
         [plot.managedObjectContext saveToPersistentStoreAndWait];
         if (error) NSLog(@"Error saving plot: %@", error.localizedDescription);
@@ -522,7 +521,7 @@
                                 [self.collectionView deleteItemsAtIndexPaths:@[obj]];
                                 break;
                             case NSFetchedResultsChangeUpdate:
-                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                                [self configureCell:[self.collectionView cellForItemAtIndexPath:obj] atIndexPath:obj];
                                 break;
                             case NSFetchedResultsChangeMove:
                                 [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FGFolderLayout : UICollectionViewFlowLayout
+@interface FGMeasurementGridLayout : UICollectionViewFlowLayout
 
 @property (nonatomic) CGFloat headerControlsHeight;
 

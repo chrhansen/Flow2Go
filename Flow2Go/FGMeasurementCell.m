@@ -25,6 +25,13 @@
         self.measurementImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         self.measurementImageView.layer.shouldRasterize = YES;
         
+        self.thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
+        self.thumbImageView.layer.shadowRadius = 1.0f;
+        self.thumbImageView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+        self.thumbImageView.layer.shadowOpacity = 0.8f;
+        self.thumbImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+        self.thumbImageView.layer.shouldRasterize = YES;
+
         self.fileNameLabel.layer.shadowOpacity = 0.7;
         self.fileNameLabel.layer.shadowRadius = 3.0;
         self.fileNameLabel.layer.shadowColor = [UIColor blackColor].CGColor;

@@ -697,15 +697,15 @@
             </objects>
             <point key="canvasLocation" x="-1608" y="-1489"/>
         </scene>
-        <!--Folder Collection View Controller-->
+        <!--Measurement Collection View Controller-->
         <scene sceneID="pdd-UW-v2s">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="CID-te-8v6" customClass="FGFolderCollectionViewController" sceneMemberID="viewController">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="CID-te-8v6" customClass="FGMeasurementCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="OcR-5s-Qy7">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0la-NI-i46" customClass="FGFolderLayout">
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0la-NI-i46" customClass="FGMeasurementGridLayout">
                             <size key="itemSize" width="260" height="120"/>
                             <size key="headerReferenceSize" width="320" height="44"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -1299,9 +1299,6 @@
         <class className="FGDropboxViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
         </class>
-        <class className="FGFolderCollectionViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderCollectionViewController.h"/>
-        </class>
         <class className="FGFolderHeaderView" superclassName="UICollectionReusableView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderHeaderView.h"/>
             <relationships>
@@ -1310,9 +1307,6 @@
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="storeButton" candidateClass="UIButton"/>
             </relationships>
-        </class>
-        <class className="FGFolderLayout" superclassName="UICollectionViewFlowLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderLayout.h"/>
         </class>
         <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>

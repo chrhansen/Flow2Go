@@ -2,7 +2,7 @@
 //  FGPlot.h
 //  Flow2Go
 //
-//  Created by Christian Hansen on 06/03/13.
+//  Created by Christian Hansen on 07/03/13.
 //  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
@@ -14,8 +14,7 @@
 
 @interface FGPlot : FGNode
 
-@property (nonatomic, retain) UIImage * image;
-@property (nonatomic, retain) NSString * plotSectionName;
+@property (nonatomic, retain) UIImage* image;
 @property (nonatomic, retain) NSNumber * plotType;
 @property (nonatomic, retain) NSNumber * xAxisType;
 @property (nonatomic, retain) NSNumber * yAxisType;

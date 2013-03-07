@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSMutableDictionary *currentDownloads;
 @property (nonatomic, strong) NSMutableDictionary *sharableLinks;
 @property (nonatomic, strong) NSMutableDictionary *errorDownloads;
-@property (nonatomic, strong, readwrite) NSMutableDictionary *downloadProgresses;
+@property (nonatomic, strong) NSMutableDictionary *downloadProgresses;
 
 @end
 

@@ -92,6 +92,11 @@
                                          subset:(NSUInteger *)subset
                                     subsetCount:(NSUInteger)subsetCount
 {
+    if (!fcsFile || !plot) {
+        NSLog(@"Error: fcsFile or Plot is nil: %s", __PRETTY_FUNCTION__);
+        return nil;
+    }
+    
     NSInteger eventsInside = subsetCount;
     
     if (!subset)

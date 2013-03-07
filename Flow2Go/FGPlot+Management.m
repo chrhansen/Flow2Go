@@ -36,7 +36,6 @@
         newPlot.yParNumber = @2;
         newPlot.plotType = [NSNumber numberWithInteger:kPlotTypeDensity];
     }
-    newPlot.plotSectionName = [NSString stringWithFormat:@"%i", [newPlot countOfParentGates]];
     newPlot.dateCreated = NSDate.date;
     newPlot.name = [newPlot defaultPlotName];
     

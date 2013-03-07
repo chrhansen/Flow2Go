@@ -22,4 +22,23 @@
     return img;
 }
 
++ (UIImage *)captureLayer:(CALayer *)layer flipImage:(BOOL)shouldFlipUpsideDown;
+{
+    UIGraphicsBeginImageContextWithOptions(layer.bounds.size, NO, 0.0f);
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screenImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    if (shouldFlipUpsideDown) {
+        screenImage = [UIImage imageWithCGImage:screenImage.CGImage scale:screenImage.scale orientation:UIImageOrientationDownMirrored];
+    }
+    return screenImage;
+}
+
+
++ (UIImage *)captureLayer:(CALayer *)layer
+{
+    return [self captureLayer:layer flipImage:NO];
+}
+
 @end

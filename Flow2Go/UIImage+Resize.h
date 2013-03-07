@@ -11,5 +11,6 @@
 @interface UIImage (Resize)
 
 + (void)resizeImage:(UIImage *)image toSize:(CGSize)size completion:(void (^)(UIImage *resizedImage))completion;
++ (UIImage *)scaleImage:(UIImage*)image toSize:(CGSize)newSize;
 
 @end

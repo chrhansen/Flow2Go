@@ -20,6 +20,7 @@
 #import "FGGatesContainerView.h"
 #import "PopoverView.h"
 #import "UIImage+Resize.h"  
+#import "UIImage+Extensions.h"
 #import "FGMeasurement+Management.h"
 #import "FGAnalysis+Management.h"
 
@@ -116,8 +117,8 @@
 - (void)_configureBarButtons
 {
     UIBarButtonItem *doneButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
-    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
-    self.navigationItem.rightBarButtonItems = @[doneButton, threeDButton];
+//    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
+    self.navigationItem.rightBarButtonItems = @[doneButton];
 }
 
 
@@ -131,7 +132,7 @@
 
 - (void)_grabImageOfPlot
 {
-    UIImage *bigImage = [self captureLayer:self.graphHostingView.layer];
+    UIImage *bigImage = [UIImage captureLayer:self.graphHostingView.layer];
     __weak FGPlot *weakPlot = self.plot;
     [UIImage resizeImage:bigImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
         [weakPlot setImage:resizedImage];
@@ -148,16 +149,6 @@
             [weakMeasurement setThumbImage:resizedImage];
         }];
     }
-}
-
-
-- (UIImage *)captureLayer:(CALayer *)layer
-{
-    UIGraphicsBeginImageContextWithOptions(layer.bounds.size, NO, 0.0f);
-    [layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *screenImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return screenImage;
 }
 
 
@@ -572,33 +563,24 @@
     }
 }
 
-NSDecimal CPDecimalFromString(NSString *stringRepresentation)
-{
-    NSDecimal result;
-    NSScanner *theScanner = [NSScanner.alloc initWithString:stringRepresentation];
-    [theScanner scanDecimal:&result];
-    
-    return result;
-}
-
 - (void)_adjustPlotRangeToFitData
 {
     CPTMutablePlotRange *xRange = [self.plotSpace.xRange mutableCopy];
-    xRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].minValue]);
-    xRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].maxValue-self.fcsFile.ranges[_xParIndex].minValue]);
+    xRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].minValue]);
+    xRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_xParIndex].maxValue-self.fcsFile.ranges[_xParIndex].minValue]);
     self.plotSpace.xRange = xRange;
     
     CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
 
     if (self.plot.plotType.integerValue == kPlotTypeHistogram)
     {
-        yRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", 0.0]);
-        yRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.plotData.countForMaxBin * 1.1]);
+        yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", 0.0]);
+        yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.plotData.countForMaxBin * 1.1]);
         self.plotSpace.yRange = yRange;
         return;
     }
-    yRange.location = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
-    yRange.length = CPDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
+    yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
+    yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
     self.plotSpace.yRange = yRange;
 }
 

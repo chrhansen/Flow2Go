@@ -76,12 +76,13 @@
     NSInteger yPar = plot.yParNumber.integerValue - 1;
     
     FGPlotPoint plotPoint;
-    
+    NSUInteger eventNo;
+
     if (subSet)
     {
         for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
         {
-            NSUInteger eventNo = subSet[subSetNo];
+            eventNo = subSet[subSetNo];
             
             plotPoint.xVal = (double)fcsFile.events[eventNo][xPar];
             plotPoint.yVal = (double)fcsFile.events[eventNo][yPar];
@@ -95,7 +96,7 @@
     }
     else
     {
-        for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
+        for (eventNo = 0; eventNo < eventsInside; eventNo++)
         {
             plotPoint.xVal = fcsFile.events[eventNo][xPar];
             plotPoint.yVal = fcsFile.events[eventNo][yPar];

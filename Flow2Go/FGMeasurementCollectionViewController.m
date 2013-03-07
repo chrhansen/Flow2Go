@@ -24,6 +24,7 @@
 #import "MSNavigationPaneViewController.h"
 #import "FGHeaderControlsView.h"
 #import "FGKeywordTableViewController.h"
+#import "FGPlotCreator.h"
 
 @interface FGMeasurementCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate>
 
@@ -71,6 +72,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [FGPlotCreator createRootPlotsForMeasurementsWithoutPlotsWithCompletion:nil];
 }
 
 - (void)dealloc
@@ -325,11 +327,12 @@
     FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     FGMeasurementCell *measurementCell = (FGMeasurementCell *)cell;
     measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
-    measurementCell.dateLabel.hidden = (measurement.isDownloaded) ? NO : YES;
+    measurementCell.dateLabel.hidden = !measurement.isDownloaded;
     measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
     measurementCell.thumbImageView.image = measurement.thumbImage;
     measurementCell.infoButton.enabled = measurement.isDownloaded;
-    measurementCell.eventCountLabel.hidden = (measurement.isDownloaded) ? NO : YES;
+    measurementCell.progressView.hidden = measurement.isDownloaded;
+    measurementCell.eventCountLabel.hidden = !measurement.isDownloaded;
     measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
     measurementCell.infoButton.hidden = self.isEditing;
     [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -343,6 +346,7 @@
     CGPoint buttonLocationInCollectionView = [infoButton.superview convertPoint:infoButton.center toView:self.collectionView];
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonLocationInCollectionView];
     FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
     FGKeywordTableViewController *keywordViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"keywordTableViewController"];
     keywordViewController.measurement = measurement;    
     if (self.infoPopoverController.isPopoverVisible) [self.infoPopoverController dismissPopoverAnimated:YES];
@@ -353,6 +357,14 @@
     } else {
 //        [self presentViewController:plotNavigationVC animated:YES completion:nil];
     }
+}
+
+
+
+- (void)_createRootPlotsFor:(FGMeasurement *)measurement
+{
+    FGPlotCreator *plotCreator = [[FGPlotCreator alloc] init];
+    [plotCreator createRootPlotImageForMeasurement:measurement completion:nil];
 }
 
 #pragma mark - Download Manager progress delegate
@@ -370,6 +382,7 @@
 {
     [self _updateDownloadProgressViewForMeasurement:measurement progress:1.0f];
     [self.collectionView layoutSubviews];
+    [self _createRootPlotsFor:measurement];    
 }
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingMeasurement:(FGMeasurement *)measurement

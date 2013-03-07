@@ -34,7 +34,6 @@
 - (void)downloadFiles:(NSArray *)files toFolder:(FGFolder *)folder;
 - (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(FGFolder *)folder;
 
-@property (nonatomic, strong, readonly) NSMutableDictionary *downloadProgresses;
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<FGDownloadManagerDelegate> delegate;
 @property (nonatomic, weak) id<FGDownloadManagerProgressDelegate> progressDelegate;

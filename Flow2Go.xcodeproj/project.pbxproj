@@ -28,6 +28,8 @@
 		E50427DF16C206E400692AD7 /* FGBarButtonIconNavigationPane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427DD16C206E200692AD7 /* FGBarButtonIconNavigationPane@2x.png */; };
 		E50427E016C206E400692AD7 /* FGBarButtonIconNavigationPane.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427DE16C206E300692AD7 /* FGBarButtonIconNavigationPane.png */; };
 		E50BA4101600F38000E85118 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA40F1600F38000E85118 /* libz.dylib */; };
+		E50F000416E8F164009C546E /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E50F000316E8F164009C546E /* FGPlot.m */; };
+		E50F000A16E8FF81009C546E /* FGPlotCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E50F000916E8FF81009C546E /* FGPlotCreator.m */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5173B5C16E0F1CF00A314D4 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5173B5916E0F1CF00A314D4 /* libTestFlight.a */; };
@@ -151,7 +153,6 @@
 		E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */; };
-		E5F0AF0816E7E98A00C765D8 /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0716E7E98A00C765D8 /* FGPlot.m */; };
 		E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
@@ -241,6 +242,10 @@
 		E50427DD16C206E200692AD7 /* FGBarButtonIconNavigationPane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FGBarButtonIconNavigationPane@2x.png"; path = "Images/FGBarButtonIconNavigationPane@2x.png"; sourceTree = "<group>"; };
 		E50427DE16C206E300692AD7 /* FGBarButtonIconNavigationPane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FGBarButtonIconNavigationPane.png; path = Images/FGBarButtonIconNavigationPane.png; sourceTree = "<group>"; };
 		E50BA40F1600F38000E85118 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		E50F000216E8F164009C546E /* FGPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlot.h; sourceTree = "<group>"; };
+		E50F000316E8F164009C546E /* FGPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlot.m; sourceTree = "<group>"; };
+		E50F000816E8FF81009C546E /* FGPlotCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreator.h; sourceTree = "<group>"; };
+		E50F000916E8FF81009C546E /* FGPlotCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreator.m; sourceTree = "<group>"; };
 		E511FD7215CC365D00637D39 /* icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_114.png; path = Images/icon_114.png; sourceTree = "<group>"; };
 		E511FD7415CC367F00637D39 /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_57.png; path = Images/icon_57.png; sourceTree = "<group>"; };
 		E511FD7615CC36BD00637D39 /* icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_144.png; path = Images/icon_144.png; sourceTree = "<group>"; };
@@ -510,8 +515,6 @@
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F0AF0016E7E46100C765D8 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
-		E5F0AF0616E7E98A00C765D8 /* FGPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlot.h; sourceTree = "<group>"; };
-		E5F0AF0716E7E98A00C765D8 /* FGPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlot.m; sourceTree = "<group>"; };
 		E5F0AF0916E7E9A800C765D8 /* FGMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurement.h; sourceTree = "<group>"; };
 		E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurement.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
@@ -670,6 +673,8 @@
 			children = (
 				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
 				E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */,
+				E50F000816E8FF81009C546E /* FGPlotCreator.h */,
+				E50F000916E8FF81009C546E /* FGPlotCreator.m */,
 				E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */,
 				E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */,
 				E579564715DAFE6800B77795 /* FGGateCalculator.h */,
@@ -779,8 +784,8 @@
 				E504279616C1AC2D00692AD7 /* FGKeyword.m */,
 				E50427A716C1B08600692AD7 /* FGNode.h */,
 				E50427A816C1B08600692AD7 /* FGNode.m */,
-				E5F0AF0616E7E98A00C765D8 /* FGPlot.h */,
-				E5F0AF0716E7E98A00C765D8 /* FGPlot.m */,
+				E50F000216E8F164009C546E /* FGPlot.h */,
+				E50F000316E8F164009C546E /* FGPlot.m */,
 				E5D3147416CD988000700F57 /* FGGate.h */,
 				E5D3147516CD988000700F57 /* FGGate.m */,
 			);
@@ -1493,8 +1498,9 @@
 				E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */,
 				E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */,
 				E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */,
-				E5F0AF0816E7E98A00C765D8 /* FGPlot.m in Sources */,
 				E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */,
+				E50F000416E8F164009C546E /* FGPlot.m in Sources */,
+				E50F000A16E8FF81009C546E /* FGPlotCreator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1666,8 +1672,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
+				PROVISIONING_PROFILE = "77E81BFC-14FE-4104-B58C-204AB8FE6767";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "77E81BFC-14FE-4104-B58C-204AB8FE6767";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

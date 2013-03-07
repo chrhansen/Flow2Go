@@ -56,7 +56,7 @@
     
     if (vertices) newGate.vertices = vertices;
     newGate.parentNode = parentNode;
-    
+    newGate.dateCreated = [NSDate date];
     newGate.analysis = parentNode.analysis;
     newGate.xParName = parentNode.xParName;
     newGate.yParName = parentNode.yParName;

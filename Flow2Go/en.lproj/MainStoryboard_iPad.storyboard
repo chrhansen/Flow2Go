@@ -1049,7 +1049,7 @@
             </objects>
             <point key="canvasLocation" x="-2619" y="-4900"/>
         </scene>
-        <!--Folder Picker Table View Controller - Select Folder-->
+        <!--Folder Picker Table View Controller - Select Collection-->
         <scene sceneID="TfF-j8-v7I">
             <objects>
                 <tableViewController modalPresentationStyle="currentContext" id="Go1-9u-NCJ" customClass="FGFolderPickerTableViewController" sceneMemberID="viewController">
@@ -1073,8 +1073,8 @@
                             <outlet property="delegate" destination="Go1-9u-NCJ" id="upP-nO-wV1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Select Folder" id="e2H-H5-gEL">
-                        <barButtonItem key="leftBarButtonItem" title="New Folder" id="FXj-8a-DCa">
+                    <navigationItem key="navigationItem" title="Select Collection" id="e2H-H5-gEL">
+                        <barButtonItem key="leftBarButtonItem" title="New Collection" id="FXj-8a-DCa">
                             <connections>
                                 <action selector="newFolderTapped:" destination="Go1-9u-NCJ" id="9n2-MY-prz"/>
                             </connections>
@@ -1234,134 +1234,6 @@
     <resources>
         <image name="39-circle-check.png" width="28" height="28"/>
     </resources>
-    <classes>
-        <class className="CPTGraphHostingView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
-        </class>
-        <class className="FGAddGateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateTableViewController.h"/>
-        </class>
-        <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>
-        </class>
-        <class className="FGDropboxCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGDropboxViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
-        </class>
-        <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
-        </class>
-        <class className="FGGateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGateTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FGGatesContainerView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGatesContainerView.h"/>
-        </class>
-        <class className="FGKeywordTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGKeywordTableViewController.h"/>
-        </class>
-        <class className="FGMeasurementCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="eventCountLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="fileNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="measurementImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="thumbImageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="FGMeasurementCollectionViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCollectionViewController.h"/>
-        </class>
-        <class className="FGMeasurementGridLayout" superclassName="UICollectionViewFlowLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementGridLayout.h"/>
-        </class>
-        <class className="FGMeasurementHeaderView" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementHeaderView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGPlotCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="populationLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGPlotDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotDetailTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FGPlotViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
-                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
-                <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="FGStoreCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGStoreViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

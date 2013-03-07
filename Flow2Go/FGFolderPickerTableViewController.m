@@ -38,13 +38,13 @@
 - (void)showAddFolderPromptIfEmpty
 {
     if (self.fetchedResultsController.fetchedObjects.count == 0) {
-        [self presentFolderPromptWithTitle:NSLocalizedString(@"Create your first folder", nil)];
+        [self presentFolderPromptWithTitle:NSLocalizedString(@"Create your first collection", nil)];
     }
 }
 
 - (IBAction)newFolderTapped:(id)sender
 {
-    [self presentFolderPromptWithTitle:NSLocalizedString(@"Folder Name", nil)];
+    [self presentFolderPromptWithTitle:NSLocalizedString(@"Collection Name", nil)];
 }
 
 

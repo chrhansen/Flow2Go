@@ -155,7 +155,7 @@
                                             @"filePath" : newRelativePath,
                                             @"downloadDate": NSDate.date};
             FGMeasurement *measurement = [FGMeasurement importFromArray:@[objectDetails] inContext:localContext].lastObject;
-            [measurement readInFCSKeyWords];
+            [measurement parseFCSKeyWords];
             measurement.md5FileHash = [measurement md5Hash];
         } completion:^(BOOL success, NSError *error) {
             NSAssert([NSThread isMainThread], @"Import callback not on main thread");

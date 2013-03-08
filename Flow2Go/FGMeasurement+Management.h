@@ -12,7 +12,7 @@
 @interface FGMeasurement (Management)
 + (NSError *)deleteMeasurements:(NSArray *)measurementsToDelete;
 
-- (NSError *)readInFCSKeyWords;
+- (NSError *)parseFCSKeyWords;
 - (FGKeyword *)existingKeywordForKey:(NSString *)key;
 - (NSString *)md5Hash;
 

@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, FGParsingSegment) {
 
 @interface FGFCSFile : NSObject
 
-+ (FGFCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error;
++ (FGFCSFile *)fcsFileWithPath:(NSString *)path lastParsingSegment:(FGParsingSegment)lastSegment error:(NSError **)error;
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
 + (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FGFCSFile *fcsFile))completion;
 

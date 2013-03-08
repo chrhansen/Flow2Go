@@ -37,28 +37,24 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        FGFCSFile *newFCSFile = [FGFCSFile.alloc init];
-        NSError *error = [newFCSFile _parseFileFromPath:path];
-        
+        NSError *error;
+        FGFCSFile *newFCSFile = [FGFCSFile fcsFileWithPath:path lastParsingSegment:FGParsingSegmentAnalysis error:&error];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
                 completion(error, newFCSFile);
             }
         });
-        
     });
 }
 
 
-+ (FGFCSFile *)fcsFileWithPath:(NSString *)path error:(NSError **)error
++ (FGFCSFile *)fcsFileWithPath:(NSString *)path lastParsingSegment:(FGParsingSegment)lastSegment error:(NSError **)error
 {
     FGFCSFile *newFCSFile = [FGFCSFile.alloc init];
+    *error = [newFCSFile _parseFileFromPath:path lastParsingSegment:lastSegment];
     
-    *error = [newFCSFile _parseFileFromPath:path];
+    if (!*error) return newFCSFile;
     
-    if (!error) {
-        return newFCSFile;
-    }
     return nil;
 }
 
@@ -82,12 +78,12 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path
 {
     FGFCSFile *newFCSFile = [FGFCSFile.alloc init];
-    [newFCSFile _parseTextSegmentFromPath:path];
+    [newFCSFile _parseFileFromPath:path lastParsingSegment:FGParsingSegmentText];
     return newFCSFile.text;
 }
 
 
-- (NSError *)_parseTextSegmentFromPath:(NSString *)path
+- (NSError *)_parseFileFromPath:(NSString *)path lastParsingSegment:(FGParsingSegment)lastParsingSegment;
 {
     NSError *error;
     NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
@@ -103,104 +99,34 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
                 
             case FGParsingSegmentHeader:
                 error = [self _readHeaderSegmentFromStream:fcsFileStream];
-                if (!error)
-                {
-                    _parsingSegment = FGParsingSegmentText;
-                }
-                else
-                {
+                if (!error) {
+                    _parsingSegment = (FGParsingSegmentHeader == lastParsingSegment) ? FGParsingSegmentFinished : FGParsingSegmentText;
+                } else {
                     _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
             case FGParsingSegmentText:
                 error = [self _readTextSegmentFromStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd];
-                if (!error)
-                {
-                    _parsingSegment = FGParsingSegmentData;
-                }
-                else
-                {
-                    _parsingSegment = FGParsingSegmentFailed;
-                }
-                break;
-                
-            case FGParsingSegmentFinished:
-            case FGParsingSegmentFailed:
-                [fcsFileStream close];
-                break;
-                
-            default:
-                error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{@"userInfo": @"Error: FCS parser ended in an unknown state."}];
-                [fcsFileStream close];
-                break;
-        }
-    }
-    fcsFileStream = nil;
-    return error;
-}
-
-
-- (NSError *)_parseFileFromPath:(NSString *)path
-{
-    NSError *error;
-    NSInputStream *fcsFileStream = [NSInputStream inputStreamWithFileAtPath:path];
-    [fcsFileStream open];
-    
-    while ([fcsFileStream hasBytesAvailable])
-    {
-        switch (_parsingSegment)
-        {
-            case FGParsingSegmentBegan:
-                _parsingSegment = FGParsingSegmentHeader;
-                break;
-                
-            case FGParsingSegmentHeader:
-                error = [self _readHeaderSegmentFromStream:fcsFileStream];
-                if (!error)
-                {
-                    _parsingSegment = FGParsingSegmentText;
-                }
-                else
-                {
-                    _parsingSegment = FGParsingSegmentFailed;
-                }
-                break;
-                
-            case FGParsingSegmentText:
-                error = [self _readTextSegmentFromStream:fcsFileStream from:self.header.textBegin to:self.header.textEnd];
-                if (!error)
-                {
-                    _parsingSegment = FGParsingSegmentData;
-                }
-                else
-                {
+                if (!error) {
+                    _parsingSegment = (FGParsingSegmentText == lastParsingSegment) ? FGParsingSegmentFinished : FGParsingSegmentData;
+                } else {
                     _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
             case FGParsingSegmentData:
                 error = [self _readDataSegmentFromStream:fcsFileStream from:self.header.dataBegin to:self.header.dataEnd];
-                if (!error)
-                {
-                    _parsingSegment = FGParsingSegmentAnalysis;
-                }
-                else
-                {
+                if (!error) {
+                    _parsingSegment = (FGParsingSegmentData == lastParsingSegment) ? FGParsingSegmentFinished : FGParsingSegmentAnalysis;
+                } else {
                     _parsingSegment = FGParsingSegmentFailed;
                 }
                 break;
                 
             case FGParsingSegmentAnalysis:
                 error = [self _readAnalysisSegmentFromStream:fcsFileStream from:self.header.analysisBegin to:self.header.analysisEnd];
-                if (!error)
-                {
-                    _parsingSegment = FGParsingSegmentFinished;
-                }
-                else
-                {
-                    _parsingSegment = FGParsingSegmentFailed;
-                }
+                _parsingSegment = (!error) ? FGParsingSegmentFinished : FGParsingSegmentFailed;
                 break;
                 
             case FGParsingSegmentFinished:

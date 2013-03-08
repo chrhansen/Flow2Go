@@ -14,8 +14,9 @@
 
 @implementation FGMeasurement (Management)
 
-- (NSError *)readInFCSKeyWords
+- (NSError *)parseFCSKeyWords
 {
+    NSLog(@"Start: %s", __PRETTY_FUNCTION__);
     if (self.isDownloaded) {
         NSDictionary *fcsKeywords = [FGFCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:self.filePath]];
         self.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
@@ -23,6 +24,7 @@
     } else {
         return [NSError errorWithDomain:@"com.flow2go.fcskeywords" code:44 userInfo:@{@"userInfo": @"Error: Can't parse Keywords, FCS file not downloaded"}];
     }
+    NSLog(@"End: %s", __PRETTY_FUNCTION__);
     return nil;
 }
 

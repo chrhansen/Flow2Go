@@ -91,26 +91,12 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    
-    NSFetchRequest *fetchRequest = [NSFetchRequest.alloc init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"FGKeyword" inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-    fetchRequest.fetchBatchSize = 20;
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor.alloc initWithKey:@"key" ascending:YES]];
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", self.measurement.keywords];
-    NSFetchedResultsController *aFetchedResultsController = [NSFetchedResultsController.alloc initWithFetchRequest:fetchRequest
-                                                                                              managedObjectContext:[NSManagedObjectContext MR_defaultContext].parentContext
-                                                                                                sectionNameKeyPath:nil
-                                                                                                         cacheName:nil];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
+    _fetchedResultsController = [FGKeyword fetchAllGroupedBy:nil
+                                               withPredicate:[NSPredicate predicateWithFormat:@"SELF IN %@", self.measurement.keywords]
+                                                    sortedBy:@"key"
+                                                   ascending:YES
+                                                    delegate:self
+                                                   inContext:[NSManagedObjectContext defaultContext]];
     return _fetchedResultsController;
 }
 

@@ -10,7 +10,7 @@
 #import "FGFCSFile.h"
 #import "FGMeasurement.h"
 #import "FGAnalysis.h"
-#import "FGPlot.h"
+#import "FGPlot+Management.h"
 #import "FGKeyword.h"
 
 @implementation FGPlotDataCalculator
@@ -23,21 +23,39 @@
                                       subset:(NSUInteger *)subset
                                  subsetCount:(NSUInteger)subsetCount
 {
-    switch (plot.plotType.integerValue)
+    if (!fcsFile || !plot) {
+        NSLog(@"Error: fcsFile or plot is nil: %s", __PRETTY_FUNCTION__);
+        return nil;
+    }
+    return [self plotDataForFCSFile:fcsFile plotOptions:plot.plotOptions subset:subset subsetCount:subsetCount];
+}
+
++ (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
+                                 plotOptions:(NSDictionary *)plotOptions
+                                      subset:(NSUInteger *)subset
+                                 subsetCount:(NSUInteger)subsetCount
+{
+    if (!fcsFile || !plotOptions) {
+        NSLog(@"Error: fcsFile or plotoptions is nil: %s", __PRETTY_FUNCTION__);
+        return nil;
+    }
+    FGPlotType plotType = [plotOptions[PlotType] integerValue];
+    switch (plotType)
     {
         case kPlotTypeDot:
-            return [FGPlotDataCalculator dotDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            return [FGPlotDataCalculator dotDataForFCSFile:fcsFile plotOptions:plotOptions subset:subset subsetCount:subsetCount];
             break;
             
         case kPlotTypeDensity:
-            return [FGPlotDataCalculator densityDataForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            return [FGPlotDataCalculator densityDataForFCSFile:fcsFile plotOptions:plotOptions subset:subset subsetCount:subsetCount];
             break;
             
         case kPlotTypeHistogram:
-            return [FGPlotDataCalculator histogramForFCSFile:fcsFile insidePlot:plot subset:subset subsetCount:subsetCount];
+            return [FGPlotDataCalculator histogramForFCSFile:fcsFile plotOptions:plotOptions subset:subset subsetCount:subsetCount];
             break;
             
         default:
+            NSLog(@"Error: unknown plottype: %d, %s", plotType, __PRETTY_FUNCTION__);
             break;
     }
     return nil;
@@ -45,7 +63,7 @@
 
 
 + (FGPlotDataCalculator *)dotDataForFCSFile:(FGFCSFile *)fcsFile
-                                 insidePlot:(FGPlot *)plot
+                                plotOptions:(NSDictionary *)plotOptions
                                      subset:(NSUInteger *)subset
                                 subsetCount:(NSUInteger)subsetCount
 {
@@ -57,8 +75,9 @@
         eventsInside = subsetCount;
     }
     
-    NSInteger xPar = plot.xParNumber.integerValue - 1;
-    NSInteger yPar = plot.yParNumber.integerValue - 1;
+    NSInteger xPar = [plotOptions[XParNumber] integerValue] - 1;
+    NSInteger yPar = [plotOptions[YParNumber] integerValue] - 1;
+    
     dotPlotData.points = calloc(eventsInside, sizeof(FGDensityPoint));
     dotPlotData.numberOfPoints = eventsInside;
     
@@ -88,12 +107,12 @@
 
 
 + (FGPlotDataCalculator *)densityDataForFCSFile:(FGFCSFile *)fcsFile
-                                     insidePlot:(FGPlot *)plot
+                                    plotOptions:(NSDictionary *)plotOptions
                                          subset:(NSUInteger *)subset
                                     subsetCount:(NSUInteger)subsetCount
 {
-    if (!fcsFile || !plot) {
-        NSLog(@"Error: fcsFile or Plot is nil: %s", __PRETTY_FUNCTION__);
+    if (!fcsFile || !plotOptions) {
+        NSLog(@"Error: fcsFile or Plotoptions is nil: %s", __PRETTY_FUNCTION__);
         return nil;
     }
     
@@ -104,11 +123,11 @@
         eventsInside = fcsFile.noOfEvents;
     }
     
-    NSInteger xPar = plot.xParNumber.integerValue - 1;
-    NSInteger yPar = plot.yParNumber.integerValue - 1;
+    NSInteger xPar = [plotOptions[XParNumber] integerValue] - 1;
+    NSInteger yPar = [plotOptions[YParNumber] integerValue] - 1;
     
-    FGAxisType xAxisType = plot.xAxisType.integerValue;
-    FGAxisType yAxisType = plot.yAxisType.integerValue;
+    FGAxisType xAxisType = [plotOptions[XAxisType] integerValue];
+    FGAxisType yAxisType = [plotOptions[YAxisType] integerValue];
     
     double xMin = fcsFile.ranges[xPar].minValue;
     double xMax = fcsFile.ranges[xPar].maxValue;
@@ -210,7 +229,6 @@
                 default:
                     break;
             }
-            
             binValues[col][row] += 1;
         }
     }
@@ -274,6 +292,8 @@
     return densityPlotData;
 }
 
+
+
 - (void)_checkForMaxCount:(NSUInteger)count
 {
     if (count > _countForMaxBin)
@@ -284,10 +304,15 @@
 
 
 + (FGPlotDataCalculator *)histogramForFCSFile:(FGFCSFile *)fcsFile
-                                   insidePlot:(FGPlot *)plot
+                                  plotOptions:(NSDictionary *)plotOptions
                                        subset:(NSUInteger *)subset
                                   subsetCount:(NSUInteger)subsetCount
 {
+    if (!fcsFile || !plotOptions) {
+        NSLog(@"Error: fcsFile or Plotoptions is nil: %s", __PRETTY_FUNCTION__);
+        return nil;
+    }
+    
     NSInteger eventsInside = subsetCount;
     
     if (!subset)
@@ -295,9 +320,9 @@
         eventsInside = fcsFile.noOfEvents;
     }
     
-    NSInteger parIndex = plot.xParNumber.integerValue - 1;
+    NSInteger parIndex = [plotOptions[XParNumber] integerValue] - 1;
     
-    FGAxisType axisType = plot.xAxisType.integerValue;
+    FGAxisType axisType = [plotOptions[XAxisType] integerValue];
     double minValue = fcsFile.ranges[parIndex].minValue;
     double maxValue = fcsFile.ranges[parIndex].maxValue;
     NSUInteger colCount = (NSUInteger)(maxValue + 1.0);
@@ -331,7 +356,6 @@
                 default:
                     break;
             }
-            
             histogramValues[col] += 1;
         }
     }
@@ -418,11 +442,11 @@
         [histogramPlotData _checkForMaxCount:(NSUInteger)histogramPlotData.points[i].yVal];
         runningAverage = 0.0;
     }
-    
     free(histogramValues);
     
     return histogramPlotData;
 }
+
 
 - (void)cleanUpPlotData
 {

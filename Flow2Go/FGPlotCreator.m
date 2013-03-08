@@ -63,10 +63,8 @@
     self.plot = analysis.plots.firstObject;
     [self _loadFCSFileForAnalysis:analysis completion:^{
         if (!self.fcsFile) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"Error: FCS file is nil: %s", __PRETTY_FUNCTION__);
-                if (completion) completion(nil);
-            });
+            NSLog(@"Error: FCS file is nil: %s", __PRETTY_FUNCTION__);
+            if (completion) completion(nil);
             return;
         }
         [self _createGraphAndConfigurePlotSpace];

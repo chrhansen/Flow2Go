@@ -8,6 +8,14 @@
 
 #import "FGPlot.h"
 
+// Plot Options dictionary keys
+extern const NSString *PlotType;
+extern const NSString *XAxisType;
+extern const NSString *YAxisType;
+extern const NSString *XParNumber;
+extern const NSString *YParNumber;
+
+
 @interface FGPlot (Management)
 
 + (FGPlot *)createRootPlotForAnalysis:(FGAnalysis *)analysis;
@@ -16,5 +24,7 @@
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber;
 
 - (NSInteger)countOfParentGates;
+
+@property (nonatomic, readonly, copy) NSDictionary *plotOptions;
 
 @end

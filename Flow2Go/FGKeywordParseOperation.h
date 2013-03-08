@@ -10,6 +10,8 @@
 
 @interface FGKeywordParseOperation : NSOperation
 
+- (id)initWithFilePath:(NSString *)filePath;
+
 @property (nonatomic, strong) NSString *fcsFilePath;
 @property (nonatomic, strong) NSDictionary *fcsKeywords;
 

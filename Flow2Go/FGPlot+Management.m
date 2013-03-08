@@ -12,6 +12,12 @@
 #import "FGMeasurement+Management.h"
 #import "FGGate+Management.h"
 
+const NSString *PlotType   = @"PlotType";
+const NSString *XAxisType  = @"XAxisType";
+const NSString *YAxisType  = @"YAxisType";
+const NSString *XParNumber = @"XParNumber";
+const NSString *YParNumber = @"YParNumber";
+
 @implementation FGPlot (Management)
 
 + (FGPlot *)createRootPlotForAnalysis:(FGAnalysis *)analysis
@@ -72,6 +78,21 @@
     return relevantGates;
 }
 
+
+- (NSDictionary *)plotOptions
+{
+    NSNumber *plotType  = self.plotType.copy;
+    NSNumber *xAxisType = self.xAxisType.copy;
+    NSNumber *yAxisType = self.yAxisType.copy;
+    NSNumber *xPar      = self.xParNumber.copy;
+    NSNumber *yPar      = self.yParNumber.copy;
+    NSDictionary *plotOptions = @{PlotType   : plotType,
+                                  XAxisType  : xAxisType,
+                                  YAxisType  : yAxisType,
+                                  XParNumber : xPar,
+                                  YParNumber : yPar};
+    return plotOptions;
+}
 
 - (NSInteger)countOfParentGates
 {

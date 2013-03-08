@@ -12,29 +12,16 @@
 
 @interface FGPlotDataCalculator : NSObject
 
-+ (FGPlotDataCalculator *)dotDataForFCSFile:(FGFCSFile *)fcsFile
-                                 insidePlot:(FGPlot *)plot
-                                     subset:(NSUInteger *)subset
-                                subsetCount:(NSUInteger)subsetCount;
-
-
-+ (FGPlotDataCalculator *)densityDataForFCSFile:(FGFCSFile *)fcsFile
-                                     insidePlot:(FGPlot *)plot
-                                         subset:(NSUInteger *)subset
-                                    subsetCount:(NSUInteger)subsetCount;
-
-
-+ (FGPlotDataCalculator *)histogramForFCSFile:(FGFCSFile *)fcsFile
-                                   insidePlot:(FGPlot *)plot
-                                       subset:(NSUInteger *)subset
-                                  subsetCount:(NSUInteger)subsetCount;
-
-
 + (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
                                   insidePlot:(FGPlot *)plot
                                       subset:(NSUInteger *)subset
                                  subsetCount:(NSUInteger)subsetCount;
 
+// For Thread-safe operations use the equivalent method below
++ (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
+                                 plotOptions:(NSDictionary *)plotOptions
+                                      subset:(NSUInteger *)subset
+                                 subsetCount:(NSUInteger)subsetCount;
 
 - (void)cleanUpPlotData;
 

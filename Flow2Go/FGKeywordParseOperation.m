@@ -25,7 +25,9 @@
     if (self.isCancelled) {
         return;
     }
-    self.fcsKeywords = [FGFCSFile fcsKeywordsWithFCSFileAtPath:self.fcsFilePath];
+    @autoreleasepool {
+        self.fcsKeywords = [FGFCSFile fcsKeywordsWithFCSFileAtPath:self.fcsFilePath];
+    }
 }
 
 @end

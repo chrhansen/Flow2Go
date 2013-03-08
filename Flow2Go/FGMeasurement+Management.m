@@ -11,28 +11,34 @@
 #import "FGFCSFile.h"
 #import "FileMD5Hash.h"
 #import "FGKeyword.h"
+#import "FGKeywordParseOperation.h"
 
 @implementation FGMeasurement (Management)
 
 - (NSError *)parseFCSKeyWords
 {
-    NSLog(@"Start: %s", __PRETTY_FUNCTION__);
     if (self.isDownloaded) {
-        NSDictionary *fcsKeywords = [FGFCSFile fcsKeywordsWithFCSFileAtPath:[HOME_DIR stringByAppendingPathComponent:self.filePath]];
-        self.countOfEvents = [NSNumber numberWithInteger:[fcsKeywords[@"$TOT"] integerValue]];
-        [self _addKeywordsWithDictionary:fcsKeywords];
+        NSDictionary *textKeyValuePairs = [FGFCSFile fcsKeywordsWithFCSFileAtPath:self.fullFilePath];
+        [self _addKeywordsWithDictionary:textKeyValuePairs];
+        self.countOfEvents = [NSNumber numberWithInteger:[textKeyValuePairs[@"$TOT"] integerValue]];
     } else {
         return [NSError errorWithDomain:@"com.flow2go.fcskeywords" code:44 userInfo:@{@"userInfo": @"Error: Can't parse Keywords, FCS file not downloaded"}];
     }
-    NSLog(@"End: %s", __PRETTY_FUNCTION__);
     return nil;
+}
+
+
++ (NSError *)_obtainPermanentIDs:(NSArray *)managedObjects
+{
+    NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
+    NSError *error;
+    [context obtainPermanentIDsForObjects:managedObjects error:&error];
+    return error;
 }
 
 + (NSError *)deleteMeasurements:(NSArray *)measurementsToDelete;
 {
-    NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
-    NSError *permanentIDError;
-    [context obtainPermanentIDsForObjects:measurementsToDelete error:&permanentIDError];
+    NSError *permanentIDError = [self _obtainPermanentIDs:measurementsToDelete];
     if (permanentIDError) {
         return permanentIDError;
     }
@@ -63,7 +69,10 @@
 
 + (NSError *)deleteMeasurement:(FGMeasurement *)measurement
 {
-    NSError *error;
+    NSError *error = [self _obtainPermanentIDs:@[measurement]];
+    if (error) {
+        return error;
+    }
     [NSFileManager.defaultManager removeItemAtPath:measurement.enclosingFolder error:&error];
     [measurement deleteInContext:measurement.managedObjectContext];
     return error;
@@ -85,20 +94,15 @@
 - (void)_addKeywordsWithDictionary:(NSDictionary *)dictionary
 {
     for (NSString *key in dictionary.allKeys) {
-        FGKeyword *keyword = [FGKeyword createInContext:self.managedObjectContext];
-        if (dictionary[key] == nil || key == nil) {
-            continue;
-        }
-        keyword.key = key;
-        keyword.value = dictionary[key];
+        if (!key) continue;
         
-        if (keyword) {
-            FGKeyword *existingKeyword = [self existingKeywordForKey:keyword.key];
-            if (existingKeyword) {
-                [self removeKeywordsObject:existingKeyword];
-            }
-            [self addKeywordsObject:keyword];
+        FGKeyword *keyword = [self existingKeywordForKey:key];
+        if (!keyword) {
+            keyword = [FGKeyword createInContext:self.managedObjectContext];
+            keyword.key = key;
         }
+        keyword.value = dictionary[key];
+        [self addKeywordsObject:keyword];
     }
 }
 

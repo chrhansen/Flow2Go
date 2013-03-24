@@ -7,19 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FGPlot+Management.h"
+
 @class FGFCSFile;
-@class FGPlot;
 
 @interface FGPlotDataCalculator : NSObject
 
 + (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
-                                  insidePlot:(FGPlot *)plot
-                                      subset:(NSUInteger *)subset
-                                 subsetCount:(NSUInteger)subsetCount;
-
-// For Thread-safe operations use the equivalent method below
-+ (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
-                                 plotOptions:(NSDictionary *)plotOptions
+                                 plotOptions:(NSDictionary *)plotOptions // see FGPlot header for options
                                       subset:(NSUInteger *)subset
                                  subsetCount:(NSUInteger)subsetCount;
 

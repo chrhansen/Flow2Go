@@ -312,6 +312,11 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     return nil;
 }
 
+union Int2Float {
+    uint8_t b[4];
+    Float32 floatValue;
+};
+typedef union Int2Float Int2Float;
 
 - (NSError *)_readFloatDataType:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte byteOrder:(CFByteOrder)fcsFileByteOrder
 {
@@ -321,23 +326,72 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     
     NSLog(@"Float buffer size: %lu (#par: %d, #events: %d)\nbytesRead: %d", sizeof(bufferAllData), _noOfParams, _noOfEvents, bytesRead);
     
+    Int2Float int2Float;
+    int indexOfOffset0 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 0 : 3;
+    int indexOfOffset1 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 1 : 2;
+    int indexOfOffset2 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 2 : 1;
+    int indexOfOffset3 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 3 : 0;
+    
+    
     NSUInteger byteOffset = 0;
     for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
     {
         for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
         {
-            if (fcsFileByteOrder == CFByteOrderBigEndian)
-            {
-                self.events[eventNo][parNo] = (double)((bufferAllData[byteOffset] << 24) | (bufferAllData[byteOffset + 1]  << 16) | (bufferAllData[byteOffset + 2]  << 8) | bufferAllData[byteOffset + 3]);
-            }
-            else
-            {
-                self.events[eventNo][parNo] = (double)((bufferAllData[byteOffset + 3] << 24) | (bufferAllData[byteOffset + 2]  << 16) | (bufferAllData[byteOffset + 1]  << 8) | bufferAllData[byteOffset]);
-            }
+            int2Float.b[indexOfOffset0] = bufferAllData[byteOffset + 0];
+            int2Float.b[indexOfOffset1] = bufferAllData[byteOffset + 1];
+            int2Float.b[indexOfOffset2] = bufferAllData[byteOffset + 2];
+            int2Float.b[indexOfOffset3] = bufferAllData[byteOffset + 3];
+            self.events[eventNo][parNo] = (double)int2Float.floatValue;
             byteOffset += 4;
         }
     }
+    return nil;
+}
 
+union Int2Double {
+    uint8_t b[8];
+    Float64 doubleValue;
+};
+typedef union Int2Double Int2Double;
+
+
+- (NSError *)_readDoubleDataType:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte byteOrder:(CFByteOrder)fcsFileByteOrder
+{
+    NSInteger bytesRead = 0;
+    uint8_t bufferAllData[_noOfParams * _noOfEvents * sizeof(Float64)];
+    bytesRead = [inputStream read:bufferAllData maxLength:sizeof(bufferAllData)];
+    
+    NSLog(@"Double buffer size: %lu (#par: %d, #events: %d)\nbytesRead: %d", sizeof(bufferAllData), _noOfParams, _noOfEvents, bytesRead);
+    
+    Int2Double int2Double;
+    int indexOfOffset0 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 0 : 7;
+    int indexOfOffset1 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 1 : 6;
+    int indexOfOffset2 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 2 : 5;
+    int indexOfOffset3 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 3 : 4;
+    int indexOfOffset4 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 4 : 3;
+    int indexOfOffset5 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 5 : 2;
+    int indexOfOffset6 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 6 : 1;
+    int indexOfOffset7 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 7 : 0;
+    
+    NSUInteger byteOffset = 0;
+    for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
+    {
+        for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
+        {
+            int2Double.b[indexOfOffset0] = bufferAllData[byteOffset + 0];
+            int2Double.b[indexOfOffset1] = bufferAllData[byteOffset + 1];
+            int2Double.b[indexOfOffset2] = bufferAllData[byteOffset + 2];
+            int2Double.b[indexOfOffset3] = bufferAllData[byteOffset + 3];
+            int2Double.b[indexOfOffset4] = bufferAllData[byteOffset + 4];
+            int2Double.b[indexOfOffset5] = bufferAllData[byteOffset + 5];
+            int2Double.b[indexOfOffset6] = bufferAllData[byteOffset + 6];
+            int2Double.b[indexOfOffset7] = bufferAllData[byteOffset + 7];
+
+            self.events[eventNo][parNo] = (double)int2Double.doubleValue;
+            byteOffset += 8;
+        }
+    }
     return nil;
 }
 

@@ -21,9 +21,13 @@
 @property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic) NSInteger xParIndex;
 @property (nonatomic) NSInteger yParIndex;
+@property (nonatomic) FGAxisType xAxisType;
+@property (nonatomic) FGAxisType yAxisType;
+@property (nonatomic) FGPlotType plotType;
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic, strong) FGPlotDataCalculator *plotData;
 @property (nonatomic, strong) FGPlotHelper *plotHelper;
+@property (nonatomic, strong) NSDictionary *plotOptions;
 
 @end
 
@@ -60,7 +64,8 @@
     [self _createAnalysisIfNeeded:measurement];
     FGAnalysis *analysis = measurement.analyses.lastObject;
     [self _createPlotIfNeeded:analysis];
-    self.plot = analysis.plots.firstObject;
+    FGPlot *plot = analysis.plots.firstObject;
+    [self _initializePlotOptions:plot];
     [self _loadFCSFileForAnalysis:analysis completion:^{
         if (!self.fcsFile) {
             NSLog(@"Error: FCS file is nil: %s", __PRETTY_FUNCTION__);
@@ -75,11 +80,20 @@
         [UIImage resizeImage:bigImage toSize:CGSizeMake(74, 74) completion:^(UIImage *resizedImage) {
             measurement.thumbImage = resizedImage;
             [UIImage resizeImage:bigImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
-                self.plot.image = resizedImage;
+                plot.image = resizedImage;
                 if (completion) completion(resizedImage);
             }];
         }];
     }];
+}
+
+- (void)_initializePlotOptions:(FGPlot *)plot
+{
+    self.plotOptions = plot.plotOptions;
+    _xAxisType = [self.plotOptions[XAxisType] integerValue];
+    _yAxisType = [self.plotOptions[YAxisType] integerValue];
+    _xParIndex = [self.plotOptions[XParNumber] integerValue] - 1;
+    _yParIndex = [self.plotOptions[YParNumber] integerValue] - 1;
 }
 
 
@@ -179,12 +193,7 @@
 
 - (void)preparePlotData
 {
-    _xParIndex = self.plot.xParNumber.integerValue - 1;
-    _yParIndex = self.plot.yParNumber.integerValue - 1;
-    self.plot.xAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
-    self.plot.yAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
-    
-    self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile insidePlot:self.plot subset:nil subsetCount:0];
+    self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile plotOptions:self.plotOptions subset:nil subsetCount:0];
 }
 
 - (void)_configureLineAndSymbol
@@ -241,7 +250,7 @@
     y.title = nil;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0f];
     
-    switch (self.plot.xAxisType.integerValue) {
+    switch (_xAxisType) {
         case kAxisTypeLinear:
             self.plotSpace.xScaleType = CPTScaleTypeLinear;
             x.labelFormatter = linearLabelFormatter;
@@ -256,13 +265,13 @@
             break;
     }
     
-    if (self.plot.plotType.integerValue == kPlotTypeHistogram) {
+    if (_plotType == kPlotTypeHistogram) {
         self.plotSpace.yScaleType = CPTScaleTypeLinear;
         y.labelFormatter = linearLabelFormatter;
         return;
     }
     
-    switch (self.plot.yAxisType.integerValue) {
+    switch (_yAxisType) {
         case kAxisTypeLinear:
             self.plotSpace.yScaleType = CPTScaleTypeLinear;
             y.labelFormatter = linearLabelFormatter;
@@ -288,7 +297,7 @@
     
     CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
     
-    if (self.plot.plotType.integerValue == kPlotTypeHistogram)
+    if (_plotType == kPlotTypeHistogram)
     {
         yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", 0.0]);
         yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.plotData.countForMaxBin * 1.1]);

@@ -16,6 +16,4 @@
 - (void)createRootPlotImageForMeasurement:(FGMeasurement *)measurement completion:(void (^)(UIImage *plotImage))completion;
 + (void)createRootPlotsForMeasurementsWithoutPlotsWithCompletion:(void (^)(void))completion;
 
-@property (nonatomic, strong) FGPlot *plot;
-
 @end

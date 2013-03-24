@@ -8,27 +8,11 @@
 
 #import "FGPlotDataCalculator.h"
 #import "FGFCSFile.h"
-#import "FGMeasurement.h"
-#import "FGAnalysis.h"
-#import "FGPlot+Management.h"
-#import "FGKeyword.h"
 
 @implementation FGPlotDataCalculator
 
 #define BIN_COUNT 512
 #define HISTOGRAM_AVERAGING 9
-
-+ (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
-                                  insidePlot:(FGPlot *)plot
-                                      subset:(NSUInteger *)subset
-                                 subsetCount:(NSUInteger)subsetCount
-{
-    if (!fcsFile || !plot) {
-        NSLog(@"Error: fcsFile or plot is nil: %s", __PRETTY_FUNCTION__);
-        return nil;
-    }
-    return [self plotDataForFCSFile:fcsFile plotOptions:plot.plotOptions subset:subset subsetCount:subsetCount];
-}
 
 + (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
                                  plotOptions:(NSDictionary *)plotOptions

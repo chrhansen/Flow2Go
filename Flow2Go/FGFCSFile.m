@@ -180,7 +180,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     {
         return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{@"userInfo": @"Error: text segment in FCS file could not be read."}];
     }
-
+    
     self.seperatorCharacterset = [NSCharacterSet characterSetWithCharactersInString:[textString substringToIndex:1]];
     NSArray *textSeparated = [[textString substringFromIndex:1] componentsSeparatedByCharactersInSet:self.seperatorCharacterset];
     
@@ -235,12 +235,12 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     {
         error = [self _readDoubleDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
     }
-    
+
+    [self _setMinAndMaxValue:self.events dataTypeString:self.text[@"$DATATYPE"]];
     [self _convertChannelValuesToScaleValues:self.events];
     [self _applyCompensationToScaleValues:self.events];
     [self _applyCalibrationToScaledValues:self.events];
-    //[self _printOut:100 forPars:noOfParams];
-    //[self _printOutScaledMinMax];
+//    [self _printOutScaledMinMax];
     
     return error;
 }
@@ -331,7 +331,7 @@ typedef union Int2Float Int2Float;
     int indexOfOffset1 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 1 : 2;
     int indexOfOffset2 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 2 : 1;
     int indexOfOffset3 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 3 : 0;
-        
+    
     NSUInteger byteOffset = 0;
     for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
     {
@@ -345,6 +345,9 @@ typedef union Int2Float Int2Float;
             byteOffset += 4;
         }
     }
+    [self _printOutRange:NSMakeRange(4000, 3)];
+//    [self _printOutRange:NSMakeRange(0, 10) forParameter:4];
+
     return nil;
 }
 
@@ -386,7 +389,7 @@ typedef union Int2Double Int2Double;
             int2Double.b[indexOfOffset5] = bufferAllData[byteOffset + 5];
             int2Double.b[indexOfOffset6] = bufferAllData[byteOffset + 6];
             int2Double.b[indexOfOffset7] = bufferAllData[byteOffset + 7];
-
+            
             self.events[eventNo][parNo] = (double)int2Double.doubleValue;
             byteOffset += 8;
         }
@@ -501,10 +504,42 @@ typedef union Int2Double Int2Double;
 }
 
 
-- (void)_convertChannelValuesToScaleValues:(double **)eventsAsChannelValues
+- (void)_setMinAndMaxValue:(double **)eventsAsChannelValues dataTypeString:(NSString *)dataTypeString
 {
     self.ranges = calloc(_noOfParams, sizeof(FGRange));
+    for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
+    {
+        double range = [self.text[[@"$P" stringByAppendingFormat:@"%iR", parNo + 1]] doubleValue] - 1.0;
+        if ([dataTypeString isEqualToString:@"I"]) {
+            self.ranges[parNo].minValue = 0.0;
+            self.ranges[parNo].maxValue = range;
+        } else {
+            [self _findMinMaxForParNo:parNo events:eventsAsChannelValues];
+            // do nothing, ranges for float and double data types have to be set by searching min/max value
+        }
+    }
+}
+
+
+- (void)_findMinMaxForParNo:(NSUInteger)parNo events:(double **)eventValues
+{
+    double value;
+    double minValue, maxValue;
+    minValue = maxValue = self.ranges[parNo].minValue = self.ranges[parNo].maxValue = eventValues[0][parNo];
     
+    for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++) {
+        value = eventValues[eventNo][parNo];
+        if (value > maxValue) {
+            _ranges[parNo].maxValue = maxValue = value;
+        } else if (value < minValue) {
+            _ranges[parNo].minValue = minValue = value;
+        }
+    }
+}
+
+
+- (void)_convertChannelValuesToScaleValues:(double **)eventsAsChannelValues
+{
     for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
     {
         NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parNo + 1]];
@@ -513,17 +548,14 @@ typedef union Int2Double Int2Double;
         NSArray *scaleComponents = [scaleString componentsSeparatedByString:@","];
         double f1 = [scaleComponents[0] doubleValue];
         double f2 = [scaleComponents[1] doubleValue];
-        double g = [self _gainValueWithString:self.text[[@"$P" stringByAppendingFormat:@"%iG", parNo + 1]]];
+        double gain = [self _gainValueWithString:self.text[[@"$P" stringByAppendingFormat:@"%iG", parNo + 1]]];
         double range = [self.text[[@"$P" stringByAppendingFormat:@"%iR", parNo + 1]] doubleValue] - 1.0;
         FGAxisType valueType;
-        if (f1 <= 0.0)
-        {
+        if (f1 <= 0.0) {
             valueType = kAxisTypeLinear;
-            self.ranges[parNo].minValue = 0.0;
-            self.ranges[parNo].maxValue = range / g;
-        }
-        else if (f1 > 0.0)
-        {
+            self.ranges[parNo].minValue /= gain;
+            self.ranges[parNo].maxValue /= gain;
+        } else {
             valueType = kAxisTypeLogarithmic;
             if (f2 == 0.0) f2 = 1.0; // some files has f2 for log-values errouneously set to 0
             
@@ -537,7 +569,7 @@ typedef union Int2Double Int2Double;
             switch (valueType)
             {
                 case kAxisTypeLinear:
-                    eventsAsChannelValues[eventNo][parNo] = eventsAsChannelValues[eventNo][parNo] / g;
+                    eventsAsChannelValues[eventNo][parNo] /= gain;
                     break;
                     
                 case kAxisTypeLogarithmic:
@@ -557,15 +589,11 @@ typedef union Int2Double Int2Double;
 - (double)_gainValueWithString:(NSString *)gString
 {
     // default is 1.0 if $PiG is not present
-    if (gString)
-    {
+    if (gString) {
         double g = gString.doubleValue;
-        if (g == 0.0)
-        {
+        if (g == 0.0) {
             NSLog(@"Amplifier gain value is zero (g = %f).", g);
-        }
-        else
-        {
+        } else {
             return g;
         }
     }
@@ -656,23 +684,33 @@ typedef union Int2Double Int2Double;
 }
 
 
-- (void)_printOut:(NSUInteger)noOfEvents forPars:(NSUInteger)noOfParams
+- (void)_printOutRange:(NSRange)range forParameter:(NSInteger)parNo
 {
-    for (NSUInteger i = 0; i < noOfEvents; i++)
+    for (NSUInteger i = range.location; i < range.location + range.length; i++)
     {
-        NSLog(@"eventNo:(%i)", i);
-        for (NSUInteger j = 0; j < noOfParams; j++)
-        {
-            NSLog(@"parNo:(%i) , value: %f", j, self.events[i][j]);
-        }
+        NSLog(@"eventNo:%i, parNo:(%i) , value: %f", i, parNo, self.events[i][parNo - 1]);
     }
 }
+
+
+- (void)_printOutRange:(NSRange)range
+{
+    for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++) {
+        for (NSUInteger i = range.location; i < range.location + range.length; i++) {
+            NSLog(@"ParNo:(%i), eventNo:%i, value: %f", parNo + 1, i, self.events[i][parNo]);
+        }
+        NSLog(@"\n");
+    }
+}
+
+
+
 - (void)_printOutScaledMinMax
 {
     for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
     {
-        double maxValue = 0.0;
-        double minValue = 500.0;
+        double maxValue, minValue;
+        minValue = maxValue = self.events[0][parNo];
         for (NSUInteger eventNo = 0; eventNo < self.noOfEvents; eventNo++)
         {
             if (self.events[eventNo][parNo] > maxValue)

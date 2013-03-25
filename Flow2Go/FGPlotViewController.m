@@ -72,7 +72,7 @@
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    [self _centerNavigationController];
+    [self _centerNavigationControllerSuperview];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -107,13 +107,15 @@
 }
 
 
-- (void)_centerNavigationController
+- (void)_centerNavigationControllerSuperview
 {
     CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
+    CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
+    CGFloat statusBarHeight = MIN(statusBarSize.width, statusBarSize.height);
     if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-        self.navigationController.view.superview.center = CGPointMake(applicationFrame.size.width/2.0f, applicationFrame.size.height/2.0f + 20.0f);
+        self.navigationController.view.superview.center = CGPointMake(applicationFrame.size.width/2.0f, applicationFrame.size.height/2.0f + statusBarHeight);
     } else {
-        self.navigationController.view.superview.center = CGPointMake(applicationFrame.size.height/2.0f, applicationFrame.size.width/2.0f + 20.0f);
+        self.navigationController.view.superview.center = CGPointMake(applicationFrame.size.height/2.0f, applicationFrame.size.width/2.0f + statusBarHeight);
     }
 }
 

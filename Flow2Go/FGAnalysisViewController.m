@@ -158,22 +158,10 @@
 
 
 #pragma mark - UICollectionView Delegate
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
     [self _presentPlot:plot];
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
-
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
-{
-    return YES;
 }
 
 
@@ -214,14 +202,19 @@
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     navigationController.navigationBar.translucent = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
-    
+    navigationController.view.superview.bounds = [self boundsThatFitsWithinStatusBarInAllOrientations];
+}
+
+
+- (CGRect)boundsThatFitsWithinStatusBarInAllOrientations
+{
     CGSize applicationFrameSize = [[UIScreen mainScreen] applicationFrame].size;
     CGFloat minSideLengthMinusStatusBar = MIN(applicationFrameSize.width, applicationFrameSize.height);
     if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
         CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
         minSideLengthMinusStatusBar -= MIN(statusBarSize.width, statusBarSize.height);
     }
-    navigationController.view.superview.bounds = CGRectMake(0, 0, minSideLengthMinusStatusBar, minSideLengthMinusStatusBar);
+    return CGRectMake(0, 0, minSideLengthMinusStatusBar, minSideLengthMinusStatusBar);
 }
 
 

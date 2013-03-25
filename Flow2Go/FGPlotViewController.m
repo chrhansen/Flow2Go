@@ -150,12 +150,14 @@
 
 - (void)_grabImageOfPlot
 {
-    UIImage *bigImage = [UIImage captureLayer:self.graphHostingView.layer];
+    UIImage *plotImage = [UIImage captureLayer:self.graphHostingView.layer];
+    UIImage *gatesImage = [UIImage captureLayer:self.gatesContainerView.layer];
+    plotImage = [plotImage overlayWith:gatesImage];
     __weak FGPlot *weakPlot = self.plot;
-    [UIImage resizeImage:bigImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
+    [UIImage resizeImage:plotImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
         [weakPlot setImage:resizedImage];
     }];
-    [self _saveThumbIfRootPlot:bigImage];
+    [self _saveThumbIfRootPlot:plotImage];
 }
 
 
@@ -599,6 +601,7 @@
     }
     yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
     yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
+//    yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", 2000.0-self.fcsFile.ranges[_yParIndex].minValue]);
     self.plotSpace.yRange = yRange;
 }
 

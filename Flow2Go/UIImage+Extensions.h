@@ -13,5 +13,6 @@
 + (UIImage *)imageWithView:(UIView *)view;
 + (UIImage *)captureLayer:(CALayer *)layer flipImage:(BOOL)shouldFlipUpsideDown;
 + (UIImage *)captureLayer:(CALayer *)layer;
+- (UIImage *)overlayWith:(UIImage *)overlayImage;
 
 @end

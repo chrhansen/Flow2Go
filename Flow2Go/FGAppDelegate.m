@@ -36,6 +36,7 @@
     FGMeasurementCollectionViewController *folderViewController = (FGMeasurementCollectionViewController * )navigationControllerFolder.topViewController;
     folderViewController.navigationPaneViewController = navigationPaneViewController;
     navigationPaneViewController.masterViewController = navigationControllerFolder;
+    navigationPaneViewController.paneState = MSNavigationPaneStateOpen;
     folderViewController.analysisViewController = (FGAnalysisViewController *)paneViewController.topViewController;
     [navigationPaneViewController setPaneViewController:paneViewController animated:NO completion:nil];
     navigationPaneViewController.paneDraggingEnabled = YES;

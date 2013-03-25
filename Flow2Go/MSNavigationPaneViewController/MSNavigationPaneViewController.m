@@ -33,7 +33,7 @@
 //#define LAYOUT_DEBUG
 
 // Sizes
-const CGFloat MSNavigationPaneDefaultOpenStateRevealWidthLeft = 700.0;
+const CGFloat MSNavigationPaneDefaultOpenStateRevealWidthLeft = 267.0;
 const CGFloat MSNavigationPaneDefaultOpenStateRevealWidthTop = 200.0;
 const CGFloat MSNavigationPaneOpenAnimationOvershot = 20.0;
 
@@ -131,6 +131,11 @@ typedef void (^ViewActionBlock)(UIView *view);
     return YES;
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return self.masterViewController.supportedInterfaceOrientations;
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     // This prevents weird transform issues, set the transform to identity for the duration of the rotation, disables updates during rotation
@@ -151,6 +156,7 @@ typedef void (^ViewActionBlock)(UIView *view);
 {
     self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     
+    _paneState = MSNavigationPaneStateClosed;
     _appearanceType = MSNavigationPaneAppearanceTypeNone;
     _openDirection = MSNavigationPaneOpenDirectionLeft;
     _openStateRevealWidth = MSNavigationPaneDefaultOpenStateRevealWidthLeft;
@@ -565,9 +571,11 @@ typedef void (^ViewActionBlock)(UIView *view);
         
         void(^animatePaneOpenCompletion)(BOOL animationFinished) = ^(BOOL animationFinished) {
             internalCompletion();
-            self.paneTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(paneTapped:)];
-            self.paneTapGestureRecognizer.numberOfTouchesRequired = 1;
-            self.paneTapGestureRecognizer.numberOfTapsRequired = 1;
+            if (!self.paneTapGestureRecognizer) {
+                self.paneTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(paneTapped:)];
+                self.paneTapGestureRecognizer.numberOfTouchesRequired = 1;
+                self.paneTapGestureRecognizer.numberOfTapsRequired = 1;
+            }
             [self.paneView addGestureRecognizer:self.paneTapGestureRecognizer];
         };
         

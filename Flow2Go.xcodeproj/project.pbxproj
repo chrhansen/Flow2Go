@@ -34,7 +34,6 @@
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5173B5C16E0F1CF00A314D4 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5173B5916E0F1CF00A314D4 /* libTestFlight.a */; };
 		E5173B5D16E0F1CF00A314D4 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E5173B5A16E0F1CF00A314D4 /* release_notes.md */; };
-		E5173B6416E1073900A314D4 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6316E1073900A314D4 /* MSNavigationPaneViewController.m */; };
 		E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6816E107CF00A314D4 /* PRTween.m */; };
 		E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6A16E107CF00A314D4 /* PRTweenTimingFunctions.m */; };
 		E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6F16E4FB9800A314D4 /* FGHeaderControlsView.m */; };
@@ -49,6 +48,7 @@
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
 		E533C2DC16EA2D2600B949F6 /* FGKeywordParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E533C2DB16EA2D2600B949F6 /* FGKeywordParseOperation.m */; };
 		E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */; };
+		E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */; };
 		E542F4C6160933280041A60A /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */; };
 		E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */; };
 		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
@@ -259,7 +259,6 @@
 		E5173B5A16E0F1CF00A314D4 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = release_notes.md; path = Flow2Go/TestFlightSDK1.2beta2/release_notes.md; sourceTree = SOURCE_ROOT; };
 		E5173B5B16E0F1CF00A314D4 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = Flow2Go/TestFlightSDK1.2beta2/TestFlight.h; sourceTree = SOURCE_ROOT; };
 		E5173B6216E1073900A314D4 /* MSNavigationPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNavigationPaneViewController.h; sourceTree = "<group>"; };
-		E5173B6316E1073900A314D4 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
 		E5173B6716E107CF00A314D4 /* PRTween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRTween.h; sourceTree = "<group>"; };
 		E5173B6816E107CF00A314D4 /* PRTween.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRTween.m; sourceTree = "<group>"; };
 		E5173B6916E107CF00A314D4 /* PRTweenTimingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRTweenTimingFunctions.h; sourceTree = "<group>"; };
@@ -282,6 +281,7 @@
 		E533C2DA16EA2D2600B949F6 /* FGKeywordParseOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGKeywordParseOperation.h; sourceTree = "<group>"; };
 		E533C2DB16EA2D2600B949F6 /* FGKeywordParseOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGKeywordParseOperation.m; sourceTree = "<group>"; };
 		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGMeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCollectionViewController.h; sourceTree = "<group>"; };
 		E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCollectionViewController.m; sourceTree = "<group>"; };
 		E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSFile.h; sourceTree = "<group>"; };
@@ -633,9 +633,10 @@
 			children = (
 				E5173B6516E107C600A314D4 /* PRTween */,
 				E5173B6216E1073900A314D4 /* MSNavigationPaneViewController.h */,
-				E5173B6316E1073900A314D4 /* MSNavigationPaneViewController.m */,
+				E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */,
 			);
 			name = MSNavigationPaneViewController;
+			path = Flow2Go/MSNavigationPaneViewController;
 			sourceTree = "<group>";
 		};
 		E5173B6516E107C600A314D4 /* PRTween */ = {
@@ -1497,7 +1498,6 @@
 				E5D314EF16CE5E7A00700F57 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */,
 				E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */,
-				E5173B6416E1073900A314D4 /* MSNavigationPaneViewController.m in Sources */,
 				E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */,
 				E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */,
 				E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */,
@@ -1507,6 +1507,7 @@
 				E50F000416E8F164009C546E /* FGPlot.m in Sources */,
 				E50F000A16E8FF81009C546E /* FGPlotCreator.m in Sources */,
 				E533C2DC16EA2D2600B949F6 /* FGKeywordParseOperation.m in Sources */,
+				E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

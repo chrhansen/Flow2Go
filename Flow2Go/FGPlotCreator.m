@@ -38,9 +38,7 @@
     NSArray *allMeasurements = [FGMeasurement findAll];
     NSMutableArray *needPlots = [NSMutableArray array];
     for (FGMeasurement *aMeasurement in allMeasurements) {
-        if (!aMeasurement.thumbImage) {
-            [needPlots addObject:aMeasurement];
-        }
+        if (!aMeasurement.thumbImage) [needPlots addObject:aMeasurement];
     }
     __block NSUInteger count = needPlots.count;
     for (FGMeasurement *aMeasurement in needPlots) {

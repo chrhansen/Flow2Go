@@ -41,6 +41,7 @@
     [self _addNoiseBackground];
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -203,9 +204,6 @@
 }
 
 
-#define PLOTVIEWSIZE 700
-#define NAVIGATION_BAR_HEIGHT 44
-
 - (void)_presentPlot:(FGPlot *)plot
 {
     UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
@@ -213,9 +211,17 @@
     plotViewController.delegate = self;
     plotViewController.plot = plot;
     navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    navigationController.modalPresentationStyle = UIModalPresentationPageSheet;
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     navigationController.navigationBar.translucent = YES;
     [self presentViewController:navigationController animated:YES completion:nil];
+    
+    CGSize applicationFrameSize = [[UIScreen mainScreen] applicationFrame].size;
+    CGFloat minSideLengthMinusStatusBar = MIN(applicationFrameSize.width, applicationFrameSize.height);
+    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        CGSize statusBarSize = [UIApplication sharedApplication].statusBarFrame.size;
+        minSideLengthMinusStatusBar -= MIN(statusBarSize.width, statusBarSize.height);
+    }
+    navigationController.view.superview.bounds = CGRectMake(0, 0, minSideLengthMinusStatusBar, minSideLengthMinusStatusBar);
 }
 
 

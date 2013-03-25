@@ -83,9 +83,6 @@
             dotPlotData.points[eventNo].yVal = (double)fcsFile.events[eventNo][yPar];
         }
     }
-    
-    NSLog(@"Max count:  %i", dotPlotData.countForMaxBin);
-    
     return dotPlotData;
 }
 
@@ -265,14 +262,10 @@
     }
     densityPlotData.numberOfPoints = recordNo;
     
-    for (NSUInteger i = 0; i < BIN_COUNT; i++)
-    {
+    for (NSUInteger i = 0; i < BIN_COUNT; i++) {
         free(binValues[i]);
     }
     free(binValues);
-    
-    NSLog(@"Max count:  %i", densityPlotData.countForMaxBin);
-    
     return densityPlotData;
 }
 

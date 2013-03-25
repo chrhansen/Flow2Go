@@ -69,6 +69,12 @@
     [self _configureBarButtons];
 }
 
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self _centerNavigationController];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -77,7 +83,6 @@
     [self _reloadPlotDataAndLayout];
     self.gatesContainerView.delegate = self;
     [self.gatesContainerView performSelector:@selector(redrawGates) withObject:nil afterDelay:0.05];
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -99,6 +104,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)_centerNavigationController
+{
+    CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];
+    if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+        self.navigationController.view.superview.center = CGPointMake(applicationFrame.size.width/2.0f, applicationFrame.size.height/2.0f + 20.0f);
+    } else {
+        self.navigationController.view.superview.center = CGPointMake(applicationFrame.size.height/2.0f, applicationFrame.size.width/2.0f + 20.0f);
+    }
 }
 
 

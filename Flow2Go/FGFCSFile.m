@@ -233,7 +233,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     }
     else if ([self.text[@"$DATATYPE"] isEqualToString:@"D"])
     {
-        // TODO: read doubles
+        error = [self _readDoubleDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
     }
     
     [self _convertChannelValuesToScaleValues:self.events];
@@ -331,8 +331,7 @@ typedef union Int2Float Int2Float;
     int indexOfOffset1 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 1 : 2;
     int indexOfOffset2 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 2 : 1;
     int indexOfOffset3 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 3 : 0;
-    
-    
+        
     NSUInteger byteOffset = 0;
     for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
     {
@@ -442,35 +441,13 @@ typedef union Int2Double Int2Double;
 
 - (void)allocateDataArrayWithType:(NSString *)dataTypeString
 {
-    if ([dataTypeString isEqualToString: @"I"])
-    {
+    if ([dataTypeString isEqualToString: @"I"]
+        || [dataTypeString isEqualToString: @"F"]
+        || [dataTypeString isEqualToString: @"D"]) {
         self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
-        for (NSUInteger i = 0; i < _noOfEvents; i++)
-        {
+        for (NSUInteger i = 0; i < _noOfEvents; i++) {
             self.events[i] = calloc(_noOfParams, sizeof(double));
         }
-        return;
-    }
-    
-    if ([dataTypeString isEqualToString: @"F"])
-    {
-        NSLog(@"allocating float type: %@", dataTypeString);
-        self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
-        for (NSUInteger i = 0; i < _noOfEvents; i++)
-        {
-            self.events[i] = calloc(_noOfParams, sizeof(double));
-        }
-        return;
-    }
-    if ([dataTypeString isEqualToString: @"D"])
-    {
-        NSLog(@"allocating double type: %@", dataTypeString);
-        self.events = calloc(_noOfEvents, sizeof(NSUInteger *));
-        for (NSUInteger i = 0; i < _noOfEvents; i++)
-        {
-            self.events[i] = calloc(_noOfParams, sizeof(double));
-        }
-        return;
     }
 }
 

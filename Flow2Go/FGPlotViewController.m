@@ -742,6 +742,7 @@ static CPTPlotSymbol *plotSymbol;
         }];
     }];
     [self.gateCalculationSpinner startAnimating];
+    [self registerAsObserverForOperation:gateOperation];
     [[FGPendingOperations sharedInstance].gateCalculationQueue addOperation:gateOperation];
 }
 
@@ -762,13 +763,8 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark - KVO of GateCalculationOperation
 - (void)registerAsObserverForOperation:(FGGateCalculationOperation *)operation
 {
-    /*
-     Register 'inspector' to receive change notifications for the "openingBalance" property of
-     the 'account' object and specify that both the old and new values of "openingBalance"
-     should be provided in the observe… method.
-     */
-    [operation addObserver:self forKeyPath:@"isExecuting" options:0 context:NULL];
-    [operation addObserver:self forKeyPath:@"isFinished" options:0 context:NULL];
+    [operation addObserver:self forKeyPath:@"isExecuting" options:NSKeyValueObservingOptionNew context:NULL];
+    [operation addObserver:self forKeyPath:@"isFinished" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 - (void)unregisterForChangeNotification

@@ -829,11 +829,11 @@
                             <size key="itemSize" width="210" height="120"/>
                             <size key="headerReferenceSize" width="0.0" height="40"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="25" minY="5" maxX="25" maxY="40"/>
+                            <inset key="sectionInset" minX="15" minY="5" maxX="15" maxY="40"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Measurement Cell" id="geG-Em-saE" customClass="FGMeasurementCell">
-                                <rect key="frame" x="25" y="45" width="210" height="120"/>
+                                <rect key="frame" x="15" y="45" width="210" height="120"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="210" height="120"/>
@@ -937,8 +937,9 @@
                             <rect key="frame" x="0.0" y="0.0" width="768" height="40"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="collection name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ocl-oi-Jdy">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="collection name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="Ocl-oi-Jdy">
                                     <constraints>
+                                        <constraint firstAttribute="width" constant="300" id="5Wy-gG-sN9"/>
                                         <constraint firstAttribute="height" constant="30" id="ihJ-ZO-fxw"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
@@ -949,7 +950,6 @@
                             </subviews>
                             <constraints>
                                 <constraint firstItem="Ocl-oi-Jdy" firstAttribute="bottom" secondItem="X2L-Zs-2bO" secondAttribute="bottom" type="default" id="JIs-sq-fpr"/>
-                                <constraint firstAttribute="trailing" secondItem="Ocl-oi-Jdy" secondAttribute="trailing" constant="25" type="user" id="iL9-RJ-wS9"/>
                                 <constraint firstItem="Ocl-oi-Jdy" firstAttribute="leading" secondItem="X2L-Zs-2bO" secondAttribute="leading" constant="24" type="user" id="izV-Qw-49j"/>
                             </constraints>
                             <connections>
@@ -1398,9 +1398,6 @@
                 <relationship kind="outlet" name="singleRangeGateButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="tripleRangeGateButton" candidateClass="UIButton"/>
             </relationships>
-        </class>
-        <class className="FGAddGateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateTableViewController.h"/>
         </class>
         <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>

@@ -178,19 +178,20 @@
 - (void)_updateFrameToFitUnderPaneViewController
 {
     CGRect newFrame = CGRectMake(0, 0, self.navigationPaneViewController.openStateRevealWidth, self.navigationController.view.bounds.size.height);
-    self.navigationController.view.frame = newFrame;
+    self.navigationController.view.superview.frame = newFrame;
 }
 
 - (void)_updatePaneViewControllerOpenWidthForInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
-    if (self.interfaceOrientation == orientation) {
-        self.navigationPaneViewController.openStateRevealWidth = self.view.bounds.size.width - PANE_COVER_WIDTH;
-    } else {
-        CGFloat revealWidth = self.view.bounds.size.height - PANE_COVER_WIDTH;
-        if (![[UIApplication sharedApplication] isStatusBarHidden]) revealWidth += 20.0f;
-        if (!self.navigationController.navigationBar.isHidden) revealWidth += self.navigationController.navigationBar.frame.size.height;
-        self.navigationPaneViewController.openStateRevealWidth = revealWidth;
-    }
+//    if (self.interfaceOrientation == orientation) {
+//        self.navigationPaneViewController.openStateRevealWidth = self.view.bounds.size.width - PANE_COVER_WIDTH;
+//    } else {
+//        CGFloat revealWidth = self.view.bounds.size.height - PANE_COVER_WIDTH;
+//        if (![[UIApplication sharedApplication] isStatusBarHidden]) revealWidth += 20.0f;
+//        if (!self.navigationController.navigationBar.isHidden) revealWidth += self.navigationController.navigationBar.frame.size.height;
+//        self.navigationPaneViewController.openStateRevealWidth = revealWidth;
+//    }
+    self.navigationPaneViewController.openStateRevealWidth = PANE_REVEAL_WIDTH;
     [self.navigationPaneViewController setPaneState:self.navigationPaneViewController.paneState animated:YES completion:nil];
 }
 
@@ -467,8 +468,26 @@
         if(![analysis.managedObjectContext obtainPermanentIDsForObjects:@[analysis] error:&error]) NSLog(@"Error obtaining perm ID: %@", error.localizedDescription);
     }
     [self.analysisViewController showAnalysis:analysis];
+//    [self changeBounds];
 }
 
+
+- (void)changeBounds
+{
+    self.verticalContentOffsetFraction = self.collectionView.contentOffset.y / self.collectionView.contentSize.height;
+    FGMeasurementGridLayout *newGridLayout = [[FGMeasurementGridLayout alloc] init];
+    newGridLayout.sectionInset = UIEdgeInsetsMake(5, 25, 40, 500);
+    [self.collectionView setCollectionViewLayout:newGridLayout animated:YES];
+    if (self.verticalContentOffsetFraction > 0.0f && self.verticalContentOffsetFraction < 1.0f) {
+        CGFloat verticalContentOffset = self.collectionView.contentSize.height * self.verticalContentOffsetFraction;
+        self.collectionView.contentOffset = CGPointMake(0, verticalContentOffset);
+    } else {
+        self.collectionView.contentOffset = CGPointMake(0, [FGHeaderControlsView defaultSize].height);
+    }
+//    [UIView animateWithDuration:5.0 delay:0.0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+//        [(UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout setSectionInset:UIEdgeInsetsMake(5, 25, 40, 500)];
+//    } completion:nil];
+}
 
 #pragma mark - Fetched results controller
 - (NSFetchedResultsController *)fetchedResultsController

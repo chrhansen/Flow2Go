@@ -13,7 +13,7 @@
 + (CGSize)defaultSize
 {
     if (IS_IPAD) {
-        return CGSizeMake(768, 50);
+        return CGSizeMake(320, 50);
     } else {
         return CGSizeMake(320, 100);
     }

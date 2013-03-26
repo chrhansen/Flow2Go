@@ -841,7 +841,7 @@
 				E585572616C1A4CD00BF4546 /* Pop Over View Controllers */,
 				E542F4C4160933270041A60A /* FGMeasurementCollectionViewController.h */,
 				E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */,
-				E59C494816C4677800B5E0D5 /* Folder Layout */,
+				E59C494816C4677800B5E0D5 /* Grouped Layout */,
 				E59D2E3315E365FF00944789 /* FGAnalysisViewController.h */,
 				E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */,
 				E511FDD815CC6C4800637D39 /* FGPlotViewController.h */,
@@ -897,7 +897,7 @@
 			name = KGNoise;
 			sourceTree = "<group>";
 		};
-		E59C494816C4677800B5E0D5 /* Folder Layout */ = {
+		E59C494816C4677800B5E0D5 /* Grouped Layout */ = {
 			isa = PBXGroup;
 			children = (
 				E570CCDB16DCF03800418413 /* FGStackedLayout.h */,
@@ -905,7 +905,7 @@
 				E59C495316C4710F00B5E0D5 /* FGMeasurementGridLayout.h */,
 				E59C495416C4710F00B5E0D5 /* FGMeasurementGridLayout.m */,
 			);
-			name = "Folder Layout";
+			name = "Grouped Layout";
 			sourceTree = "<group>";
 		};
 		E59C497016C485E400B5E0D5 /* Emblem */ = {

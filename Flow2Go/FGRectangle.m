@@ -65,8 +65,6 @@
     
     // rectangle
     self.path = [UIBezierPath bezierPathWithRect:rect];
-    NSLog(@"rect points after creation: %@", [self getPathPoints]);
-
 }
 
 

@@ -16,7 +16,6 @@
 #import "FGGateTableViewController.h"
 #import "FGPlotDetailTableViewController.h"
 #import "FGPlotHelper.h"
-#import "FGAddGateTableViewController.h"
 #import "FGGatesContainerView.h"
 #import "PopoverView.h"
 #import "UIImage+Resize.h"  
@@ -26,7 +25,7 @@
 #import "FGPendingOperations.h"
 #import "FGGateCalculationOperation.h"
 
-@interface FGPlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, FGGateCalculationOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
+@interface FGPlotViewController () <FGGateButtonsViewDelegate, GateTableViewControllerDelegate, FGGateCalculationOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
 {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
@@ -43,7 +42,7 @@
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
 @property (nonatomic, strong) PopoverView *popoverView;
-
+@property (nonatomic, strong) UITapGestureRecognizer *backgroundTapGestureRecognizer;
 
 @end
 
@@ -61,6 +60,8 @@
     }
     self.fcsFile = [self.delegate fcsFileForPlot:self.plot];
     self.title = self.plot.name;
+    self.addGateButtonsView.delegate = self;
+    [self.addGateButtonsView updateButtons];
 }
 
 
@@ -91,6 +92,7 @@
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
     [self unregisterForChangeNotification];
+    [self.view.window removeGestureRecognizer:self.backgroundTapGestureRecognizer];
     [self _grabImageOfPlot]; //TODO: downscale image in background thread before adding. (consider thumbnail res. for measurement/and high res for sharing)
     [super viewWillDisappear:animated];
 }
@@ -198,6 +200,7 @@
     NSNumber *plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
     self.plot.plotType = plotType;
     [self _reloadPlotDataAndLayout];
+    [self.addGateButtonsView updateButtons];
     [self.gatesContainerView redrawGates];
     NSError *error;
     if(![self.plot.managedObjectContext save:&error]) NSLog(@"Error saving plot when setting plotType: %@", error.localizedDescription);
@@ -245,33 +248,16 @@
 }
 
 
-- (void)_addGateButtonTapped:(id)sender
-{
-    FGAddGateTableViewController *addGateTVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addGateTableViewController"];
-    addGateTVC.delegate = self;
-    
-    if (self.detailPopoverController.isPopoverVisible) [self.detailPopoverController dismissPopoverAnimated:YES];
-    
-    if (IS_IPAD) {
-        self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:addGateTVC];
-        [self.detailPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        self.detailPopoverController.delegate = self;
-    } else {
-        [self presentViewController:addGateTVC animated:NO completion:nil];
-    }
-}
-
 
 #pragma mark - Add Gate Table View Controller Delegate
-- (FGPlotType)addGateTableViewControllerCurrentPlotType:(id)sender
+- (FGPlotType)addGateButtonsViewCurrentPlotType:(id)sender
 {
     return self.plot.plotType.integerValue;
 }
 
 
-- (void)addGateTableViewController:(id)sender didSelectGate:(FGGateType)gateType
+- (void)addGateButtonsView:(id)sender didSelectGate:(FGGateType)gateType
 {
-    [self.detailPopoverController dismissPopoverAnimated:YES];
     FGGate *newGate = [FGGate createChildGateInPlot:self.plot type:gateType vertices:nil];
     NSError *error;
     [newGate.managedObjectContext save:&error];
@@ -855,10 +841,10 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark - Background tap
 - (void)addTapGestureRecognizerToBackgruond
 {
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapBehind:)];
-    [recognizer setNumberOfTapsRequired:1];
-    recognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
-    [self.view.window addGestureRecognizer:recognizer];
+    self.backgroundTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapBehind:)];
+    [self.backgroundTapGestureRecognizer setNumberOfTapsRequired:1];
+    self.backgroundTapGestureRecognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
+    [self.view.window addGestureRecognizer:self.backgroundTapGestureRecognizer];
 }
 
 

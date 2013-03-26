@@ -79,7 +79,7 @@
             <objects>
                 <viewController storyboardIdentifier="" modalPresentationStyle="pageSheet" id="Suk-IT-K3u" customClass="FGPlotViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="XCE-Ji-0vq">
-                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gZF-Qg-W0f" customClass="CPTGraphHostingView">
@@ -127,45 +127,185 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <constraints>
-                                    <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="3zZ-Yo-era"/>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="E9j-sA-Ipk"/>
                                     <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="X5s-5V-qa8"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="XbR-1N-TJV"/>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="jjr-E0-fNg"/>
                                     <constraint firstAttribute="bottom" secondItem="orM-BB-vMr" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="kXv-WI-Zjt"/>
                                     <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="mwy-5B-Rp8"/>
                                     <constraint firstItem="orM-BB-vMr" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="tO8-6C-7sD"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PJd-IP-vmj" customClass="FGAddGateButtonsView">
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Kd-be-Bh0">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="307" id="C1G-Rw-ibY"/>
+                                            <constraint firstAttribute="height" constant="31" id="d5F-XD-rXA"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Dot"/>
+                                            <segment title="Density"/>
+                                            <segment title="Histogram"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="plotTypeChanged:" destination="Suk-IT-K3u" eventType="valueChanged" id="oGs-CX-W8h"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Smc-5M-mlp">
+                                        <accessibility key="accessibilityConfiguration" label="rect"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="eU9-zq-Lq2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="0206.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="PJd-IP-vmj" eventType="touchUpInside" id="Rob-z9-6Tx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9f5-bo-6z6">
+                                        <accessibility key="accessibilityConfiguration" label="poly"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="xjX-Y6-R64"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="0278.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="PJd-IP-vmj" eventType="touchUpInside" id="ZFw-mD-VVB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bc7-eT-eWz">
+                                        <accessibility key="accessibilityConfiguration" label="single range"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="zaf-Ns-R6o"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="0139.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="PJd-IP-vmj" eventType="touchUpInside" id="8vn-Zt-mh8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8A9-t8-WPS">
+                                        <accessibility key="accessibilityConfiguration" label="triple range"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="0140.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="PJd-IP-vmj" eventType="touchUpInside" id="Sui-Ds-QiV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBf-Kj-mUx">
+                                        <accessibility key="accessibilityConfiguration" label="ellipse button"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="Yzc-Cd-hxv"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="0047.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="PJd-IP-vmj" eventType="touchUpInside" id="YTf-7A-Qy6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fA9-p6-nGj">
+                                        <accessibility key="accessibilityConfiguration" label="quadrant"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="66" id="4OK-l5-sTw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" image="0290.png">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="PJd-IP-vmj" eventType="touchUpInside" id="t4f-aZ-gYb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="fA9-p6-nGj" firstAttribute="top" secondItem="PJd-IP-vmj" secondAttribute="top" type="default" id="1Lq-Nc-xjx"/>
+                                    <constraint firstItem="9f5-bo-6z6" firstAttribute="leading" secondItem="bc7-eT-eWz" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="4Nj-RL-elw"/>
+                                    <constraint firstItem="fA9-p6-nGj" firstAttribute="bottom" secondItem="PJd-IP-vmj" secondAttribute="bottom" type="default" id="4kJ-Lk-8av"/>
+                                    <constraint firstItem="LBf-Kj-mUx" firstAttribute="leading" secondItem="9f5-bo-6z6" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="7UJ-Lv-jaH"/>
+                                    <constraint firstItem="LBf-Kj-mUx" firstAttribute="bottom" secondItem="PJd-IP-vmj" secondAttribute="bottom" type="default" id="A4M-j2-YhU"/>
+                                    <constraint firstItem="9f5-bo-6z6" firstAttribute="leading" secondItem="Smc-5M-mlp" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="F5x-tD-gUQ"/>
+                                    <constraint firstItem="bc7-eT-eWz" firstAttribute="top" secondItem="PJd-IP-vmj" secondAttribute="top" type="default" id="H08-o7-r9K"/>
+                                    <constraint firstItem="bc7-eT-eWz" firstAttribute="bottom" secondItem="PJd-IP-vmj" secondAttribute="bottom" type="default" id="Ie4-UC-eyE"/>
+                                    <constraint firstItem="9f5-bo-6z6" firstAttribute="bottom" secondItem="PJd-IP-vmj" secondAttribute="bottom" type="default" id="MIp-YF-m5x"/>
+                                    <constraint firstItem="fA9-p6-nGj" firstAttribute="centerY" secondItem="9Kd-be-Bh0" secondAttribute="centerY" type="default" id="Mcj-7g-lL9"/>
+                                    <constraint firstItem="8A9-t8-WPS" firstAttribute="leading" secondItem="bc7-eT-eWz" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="PCa-Ab-413"/>
+                                    <constraint firstItem="8A9-t8-WPS" firstAttribute="top" secondItem="PJd-IP-vmj" secondAttribute="top" type="default" id="PcB-am-Bwt"/>
+                                    <constraint firstItem="Smc-5M-mlp" firstAttribute="top" secondItem="PJd-IP-vmj" secondAttribute="top" type="default" id="Sum-xW-nch"/>
+                                    <constraint firstItem="9f5-bo-6z6" firstAttribute="top" secondItem="PJd-IP-vmj" secondAttribute="top" type="default" id="ZBM-tx-Eqy"/>
+                                    <constraint firstItem="8A9-t8-WPS" firstAttribute="bottom" secondItem="PJd-IP-vmj" secondAttribute="bottom" type="default" id="ZDr-ti-tWa"/>
+                                    <constraint firstItem="fA9-p6-nGj" firstAttribute="leading" secondItem="LBf-Kj-mUx" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="euQ-Xh-XJk"/>
+                                    <constraint firstItem="Smc-5M-mlp" firstAttribute="leading" secondItem="PJd-IP-vmj" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="lz5-ZC-lDo"/>
+                                    <constraint firstItem="LBf-Kj-mUx" firstAttribute="top" secondItem="PJd-IP-vmj" secondAttribute="top" type="default" id="oEf-EH-68F"/>
+                                    <constraint firstItem="bc7-eT-eWz" firstAttribute="leading" secondItem="PJd-IP-vmj" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="pLM-IN-ocV"/>
+                                    <constraint firstAttribute="trailing" secondItem="9Kd-be-Bh0" secondAttribute="trailing" constant="12" id="teU-9s-Zst"/>
+                                    <constraint firstItem="Smc-5M-mlp" firstAttribute="bottom" secondItem="PJd-IP-vmj" secondAttribute="bottom" type="default" id="xwy-1a-CPA"/>
+                                    <constraint firstItem="LBf-Kj-mUx" firstAttribute="leading" secondItem="8A9-t8-WPS" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="yrP-Iu-aLs"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="ovalGateButton" destination="LBf-Kj-mUx" id="33U-p8-ziV"/>
+                                    <outlet property="polyGateButton" destination="9f5-bo-6z6" id="0i1-1o-gWm"/>
+                                    <outlet property="quadrantGateButton" destination="fA9-p6-nGj" id="Zqg-s8-iSW"/>
+                                    <outlet property="rectGateButton" destination="Smc-5M-mlp" id="4MH-h7-1n3"/>
+                                    <outlet property="singleRangeGateButton" destination="bc7-eT-eWz" id="BeO-6z-d73"/>
+                                    <outlet property="tripleRangeGateButton" destination="8A9-t8-WPS" id="F7i-vQ-y4g"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="gZF-Qg-W0f" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="BvY-1Y-vIS"/>
+                            <constraint firstItem="PJd-IP-vmj" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="Iw5-Lh-xJp"/>
                             <constraint firstItem="gZF-Qg-W0f" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="Kg1-fz-moJ"/>
                             <constraint firstItem="4Y6-vR-W5x" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="OgT-g0-wy7"/>
+                            <constraint firstItem="PJd-IP-vmj" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="YuC-93-x6G"/>
                             <constraint firstItem="4Y6-vR-W5x" firstAttribute="bottom" secondItem="XCE-Ji-0vq" secondAttribute="bottom" type="default" id="ere-OF-Nng"/>
                             <constraint firstItem="gZF-Qg-W0f" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="gll-0l-ub6"/>
                             <constraint firstItem="4Y6-vR-W5x" firstAttribute="trailing" secondItem="XCE-Ji-0vq" secondAttribute="trailing" type="default" id="mrc-pQ-998"/>
+                            <constraint firstItem="PJd-IP-vmj" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="vaq-Qf-6Nz"/>
                             <constraint firstItem="gZF-Qg-W0f" firstAttribute="leading" secondItem="XCE-Ji-0vq" secondAttribute="leading" type="default" id="x2y-3b-2gb"/>
                             <constraint firstItem="4Y6-vR-W5x" firstAttribute="top" secondItem="XCE-Ji-0vq" secondAttribute="top" type="default" id="xFw-16-g1v"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="lY7-o6-c94">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="9Kd-be-Bh0">
-                            <rect key="frame" x="230" y="7" width="307" height="31"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Dot"/>
-                                <segment title="Density"/>
-                                <segment title="Histogram"/>
-                            </segments>
-                            <connections>
-                                <action selector="plotTypeChanged:" destination="Suk-IT-K3u" eventType="valueChanged" id="oGs-CX-W8h"/>
-                            </connections>
-                        </segmentedControl>
                     </navigationItem>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
+                        <outlet property="addGateButtonsView" destination="PJd-IP-vmj" id="616-nP-r1Z"/>
                         <outlet property="gateCalculationSpinner" destination="orM-BB-vMr" id="mYj-VP-pfk"/>
                         <outlet property="gatesContainerView" destination="4Y6-vR-W5x" id="ZrO-Mq-VCN"/>
                         <outlet property="graphHostingView" destination="gZF-Qg-W0f" id="VfW-yJ-BvA"/>
@@ -355,10 +495,9 @@
         <!--Navigation Controller-->
         <scene sceneID="tBN-4a-Hda">
             <objects>
-                <navigationController storyboardIdentifier="plotViewController" modalPresentationStyle="pageSheet" id="wpr-Mq-7qf" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="plotViewController" modalPresentationStyle="pageSheet" navigationBarHidden="YES" id="wpr-Mq-7qf" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="ED0-xd-Ma8">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1236,11 +1375,29 @@
         </scene>
     </scenes>
     <resources>
+        <image name="0047.png" width="35" height="35"/>
+        <image name="0139.png" width="35" height="35"/>
+        <image name="0140.png" width="35" height="35"/>
+        <image name="0206.png" width="35" height="35"/>
+        <image name="0278.png" width="35" height="35"/>
+        <image name="0290.png" width="35" height="35"/>
         <image name="39-circle-check.png" width="28" height="28"/>
     </resources>
     <classes>
         <class className="CPTGraphHostingView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
+        </class>
+        <class className="FGAddGateButtonsView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateButtonsView.h"/>
+            <relationships>
+                <relationship kind="action" name="addGateButtonTapped:" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="ovalGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="polyGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="quadrantGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="rectGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="singleRangeGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tripleRangeGateButton" candidateClass="UIButton"/>
+            </relationships>
         </class>
         <class className="FGAddGateTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateTableViewController.h"/>
@@ -1324,9 +1481,7 @@
         <class className="FGPlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
             <relationships>
-                <relationship kind="action" name="plotTypeChanged:" candidateClass="UISegmentedControl"/>
-                <relationship kind="action" name="xAxisTapped:"/>
-                <relationship kind="action" name="yAxisTapped:"/>
+                <relationship kind="outlet" name="addGateButtonsView" candidateClass="FGAddGateButtonsView"/>
                 <relationship kind="outlet" name="gateCalculationSpinner" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
                 <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
@@ -1368,9 +1523,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

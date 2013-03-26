@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CorePlot-CocoaTouch.h"
 #import "FGGatesContainerView.h"
+#import "FGAddGateButtonsView.h"
 
 @class FGMeasurement;
 @class FGPlot;
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) FGPlot *plot;
 @property (nonatomic, weak) IBOutlet CPTGraphHostingView *graphHostingView;
 @property (nonatomic, weak) IBOutlet FGGatesContainerView *gatesContainerView;
+@property (nonatomic, weak) IBOutlet FGAddGateButtonsView *addGateButtonsView;
 @property (weak, nonatomic) IBOutlet UIButton *xAxisButton;
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *gateCalculationSpinner;

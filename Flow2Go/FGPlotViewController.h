@@ -32,6 +32,7 @@
 @property (nonatomic, weak) IBOutlet FGGatesContainerView *gatesContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *xAxisButton;
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *gateCalculationSpinner;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;
 
 @end

@@ -30,7 +30,7 @@
     return switchedArray;
 }
 
-- (void) encodeWithCoder:(NSCoder *)encoder
+- (void)encodeWithCoder:(NSCoder *)encoder
 {
     //[super encodeWithCoder:encoder] as the first statement.
     
@@ -38,7 +38,7 @@
     [encoder encodeDouble:self.y forKey:@"y"];
 }
 
-- (id) initWithCoder:(NSCoder*)decoder
+- (id)initWithCoder:(NSCoder*)decoder
 {
     if (self = [super init]) {
         // If parent class also adopts NSCoding, replace [super init]

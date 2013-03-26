@@ -23,8 +23,10 @@
 #import "UIImage+Extensions.h"
 #import "FGMeasurement+Management.h"
 #import "FGAnalysis+Management.h"
+#import "FGPendingOperations.h"
+#import "FGGateCalculationOperation.h"
 
-@interface FGPlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
+@interface FGPlotViewController () <AddGateTableViewControllerDelegate, GateTableViewControllerDelegate, FGGateCalculationOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
 {
     NSInteger _xParIndex;
     NSInteger _yParIndex;
@@ -88,6 +90,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
+    [self unregisterForChangeNotification];
     [self _grabImageOfPlot]; //TODO: downscale image in background thread before adding. (consider thumbnail res. for measurement/and high res for sharing)
     [super viewWillDisappear:animated];
 }
@@ -721,22 +724,25 @@ static CPTPlotSymbol *plotSymbol;
 {
     if (updatedVertices.count == 0) return;
     
+    [[FGPendingOperations sharedInstance] cancelOperationsForGateWithTag:gateNo];
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
-    FGGate *modifiedGate = self.displayedGates[gateNo];
-    modifiedGate.vertices = gateVertices;
-    [FGGateCalculator eventsInsideGateWithVertices:gateVertices
-                                          gateType:gateType
-                                           fcsFile:self.fcsFile
-                                       plotOptions:self.plot.plotOptions
-                                            subSet:self.parentGateCalculator.eventsInside
-                                       subSetCount:self.parentGateCalculator.numberOfCellsInside
-                                        completion:^(NSData *subset, NSUInteger numberOfCellsInside) {
-                                            modifiedGate.subSet = subset;
-                                            modifiedGate.cellCount = [NSNumber numberWithUnsignedInteger:numberOfCellsInside];
-                                            NSError *error;
-                                            [self.plot.managedObjectContext save:&error];
-                                            if (error) NSLog(@"Error updating gate: %@", error.localizedDescription);
-                                        }];
+    FGGate *parentGate = (FGGate *)self.plot.parentNode;
+    FGGateCalculationOperation *gateOperation = [[FGGateCalculationOperation alloc] initWithVertices:gateVertices
+                                                                                             gateTag:gateNo
+                                                                                            gateType:gateType
+                                                                                             fcsFile:self.fcsFile
+                                                                                         plotOptions:self.plot.plotOptions
+                                                                                        parentSubSet:parentGate.subSet
+                                                                                   parentSubSetCount:parentGate.cellCount.unsignedIntegerValue
+                                                                                            delegate:self];
+    [gateOperation setCompletionBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSLog(@"Operation Finished");
+            [self.gateCalculationSpinner stopAnimating];
+        }];
+    }];
+    [self.gateCalculationSpinner startAnimating];
+    [[FGPendingOperations sharedInstance].gateCalculationQueue addOperation:gateOperation];
 }
 
 
@@ -750,6 +756,49 @@ static CPTPlotSymbol *plotSymbol;
 {
     FGGate *tappedGate = self.displayedGates[gateNo];
     [self.delegate plotViewController:self didSelectGate:tappedGate forPlot:self.plot];
+}
+
+
+#pragma mark - KVO of GateCalculationOperation
+- (void)registerAsObserverForOperation:(FGGateCalculationOperation *)operation
+{
+    /*
+     Register 'inspector' to receive change notifications for the "openingBalance" property of
+     the 'account' object and specify that both the old and new values of "openingBalance"
+     should be provided in the observe… method.
+     */
+    [operation addObserver:self forKeyPath:@"isExecuting" options:0 context:NULL];
+    [operation addObserver:self forKeyPath:@"isFinished" options:0 context:NULL];
+}
+
+- (void)unregisterForChangeNotification
+{
+    [[FGPendingOperations sharedInstance] unregisterForObservings:self];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqual:@"isExecuting"]) {
+        NSLog(@"isExecuting");
+    }
+    if ([keyPath isEqual:@"isFinished"]) {
+        NSLog(@"isFinished");
+    }
+}
+
+
+#pragma mark - GateCalculationOperation Delegate
+- (void)gateCalculationOperationDidFinish:(FGGateCalculationOperation *)operation
+{
+    FGGate *modifiedGate = self.displayedGates[operation.gateTag];
+    if (modifiedGate) {
+        modifiedGate.vertices = operation.vertices;
+        modifiedGate.subSet = operation.subSet;
+        modifiedGate.cellCount = [NSNumber numberWithUnsignedInteger:operation.subSetCount];
+        NSError *error;
+        [self.plot.managedObjectContext save:&error];
+        if (error) NSLog(@"Error updating gate: %@", error.localizedDescription);
+    }
 }
 
 

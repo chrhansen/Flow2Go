@@ -157,6 +157,8 @@
 		E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
+		E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */; };
+		E5F835321701D93E0018E2A8 /* FGPendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F835311701D93E0018E2A8 /* FGPendingOperations.m */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
 		E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E5FC6F4D15CA7E8E0047A3DD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4C15CA7E8E0047A3DD /* CoreGraphics.framework */; };
@@ -524,6 +526,10 @@
 		E5F1DAFD160E64A200591F2A /* FGRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGRectangle.m; sourceTree = "<group>"; };
 		E5F1DB04160E7BD200591F2A /* FGEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGEllipse.h; sourceTree = "<group>"; };
 		E5F1DB05160E7BD200591F2A /* FGEllipse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGEllipse.m; sourceTree = "<group>"; };
+		E5F8352C1701C6800018E2A8 /* FGGateCalculationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateCalculationOperation.h; sourceTree = "<group>"; };
+		E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateCalculationOperation.m; sourceTree = "<group>"; };
+		E5F835301701D93E0018E2A8 /* FGPendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPendingOperations.h; sourceTree = "<group>"; };
+		E5F835311701D93E0018E2A8 /* FGPendingOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPendingOperations.m; sourceTree = "<group>"; };
 		E5FC6F4415CA7E8E0047A3DD /* Flow2Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flow2Go.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -677,6 +683,10 @@
 		E52BECB815DE861D002A3819 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E5F835301701D93E0018E2A8 /* FGPendingOperations.h */,
+				E5F835311701D93E0018E2A8 /* FGPendingOperations.m */,
+				E5F8352C1701C6800018E2A8 /* FGGateCalculationOperation.h */,
+				E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */,
 				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
 				E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */,
 				E50F000816E8FF81009C546E /* FGPlotCreator.h */,
@@ -1508,6 +1518,8 @@
 				E50F000A16E8FF81009C546E /* FGPlotCreator.m in Sources */,
 				E533C2DC16EA2D2600B949F6 /* FGKeywordParseOperation.m in Sources */,
 				E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */,
+				E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */,
+				E5F835321701D93E0018E2A8 /* FGPendingOperations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

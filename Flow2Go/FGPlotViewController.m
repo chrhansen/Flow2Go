@@ -481,7 +481,6 @@
         scatterPlot.plotSymbol = nil;
         //scatterPlot.interpolation = CPTScatterPlotInterpolationHistogram;
         scatterPlot.areaFill = nil;
-
     } else if (self.plot.plotType.integerValue == kPlotTypeHistogram) {
         CPTMutableLineStyle *histogramLineStyle = [CPTMutableLineStyle lineStyle];
         histogramLineStyle.lineWidth = 1.5;
@@ -491,10 +490,7 @@
         CPTMutableLineStyle *histogramSymbolLineStyle = [CPTMutableLineStyle lineStyle];
         histogramSymbolLineStyle.lineColor = lineColor;
         scatterPlot.interpolation = CPTScatterPlotInterpolationCurved;
-        CPTColor *gradientBeginColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];       
-        CPTGradient *areaGradient = [CPTGradient gradientWithBeginningColor:gradientBeginColor endingColor:[CPTColor clearColor]];
-        areaGradient.angle = -90.0;
-        CPTFill *areaGradientFill = [CPTFill fillWithGradient:areaGradient];
+        CPTFill *areaGradientFill = [CPTFill fillWithColor:[[CPTColor colorWithCGColor:[self _currentThemeLineColor]] colorWithAlphaComponent:0.2f]];
         scatterPlot.areaFill      = areaGradientFill;
         scatterPlot.areaBaseValue = [[NSDecimalNumber zero] decimalValue];
     }

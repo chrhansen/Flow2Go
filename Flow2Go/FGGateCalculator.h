@@ -8,9 +8,6 @@
 
 #import <Foundation/Foundation.h>
 @class FGFCSFile;
-@class CPTXYPlotSpace;
-@class FGGate;
-@class FGPlot;
 
 @interface FGGateCalculator : NSObject
 
@@ -23,9 +20,10 @@
 + (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
                                           gateType:(FGGateType)gateType
                                            fcsFile:(FGFCSFile *)fcsFile
-                                        insidePlot:(FGPlot *)plot
+                                       plotOptions:(NSDictionary *)plotOptions
                                             subSet:(NSUInteger *)subSet
                                        subSetCount:(NSUInteger)subSetCount;
+
 
 @property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;

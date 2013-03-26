@@ -727,9 +727,10 @@ static CPTPlotSymbol *plotSymbol;
     FGGateCalculator *gateContents = [FGGateCalculator eventsInsideGateWithVertices:gateVertices
                                                                            gateType:gateType
                                                                             fcsFile:self.fcsFile
-                                                                         insidePlot:self.plot
+                                                                        plotOptions:self.plot.plotOptions
                                                                              subSet:self.parentGateCalculator.eventsInside
                                                                         subSetCount:self.parentGateCalculator.numberOfCellsInside];
+    
     NSLog(@"Finished gate calc");
 
     modifiedGate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];

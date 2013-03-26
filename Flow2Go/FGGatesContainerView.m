@@ -52,16 +52,12 @@
     
     NSUInteger gateCount = [self.delegate numberOfGatesInGatesContainerView:self];
     
-    for (NSUInteger gateNo = 0; gateNo < gateCount; gateNo++)
-    {
+    for (NSUInteger gateNo = 0; gateNo < gateCount; gateNo++) {
         FGGateType gateType = [self.delegate gatesContainerView:self gateTypeForGateNo:gateNo];
         NSArray *vertices = [self.delegate gatesContainerView:self verticesForGate:gateNo];
         
         [self _insertExistingGate:gateType gateTag:gateNo vertices:vertices];
     }
-    
-    // attach infoButton and identifier to each gate
-    //
 }
 
 
@@ -207,6 +203,11 @@
 
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     return YES;
 }

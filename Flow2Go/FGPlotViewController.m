@@ -68,7 +68,6 @@
 {
     [super viewWillAppear:animated];
     [self _configureButtons];
-    [self _configureBarButtons];
 }
 
 - (void)viewWillLayoutSubviews
@@ -85,6 +84,7 @@
     [self _reloadPlotDataAndLayout];
     self.gatesContainerView.delegate = self;
     [self.gatesContainerView performSelector:@selector(redrawGates) withObject:nil afterDelay:0.05];
+    [self addTapGestureRecognizerToBackgruond];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -132,14 +132,6 @@
     self.navigationItem.leftBarButtonItems = @[addGateButton, infoBarButton];
     self.plotTypeSegmentedControl.selectedSegmentIndex = self.plot.plotType.integerValue;
     [self.yAxisButton setTransform:CGAffineTransformMakeRotation(-M_PI / 2)];
-}
-
-
-- (void)_configureBarButtons
-{
-    UIBarButtonItem *doneButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneTapped)];
-//    UIBarButtonItem *threeDButton = [UIBarButtonItem.alloc initWithTitle:@"3D" style:UIBarButtonItemStylePlain target:self action:@selector(threeDTapped:)];
-    self.navigationItem.rightBarButtonItems = @[doneButton];
 }
 
 
@@ -817,15 +809,10 @@ static CPTPlotSymbol *plotSymbol;
 - (NSArray *)gatesContainerView:(FGGatesContainerView *)gatesContainerView verticesForGate:(NSUInteger)gateNo
 {
     FGGate *gate = self.displayedGates[gateNo];
-
     if (gate.xParNumber.integerValue == self.plot.xParNumber.integerValue) {
-        return [self viewVerticesFromGateVertices:gate.vertices
-                                           inView:self.gatesContainerView
-                                        plotSpace:self.plotSpace];
+        return [self viewVerticesFromGateVertices:gate.vertices inView:self.gatesContainerView plotSpace:self.plotSpace];
     } else {
-        return [self viewVerticesFromGateVertices:[FGGraphPoint switchXandYForGraphpoints:gate.vertices]
-                                           inView:self.gatesContainerView
-                                        plotSpace:self.plotSpace];
+        return [self viewVerticesFromGateVertices:[FGGraphPoint switchXandYForGraphpoints:gate.vertices] inView:self.gatesContainerView plotSpace:self.plotSpace];
     }
 }
 
@@ -862,6 +849,28 @@ static CPTPlotSymbol *plotSymbol;
             [self.gatesContainerView redrawGates];
         }
     }];
+}
+
+
+#pragma mark - Background tap
+- (void)addTapGestureRecognizerToBackgruond
+{
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapBehind:)];
+    [recognizer setNumberOfTapsRequired:1];
+    recognizer.cancelsTouchesInView = NO; //So the user can still interact with controls in the modal view
+    [self.view.window addGestureRecognizer:recognizer];
+}
+
+
+- (void)handleTapBehind:(UITapGestureRecognizer *)sender
+{
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        CGPoint location = [sender locationInView:nil]; //Passing nil gives us coordinates in the window
+        if (![self.view pointInside:[self.view convertPoint:location fromView:self.view.window] withEvent:nil]) {
+            [self.view.window removeGestureRecognizer:sender];
+            [self doneTapped];
+        }
+    }
 }
 
 @end

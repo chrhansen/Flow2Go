@@ -723,22 +723,20 @@ static CPTPlotSymbol *plotSymbol;
     
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
     FGGate *modifiedGate = self.displayedGates[gateNo];
-    NSLog(@"Starting gate calc");
-    FGGateCalculator *gateContents = [FGGateCalculator eventsInsideGateWithVertices:gateVertices
-                                                                           gateType:gateType
-                                                                            fcsFile:self.fcsFile
-                                                                        plotOptions:self.plot.plotOptions
-                                                                             subSet:self.parentGateCalculator.eventsInside
-                                                                        subSetCount:self.parentGateCalculator.numberOfCellsInside];
-    
-    NSLog(@"Finished gate calc");
-
-    modifiedGate.subSet = [NSData dataWithBytes:(NSUInteger *)gateContents.eventsInside length:sizeof(NSUInteger)*gateContents.numberOfCellsInside];
-    modifiedGate.cellCount = [NSNumber numberWithInteger:gateContents.numberOfCellsInside];
     modifiedGate.vertices = gateVertices;
-    NSError *error;
-    [self.plot.managedObjectContext save:&error];
-    if (error) NSLog(@"Error updating gate: %@", error.localizedDescription);
+    [FGGateCalculator eventsInsideGateWithVertices:gateVertices
+                                          gateType:gateType
+                                           fcsFile:self.fcsFile
+                                       plotOptions:self.plot.plotOptions
+                                            subSet:self.parentGateCalculator.eventsInside
+                                       subSetCount:self.parentGateCalculator.numberOfCellsInside
+                                        completion:^(NSData *subset, NSUInteger numberOfCellsInside) {
+                                            modifiedGate.subSet = subset;
+                                            modifiedGate.cellCount = [NSNumber numberWithUnsignedInteger:numberOfCellsInside];
+                                            NSError *error;
+                                            [self.plot.managedObjectContext save:&error];
+                                            if (error) NSLog(@"Error updating gate: %@", error.localizedDescription);
+                                        }];
 }
 
 

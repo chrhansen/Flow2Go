@@ -24,6 +24,14 @@
                                             subSet:(NSUInteger *)subSet
                                        subSetCount:(NSUInteger)subSetCount;
 
++ (void)eventsInsideGateWithVertices:(NSArray *)vertices
+                            gateType:(FGGateType)gateType
+                             fcsFile:(FGFCSFile *)fcsFile
+                         plotOptions:(NSDictionary *)plotOptions
+                              subSet:(NSUInteger *)subSet
+                         subSetCount:(NSUInteger)subSetCount
+                          completion:(void (^)(NSData *subset, NSUInteger numberOfCellsInside))completion;
+
 
 @property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;

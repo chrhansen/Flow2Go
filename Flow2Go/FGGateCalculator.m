@@ -48,16 +48,24 @@
     return nil;
 }
 
-+ (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
-                                          gateType:(FGGateType)gateType
-                                           fcsFile:(FGFCSFile *)fcsFile
-                                        insidePlot:(FGPlot *)plot
-                                            subSet:(NSUInteger *)subSet
-                                       subSetCount:(NSUInteger)subSetCount
-                                        completion:(void (^)(NSError *error))completion
++ (void)eventsInsideGateWithVertices:(NSArray *)vertices
+                            gateType:(FGGateType)gateType
+                             fcsFile:(FGFCSFile *)fcsFile
+                         plotOptions:(NSDictionary *)plotOptions
+                              subSet:(NSUInteger *)subSet
+                         subSetCount:(NSUInteger)subSetCount
+                          completion:(void (^)(NSData *subset, NSUInteger numberOfCellsInside))completion
 {
-    return nil;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        FGGateCalculator *gateCalculator = [self eventsInsideGateWithVertices:vertices gateType:gateType fcsFile:fcsFile plotOptions:plotOptions subSet:subSet subSetCount:subSetCount];
+        NSData *subset = [NSData dataWithBytes:(NSUInteger *)gateCalculator.eventsInside length:sizeof(NSUInteger)*gateCalculator.numberOfCellsInside];
+        NSUInteger numberOfCellsInside = gateCalculator.numberOfCellsInside;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(subset, numberOfCellsInside);
+        });
+    });
 }
+
 
 
 + (FGGateCalculator *)eventsInsidePolygonGateWithVertices:(NSArray *)vertices

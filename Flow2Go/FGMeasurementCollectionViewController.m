@@ -24,7 +24,7 @@
 #import "MSNavigationPaneViewController.h"
 #import "FGHeaderControlsView.h"
 #import "FGKeywordTableViewController.h"
-#import "FGPlotCreator.h"
+#import "FGAnalysisManager.h"
 
 @interface FGMeasurementCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate>
 
@@ -72,7 +72,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [FGPlotCreator createRootPlotsForMeasurementsWithoutPlotsWithCompletion:nil];
+    [[FGAnalysisManager sharedInstance] createRootPlotsForMeasurementsWithoutPlotsWithCompletion:nil];;
 }
 
 - (void)dealloc
@@ -364,8 +364,8 @@
 
 - (void)_createRootPlotsFor:(FGMeasurement *)measurement
 {
-    FGPlotCreator *plotCreator = [[FGPlotCreator alloc] init];
-    [plotCreator createRootPlotImageForMeasurement:measurement completion:nil];
+    if (!measurement) return;
+    [[FGAnalysisManager sharedInstance] createRootPlotsForMeasurements:@[measurement]];
 }
 
 #pragma mark - Download Manager progress delegate
@@ -382,7 +382,7 @@
 - (void)downloadManager:(FGDownloadManager *)downloadManager finishedDownloadingMeasurement:(FGMeasurement *)measurement
 {
     [self _updateDownloadProgressViewForMeasurement:measurement progress:1.0f];
-    [self.collectionView layoutSubviews];
+    [self.collectionView setNeedsLayout];
     [self _createRootPlotsFor:measurement];    
 }
 

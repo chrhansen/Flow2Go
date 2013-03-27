@@ -2,17 +2,14 @@
 //  FGPlotCreator.m
 //  Flow2Go
 //
-//  Created by Christian Hansen on 07/03/13.
+//  Created by Christian Hansen on 27/03/13.
 //  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
 #import "FGPlotCreator.h"
-#import "FGMeasurement+Management.h"
-#import "FGAnalysis+Management.h"
-#import "FGPlot+Management.h"
-#import "FGFCSFile.h"
-#import "FGPlotDataCalculator.h"
 #import "FGPlotHelper.h"
+#import "FGPlotDataCalculator.h"
+#import "FGFCSFile.h"
 #import "UIImage+Extensions.h"
 
 @interface FGPlotCreator ()
@@ -26,115 +23,61 @@
 @property (nonatomic) FGPlotType plotType;
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic, strong) FGPlotDataCalculator *plotData;
+@property (nonatomic) NSUInteger *parentSubSet;
+@property (nonatomic) NSUInteger parentSubSetCount;
 @property (nonatomic, strong) FGPlotHelper *plotHelper;
 @property (nonatomic, strong) NSDictionary *plotOptions;
 
 @end
 
-
 @implementation FGPlotCreator
-+ (void)createRootPlotsForMeasurementsWithoutPlotsWithCompletion:(void (^)(void))completion
+
+
++ (FGPlotCreator *)renderPlotImageWithPlotOptions:(NSDictionary *)plotOptions
+                                          fcsFile:(FGFCSFile *)fcsFile
+                                     parentSubSet:(NSUInteger *)parentSubSet
+                                parentSubSetCount:(NSUInteger)parentSubSetCount
 {
-    NSArray *allMeasurements = [FGMeasurement findAll];
-    NSMutableArray *needPlots = [NSMutableArray array];
-    for (FGMeasurement *aMeasurement in allMeasurements) {
-        if (!aMeasurement.thumbImage) [needPlots addObject:aMeasurement];
+    if (!plotOptions || !fcsFile) {
+        return nil;
     }
-    __block NSUInteger count = needPlots.count;
-    for (FGMeasurement *aMeasurement in needPlots) {
-        FGPlotCreator *plotCreator = [[FGPlotCreator alloc] init];
-        [plotCreator createRootPlotImageForMeasurement:aMeasurement completion:^(UIImage *plotImage) {
-            count -= 1;
-            if (count == 0) {
-                if (completion) completion();
-            }
-        }];
-    }
+    FGPlotCreator *plotCreator = [[FGPlotCreator alloc] init];
+    
+    plotCreator.parentSubSet      = parentSubSet;
+    plotCreator.parentSubSetCount = parentSubSetCount;
+    plotCreator.fcsFile = fcsFile;
+    [plotCreator _initializePlotOptions:plotOptions];
+    [plotCreator _createGraphAndConfigurePlotSpace];
+    [plotCreator _insertScatterPlot];
+    [plotCreator _reloadPlotDataAndLayout];
+    UIImage *bigImage = [UIImage captureLayer:plotCreator.graph flipImage:YES];
+    
+    NSData *binaryImageData = UIImagePNGRepresentation(bigImage);
+    [binaryImageData writeToFile:[TEMP_DIR stringByAppendingPathComponent:[[NSDate date] description]] atomically:YES];
+    
+    [plotCreator _cleanUp];
+    plotCreator.plotImage = [UIImage scaleImage:bigImage toSize:CGSizeMake(300, 300)];
+    plotCreator.thumbImage = [UIImage scaleImage:bigImage toSize:CGSizeMake(74, 74)];
+    
+    return plotCreator;
 }
 
 
-- (void)createRootPlotImageForMeasurement:(FGMeasurement *)measurement completion:(void (^)(UIImage *plotImage))completion
+- (void)dealloc
 {
-    if (!measurement) {
-        if (completion) completion(nil);
-        return;
-    }
-    [self _createAnalysisIfNeeded:measurement];
-    FGAnalysis *analysis = measurement.analyses.lastObject;
-    [self _createPlotIfNeeded:analysis];
-    FGPlot *plot = analysis.plots.firstObject;
-    [self _initializePlotOptions:plot];
-    [self _loadFCSFileForAnalysis:analysis completion:^{
-        if (!self.fcsFile) {
-            NSLog(@"Error: FCS file is nil: %s", __PRETTY_FUNCTION__);
-            if (completion) completion(nil);
-            return;
-        }
-        [self _createGraphAndConfigurePlotSpace];
-        [self _insertScatterPlot];
-        [self _reloadPlotDataAndLayout];
-        UIImage *bigImage = [UIImage captureLayer:self.graph flipImage:YES];
-        [self _cleanUp];
-        [UIImage resizeImage:bigImage toSize:CGSizeMake(74, 74) completion:^(UIImage *resizedImage) {
-            measurement.thumbImage = resizedImage;
-            [UIImage resizeImage:bigImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
-                plot.image = resizedImage;
-                if (completion) completion(resizedImage);
-            }];
-        }];
-    }];
+    if (_parentSubSet) free(_parentSubSet);
 }
 
-- (void)_initializePlotOptions:(FGPlot *)plot
+
+- (void)_initializePlotOptions:(NSDictionary *)plotOptions
 {
-    self.plotOptions = plot.plotOptions;
-    _xAxisType = [self.plotOptions[XAxisType] integerValue];
-    _yAxisType = [self.plotOptions[YAxisType] integerValue];
-    _xParIndex = [self.plotOptions[XParNumber] integerValue] - 1;
-    _yParIndex = [self.plotOptions[YParNumber] integerValue] - 1;
+    self.plotOptions = plotOptions;
+    _xAxisType = [plotOptions[XAxisType] integerValue];
+    _yAxisType = [plotOptions[YAxisType] integerValue];
+    _xParIndex = [plotOptions[XParNumber] integerValue] - 1;
+    _yParIndex = [plotOptions[YParNumber] integerValue] - 1;
 }
 
-
-- (void)_createAnalysisIfNeeded:(FGMeasurement *)aMeasurement
-{
-    FGAnalysis *analysis = aMeasurement.analyses.firstObject;
-    if (analysis == nil) {
-        analysis = [FGAnalysis createAnalysisForMeasurement:aMeasurement];
-        NSError *error;
-        if(![analysis.managedObjectContext obtainPermanentIDsForObjects:@[analysis] error:&error]) NSLog(@"Error obtaining perm ID: %@", error.localizedDescription);
-    }
-}
-
-
-- (void)_createPlotIfNeeded:(FGAnalysis *)analysis
-{
-    if (analysis.plots.count == 0 || analysis.plots == nil) [FGPlot createRootPlotForAnalysis:analysis];
-}
-
-
-- (void)_loadFCSFileForAnalysis:(FGAnalysis *)analysis completion:(void(^)(void))completion
-{
-    [self.fcsFile cleanUpEvents];
-    [FGFCSFile readFCSFileAtPath:analysis.measurement.fullFilePath progressDelegate:nil withCompletion:^(NSError *error, FGFCSFile *fcsFile) {
-        if (!error) {
-            self.fcsFile = fcsFile;
-        } else {
-            NSLog(@"Error reading fcs-file: %@", error.localizedDescription);
-        }
-        if (completion) completion();
-    }];
-}
-
-- (void)_cleanUp
-{
-    self.plotSpace = nil;
-    self.graph = nil;
-    [self.plotData cleanUpPlotData];
-    [self.fcsFile cleanUpEvents];
-}
-
-#define DEFAULT_FRAME_IPAD   CGRectMake(0, 0, 750, 750)
-#define DEFAULT_FRAME_IPHONE CGRectMake(0, 0, 320, 320)
 
 
 - (void)_createGraphAndConfigurePlotSpace
@@ -153,8 +96,8 @@
     self.graph.plotAreaFrame.borderLineStyle = nil;
     
     self.plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-    self.plotSpace.allowsUserInteraction = YES;
-    self.plotSpace.delegate = self;
+//    self.plotSpace.allowsUserInteraction = YES;
+//    self.plotSpace.delegate = self;
 }
 
 
@@ -177,11 +120,10 @@
     return axisSet.xAxis.majorTickLineStyle.lineColor.cgColor;
 }
 
-#pragma mark Reloading plot
+
 - (void)_reloadPlotDataAndLayout
 {
     [self preparePlotData];
-    //    [self _updateAxisTitleButtons];
     [self _configureLineAndSymbol];
     [self _updateAxisAndAxisLabels];
     [self.graph reloadData];
@@ -191,7 +133,7 @@
 
 - (void)preparePlotData
 {
-    self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile plotOptions:self.plotOptions subset:nil subsetCount:0];
+    self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile plotOptions:self.plotOptions subset:self.parentSubSet subsetCount:self.parentSubSetCount];
 }
 
 - (void)_configureLineAndSymbol
@@ -212,7 +154,6 @@
     
     NSNumberFormatter *logarithmicLabelFormatter = NSNumberFormatter.alloc.init;
     [logarithmicLabelFormatter setGeneratesDecimalNumbers:NO];
-    //[logarithmicLabelFormatter setNumberStyle:kCFNumberFormatterScientificStyle];
     [logarithmicLabelFormatter setNumberStyle:kCFNumberFormatterDecimalStyle];
     [logarithmicLabelFormatter setExponentSymbol:@"e"];
     
@@ -295,18 +236,24 @@
     
     CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
     
-    if (_plotType == kPlotTypeHistogram)
-    {
+    if (_plotType == kPlotTypeHistogram) {
         yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", 0.0]);
-        yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.plotData.countForMaxBin * 1.1]);
+        yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.plotData.countForMaxBin * 1.2]);
         self.plotSpace.yRange = yRange;
-        return;
+    } else {
+        yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
+        yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
+        self.plotSpace.yRange = yRange;
     }
-    yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
-    yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
-    self.plotSpace.yRange = yRange;
 }
 
+- (void)_cleanUp
+{
+    self.plotSpace = nil;
+    self.graph = nil;
+    [self.plotData cleanUpPlotData];
+    [self.fcsFile cleanUpEvents];
+}
 
 #pragma mark - CPT Plot Data Source
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
@@ -352,7 +299,5 @@
     }
     return nil;
 }
-
-
 
 @end

@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, FGParsingSegment) {
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
 + (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
 - (NSInteger)rangeOfParameterIndex:(NSInteger)parameterIndex;
++ (FGAxisType)axisTypeForScaleString:(NSString *)scaleString;
 - (FGAxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex;
 
 @property (nonatomic) double **events;

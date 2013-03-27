@@ -29,7 +29,6 @@
 		E50427E016C206E400692AD7 /* FGBarButtonIconNavigationPane.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427DE16C206E300692AD7 /* FGBarButtonIconNavigationPane.png */; };
 		E50BA4101600F38000E85118 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA40F1600F38000E85118 /* libz.dylib */; };
 		E50F000416E8F164009C546E /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E50F000316E8F164009C546E /* FGPlot.m */; };
-		E50F000A16E8FF81009C546E /* FGPlotCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E50F000916E8FF81009C546E /* FGPlotCreator.m */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5173B5C16E0F1CF00A314D4 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5173B5916E0F1CF00A314D4 /* libTestFlight.a */; };
@@ -51,6 +50,7 @@
 		E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */; };
 		E542F4C6160933280041A60A /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */; };
 		E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */; };
+		E54923F2170362E900A0F75F /* FGAnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E54923F1170362E900A0F75F /* FGAnalysisManager.m */; };
 		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
 		E54D71B516049CC5008CEC5D /* FGPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* FGPolygon.m */; };
 		E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* FGGatesContainerView.m */; };
@@ -63,6 +63,7 @@
 		E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C716D3838800A087D8 /* 09-chat-2@2x.png */; };
 		E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C816D3838800A087D8 /* 09-chat-2.png */; };
 		E5659AF015E56A87006D23B0 /* FGFCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */; };
+		E56FC120170356F1004019DF /* FGPlotCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E56FC11F170356F1004019DF /* FGPlotCreator.m */; };
 		E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E570CCDC16DCF03800418413 /* FGStackedLayout.m */; };
 		E577B4911607D76F002348EE /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B48F1607D76F002348EE /* 39-circle-check.png */; };
 		E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B4901607D76F002348EE /* 39-circle-check@2x.png */; };
@@ -259,8 +260,6 @@
 		E50BA40F1600F38000E85118 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		E50F000216E8F164009C546E /* FGPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlot.h; sourceTree = "<group>"; };
 		E50F000316E8F164009C546E /* FGPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlot.m; sourceTree = "<group>"; };
-		E50F000816E8FF81009C546E /* FGPlotCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreator.h; sourceTree = "<group>"; };
-		E50F000916E8FF81009C546E /* FGPlotCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreator.m; sourceTree = "<group>"; };
 		E511FD7215CC365D00637D39 /* icon_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_114.png; path = Images/icon_114.png; sourceTree = "<group>"; };
 		E511FD7415CC367F00637D39 /* icon_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_57.png; path = Images/icon_57.png; sourceTree = "<group>"; };
 		E511FD7615CC36BD00637D39 /* icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_144.png; path = Images/icon_144.png; sourceTree = "<group>"; };
@@ -300,6 +299,8 @@
 		E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCollectionViewController.m; sourceTree = "<group>"; };
 		E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSFile.h; sourceTree = "<group>"; };
 		E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSFile.m; sourceTree = "<group>"; };
+		E54923F0170362E800A0F75F /* FGAnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisManager.h; sourceTree = "<group>"; };
+		E54923F1170362E900A0F75F /* FGAnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisManager.m; sourceTree = "<group>"; };
 		E54D71AC16049C98008CEC5D /* FGGatesContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGatesContainerView.h; sourceTree = "<group>"; };
 		E54D71B016049CC5008CEC5D /* FGGateGraphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateGraphic.h; sourceTree = "<group>"; };
 		E54D71B116049CC5008CEC5D /* FGGateGraphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateGraphic.m; sourceTree = "<group>"; };
@@ -315,6 +316,8 @@
 		E55923C816D3838800A087D8 /* 09-chat-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "09-chat-2.png"; sourceTree = "<group>"; };
 		E5659AEE15E56A87006D23B0 /* FGFCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSHeader.h; sourceTree = "<group>"; };
 		E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSHeader.m; sourceTree = "<group>"; };
+		E56FC11E170356F1004019DF /* FGPlotCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreator.h; sourceTree = "<group>"; };
+		E56FC11F170356F1004019DF /* FGPlotCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreator.m; sourceTree = "<group>"; };
 		E570CCDB16DCF03800418413 /* FGStackedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStackedLayout.h; sourceTree = "<group>"; };
 		E570CCDC16DCF03800418413 /* FGStackedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStackedLayout.m; sourceTree = "<group>"; };
 		E577B48F1607D76F002348EE /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "39-circle-check.png"; path = "Images/39-circle-check.png"; sourceTree = "<group>"; };
@@ -710,16 +713,18 @@
 			children = (
 				E5F835301701D93E0018E2A8 /* FGPendingOperations.h */,
 				E5F835311701D93E0018E2A8 /* FGPendingOperations.m */,
-				E5F8352C1701C6800018E2A8 /* FGGateCalculationOperation.h */,
-				E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */,
 				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
 				E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */,
-				E50F000816E8FF81009C546E /* FGPlotCreator.h */,
-				E50F000916E8FF81009C546E /* FGPlotCreator.m */,
-				E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */,
-				E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */,
+				E5F8352C1701C6800018E2A8 /* FGGateCalculationOperation.h */,
+				E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */,
 				E579564715DAFE6800B77795 /* FGGateCalculator.h */,
 				E579564815DAFE6800B77795 /* FGGateCalculator.m */,
+				E56FC11E170356F1004019DF /* FGPlotCreator.h */,
+				E56FC11F170356F1004019DF /* FGPlotCreator.m */,
+				E54923F0170362E800A0F75F /* FGAnalysisManager.h */,
+				E54923F1170362E900A0F75F /* FGAnalysisManager.m */,
+				E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */,
+				E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */,
 				E52BECB515DE63E9002A3819 /* FGGraphPoint.h */,
 				E52BECB615DE63E9002A3819 /* FGGraphPoint.m */,
 			);
@@ -1570,12 +1575,13 @@
 				E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */,
 				E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */,
 				E50F000416E8F164009C546E /* FGPlot.m in Sources */,
-				E50F000A16E8FF81009C546E /* FGPlotCreator.m in Sources */,
 				E533C2DC16EA2D2600B949F6 /* FGKeywordParseOperation.m in Sources */,
 				E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */,
 				E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */,
 				E5F835321701D93E0018E2A8 /* FGPendingOperations.m in Sources */,
 				E5F8354E1702217E0018E2A8 /* FGAddGateButtonsView.m in Sources */,
+				E56FC120170356F1004019DF /* FGPlotCreator.m in Sources */,
+				E54923F2170362E900A0F75F /* FGAnalysisManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

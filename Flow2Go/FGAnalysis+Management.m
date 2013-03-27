@@ -8,11 +8,15 @@
 
 #import "FGAnalysis+Management.h"
 #import "FGMeasurement+Management.h"
+#import "FGPlot+Management.h"
 
 @implementation FGAnalysis (Management)
 
 + (FGAnalysis *)createAnalysisForMeasurement:(FGMeasurement *)aMeasurement
 {
+    if (!aMeasurement) {
+        return nil;
+    }
     FGAnalysis *newAnalysis = [FGAnalysis createInContext:aMeasurement.managedObjectContext];
     
     newAnalysis.name = aMeasurement.filename.stringByDeletingPathExtension;
@@ -20,6 +24,18 @@
     newAnalysis.measurement = aMeasurement;
     
     return newAnalysis;
+}
+
+
+- (FGPlot *)rootPlot
+{
+    for (FGPlot *aPlot in self.plots) {
+        if (!aPlot.parentNode) {
+            return aPlot;
+        }
+    }
+    // No plots create root plot
+    return [FGPlot createRootPlotForAnalysis:self];
 }
 
 @end

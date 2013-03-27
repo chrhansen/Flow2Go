@@ -106,4 +106,52 @@
     }
 }
 
++ (NSError *)_obtainPermanentIDs:(NSArray *)managedObjects
+{
+    NSManagedObjectContext *context = [NSManagedObjectContext contextForCurrentThread];
+    NSError *error;
+    [context obtainPermanentIDsForObjects:managedObjects error:&error];
+    return error;
+}
+
++ (NSError *)deleteGates:(NSArray *)gatesToDelete
+{
+    NSError *permanentIDError = [self _obtainPermanentIDs:gatesToDelete];
+    if (permanentIDError) {
+        return permanentIDError;
+    }
+    NSMutableArray *objectIDs = [NSMutableArray array];
+    for (NSManagedObject *anObject in gatesToDelete){
+        [objectIDs addObject:anObject.objectID];
+    }
+    __block NSError *error;
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext *localContext) {
+        for (NSManagedObjectID *anID in objectIDs) {
+            FGGate *aGate = (FGGate *)[localContext existingObjectWithID:anID error:&error];
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"Error: could not retrieve existing object from objectID: %@", error.localizedDescription);
+                });
+            }
+            error = [self deleteGate:aGate];
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"Error: could not delete measurement and/or measurement file: %@", error.localizedDescription);
+                });
+            }
+        }
+    }];
+    return error;
+}
+
+
++ (NSError *)deleteGate:(FGGate *)gate
+{
+    NSError *error = [self _obtainPermanentIDs:@[gate]];
+    if (error) {
+        return error;
+    }
+    [gate deleteInContext:gate.managedObjectContext];
+    return error;
+}
 @end

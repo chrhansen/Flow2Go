@@ -12,4 +12,6 @@
 
 + (FGAnalysis *)createAnalysisForMeasurement:(FGMeasurement *)aMeasurement;
 
+@property (nonatomic, readonly) FGPlot *rootPlot;
+
 @end

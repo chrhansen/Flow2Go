@@ -11,6 +11,7 @@
 #import "FGKeyword.h"
 #import "FGMeasurement+Management.h"
 #import "FGGate+Management.h"
+#import "FGFCSFile.h"
 
 const NSString *PlotType   = @"PlotType";
 const NSString *XAxisType  = @"XAxisType";
@@ -22,6 +23,9 @@ const NSString *YParNumber = @"YParNumber";
 
 + (FGPlot *)createRootPlotForAnalysis:(FGAnalysis *)analysis
 {
+    if (analysis.plots.firstObject) {
+        return nil;
+    }
     return [self createPlotForAnalysis:analysis parentNode:nil];
 }
 
@@ -40,6 +44,10 @@ const NSString *YParNumber = @"YParNumber";
     if (parentPlot == nil) {
         newPlot.xParNumber = @1;
         newPlot.yParNumber = @2;
+        FGKeyword *scaleKeyword1 = [analysis.measurement existingKeywordForKey:[@"$P" stringByAppendingFormat:@"%iE", 1]];
+        FGKeyword *scaleKeyword2 = [analysis.measurement existingKeywordForKey:[@"$P" stringByAppendingFormat:@"%iE", 2]];
+        newPlot.xAxisType = [NSNumber numberWithUnsignedInteger:[FGFCSFile axisTypeForScaleString:scaleKeyword1.value]];
+        newPlot.yAxisType = [NSNumber numberWithUnsignedInteger:[FGFCSFile axisTypeForScaleString:scaleKeyword2.value]];
         newPlot.plotType = [NSNumber numberWithInteger:kPlotTypeDensity];
     }
     newPlot.dateCreated = NSDate.date;
@@ -47,6 +55,10 @@ const NSString *YParNumber = @"YParNumber";
     
     return newPlot;
 }
+
+
+//self.plot.xAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
+//self.plot.yAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
 
 
 - (NSString *)defaultPlotName

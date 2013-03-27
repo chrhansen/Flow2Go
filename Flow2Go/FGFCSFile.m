@@ -807,11 +807,11 @@ typedef union Int2Double Int2Double;
 }
 
 
-- (FGAxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex
++ (FGAxisType)axisTypeForScaleString:(NSString *)scaleString
 {
-    NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parameterIndex + 1]];
-    if (!scaleString) NSLog(@"Required scale Value for par %i not found.", parameterIndex + 1);
-    
+    if (!scaleString) {
+        return kAxisTypeUnknown;
+    }
     NSArray *scaleComponents = [scaleString componentsSeparatedByString:@","];
     double f1 = [scaleComponents[0] doubleValue];
     if (f1 <= 0.0)
@@ -822,6 +822,14 @@ typedef union Int2Double Int2Double;
     {
         return kAxisTypeLogarithmic;
     }
+}
+
+- (FGAxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex
+{
+    NSString *scaleString = self.text[[@"$P" stringByAppendingFormat:@"%iE", parameterIndex + 1]];
+    if (!scaleString) NSLog(@"Required scale Value for par %i not found.", parameterIndex + 1);
+    
+    return [self.class axisTypeForScaleString:scaleString];
 }
 
 - (void)cleanUpEvents

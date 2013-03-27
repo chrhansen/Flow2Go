@@ -14,4 +14,7 @@
 + (BOOL)is1DGateType:(FGGateType)gateType;
 + (BOOL)is2DGateType:(FGGateType)gateType;
 
++ (NSError *)deleteGate:(FGGate *)gate;
++ (NSError *)deleteGates:(NSArray *)gatesToDelete;
+
 @end

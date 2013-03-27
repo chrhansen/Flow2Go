@@ -10,7 +10,7 @@
 
 @implementation UIImage (Resize)
 
-+ (void)resizeImage:(UIImage *)image toSize:(CGSize)size completion:(void (^)(UIImage *resizedImage))completion
++ (void)scaleImage:(UIImage *)image toSize:(CGSize)size completion:(void (^)(UIImage *resizedImage))completion
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UIImage *resizedImage = [self scaleImage:image toSize:size];

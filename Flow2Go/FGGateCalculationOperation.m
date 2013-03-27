@@ -54,7 +54,7 @@
         }
         
         NSData *subset = [NSData dataWithBytes:(NSUInteger *)gateCalculator.eventsInside length:sizeof(NSUInteger)*gateCalculator.countOfEventsInside];
-        self.subSet = subset.copy;
+        self.subSet = subset;
         self.subSetCount = gateCalculator.countOfEventsInside;
         
         if (self.isCancelled) {
@@ -63,6 +63,11 @@
         
         [(NSObject *)self.delegate performSelector:@selector(gateCalculationOperationDidFinish:) onThread:[NSThread mainThread] withObject:self waitUntilDone:NO];
     }
+}
+
+- (void)dealloc
+{
+    free(_parentSubSet);
 }
 
 @end

@@ -91,7 +91,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self unregisterForChangeNotification];
     [self.view.window removeGestureRecognizer:self.backgroundTapGestureRecognizer];
     [self _grabImageOfPlot]; //TODO: downscale image in background thread before adding. (consider thumbnail res. for measurement/and high res for sharing)
     [super viewWillDisappear:animated];
@@ -263,7 +262,7 @@
     [newGate.managedObjectContext save:&error];
     if (error) NSLog(@"Error creating child gate: %@", error.localizedDescription);
     [self.displayedGates addObject:newGate];
-    [self.gatesContainerView insertNewGate:gateType gateTag:self.displayedGates.count - 1];
+    [self.gatesContainerView insertNewGate:gateType gateTag:[self.displayedGates indexOfObject:newGate]];
 }
 
 
@@ -429,7 +428,7 @@
         NSLog(@"Loading parent gate data");
         self.parentGateCalculator = FGGateCalculator.alloc.init;
         self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
-        self.parentGateCalculator.numberOfCellsInside = parentGate.cellCount.integerValue;
+        self.parentGateCalculator.countOfEventsInside = parentGate.cellCount.integerValue;
         memcpy(self.parentGateCalculator.eventsInside, [parentGate.subSet bytes], [parentGate.subSet length]);
     }
     [self.plotData cleanUpPlotData];
@@ -437,7 +436,7 @@
     self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile
                                                  plotOptions:self.plot.plotOptions
                                                       subset:self.parentGateCalculator.eventsInside
-                                                 subsetCount:self.parentGateCalculator.numberOfCellsInside];
+                                                 subsetCount:self.parentGateCalculator.countOfEventsInside];
 }
 
 
@@ -606,7 +605,7 @@
     if (self.plotData) {
         return self.plotData.numberOfPoints;
     } else if (self.parentGateCalculator) {
-        return self.parentGateCalculator.numberOfCellsInside;
+        return self.parentGateCalculator.countOfEventsInside;
     }
     return self.fcsFile.noOfEvents;
 }
@@ -705,14 +704,22 @@ static CPTPlotSymbol *plotSymbol;
     [[FGPendingOperations sharedInstance] cancelOperationsForGateWithTag:gateNo];
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
     FGGate *parentGate = (FGGate *)self.plot.parentNode;
-    FGGateCalculationOperation *gateOperation = [[FGGateCalculationOperation alloc] initWithVertices:gateVertices
-                                                                                             gateTag:gateNo
-                                                                                            gateType:gateType
-                                                                                             fcsFile:self.fcsFile
-                                                                                         plotOptions:self.plot.plotOptions
-                                                                                        parentSubSet:parentGate.subSet
-                                                                                   parentSubSetCount:parentGate.cellCount.unsignedIntegerValue
-                                                                                            delegate:self];
+    NSUInteger *parentSubSet = nil;
+    NSUInteger parentSubSetCount = 0;
+    if (parentGate) {
+        parentSubSetCount = parentGate.cellCount.integerValue;
+        parentSubSet = calloc(parentSubSetCount, sizeof(NSUInteger *));
+        memcpy(parentSubSet, [parentGate.subSet bytes], [parentGate.subSet length]);
+    }
+    FGGateCalculationOperation *gateOperation = [[FGGateCalculationOperation alloc] initWithXParameter:[FGFCSFile parameterShortNameForParameterIndex:_xParIndex inFCSFile:self.fcsFile]
+                                                                                            yParameter:[FGFCSFile parameterShortNameForParameterIndex:_yParIndex inFCSFile:self.fcsFile]
+                                                                                              gateType:gateType
+                                                                                              vertices:gateVertices
+                                                                                               fcsFile:self.fcsFile
+                                                                                          parentSubSet:parentSubSet
+                                                                                     parentSubSetCount:parentSubSetCount];
+    gateOperation.delegate = self;
+    gateOperation.gateTag = gateNo;
     [gateOperation setCompletionBlock:^{
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSLog(@"Operation Finished");
@@ -720,7 +727,6 @@ static CPTPlotSymbol *plotSymbol;
         }];
     }];
     [self.gateCalculationSpinner startAnimating];
-    [self registerAsObserverForOperation:gateOperation];
     [[FGPendingOperations sharedInstance].gateCalculationQueue addOperation:gateOperation];
 }
 

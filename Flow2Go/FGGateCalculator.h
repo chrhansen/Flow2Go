@@ -11,32 +11,24 @@
 
 @interface FGGateCalculator : NSObject
 
-+ (BOOL)eventInsideGateVertices:(NSArray *)vertices
-                       onEvents:(FGFCSFile *)fcsFile
-                        eventNo:(NSUInteger)eventNo
-                         xParam:(NSUInteger)xPar
-                         yParam:(NSUInteger)yPar;
++ (FGGateCalculator *)eventsInsideGateWithXParameter:(NSString *)xParShortName
+                                          yParameter:(NSString *)yParShortName
+                                            gateType:(FGGateType)gateType
+                                            vertices:(NSArray *)vertices
+                                             fcsFile:(FGFCSFile *)fcsFile
+                                              subSet:(NSUInteger *)subSet
+                                         subSetCount:(NSUInteger)subSetCount;
 
-+ (FGGateCalculator *)eventsInsideGateWithVertices:(NSArray *)vertices
-                                          gateType:(FGGateType)gateType
-                                           fcsFile:(FGFCSFile *)fcsFile
-                                       plotOptions:(NSDictionary *)plotOptions
-                                            subSet:(NSUInteger *)subSet
-                                       subSetCount:(NSUInteger)subSetCount;
++ (void)eventsInsideGateWithXParameter:(NSString *)xParShortName
+                            yParameter:(NSString *)yParShortName
+                              gateType:(FGGateType)gateType
+                              vertices:(NSArray *)vertices
+                               fcsFile:(FGFCSFile *)fcsFile
+                                subSet:(NSUInteger *)subSet
+                           subSetCount:(NSUInteger)subSetCount
+                            completion:(void (^)(NSData *subset, NSUInteger numberOfCellsInside))completion;
 
-+ (void)eventsInsideGateWithVertices:(NSArray *)vertices
-                            gateType:(FGGateType)gateType
-                             fcsFile:(FGFCSFile *)fcsFile
-                         plotOptions:(NSDictionary *)plotOptions
-                              subSet:(NSUInteger *)subSet
-                         subSetCount:(NSUInteger)subSetCount
-                          completion:(void (^)(NSData *subset, NSUInteger numberOfCellsInside))completion;
-
-
-@property (nonatomic) NSUInteger numberOfCellsInside;
 @property (nonatomic) NSUInteger *eventsInside;
-@property (nonatomic) NSUInteger numberOfDensityPoints;
-@property (nonatomic) FGDensityPoint *densityPoints;
-@property (nonatomic, strong) NSArray *gateVertices;
+@property (nonatomic) NSUInteger countOfEventsInside;
 
 @end

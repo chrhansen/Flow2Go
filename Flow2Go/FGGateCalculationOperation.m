@@ -13,24 +13,22 @@
 
 @implementation FGGateCalculationOperation
 
-- (id)initWithVertices:(NSArray *)vertices
-               gateTag:(NSInteger)gateTag
-              gateType:(FGGateType)gateType
-               fcsFile:(FGFCSFile *)fcsFile
-           plotOptions:(NSDictionary *)plotOptions
-          parentSubSet:(NSData *)parentSubSet
-     parentSubSetCount:(NSUInteger)parentSubSetCount
-              delegate:(id<FGGateCalculationOperationDelegate>)delegate
+- (id)initWithXParameter:(NSString *)xParShortName
+              yParameter:(NSString *)yParShortName
+                gateType:(FGGateType)gateType
+                vertices:(NSArray *)vertices
+                 fcsFile:(FGFCSFile *)fcsFile
+            parentSubSet:(NSUInteger *)parentSubSet
+       parentSubSetCount:(NSUInteger)parentSubSetCount
 {
     if (self = [super init]) {
         self.vertices          = vertices;
-        self.gateTag           = gateTag;
         self.gateType          = gateType;
         self.fcsFile           = fcsFile;
-        self.plotOptions       = plotOptions;
+        self.xParShortName     = xParShortName;
+        self.yParShortName     = yParShortName;
         self.parentSubSet      = parentSubSet;
         self.parentSubSetCount = parentSubSetCount;
-        self.delegate = delegate;
     }
     return self;
 }
@@ -42,21 +40,22 @@
     }
 
     @autoreleasepool {
-        NSUInteger *parentSubSetBytes = nil;
-        if (self.parentSubSet) {
-            parentSubSetBytes = calloc(self.parentSubSetCount, sizeof(NSUInteger *));
-            memcpy(parentSubSetBytes, [self.parentSubSet bytes], [self.parentSubSet length]);
-        }
         
-        FGGateCalculator *gateCalculator = [FGGateCalculator eventsInsideGateWithVertices:self.vertices gateType:self.gateType fcsFile:self.fcsFile plotOptions:self.plotOptions subSet:parentSubSetBytes subSetCount:self.parentSubSetCount];
+        FGGateCalculator *gateCalculator = [FGGateCalculator eventsInsideGateWithXParameter:self.xParShortName
+                                                                                 yParameter:self.yParShortName
+                                                                                   gateType:self.gateType
+                                                                                   vertices:self.vertices
+                                                                                    fcsFile:self.fcsFile
+                                                                                     subSet:self.parentSubSet
+                                                                                subSetCount:self.parentSubSetCount];
         
         if (self.isCancelled) {
             return;
         }
         
-        NSData *subset = [NSData dataWithBytes:(NSUInteger *)gateCalculator.eventsInside length:sizeof(NSUInteger)*gateCalculator.numberOfCellsInside];
+        NSData *subset = [NSData dataWithBytes:(NSUInteger *)gateCalculator.eventsInside length:sizeof(NSUInteger)*gateCalculator.countOfEventsInside];
         self.subSet = subset.copy;
-        self.subSetCount = gateCalculator.numberOfCellsInside;
+        self.subSetCount = gateCalculator.countOfEventsInside;
         
         if (self.isCancelled) {
             return;

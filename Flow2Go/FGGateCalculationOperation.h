@@ -19,21 +19,21 @@
 
 @interface FGGateCalculationOperation : NSOperation
 
-- (id)initWithVertices:(NSArray *)vertices
-               gateTag:(NSInteger)gateTag
-              gateType:(FGGateType)gateType
-               fcsFile:(FGFCSFile *)fcsFile
-           plotOptions:(NSDictionary *)plotOptions
-          parentSubSet:(NSData *)parentSubSet
-     parentSubSetCount:(NSUInteger)parentSubSetCount
-              delegate:(id<FGGateCalculationOperationDelegate>)delegate;
+- (id)initWithXParameter:(NSString *)xParShortName
+              yParameter:(NSString *)yParShortName
+                gateType:(FGGateType)gateType
+                vertices:(NSArray *)vertices
+                 fcsFile:(FGFCSFile *)fcsFile
+            parentSubSet:(NSUInteger *)parentSubSet
+       parentSubSetCount:(NSUInteger)parentSubSetCount;
 
-@property (nonatomic, strong) NSArray *vertices;
+@property (nonatomic, strong) NSString *xParShortName;
+@property (nonatomic, strong) NSString *yParShortName;
 @property (nonatomic) FGGateType gateType;
+@property (nonatomic, strong) NSArray *vertices;
 @property (nonatomic) NSInteger gateTag;
 @property (nonatomic, strong) FGFCSFile *fcsFile;
-@property (nonatomic, strong) NSDictionary *plotOptions;
-@property (nonatomic, strong) NSData *parentSubSet;
+@property (nonatomic) NSUInteger *parentSubSet;
 @property (nonatomic) NSUInteger parentSubSetCount;
 
 @property (nonatomic, weak) id<FGGateCalculationOperationDelegate> delegate;

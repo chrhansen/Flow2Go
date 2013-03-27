@@ -754,13 +754,14 @@ typedef union Int2Double Int2Double;
 
 #pragma mark - Public methods
 
-+ (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile
++ (NSInteger)parameterNumberForShortName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile
 {
-    for (NSUInteger parNO = 0; parNO < [fcsFile.text[@"$PAR"] integerValue]; parNO++)
+    for (NSUInteger parNO = 1; parNO <= [fcsFile.text[@"$PAR"] integerValue]; parNO++)
     {
-        NSString *keyword = [@"$P" stringByAppendingFormat:@"%iS", parNO + 1];
+        NSString *keyword = [@"$P" stringByAppendingFormat:@"%iN", parNO];
         if ([PiNShortName isEqualToString:fcsFile.text[keyword]])
         {
+            NSLog(@"shortname: %@, parNo: %d", PiNShortName, parNO);
             return parNO;
         }
     }
@@ -770,7 +771,6 @@ typedef union Int2Double Int2Double;
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile
 {
     NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", parameterIndex + 1];
-    
     return fcsFile.text[shortNameKey];
 }
 

@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, FGParsingSegment) {
 
 - (void)cleanUpEvents;
 
-+ (NSInteger)parameterNumberForName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile;
++ (NSInteger)parameterNumberForShortName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile;
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
 + (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
 - (NSInteger)rangeOfParameterIndex:(NSInteger)parameterIndex;

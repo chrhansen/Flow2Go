@@ -744,29 +744,6 @@ static CPTPlotSymbol *plotSymbol;
 }
 
 
-#pragma mark - KVO of GateCalculationOperation
-- (void)registerAsObserverForOperation:(FGGateCalculationOperation *)operation
-{
-    [operation addObserver:self forKeyPath:@"isExecuting" options:NSKeyValueObservingOptionNew context:NULL];
-    [operation addObserver:self forKeyPath:@"isFinished" options:NSKeyValueObservingOptionNew context:NULL];
-}
-
-- (void)unregisterForChangeNotification
-{
-    [[FGPendingOperations sharedInstance] unregisterForObservings:self];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqual:@"isExecuting"]) {
-        NSLog(@"isExecuting");
-    }
-    if ([keyPath isEqual:@"isFinished"]) {
-        NSLog(@"isFinished");
-    }
-}
-
-
 #pragma mark - GateCalculationOperation Delegate
 - (void)gateCalculationOperationDidFinish:(FGGateCalculationOperation *)operation
 {

@@ -18,18 +18,12 @@
         self.measurementImageView.layer.shadowRadius = 3.0f;
         self.measurementImageView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
         self.measurementImageView.layer.shadowOpacity = 0.5f;
-//        self.measurementImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-//        self.measurementImageView.layer.shouldRasterize = YES;
-//        self.measurementImageView.layer.masksToBounds = NO;
-//        self.measurementImageView.clipsToBounds = NO;
         
         self.thumbImageView.layer.borderColor = [UIColor whiteColor].CGColor;
         self.thumbImageView.layer.borderWidth = 0.5f;
         self.thumbImageView.layer.shadowRadius = 1.0f;
         self.thumbImageView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
         self.thumbImageView.layer.shadowOpacity = 0.8f;
-//        self.thumbImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-//        self.thumbImageView.layer.shouldRasterize = YES;
     }
 }
 

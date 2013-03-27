@@ -141,9 +141,6 @@
             [self.gateGraphics addObject:newGateGraphic];
             [self.delegate gatesContainerView:self didModifyGateNo:newGateGraphic.gateTag gateType:newGateGraphic.gateType vertices:[newGateGraphic getPathPoints]];
             break;
-            
-            
-            
         default:
             break;
     }

@@ -15,32 +15,29 @@
 {
     [super willMoveToSuperview:newSuperview];
     if (newSuperview) {
-        self.measurementImageView.backgroundColor = [UIColor whiteColor];
-        self.measurementImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.measurementImageView.layer.borderWidth = 0.5f;
-        self.measurementImageView.layer.shadowColor = [UIColor blackColor].CGColor;
         self.measurementImageView.layer.shadowRadius = 3.0f;
         self.measurementImageView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
         self.measurementImageView.layer.shadowOpacity = 0.5f;
-        self.measurementImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        self.measurementImageView.layer.shouldRasterize = YES;
+//        self.measurementImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+//        self.measurementImageView.layer.shouldRasterize = YES;
+//        self.measurementImageView.layer.masksToBounds = NO;
+//        self.measurementImageView.clipsToBounds = NO;
         
         self.thumbImageView.layer.borderColor = [UIColor whiteColor].CGColor;
         self.thumbImageView.layer.borderWidth = 0.5f;
-        self.thumbImageView.layer.shadowColor = [UIColor blackColor].CGColor;
         self.thumbImageView.layer.shadowRadius = 1.0f;
         self.thumbImageView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
         self.thumbImageView.layer.shadowOpacity = 0.8f;
-        self.thumbImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        self.thumbImageView.layer.shouldRasterize = YES;
-
-        self.fileNameLabel.layer.shadowOpacity = 0.7;
-        self.fileNameLabel.layer.shadowRadius = 3.0;
-        self.fileNameLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.fileNameLabel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
-        self.fileNameLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-        self.fileNameLabel.layer.shouldRasterize = YES;
+//        self.thumbImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+//        self.thumbImageView.layer.shouldRasterize = YES;
     }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self.measurementImageView.layer setShadowPath:[[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 210.0f, 86.0f)] CGPath]];
+    [self.thumbImageView.layer setShadowPath:[[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, 74.0f, 74.0f)] CGPath]];
 }
 
 

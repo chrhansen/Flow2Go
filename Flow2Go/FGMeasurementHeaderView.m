@@ -23,12 +23,12 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];
-    self.titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.titleLabel.layer.shadowRadius = 3.0f;
-    self.titleLabel.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-    self.titleLabel.layer.shadowOpacity = 0.5f;
-    self.titleLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.titleLabel.layer.shouldRasterize = YES;
+//    self.titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+//    self.titleLabel.layer.shadowRadius = 3.0f;
+//    self.titleLabel.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+//    self.titleLabel.layer.shadowOpacity = 0.5f;
+//    self.titleLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+//    self.titleLabel.layer.shouldRasterize = YES;
 
 }
 

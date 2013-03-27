@@ -865,7 +865,8 @@
                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="13"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
-                                            <size key="shadowOffset" width="0.0" height="2"/>
+                                            <color key="shadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NS-TA-vzc">
                                             <constraints>
@@ -945,6 +946,7 @@
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
+                                    <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="shadowOffset" width="0.0" height="1"/>
                                 </label>
                             </subviews>
@@ -1000,15 +1002,19 @@
                                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mus-py-zqV">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="206" id="Svk-AS-o8U"/>
                                                 <constraint firstAttribute="height" constant="25" id="hgd-QA-l62"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="14"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7xS-3p-Y6G">
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1028,28 +1034,31 @@
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="/" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ry1-rA-ZDI">
                                             <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="Hp3-1g-GJW"/>
                                                 <constraint firstAttribute="width" constant="284" id="bpa-oB-vcU"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
+                                            <color key="shadowColor" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <size key="shadowOffset" width="0.0" height="1"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="VPf-LT-HRv" secondAttribute="bottom" constant="59" id="0H3-Ro-wvN"/>
+                                    <constraint firstItem="Ry1-rA-ZDI" firstAttribute="top" secondItem="WQi-pP-nAl" secondAttribute="top" constant="6" id="7Rf-Hj-gfZ"/>
                                     <constraint firstAttribute="bottom" secondItem="PPH-Ki-VEK" secondAttribute="bottom" constant="22" id="8iy-yv-QzO"/>
                                     <constraint firstItem="7xS-3p-Y6G" firstAttribute="top" secondItem="WQi-pP-nAl" secondAttribute="top" type="default" id="Jik-ee-fGn"/>
                                     <constraint firstItem="Mus-py-zqV" firstAttribute="leading" secondItem="PPH-Ki-VEK" secondAttribute="leading" type="default" id="Nll-b8-FJj"/>
-                                    <constraint firstItem="Mus-py-zqV" firstAttribute="bottom" secondItem="WQi-pP-nAl" secondAttribute="bottom" type="default" id="PhF-8p-50U"/>
                                     <constraint firstItem="VPf-LT-HRv" firstAttribute="trailing" secondItem="PPH-Ki-VEK" secondAttribute="trailing" type="default" id="SXn-oS-7YP"/>
                                     <constraint firstItem="VPf-LT-HRv" firstAttribute="trailing" secondItem="Ry1-rA-ZDI" secondAttribute="trailing" type="default" id="TT1-bm-8gg"/>
                                     <constraint firstItem="7xS-3p-Y6G" firstAttribute="centerX" secondItem="Ry1-rA-ZDI" secondAttribute="centerX" type="default" id="VmV-jo-I1E"/>
-                                    <constraint firstItem="7xS-3p-Y6G" firstAttribute="trailing" secondItem="WQi-pP-nAl" secondAttribute="trailing" type="default" id="hAp-HB-Dph"/>
-                                    <constraint firstItem="Ry1-rA-ZDI" firstAttribute="top" secondItem="WQi-pP-nAl" secondAttribute="top" constant="8" id="hGJ-gh-26g"/>
+                                    <constraint firstAttribute="bottom" secondItem="Mus-py-zqV" secondAttribute="bottom" constant="1" id="j1b-vQ-Q2I"/>
                                     <constraint firstItem="7xS-3p-Y6G" firstAttribute="leading" secondItem="WQi-pP-nAl" secondAttribute="leading" type="default" id="j92-ew-3d9"/>
                                     <constraint firstItem="Ry1-rA-ZDI" firstAttribute="leading" secondItem="PPH-Ki-VEK" secondAttribute="leading" type="default" id="jI7-Cs-Ecg"/>
+                                    <constraint firstItem="Ry1-rA-ZDI" firstAttribute="centerX" secondItem="WQi-pP-nAl" secondAttribute="centerX" type="default" id="swA-TE-OQX"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="countLabel" destination="Mus-py-zqV" id="Hr7-7y-FJb"/>

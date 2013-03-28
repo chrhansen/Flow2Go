@@ -419,11 +419,8 @@
     self.plot.yAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
     
     FGGate *parentGate = (FGGate *)self.plot.parentNode;
+    if (parentGate && self.parentGateCalculator == nil) [self updateSubPopulation];
     
-    if (parentGate
-        && self.parentGateCalculator == nil) {
-        [self updateSubPopulation];
-    }
     [self.plotData cleanUpPlotData];
     self.plotData = nil;
     self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile
@@ -787,27 +784,20 @@ static CPTPlotSymbol *plotSymbol;
     } else if (!IS_IPAD) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-    [FGGate deleteGate:sender.gate];
-    [self.gatesContainerView redrawGates];
-    //TODO: also clear gates from current gates
-    
-//    __block BOOL success = NO;
-//    NSManagedObjectID *objectID = sender.gate.objectID;
-//    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-//        FGGate *localGate = (FGGate *)[localContext objectWithID:objectID];
-//        success = [localGate deleteInContext:localContext];
-//    } completion:^(BOOL success, NSError *error) {
-//        if (!success) {
-//            UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
-//                                                              message:[NSLocalizedString(@"Could not delete gate \"", nil) stringByAppendingFormat:@"%@\"", sender.gate.name]
-//                                                             delegate:nil
-//                                                    cancelButtonTitle:NSLocalizedString(@"OK", nil)
-//                                                    otherButtonTitles: nil];
-//            [alertView show];
-//        } else {
-//            [self.gatesContainerView redrawGates];
-//        }
-//    }];
+    FGGate *gate = sender.gate;
+    [gate deleteInContext:gate.managedObjectContext];
+    [NSManagedObjectContext.MR_defaultContext saveOnlySelfWithCompletion:^(BOOL success, NSError *error) {
+        if (!error) {
+            [self.gatesContainerView redrawGates];
+        } else {
+            UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
+                                                              message:[NSLocalizedString(@"Could not delete gate \"", nil) stringByAppendingFormat:@"%@\"", gate.name]
+                                                             delegate:nil
+                                                    cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                    otherButtonTitles: nil];
+            [alertView show];
+        }
+    }];
 }
 
 

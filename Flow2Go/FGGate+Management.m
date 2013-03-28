@@ -82,8 +82,23 @@ const NSString *Vertices       = @"Vertices";
     return [NSString stringWithFormat:@"%@%i", NSLocalizedString(@"Gate", nil), self.analysis.gates.count];
 }
 
+- (void)setParameterNames
+{
+    FGMeasurement *measurement = self.analysis.measurement;
+    NSString *shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", self.xParNumber.integerValue];
+    FGKeyword *parNameKeyword = [measurement existingKeywordForKey:shortNameKey];
+    self.xParName = parNameKeyword.value;
+    shortNameKey = [@"$P" stringByAppendingFormat:@"%iN", self.yParNumber.integerValue];
+    parNameKeyword = [measurement existingKeywordForKey:shortNameKey];
+    self.yParName = parNameKeyword.value;
+}
+
+
 - (NSDictionary *)gateData
 {
+    if (!self.xParName || !self.yParName) {
+        [self setParameterNames];
+    }
     NSNumber *gateType   = self.type.copy;
     NSString *gateName   = self.name.copy;
     NSNumber *xParName   = self.xParName.copy;
@@ -91,6 +106,7 @@ const NSString *Vertices       = @"Vertices";
     NSNumber *xParNumber = self.xParNumber.copy;
     NSNumber *yParNumber = self.yParNumber.copy;
     NSArray  *vertices   = [(NSArray *)self.vertices copy];
+    
     return  @{GateType       : gateType,
               GateName       : gateName,
               XParName       : xParName,

@@ -13,6 +13,7 @@
 
 - (void)showAnalysis:(FGAnalysis *)analysis;
 - (void)addNavigationPaneBarbuttonWithTarget:(id)barButtonResponder selector:(SEL)barButtonSelector;
+- (IBAction)applyToAllTapped:(id)sender;
 
 @property (nonatomic, strong) FGAnalysis *analysis;
 

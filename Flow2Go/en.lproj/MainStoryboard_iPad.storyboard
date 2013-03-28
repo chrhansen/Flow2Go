@@ -1074,7 +1074,13 @@
                             <outlet property="delegate" destination="Zcq-Xo-lKv" id="UDB-cX-XTm"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="MBq-Bh-DUY"/>
+                    <navigationItem key="navigationItem" id="MBq-Bh-DUY">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Apply to All" id="cIA-B7-wyT">
+                            <connections>
+                                <action selector="applyToAllTapped:" destination="Zcq-Xo-lKv" id="plV-9z-LHZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NpT-Z2-nXw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1410,6 +1416,9 @@
         </class>
         <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="applyToAllTapped:"/>
+            </relationships>
         </class>
         <class className="FGDropboxCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxCell.h"/>

@@ -77,23 +77,21 @@
     NSError *error;
     FGMeasurement *measurement = analysis.measurement;
     self.fcsFile = [FGFCSFile fcsFileWithPath:measurement.fullFilePath lastParsingSegment:FGParsingSegmentData error:&error];
-    
-    for (FGPlot *aPlot in analysis.plots) {
-        FGGateCalculator *gateCalculator;
-        if (aPlot.parentNode) {
-            FGGate *parentGate = (FGGate *)aPlot.parentNode;
-            gateCalculator = [self calculateSubSetForGate:parentGate];
-            parentGate.countOfEvents = [NSNumber numberWithUnsignedInteger:gateCalculator.countOfEventsInside];
-        }
+    NSOrderedSet *plots = analysis.plots;
+    for (FGPlot *aPlot in plots) {
+        NSLog(@"Plot: %@", aPlot.name);
+        NSArray *gateDatas = [FGGate gatesAsData:aPlot.parentGates];
+        FGGateCalculator *gateCalculator = [FGGateCalculator eventsInsideGatesWithDatas:gateDatas fcsFile:self.fcsFile];
         FGPlotCreator *plotCreator = [FGPlotCreator renderPlotImageWithPlotOptions:aPlot.plotOptions
                                                                            fcsFile:self.fcsFile
                                                                       parentSubSet:gateCalculator.eventsInside
                                                                  parentSubSetCount:gateCalculator.countOfEventsInside];
         aPlot.image = plotCreator.plotImage;
-        if (!aPlot.parentNode) {
-            // root plot
-            measurement.thumbImage = plotCreator.thumbImage;
-        }
+        if (!aPlot.parentNode) measurement.thumbImage = plotCreator.thumbImage;
+
+        [self updateEventCountForGates:aPlot.childNodes.array
+                       inSubPopulation:gateCalculator.eventsInside
+                    subPopulationCount:gateCalculator.countOfEventsInside];
     }
     
     [[NSManagedObjectContext contextForCurrentThread] saveToPersistentStoreAndWait];
@@ -101,50 +99,16 @@
 }
 
 
-- (FGGateCalculator *)calculateSubSetForGate:(FGGate *)gate
+- (void)updateEventCountForGates:(NSArray *)gates inSubPopulation:(NSUInteger *)subPopulation subPopulationCount:(NSUInteger)subPopCount
 {
-    // return nil of no parent gates or grandparent is not an FGGate
-    FGNode *parentGate;
-    if ([gate.parentNode.parentNode isKindOfClass:[FGGate class]]) {
-        parentGate = gate.parentNode.parentNode;
+    for (FGGate *gate in gates) {
+        NSLog(@"  Gate: %@", gate.name);
+        FGGateCalculator *gateCalculator = [FGGateCalculator eventsInsideGateWithData:gate.gateData
+                                                                              fcsFile:self.fcsFile
+                                                                               subSet:subPopulation
+                                                                          subSetCount:subPopCount];
+        gate.countOfEvents = [NSNumber numberWithUnsignedInteger:gateCalculator.countOfEventsInside];
     }
-    
-    NSMutableArray *parentGates = [NSMutableArray array];
-    while (parentGate) {
-        [parentGates addObject:parentGate];
-        if ([parentGate.parentNode.parentNode isKindOfClass:[FGGate class]]) {
-            parentGate = parentGate.parentNode.parentNode;
-        }
-    }
-    FGGateCalculator *gateCalculator;
-    while (parentGates.lastObject) {
-        FGGate *gate   = parentGates.lastObject;
-        gateCalculator = [FGGateCalculator eventsInsideGateWithXParameter:gate.xParName
-                                                               yParameter:gate.yParName
-                                                                 gateType:gate.type.integerValue
-                                                                 vertices:gate.vertices
-                                                                  fcsFile:self.fcsFile
-                                                                   subSet:gateCalculator.eventsInside
-                                                              subSetCount:gateCalculator.countOfEventsInside];
-        [parentGates removeLastObject];
-    }
-    return gateCalculator;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @end

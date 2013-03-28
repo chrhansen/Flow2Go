@@ -8,6 +8,7 @@
 
 #import "FGAnalysisViewController.h"
 #import "FGPlotViewController.h"
+#import "FGFolder.h"
 #import "FGAnalysis.h"
 #import "FGFCSFile.h"
 #import "FGMeasurement+Management.h"
@@ -19,6 +20,8 @@
 #import "UIBarButtonItem+Customview.h"
 #import "NSString+UUID.h"
 #import "NSString+_Format.h"
+#import "NSManagedObjectContext+Clone.h"
+#import "FGAnalysisManager.h"
 
 @interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate, FGFCSProgressDelegate>
 
@@ -94,6 +97,25 @@
 {
     UIBarButtonItem *barButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"FGBarButtonIconNavigationPane"] style:UIBarButtonItemStylePlain target:barButtonResponder action:barButtonSelector];
     self.navigationItem.leftBarButtonItem = barButton;
+}
+
+- (IBAction)applyToAllTapped:(id)sender
+{
+    NSOrderedSet *measurementsInFolder = self.analysis.measurement.folder.measurements;
+    for (FGMeasurement *measurement in measurementsInFolder) {
+        if ([measurement isEqual:self.analysis.measurement]) {
+            NSLog(@"Skipping self's measurement");
+            continue;
+        }
+        FGAnalysis *oldAnalysis = measurement.analyses.firstObject;
+        oldAnalysis.measurement = NULL;
+        [oldAnalysis deleteEntity];
+        FGAnalysis *analysisCopy = (FGAnalysis *)[self.analysis.managedObjectContext clone:self.analysis];
+        analysisCopy.measurement = measurement;
+        [[FGAnalysisManager sharedInstance] performAnalysis:analysisCopy withCompletion:^(NSError *error) {
+            NSLog(@"Completed analysis for measurement: %@", measurement.filename);
+        }];
+    }
 }
 
 

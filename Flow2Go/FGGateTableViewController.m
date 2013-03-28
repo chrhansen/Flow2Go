@@ -47,11 +47,11 @@
 - (void)_configureLabels
 {
     self.gateName.text = self.gate.name;
-    self.gateCount.text = self.gate.cellCount.stringValue;
+    self.gateCount.text = self.gate.countOfEvents.stringValue;
     
-    NSString *percentageString = [NSString percentageAsString:self.gate.cellCount.integerValue
+    NSString *percentageString = [NSString percentageAsString:self.gate.countOfEvents.integerValue
                                                         ofAll:self.gate.analysis.measurement.countOfEvents.integerValue];
-    self.gateCount.text = [NSString stringWithFormat:@"%@ (%@)", self.gate.cellCount, percentageString];
+    self.gateCount.text = [NSString stringWithFormat:@"%@ (%@)", self.gate.countOfEvents, percentageString];
 }
 
 

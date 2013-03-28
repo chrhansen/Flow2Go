@@ -68,8 +68,8 @@
         self.parentGateName.alpha = 0.5;
     } else {
         self.plotNameTextField.text = self.plot.name;
-        percentageString = [NSString percentageAsString:parentGate.cellCount.integerValue ofAll:self.plot.analysis.measurement.countOfEvents.integerValue];
-        self.plotCount.text = [NSString stringWithFormat:@"%@ (%@)", parentGate.cellCount, percentageString];
+        percentageString = [NSString percentageAsString:parentGate.countOfEvents.integerValue ofAll:self.plot.analysis.measurement.countOfEvents.integerValue];
+        self.plotCount.text = [NSString stringWithFormat:@"%@ (%@)", parentGate.countOfEvents, percentageString];
         self.parentGateName.text = parentGate.name;
     }
 }

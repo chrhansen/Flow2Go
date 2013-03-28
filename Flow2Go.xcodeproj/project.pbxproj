@@ -51,6 +51,7 @@
 		E542F4C6160933280041A60A /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */; };
 		E5457DA215CEAE7F00678CB7 /* FGFCSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */; };
 		E54923F2170362E900A0F75F /* FGAnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E54923F1170362E900A0F75F /* FGAnalysisManager.m */; };
+		E54923F617048E6000A0F75F /* FGGate.m in Sources */ = {isa = PBXBuildFile; fileRef = E54923F517048E6000A0F75F /* FGGate.m */; };
 		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
 		E54D71B516049CC5008CEC5D /* FGPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* FGPolygon.m */; };
 		E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* FGGatesContainerView.m */; };
@@ -121,7 +122,6 @@
 		E5C011A616CAA05B0059ED0F /* 80-shopping-cart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */; };
 		E5C011B616CB073D0059ED0F /* FGStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011B516CB073D0059ED0F /* FGStoreCell.m */; };
 		E5C011B916CB07C10059ED0F /* FGStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C011B816CB07C10059ED0F /* FGStoreViewController.m */; };
-		E5D3147616CD988000700F57 /* FGGate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3147516CD988000700F57 /* FGGate.m */; };
 		E5D3149616CE5CBD00700F57 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3149516CE5CBD00700F57 /* NSData+MKBase64.m */; };
 		E5D3149916CE5CF400700F57 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3149816CE5CF400700F57 /* SFHFKeychainUtils.m */; };
 		E5D314D716CE5E7A00700F57 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3149F16CE5E7A00700F57 /* MagicalImportFunctions.m */; };
@@ -301,6 +301,8 @@
 		E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSFile.m; sourceTree = "<group>"; };
 		E54923F0170362E800A0F75F /* FGAnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisManager.h; sourceTree = "<group>"; };
 		E54923F1170362E900A0F75F /* FGAnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisManager.m; sourceTree = "<group>"; };
+		E54923F417048E6000A0F75F /* FGGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGate.h; sourceTree = "<group>"; };
+		E54923F517048E6000A0F75F /* FGGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGate.m; sourceTree = "<group>"; };
 		E54D71AC16049C98008CEC5D /* FGGatesContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGatesContainerView.h; sourceTree = "<group>"; };
 		E54D71B016049CC5008CEC5D /* FGGateGraphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateGraphic.h; sourceTree = "<group>"; };
 		E54D71B116049CC5008CEC5D /* FGGateGraphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateGraphic.m; sourceTree = "<group>"; };
@@ -405,8 +407,6 @@
 		E5C011B516CB073D0059ED0F /* FGStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreCell.m; sourceTree = "<group>"; };
 		E5C011B716CB07C00059ED0F /* FGStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStoreViewController.h; sourceTree = "<group>"; };
 		E5C011B816CB07C10059ED0F /* FGStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStoreViewController.m; sourceTree = "<group>"; };
-		E5D3147416CD988000700F57 /* FGGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGate.h; sourceTree = "<group>"; };
-		E5D3147516CD988000700F57 /* FGGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGate.m; sourceTree = "<group>"; };
 		E5D3149416CE5CBD00700F57 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MKBase64.h"; path = "Flow2Go/MKStoreKit/Externals/NSData+MKBase64.h"; sourceTree = SOURCE_ROOT; };
 		E5D3149516CE5CBD00700F57 /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MKBase64.m"; path = "Flow2Go/MKStoreKit/Externals/NSData+MKBase64.m"; sourceTree = SOURCE_ROOT; };
 		E5D3149716CE5CF400700F57 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Flow2Go/MKStoreKit/Externals/SFHFKeychainUtils.h; sourceTree = SOURCE_ROOT; };
@@ -834,8 +834,8 @@
 				E50427A816C1B08600692AD7 /* FGNode.m */,
 				E50F000216E8F164009C546E /* FGPlot.h */,
 				E50F000316E8F164009C546E /* FGPlot.m */,
-				E5D3147416CD988000700F57 /* FGGate.h */,
-				E5D3147516CD988000700F57 /* FGGate.m */,
+				E54923F417048E6000A0F75F /* FGGate.h */,
+				E54923F517048E6000A0F75F /* FGGate.m */,
 			);
 			name = "CoreData managed subclasses";
 			sourceTree = "<group>";
@@ -1538,7 +1538,6 @@
 				E5C011B616CB073D0059ED0F /* FGStoreCell.m in Sources */,
 				E5C011B916CB07C10059ED0F /* FGStoreViewController.m in Sources */,
 				E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */,
-				E5D3147616CD988000700F57 /* FGGate.m in Sources */,
 				E5D3149616CE5CBD00700F57 /* NSData+MKBase64.m in Sources */,
 				E5D3149916CE5CF400700F57 /* SFHFKeychainUtils.m in Sources */,
 				E5D314D716CE5E7A00700F57 /* MagicalImportFunctions.m in Sources */,
@@ -1582,6 +1581,7 @@
 				E5F8354E1702217E0018E2A8 /* FGAddGateButtonsView.m in Sources */,
 				E56FC120170356F1004019DF /* FGPlotCreator.m in Sources */,
 				E54923F2170362E900A0F75F /* FGAnalysisManager.m in Sources */,
+				E54923F617048E6000A0F75F /* FGGate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

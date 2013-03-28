@@ -83,7 +83,7 @@
         if (aPlot.parentNode) {
             FGGate *parentGate = (FGGate *)aPlot.parentNode;
             gateCalculator = [self calculateSubSetForGate:parentGate];
-            parentGate.cellCount = [NSNumber numberWithUnsignedInteger:gateCalculator.countOfEventsInside];
+            parentGate.countOfEvents = [NSNumber numberWithUnsignedInteger:gateCalculator.countOfEventsInside];
         }
         FGPlotCreator *plotCreator = [FGPlotCreator renderPlotImageWithPlotOptions:aPlot.plotOptions
                                                                            fcsFile:self.fcsFile

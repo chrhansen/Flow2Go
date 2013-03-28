@@ -131,7 +131,7 @@
     NSUInteger allEvents = self.analysis.measurement.countOfEvents.integerValue;
     if (parentGate) {
         plotCell.nameLabel.text = plot.name;
-        plotCell.countLabel.text = [NSString countsAndPercentageAsString:parentGate.cellCount.integerValue ofAll:allEvents];
+        plotCell.countLabel.text = [NSString countsAndPercentageAsString:parentGate.countOfEvents.integerValue ofAll:allEvents];
     } else {
         plotCell.nameLabel.text = [self.analysis.measurement.filename.stringByDeletingPathExtension fitToLength:32];
         plotCell.countLabel.text = [NSString countsAndPercentageAsString:allEvents ofAll:allEvents];

@@ -51,10 +51,6 @@
     [plotCreator _insertScatterPlot];
     [plotCreator _reloadPlotDataAndLayout];
     UIImage *bigImage = [UIImage captureLayer:plotCreator.graph flipImage:YES];
-    
-    NSData *binaryImageData = UIImagePNGRepresentation(bigImage);
-    [binaryImageData writeToFile:[TEMP_DIR stringByAppendingPathComponent:[[NSDate date] description]] atomically:YES];
-    
     [plotCreator _cleanUp];
     plotCreator.plotImage = [UIImage scaleImage:bigImage toSize:CGSizeMake(300, 300)];
     plotCreator.thumbImage = [UIImage scaleImage:bigImage toSize:CGSizeMake(74, 74)];

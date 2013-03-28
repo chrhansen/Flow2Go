@@ -150,7 +150,7 @@
     UIImage *gatesImage = [UIImage captureLayer:self.gatesContainerView.layer];
     plotImage = [plotImage overlayWith:gatesImage];
     __weak FGPlot *weakPlot = self.plot;
-    [UIImage resizeImage:plotImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
+    [UIImage scaleImage:plotImage toSize:CGSizeMake(300, 300) completion:^(UIImage *resizedImage) {
         [weakPlot setImage:resizedImage];
     }];
     [self _saveThumbIfRootPlot:plotImage];
@@ -161,7 +161,7 @@
 {
     if (self.plot.parentNode == nil) {
         __weak FGMeasurement *weakMeasurement = self.plot.analysis.measurement;
-        [UIImage resizeImage:imageForThumb toSize:CGSizeMake(74, 74) completion:^(UIImage *resizedImage) {
+        [UIImage scaleImage:imageForThumb toSize:CGSizeMake(74, 74) completion:^(UIImage *resizedImage) {
             [weakMeasurement setThumbImage:resizedImage];
         }];
     }
@@ -703,6 +703,9 @@ static CPTPlotSymbol *plotSymbol;
     
     [[FGPendingOperations sharedInstance] cancelOperationsForGateWithTag:gateNo];
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:self.plotSpace];
+    FGGate *modifiedGate  = self.displayedGates[gateNo];
+    modifiedGate.vertices = gateVertices;
+    
     FGGate *parentGate = (FGGate *)self.plot.parentNode;
     NSUInteger *parentSubSet = nil;
     NSUInteger parentSubSetCount = 0;
@@ -711,18 +714,14 @@ static CPTPlotSymbol *plotSymbol;
         parentSubSet = calloc(parentSubSetCount, sizeof(NSUInteger *));
         memcpy(parentSubSet, [parentGate.subSet bytes], [parentGate.subSet length]);
     }
-    FGGateCalculationOperation *gateOperation = [[FGGateCalculationOperation alloc] initWithXParameter:[FGFCSFile parameterShortNameForParameterIndex:_xParIndex inFCSFile:self.fcsFile]
-                                                                                            yParameter:[FGFCSFile parameterShortNameForParameterIndex:_yParIndex inFCSFile:self.fcsFile]
-                                                                                              gateType:gateType
-                                                                                              vertices:gateVertices
-                                                                                               fcsFile:self.fcsFile
-                                                                                          parentSubSet:parentSubSet
-                                                                                     parentSubSetCount:parentSubSetCount];
+    FGGateCalculationOperation *gateOperation = [[FGGateCalculationOperation alloc] initWithGateData:modifiedGate.gateData
+                                                                                             fcsFile:self.fcsFile
+                                                                                        parentSubSet:parentSubSet
+                                                                                   parentSubSetCount:parentSubSetCount];
     gateOperation.delegate = self;
     gateOperation.gateTag = gateNo;
     [gateOperation setCompletionBlock:^{
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSLog(@"Operation Finished");
             [self.gateCalculationSpinner stopAnimating];
         }];
     }];
@@ -749,7 +748,6 @@ static CPTPlotSymbol *plotSymbol;
 {
     FGGate *modifiedGate = self.displayedGates[operation.gateTag];
     if (modifiedGate) {
-        modifiedGate.vertices = operation.vertices;
         modifiedGate.subSet = operation.subSet;
         modifiedGate.cellCount = [NSNumber numberWithUnsignedInteger:operation.subSetCount];
         NSError *error;
@@ -798,26 +796,30 @@ static CPTPlotSymbol *plotSymbol;
 {
     if (self.detailPopoverController.isPopoverVisible) {
         [self.detailPopoverController dismissPopoverAnimated:YES];
-    } else if (UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+    } else if (!IS_IPAD) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-    __block BOOL success = NO;
-    NSManagedObjectID *objectID = sender.gate.objectID;
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        FGGate *localGate = (FGGate *)[localContext objectWithID:objectID];
-        success = [localGate deleteInContext:localContext];
-    } completion:^(BOOL success, NSError *error) {
-        if (!success) {
-            UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
-                                                              message:[NSLocalizedString(@"Could not delete gate \"", nil) stringByAppendingFormat:@"%@\"", sender.gate.name]
-                                                             delegate:nil
-                                                    cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                                                    otherButtonTitles: nil];
-            [alertView show];
-        } else {
-            [self.gatesContainerView redrawGates];
-        }
-    }];
+    [FGGate deleteGate:sender.gate];
+    [self.gatesContainerView redrawGates];
+    //TODO: also clear gates from current gates
+    
+//    __block BOOL success = NO;
+//    NSManagedObjectID *objectID = sender.gate.objectID;
+//    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//        FGGate *localGate = (FGGate *)[localContext objectWithID:objectID];
+//        success = [localGate deleteInContext:localContext];
+//    } completion:^(BOOL success, NSError *error) {
+//        if (!success) {
+//            UIAlertView *alertView = [UIAlertView.alloc initWithTitle:NSLocalizedString(@"Error", nil)
+//                                                              message:[NSLocalizedString(@"Could not delete gate \"", nil) stringByAppendingFormat:@"%@\"", sender.gate.name]
+//                                                             delegate:nil
+//                                                    cancelButtonTitle:NSLocalizedString(@"OK", nil)
+//                                                    otherButtonTitles: nil];
+//            [alertView show];
+//        } else {
+//            [self.gatesContainerView redrawGates];
+//        }
+//    }];
 }
 
 

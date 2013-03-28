@@ -761,7 +761,6 @@ typedef union Int2Double Int2Double;
         NSString *keyword = [@"$P" stringByAppendingFormat:@"%iN", parNO];
         if ([PiNShortName isEqualToString:fcsFile.text[keyword]])
         {
-            NSLog(@"shortname: %@, parNo: %d", PiNShortName, parNO);
             return parNO;
         }
     }

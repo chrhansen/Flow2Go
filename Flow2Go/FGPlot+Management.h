@@ -22,8 +22,8 @@ extern const NSString *YParNumber;
 + (FGPlot *)createPlotForAnalysis:(FGAnalysis *)analysis parentNode:(FGNode *)parentNode;
 - (NSArray *)parentGateNames;
 - (NSArray *)childGatesForXPar:(NSInteger)xParNumber andYPar:(NSInteger)yParNumber;
-
 - (NSInteger)countOfParentGates;
+- (NSArray *)parentGates;
 
 @property (nonatomic, readonly, copy) NSDictionary *plotOptions;
 

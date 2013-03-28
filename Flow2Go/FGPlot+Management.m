@@ -166,14 +166,24 @@ const NSString *YParNumber = @"YParNumber";
 
 - (NSArray *)parentGateNames
 {
-    NSMutableArray *names = [NSMutableArray array];
+    NSArray *parentGates = [self parentGates];
+    NSMutableArray *gateNames = [NSMutableArray array];
+    [gateNames addObject:NSLocalizedString(@"All", nil)];
+    for (FGGate *aGate in parentGates) {
+        [gateNames addObject:[aGate name]];
+    }
+    return gateNames;
+}
+
+- (NSArray *)parentGates
+{
+    NSMutableArray *parentGates = [NSMutableArray array];
     FGGate *parentNode = (FGGate *)self.parentNode;
     while (parentNode) {
-        [names addObject:[parentNode name]];
+        [parentGates insertObject:parentNode atIndex:0];
         parentNode = (FGGate *)parentNode.parentNode.parentNode;
     }
-    [names addObject:NSLocalizedString(@"All", nil)];
-    return [[names reverseObjectEnumerator] allObjects];
+    return parentGates;
 }
 
 @end

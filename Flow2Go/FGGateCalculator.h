@@ -16,6 +16,8 @@
                                         subSet:(NSUInteger *)subSet
                                    subSetCount:(NSUInteger)subSetCount;
 
++ (FGGateCalculator *)eventsInsideGatesWithDatas:(NSArray *)gateDatas
+                                         fcsFile:(FGFCSFile *)fcsFile;
 
 + (FGGateCalculator *)eventsInsideGateWithXParameter:(NSString *)xParShortName
                                           yParameter:(NSString *)yParShortName

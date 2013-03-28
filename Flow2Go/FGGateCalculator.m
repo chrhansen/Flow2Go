@@ -19,6 +19,24 @@
     free(_eventsInside);
 }
 
++ (FGGateCalculator *)eventsInsideGatesWithDatas:(NSArray *)gateDatas fcsFile:(FGFCSFile *)fcsFile
+{
+    if (gateDatas == nil || gateDatas.count == 0) {
+        // No gates return all events
+        return nil;
+    }
+    
+    FGGateCalculator *gateCalculator;
+    for (NSDictionary *gateData in gateDatas) {
+        gateCalculator = [self eventsInsideGateWithData:gateData
+                                                fcsFile:fcsFile
+                                                 subSet:gateCalculator.eventsInside
+                                            subSetCount:gateCalculator.countOfEventsInside];
+    }
+    return gateCalculator;
+}
+
+
 + (FGGateCalculator *)eventsInsideGateWithData:(NSDictionary *)gateData
                                        fcsFile:(FGFCSFile *)fcsFile
                                         subSet:(NSUInteger *)subSet

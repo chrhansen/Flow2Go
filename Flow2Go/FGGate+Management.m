@@ -12,6 +12,14 @@
 #import "FGMeasurement+Management.h"
 #import "FGPlot.h"
 
+const NSString *GateType       = @"GateType";
+const NSString *GateName       = @"GateName";
+const NSString *XParName       = @"XParName";
+const NSString *YParName       = @"YParName";
+const NSString *GateXParNumber = @"GateXParNumber";
+const NSString *GateYParNumber = @"GateYParNumber";
+const NSString *Vertices       = @"Vertices";
+
 @implementation FGGate (Management)
 
 - (void)setXParNumber:(NSNumber *)newXParNumber
@@ -72,6 +80,24 @@
 - (NSString *)defaultGateName
 {
     return [NSString stringWithFormat:@"%@%i", NSLocalizedString(@"Gate", nil), self.analysis.gates.count];
+}
+
+- (NSDictionary *)gateData
+{
+    NSNumber *gateType   = self.type.copy;
+    NSString *gateName   = self.name.copy;
+    NSNumber *xParName   = self.xParName.copy;
+    NSNumber *yParName   = self.yParName.copy;
+    NSNumber *xParNumber = self.xParNumber.copy;
+    NSNumber *yParNumber = self.yParNumber.copy;
+    NSArray  *vertices   = [(NSArray *)self.vertices copy];
+    return  @{GateType       : gateType,
+              GateName       : gateName,
+              XParName       : xParName,
+              YParName       : yParName,
+              GateXParNumber : xParNumber,
+              GateYParNumber : yParNumber,
+              Vertices       : vertices};
 }
 
 

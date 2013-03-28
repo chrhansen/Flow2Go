@@ -425,11 +425,8 @@
     
     if (parentGate
         && self.parentGateCalculator == nil) {
-        NSLog(@"Loading parent gate data");
-        self.parentGateCalculator = FGGateCalculator.alloc.init;
-        self.parentGateCalculator.eventsInside = calloc(parentGate.cellCount.integerValue, sizeof(NSUInteger *));
-        self.parentGateCalculator.countOfEventsInside = parentGate.cellCount.integerValue;
-        memcpy(self.parentGateCalculator.eventsInside, [parentGate.subSet bytes], [parentGate.subSet length]);
+        NSArray *parentGateDatas = [FGGate gatesAsData:self.plot.parentGates];
+        self.parentGateCalculator = [FGGateCalculator eventsInsideGatesWithDatas:parentGateDatas fcsFile:self.fcsFile];
     }
     [self.plotData cleanUpPlotData];
     self.plotData = nil;

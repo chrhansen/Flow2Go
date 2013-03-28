@@ -19,18 +19,12 @@
 
 @interface FGGateCalculationOperation : NSOperation
 
-- (id)initWithXParameter:(NSString *)xParShortName
-              yParameter:(NSString *)yParShortName
-                gateType:(FGGateType)gateType
-                vertices:(NSArray *)vertices
-                 fcsFile:(FGFCSFile *)fcsFile
-            parentSubSet:(NSUInteger *)parentSubSet
-       parentSubSetCount:(NSUInteger)parentSubSetCount;
+- (id)initWithGateData:(NSDictionary *)gateData
+               fcsFile:(FGFCSFile *)fcsFile
+          parentSubSet:(NSUInteger *)parentSubSet
+     parentSubSetCount:(NSUInteger)parentSubSetCount;
 
-@property (nonatomic, strong) NSString *xParShortName;
-@property (nonatomic, strong) NSString *yParShortName;
-@property (nonatomic) FGGateType gateType;
-@property (nonatomic, strong) NSArray *vertices;
+@property (nonatomic, strong) NSDictionary *gateData;
 @property (nonatomic) NSInteger gateTag;
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic) NSUInteger *parentSubSet;

@@ -11,6 +11,12 @@
 
 @interface FGGateCalculator : NSObject
 
++ (FGGateCalculator *)eventsInsideGateWithData:(NSDictionary *)gateData
+                                       fcsFile:(FGFCSFile *)fcsFile
+                                        subSet:(NSUInteger *)subSet
+                                   subSetCount:(NSUInteger)subSetCount;
+
+
 + (FGGateCalculator *)eventsInsideGateWithXParameter:(NSString *)xParShortName
                                           yParameter:(NSString *)yParShortName
                                             gateType:(FGGateType)gateType

@@ -10,6 +10,7 @@
 #import "FGFCSFile.h"
 #import "FGGraphPoint.h"
 #import "FGPlot+Management.h"
+#import "FGGate+Management.h"
 
 @implementation FGGateCalculator
 
@@ -18,6 +19,19 @@
     free(_eventsInside);
 }
 
++ (FGGateCalculator *)eventsInsideGateWithData:(NSDictionary *)gateData
+                                       fcsFile:(FGFCSFile *)fcsFile
+                                        subSet:(NSUInteger *)subSet
+                                   subSetCount:(NSUInteger)subSetCount
+{
+    return [self eventsInsideGateWithXParameter:gateData[XParName]
+                                     yParameter:gateData[YParName]
+                                       gateType:[gateData[GateType] integerValue]
+                                       vertices:gateData[Vertices]
+                                        fcsFile:fcsFile
+                                         subSet:subSet
+                                    subSetCount:subSetCount];
+}
 
 + (FGGateCalculator *)eventsInsideGateWithXParameter:(NSString *)xParShortName
                                           yParameter:(NSString *)yParShortName

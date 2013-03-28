@@ -9,24 +9,18 @@
 #import "FGGateCalculationOperation.h"
 #import "FGFCSFile.h"
 #import "FGPlot+Management.h"
-
+#import "FGGate+Management.h"
 
 @implementation FGGateCalculationOperation
 
-- (id)initWithXParameter:(NSString *)xParShortName
-              yParameter:(NSString *)yParShortName
-                gateType:(FGGateType)gateType
-                vertices:(NSArray *)vertices
-                 fcsFile:(FGFCSFile *)fcsFile
-            parentSubSet:(NSUInteger *)parentSubSet
-       parentSubSetCount:(NSUInteger)parentSubSetCount
+- (id)initWithGateData:(NSDictionary *)gateData
+               fcsFile:(FGFCSFile *)fcsFile
+          parentSubSet:(NSUInteger *)parentSubSet
+     parentSubSetCount:(NSUInteger)parentSubSetCount
 {
     if (self = [super init]) {
-        self.vertices          = vertices;
-        self.gateType          = gateType;
+        self.gateData          = gateData;
         self.fcsFile           = fcsFile;
-        self.xParShortName     = xParShortName;
-        self.yParShortName     = yParShortName;
         self.parentSubSet      = parentSubSet;
         self.parentSubSetCount = parentSubSetCount;
     }
@@ -41,13 +35,10 @@
 
     @autoreleasepool {
         
-        FGGateCalculator *gateCalculator = [FGGateCalculator eventsInsideGateWithXParameter:self.xParShortName
-                                                                                 yParameter:self.yParShortName
-                                                                                   gateType:self.gateType
-                                                                                   vertices:self.vertices
-                                                                                    fcsFile:self.fcsFile
-                                                                                     subSet:self.parentSubSet
-                                                                                subSetCount:self.parentSubSetCount];
+        FGGateCalculator *gateCalculator = [FGGateCalculator eventsInsideGateWithData:self.gateData
+                                                                              fcsFile:self.fcsFile
+                                                                               subSet:self.parentSubSet
+                                                                          subSetCount:self.parentSubSetCount];
         
         if (self.isCancelled) {
             return;

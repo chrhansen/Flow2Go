@@ -65,8 +65,7 @@
     
     // ellipse
     self.path = [UIBezierPath bezierPathWithOvalInRect:rect];
-    NSLog(@"rect points after creation: %@", [self getPathPoints]);
-    
+    NSLog(@"ellipse points after creation: %@", [self getPathPoints]);
 }
 
 

@@ -182,12 +182,9 @@
         self.detailPopoverController = [UIPopoverController.alloc initWithContentViewController:gateNavigationVC];
         [self.detailPopoverController presentPopoverFromRect:anchorFrame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         self.detailPopoverController.delegate = self;
-        [gateTVC setEditing:editOn animated:NO];
-        
-        return;
+    } else {
+        [self presentViewController:gateNavigationVC animated:YES completion:nil];
     }
-    // if UIUserInterfaceIdiomPhone:
-    [self presentViewController:gateNavigationVC animated:YES completion:nil];
     [gateTVC setEditing:editOn animated:NO];
 }
 
@@ -425,8 +422,7 @@
     
     if (parentGate
         && self.parentGateCalculator == nil) {
-        NSArray *parentGateDatas = [FGGate gatesAsData:self.plot.parentGates];
-        self.parentGateCalculator = [FGGateCalculator eventsInsideGatesWithDatas:parentGateDatas fcsFile:self.fcsFile];
+        [self updateSubPopulation];
     }
     [self.plotData cleanUpPlotData];
     self.plotData = nil;
@@ -434,6 +430,12 @@
                                                  plotOptions:self.plot.plotOptions
                                                       subset:self.parentGateCalculator.eventsInside
                                                  subsetCount:self.parentGateCalculator.countOfEventsInside];
+}
+
+- (void)updateSubPopulation
+{
+    NSArray *parentGateDatas = [FGGate gatesAsData:self.plot.parentGates];
+    self.parentGateCalculator = [FGGateCalculator eventsInsideGatesWithDatas:parentGateDatas fcsFile:self.fcsFile];
 }
 
 
@@ -703,18 +705,10 @@ static CPTPlotSymbol *plotSymbol;
     FGGate *modifiedGate  = self.displayedGates[gateNo];
     modifiedGate.vertices = gateVertices;
     
-    FGGate *parentGate = (FGGate *)self.plot.parentNode;
-    NSUInteger *parentSubSet = nil;
-    NSUInteger parentSubSetCount = 0;
-    if (parentGate) {
-        parentSubSetCount = parentGate.cellCount.integerValue;
-        parentSubSet = calloc(parentSubSetCount, sizeof(NSUInteger *));
-        memcpy(parentSubSet, [parentGate.subSet bytes], [parentGate.subSet length]);
-    }
     FGGateCalculationOperation *gateOperation = [[FGGateCalculationOperation alloc] initWithGateData:modifiedGate.gateData
                                                                                              fcsFile:self.fcsFile
-                                                                                        parentSubSet:parentSubSet
-                                                                                   parentSubSetCount:parentSubSetCount];
+                                                                                        parentSubSet:self.parentGateCalculator.eventsInside
+                                                                                   parentSubSetCount:self.parentGateCalculator.countOfEventsInside];
     gateOperation.delegate = self;
     gateOperation.gateTag = gateNo;
     [gateOperation setCompletionBlock:^{
@@ -744,13 +738,10 @@ static CPTPlotSymbol *plotSymbol;
 - (void)gateCalculationOperationDidFinish:(FGGateCalculationOperation *)operation
 {
     FGGate *modifiedGate = self.displayedGates[operation.gateTag];
-    if (modifiedGate) {
-        modifiedGate.subSet = operation.subSet;
-        modifiedGate.cellCount = [NSNumber numberWithUnsignedInteger:operation.subSetCount];
-        NSError *error;
-        [self.plot.managedObjectContext save:&error];
-        if (error) NSLog(@"Error updating gate: %@", error.localizedDescription);
-    }
+    modifiedGate.countOfEvents = [NSNumber numberWithUnsignedInteger:operation.subSetCount];
+    NSError *error;
+    [self.plot.managedObjectContext save:&error];
+    if (error) NSLog(@"Error updating gate: %@", error.localizedDescription);
 }
 
 

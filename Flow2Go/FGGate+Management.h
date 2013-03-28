@@ -24,6 +24,7 @@ extern const NSString *Vertices;
 + (BOOL)is2DGateType:(FGGateType)gateType;
 
 - (NSDictionary *)gateData;
++ (NSArray *)gatesAsData:(NSArray *)gates;
 
 + (NSError *)deleteGate:(FGGate *)gate;
 + (NSError *)deleteGates:(NSArray *)gatesToDelete;

@@ -180,4 +180,17 @@ const NSString *Vertices       = @"Vertices";
     [gate deleteInContext:gate.managedObjectContext];
     return error;
 }
+
++ (NSArray *)gatesAsData:(NSArray *)gates
+{
+    NSMutableArray *dictionaries = [NSMutableArray arrayWithCapacity:gates.count];
+    for (id aGate in gates) {
+        if ([aGate isKindOfClass:FGGate.class]) {
+            [dictionaries addObject:[(FGGate *)aGate gateData]];
+        }
+    }
+    return dictionaries;
+}
+
+
 @end

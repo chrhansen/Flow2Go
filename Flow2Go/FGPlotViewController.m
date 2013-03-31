@@ -573,7 +573,7 @@
     }
     yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].minValue]);
     yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", self.fcsFile.ranges[_yParIndex].maxValue-self.fcsFile.ranges[_yParIndex].minValue]);
-//    yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", 2000.0-self.fcsFile.ranges[_yParIndex].minValue]);
+//    yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", 10000.0-self.fcsFile.ranges[_yParIndex].minValue]);
     self.plotSpace.yRange = yRange;
 }
 

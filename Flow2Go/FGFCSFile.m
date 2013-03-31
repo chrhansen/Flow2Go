@@ -8,6 +8,7 @@
 
 #import "FGFCSFile.h"
 #import "FGFCSHeader.h"
+#import "FGMatrixInversion.h"
 
 typedef NS_ENUM(NSInteger, FGParameterSize)
 {
@@ -240,8 +241,6 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     [self _convertChannelValuesToScaleValues:self.events];
     [self _applyCompensationToScaleValues:self.events];
     [self _applyCalibrationToScaledValues:self.events];
-//    [self _printOutScaledMinMax];
-    
     return error;
 }
 
@@ -318,38 +317,36 @@ union Int2Float {
 };
 typedef union Int2Float Int2Float;
 
-- (NSError *)_readFloatDataType:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte byteOrder:(CFByteOrder)fcsFileByteOrder
+
+- (NSError *)_readFloatDataType:(NSInputStream *)inputStream from:(NSUInteger)firstByte to:(NSUInteger)lastByte byteOrder:(CFByteOrder)fileByteOrder
 {
     NSInteger bytesRead = 0;
     uint8_t bufferAllData[_noOfParams * _noOfEvents * sizeof(Float32)];
+    
     bytesRead = [inputStream read:bufferAllData maxLength:sizeof(bufferAllData)];
     
-    NSLog(@"Float buffer size: %lu (#par: %d, #events: %d)\nbytesRead: %d", sizeof(bufferAllData), _noOfParams, _noOfEvents, bytesRead);
-    
-    Int2Float int2Float;
-    int indexOfOffset0 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 0 : 3;
-    int indexOfOffset1 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 1 : 2;
-    int indexOfOffset2 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 2 : 1;
-    int indexOfOffset3 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 3 : 0;
+    int indexOfOffset0 = (fileByteOrder == CFByteOrderLittleEndian) ? 0 : 3;
+    int indexOfOffset1 = (fileByteOrder == CFByteOrderLittleEndian) ? 1 : 2;
+    int indexOfOffset2 = (fileByteOrder == CFByteOrderLittleEndian) ? 2 : 1;
+    int indexOfOffset3 = (fileByteOrder == CFByteOrderLittleEndian) ? 3 : 0;
     
     NSUInteger byteOffset = 0;
     for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
     {
         for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
         {
+            Int2Float int2Float;
             int2Float.b[indexOfOffset0] = bufferAllData[byteOffset + 0];
             int2Float.b[indexOfOffset1] = bufferAllData[byteOffset + 1];
             int2Float.b[indexOfOffset2] = bufferAllData[byteOffset + 2];
             int2Float.b[indexOfOffset3] = bufferAllData[byteOffset + 3];
-            self.events[eventNo][parNo] = (double)int2Float.floatValue;
+            _events[eventNo][parNo] = (double)int2Float.floatValue;
             byteOffset += 4;
         }
     }
-    [self _printOutRange:NSMakeRange(4000, 3)];
-//    [self _printOutRange:NSMakeRange(0, 10) forParameter:4];
-
     return nil;
 }
+
 
 union Int2Double {
     uint8_t b[8];
@@ -429,7 +426,7 @@ typedef union Int2Double Int2Double;
     {
         if (i + 1 < textSeparated.count)
         {
-            [analysisKeyValuePairs setObject:textSeparated[i+1] forKey:[textSeparated[i] uppercaseString]];
+            analysisKeyValuePairs[[textSeparated[i] uppercaseString]] = textSeparated[i+1];
         }
     }
     
@@ -604,11 +601,12 @@ typedef union Int2Double Int2Double;
 - (void)_applyCompensationToScaleValues:(double **)eventsAsScaledValues
 {
     NSString *spillOverString = self.text[@"$SPILLOVER"];
-    if (spillOverString == nil)
-    {
+    
+    if (spillOverString == nil) spillOverString = self.text[@"SPILL"];
+
+    if (spillOverString == nil) {
         return;
     }
-    NSLog(@"Alert! ----------- Found spillover/compensation ----------");
     
     NSArray *spillOverArray = [spillOverString componentsSeparatedByString:@","];
     if (spillOverArray.count == 0)
@@ -616,29 +614,60 @@ typedef union Int2Double Int2Double;
         NSLog(@"Error: No spill over components found: %@", spillOverString);
         return;
     }
-    NSUInteger n = [spillOverArray[0] unsignedIntegerValue];
+    NSInteger n = [spillOverArray[0] integerValue];
     if (spillOverArray.count < 1 + n + n * n) {
         NSLog(@"Error: Not all required spill over parameters found: %@", spillOverString);
         return;
     }
-    
-    double spillOverMatrix[n*n];
-    for (NSUInteger i = 0; i < n * n; n++)
-    {
-        spillOverMatrix[i] = [spillOverArray[1 + n + (i + 1)] doubleValue];
+        
+    double **spillOverMatrix    = calloc(n, sizeof(NSUInteger *));
+    double **spillOverMatrixInv = calloc(n, sizeof(NSUInteger *));
+    for (NSUInteger i = 0; i < n; i++) {
+        spillOverMatrix[i]       = calloc(n, sizeof(double));
+        spillOverMatrixInv[i] = calloc(n, sizeof(double));
+    }
+
+    for (NSUInteger i = 0; i < n * n; i++) {
+        spillOverMatrix[i / n][i % n] = [spillOverArray[1 + n + i] doubleValue];
     }
     
-    NSLog(@"Spill over string: %@", spillOverString);
-    for (NSUInteger i = 0; i < n * n; i++)
-    {
-        NSLog(@"(%i): %f", i, spillOverMatrix[i]);
+    if ([FGMatrixInversion isIdentityMatrix:spillOverMatrix order:n]) {
+        for (NSUInteger i = 0; i < n; i++) {
+            free(spillOverMatrix[i]);
+            free(spillOverMatrixInv[i]);
+        }
+        free(spillOverMatrix);
+        free(spillOverMatrixInv);
+
+        return;
     }
-    // construct row vector of one event, e
+    
+    NSLog(@"Spill over matrix is NOT identity check values");
     
     // invert spill over matrix
+    spillOverMatrixInv = [FGMatrixInversion getInverseMatrix:spillOverMatrix order:n];
     
-    // multiply, e x S-1 to get compensated value
+    NSUInteger compensationParIndexes[n];
+    for (NSUInteger i = 1; i < 1 + n; i++) {
+        compensationParIndexes[i-1] = [FGFCSFile parameterNumberForShortName:spillOverArray[i] inFCSFile:self] - 1;
+    }
+
+    double *eventVector = calloc(n, sizeof(double));
+    for (NSUInteger eventIndex = 0; eventIndex < _noOfEvents; eventIndex++) {
+        // construct row vector of one event, e
+        for (NSUInteger compensationRow = 0; compensationRow < n; compensationRow++) {
+            NSUInteger parameterIndex = compensationParIndexes[compensationRow];
+            eventVector[compensationRow] = _events[eventIndex][parameterIndex];
+        }
+        // multiply, e x S-1 to get compensated value
+        eventVector = [FGMatrixInversion multiplyVector:eventVector byMatrix:spillOverMatrixInv order:n];
+        for (NSUInteger compensationRow = 0; compensationRow < n; compensationRow++) {
+            NSUInteger parameterIndex = compensationParIndexes[compensationRow];
+            _events[eventIndex][parameterIndex] = eventVector[compensationRow];
+        }
+    }
     
+    free(eventVector);
 }
 
 
@@ -697,7 +726,7 @@ typedef union Int2Double Int2Double;
 {
     for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++) {
         for (NSUInteger i = range.location; i < range.location + range.length; i++) {
-            NSLog(@"ParNo:(%i), eventNo:%i, value: %f", parNo + 1, i, self.events[i][parNo]);
+            NSLog(@"ParNo:(%i), eventNo:%i, value: %f", parNo + 1, i + 1, self.events[i][parNo]);
         }
         NSLog(@"\n");
     }

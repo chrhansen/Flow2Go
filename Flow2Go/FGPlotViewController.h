@@ -16,6 +16,7 @@
 @class FGGate;
 @class FGFCSFile;
 @class FGPlotViewController;
+@class FGGraph;
 
 @protocol PlotViewControllerDelegate <NSObject>
 - (FGFCSFile *)fcsFileForPlot:(FGPlot *)plot;
@@ -24,7 +25,7 @@
 
 @end
 
-@interface FGPlotViewController : UIViewController <CPTPlotDataSource, CPTScatterPlotDelegate, CPTScatterPlotDataSource, CPTPlotSpaceDelegate, GatesContainerViewDelegate, UIActionSheetDelegate>
+@interface FGPlotViewController : UIViewController <CPTScatterPlotDataSource, GatesContainerViewDelegate, UIActionSheetDelegate>
 
 - (void)preparePlotData;
 
@@ -36,5 +37,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *gateCalculationSpinner;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;
+@property (nonatomic, strong) FGGraph *myGraph;
 
 @end

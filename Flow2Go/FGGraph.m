@@ -17,6 +17,8 @@
     if (self) {
         if (!themeName) themeName = kCPTSlateTheme;
         [self applyTheme:[CPTTheme themeNamed:themeName]];
+        [self _configurePlotSpace];
+        [self _insertScatterPlot];
     }
     return self;
 }
@@ -47,7 +49,16 @@
 }
 
 
-- (void)_createGraphAndConfigurePlotSpace
+- (void)setDataSource:(id<FGGraphDataSource>)dataSource
+{
+    if (dataSource != _dataSource) {
+        _dataSource = dataSource;
+        CPTScatterPlot *scatterPlot = (CPTScatterPlot *)[self plotWithIdentifier:@"Scatter Plot 1"];
+        scatterPlot.dataSource = dataSource;
+    }
+}
+
+- (void)_configurePlotSpace
 {
     self.paddingLeft = 0.0f;
     self.paddingRight = 0.0f;
@@ -58,24 +69,26 @@
     self.plotAreaFrame.paddingBottom = 70.0;
     self.plotAreaFrame.paddingTop = 40.0;
     self.plotAreaFrame.borderLineStyle = nil;
-    self.plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
-    self.plotSpace.allowsUserInteraction = YES;
+    
+    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.defaultPlotSpace;
+    plotSpace.allowsUserInteraction = YES;
 }
 
 
 - (void)_insertScatterPlot
 {
     CPTScatterPlot *scatterPlot = [CPTScatterPlot.alloc init];
+    scatterPlot.dataSource = self.dataSource;
     scatterPlot.identifier = @"Scatter Plot 1";
     scatterPlot.plotSymbolMarginForHitDetection = 5.0;
     scatterPlot.borderWidth = 2.0f;
     scatterPlot.borderColor = [self _currentThemeLineColor];
-    [self addPlot:scatterPlot toPlotSpace:self.graph.defaultPlotSpace];
+    [self addPlot:scatterPlot toPlotSpace:self.defaultPlotSpace];
 }
 
 - (CGColorRef)_currentThemeLineColor
 {
-    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.axisSet;
     return axisSet.xAxis.majorTickLineStyle.lineColor.cgColor;
 }
 
@@ -83,7 +96,7 @@
 
 - (void)updateXAxis:(FGAxisType)xAxisType yAxisType:(FGAxisType)yAxisType plotType:(FGPlotType)plotType
 {
-    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.graph.axisSet;
+    CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.axisSet;
     CPTXYAxis *x = axisSet.xAxis;
     CPTXYAxis *y = axisSet.yAxis;
     CPTColor *themeColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];
@@ -126,14 +139,16 @@
     y.title = nil;
     y.axisConstraints = [CPTConstraints constraintWithLowerOffset:0.0f];
     
+    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.defaultPlotSpace;
+
     switch (xAxisType) {
         case kAxisTypeLinear:
-            self.plotSpace.xScaleType = CPTScaleTypeLinear;
+            plotSpace.xScaleType = CPTScaleTypeLinear;
             x.labelFormatter = linearLabelFormatter;
             break;
             
         case kAxisTypeLogarithmic:
-            self.plotSpace.xScaleType = CPTScaleTypeLog;
+            plotSpace.xScaleType = CPTScaleTypeLog;
             x.labelFormatter = logarithmicLabelFormatter;
             break;
             
@@ -142,19 +157,19 @@
     }
     
     if (plotType == kPlotTypeHistogram) {
-        self.plotSpace.yScaleType = CPTScaleTypeLinear;
+        plotSpace.yScaleType = CPTScaleTypeLinear;
         y.labelFormatter = linearLabelFormatter;
         return;
     }
     
     switch (yAxisType) {
         case kAxisTypeLinear:
-            self.plotSpace.yScaleType = CPTScaleTypeLinear;
+            plotSpace.yScaleType = CPTScaleTypeLinear;
             y.labelFormatter = linearLabelFormatter;
             break;
             
         case kAxisTypeLogarithmic:
-            self.plotSpace.yScaleType = CPTScaleTypeLog;
+            plotSpace.yScaleType = CPTScaleTypeLog;
             y.labelFormatter = logarithmicLabelFormatter;
             break;
             
@@ -166,22 +181,23 @@
 
 - (void)adjustPlotRangeToFitXRange:(FGRange)xMinMaxRange yRange:(FGRange)yMinMaxRange plotType:(FGPlotType)plotType
 {
-    CPTMutablePlotRange *xRange = [self.plotSpace.xRange mutableCopy];
+    CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.defaultPlotSpace;
+    CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
     xRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", xMinMaxRange.minValue]);
     xRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", xMinMaxRange.maxValue - xMinMaxRange.minValue]);
-    self.plotSpace.xRange = xRange;
+    plotSpace.xRange = xRange;
     
-    CPTMutablePlotRange *yRange = [self.plotSpace.yRange mutableCopy];
+    CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
     
     if (plotType == kPlotTypeHistogram) {
         yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", 0.0]);
         NSInteger maxCount = [self.dataSource countForHistogramMaxValue];
         yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", (double)maxCount * 1.1]);
-        self.plotSpace.yRange = yRange;
+        plotSpace.yRange = yRange;
         return;
     }
     yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", yMinMaxRange.minValue]);
     yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", yMinMaxRange.maxValue - yMinMaxRange.minValue]);
-    self.plotSpace.yRange = yRange;
+    plotSpace.yRange = yRange;
 }
 @end

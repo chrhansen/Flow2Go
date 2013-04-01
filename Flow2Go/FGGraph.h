@@ -8,7 +8,7 @@
 
 #import "CorePlot-CocoaTouch.h"
 
-@protocol FGGraphDataSource <CPTScatterPlotDataSource, CPTPlotDataSource>
+@protocol FGGraphDataSource <CPTScatterPlotDataSource>
 
 - (NSInteger)countForHistogramMaxValue;
 
@@ -16,7 +16,6 @@
 
 @interface FGGraph : CPTXYGraph
 
-@property (nonatomic, strong) CPTXYPlotSpace *plotSpace;
 @property (nonatomic, weak) id<FGGraphDataSource> dataSource;
 
 - (id)initWithFrame:(CGRect)newFrame themeNamed:(NSString *)themeName;

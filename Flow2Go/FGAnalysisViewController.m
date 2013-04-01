@@ -22,6 +22,7 @@
 #import "NSString+_Format.h"
 #import "NSManagedObjectContext+Clone.h"
 #import "FGAnalysisManager.h"
+#import "FGGraph.h"
 
 @interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate, FGFCSProgressDelegate>
 
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) NSMutableArray *objectChanges;
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
+@property (nonatomic, strong) FGGraph *graph;
 
 @end
 
@@ -42,6 +44,13 @@
     _objectChanges = [NSMutableArray array];
     _sectionChanges = [NSMutableArray array];
     [self _addNoiseBackground];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self performSelector:@selector(prepareGraph) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]]; // avoid loading graph when user is panning
 }
 
 
@@ -114,6 +123,14 @@
         [[FGAnalysisManager sharedInstance] performAnalysis:analysisCopy withCompletion:^(NSError *error) {
             NSLog(@"Completed analysis for measurement: %@", measurement.filename);
         }];
+    }
+}
+
+
+- (void)prepareGraph
+{
+    if (!self.graph) {
+        self.graph = [[FGGraph alloc] initWithFrame:[self boundsThatFitsWithinStatusBarInAllOrientations] themeNamed:kCPTSlateTheme];
     }
 }
 
@@ -219,6 +236,8 @@
     FGPlotViewController *plotViewController = (FGPlotViewController *)navigationController.topViewController;
     plotViewController.delegate = self;
     plotViewController.plot = plot;
+    plotViewController.myGraph = self.graph;
+    plotViewController.myGraph.dataSource = plotViewController;
     navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     navigationController.navigationBar.translucent = YES;

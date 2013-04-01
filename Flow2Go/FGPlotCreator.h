@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CorePlot-CocoaTouch.h"
+#import "FGGraph.h"
 
 @class FGFCSFile;
 
-@interface FGPlotCreator : NSObject <CPTPlotDataSource, CPTScatterPlotDataSource>
+@interface FGPlotCreator : NSObject <FGGraphDataSource>
 
 + (FGPlotCreator *)renderPlotImageWithPlotOptions:(NSDictionary *)plotOptions
                                           fcsFile:(FGFCSFile *)fcsFile

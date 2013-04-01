@@ -10,22 +10,23 @@
 #import "CorePlot-CocoaTouch.h"
 #import "FGGatesContainerView.h"
 #import "FGAddGateButtonsView.h"
+#import "FGGraph.h"
 
 @class FGMeasurement;
 @class FGPlot;
 @class FGGate;
 @class FGFCSFile;
 @class FGPlotViewController;
-@class FGGraph;
 
 @protocol PlotViewControllerDelegate <NSObject>
+
 - (FGFCSFile *)fcsFileForPlot:(FGPlot *)plot;
 - (void)plotViewController:(FGPlotViewController *)plotViewController didSelectGate:(FGGate *)gate forPlot:(FGPlot *)plot;
 - (void)plotViewController:(FGPlotViewController *)plotViewController didTapDoneForPlot:(FGPlot *)plot;
 
 @end
 
-@interface FGPlotViewController : UIViewController <CPTScatterPlotDataSource, GatesContainerViewDelegate, UIActionSheetDelegate>
+@interface FGPlotViewController : UIViewController <FGGraphDataSource, GatesContainerViewDelegate, UIActionSheetDelegate>
 
 - (void)preparePlotData;
 
@@ -37,6 +38,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *gateCalculationSpinner;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;
-@property (nonatomic, strong) FGGraph *myGraph;
+@property (nonatomic, strong) FGGraph *graph;
 
 @end

@@ -236,8 +236,8 @@
     FGPlotViewController *plotViewController = (FGPlotViewController *)navigationController.topViewController;
     plotViewController.delegate = self;
     plotViewController.plot = plot;
-    plotViewController.myGraph = self.graph;
-    plotViewController.myGraph.dataSource = plotViewController;
+    plotViewController.graph = self.graph;
+    plotViewController.graph.dataSource = plotViewController;
     navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     navigationController.navigationBar.translucent = YES;

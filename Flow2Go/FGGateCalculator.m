@@ -8,7 +8,6 @@
 
 #import "FGGateCalculator.h"
 #import "FGFCSFile.h"
-#import "FGGraphPoint.h"
 #import "FGPlot+Management.h"
 #import "FGGate+Management.h"
 

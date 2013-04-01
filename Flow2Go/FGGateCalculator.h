@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FGGraphPoint.h"
+
 @class FGFCSFile;
 
 @interface FGGateCalculator : NSObject

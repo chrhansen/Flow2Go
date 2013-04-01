@@ -89,7 +89,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5F-po-NHv">
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="MkD-cb-H24"/>
+                                            <constraint firstAttribute="width" constant="150" id="8Ue-ub-hI3"/>
                                             <constraint firstAttribute="height" constant="44" id="urR-mc-VYP"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" size="button"/>
@@ -108,7 +108,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3P-ip-Owu">
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="me7-gF-6wZ"/>
-                                            <constraint firstAttribute="width" constant="100" id="wjy-3W-MkT"/>
+                                            <constraint firstAttribute="width" constant="150" id="vii-h0-ee3"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                         <state key="normal">
@@ -128,8 +128,8 @@
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="E9j-sA-Ipk"/>
-                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="X5s-5V-qa8"/>
-                                    <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="XbR-1N-TJV"/>
+                                    <constraint firstItem="P5F-po-NHv" firstAttribute="centerX" secondItem="4Y6-vR-W5x" secondAttribute="centerX" type="default" id="I7J-hy-x9b"/>
+                                    <constraint firstItem="J3P-ip-Owu" firstAttribute="leading" secondItem="4Y6-vR-W5x" secondAttribute="leading" constant="5" id="cT0-sl-MRa"/>
                                     <constraint firstAttribute="centerY" secondItem="J3P-ip-Owu" secondAttribute="centerY" type="user" id="jjr-E0-fNg"/>
                                     <constraint firstAttribute="bottom" secondItem="orM-BB-vMr" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="kXv-WI-Zjt"/>
                                     <constraint firstItem="P5F-po-NHv" firstAttribute="bottom" secondItem="4Y6-vR-W5x" secondAttribute="bottom" type="default" id="mwy-5B-Rp8"/>
@@ -1398,6 +1398,148 @@
         <image name="0290.png" width="35" height="35"/>
         <image name="39-circle-check.png" width="28" height="28"/>
     </resources>
+    <classes>
+        <class className="CPTGraphHostingView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
+        </class>
+        <class className="FGAddGateButtonsView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateButtonsView.h"/>
+            <relationships>
+                <relationship kind="action" name="addGateButtonTapped:" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="ovalGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="polyGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="quadrantGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="rectGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="singleRangeGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="tripleRangeGateButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="applyToAllTapped:"/>
+            </relationships>
+        </class>
+        <class className="FGDropboxCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGDropboxViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
+        </class>
+        <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
+        </class>
+        <class className="FGGateTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGateTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FGGatesContainerView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGatesContainerView.h"/>
+        </class>
+        <class className="FGKeywordTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGKeywordTableViewController.h"/>
+        </class>
+        <class className="FGMeasurementCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="eventCountLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="fileNameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="measurementImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="thumbImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="FGMeasurementCollectionViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCollectionViewController.h"/>
+        </class>
+        <class className="FGMeasurementGridLayout" superclassName="UICollectionViewFlowLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementGridLayout.h"/>
+        </class>
+        <class className="FGMeasurementHeaderView" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementHeaderView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGPlotCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="populationLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGPlotDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FGPlotViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addGateButtonsView" candidateClass="FGAddGateButtonsView"/>
+                <relationship kind="outlet" name="gateCalculationSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
+                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
+                <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FGStoreCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FGStoreViewController" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -156,12 +156,10 @@
         [gateGraphic.path fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
         [gateGraphic.strokeColor setStroke];
         [gateGraphic.path stroke];
-        if (gateGraphic.hooks)
-        {
+        if (gateGraphic.hooks) {
             [gateGraphic.hookColor setFill];
             [gateGraphic.hookColor setStroke];
-            for (UIBezierPath *hook in gateGraphic.hooks)
-            {
+            for (UIBezierPath *hook in gateGraphic.hooks) {
                 [hook fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
                 [hook stroke];
             }

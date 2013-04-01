@@ -20,18 +20,10 @@
 
 - (id)initWithFrame:(CGRect)newFrame themeNamed:(NSString *)themeName;
 
-
-- (void)configureStyleForPlotType:(FGPlotType)plotType;
-- (void)updateXAxis:(FGAxisType)xAxisType yAxisType:(FGAxisType)yAxisType plotType:(FGPlotType)plotType;
+- (void)updateGraphWithPlotOptions:(NSDictionary *)plotOptions;
 - (void)adjustPlotRangeToFitXRange:(FGRange)xMinMaxRange yRange:(FGRange)yMinMaxRange plotType:(FGPlotType)plotType;
 
 @end
-
-
-// Remember to
-// -set scatter plot datasource
-// -plot datasource
-// -add self to a graphHostingView
 
 
 // From CPTTheme class:

@@ -7,6 +7,7 @@
 //
 
 #import "FGGraph.h"
+#import "FGPlot+Management.h"
 
 @implementation FGGraph
 
@@ -22,6 +23,26 @@
     }
     return self;
 }
+
+
+- (void)setDataSource:(id<FGGraphDataSource>)dataSource
+{
+    if (dataSource != _dataSource) {
+        _dataSource = dataSource;
+        CPTScatterPlot *scatterPlot = (CPTScatterPlot *)[self plotWithIdentifier:@"Scatter Plot 1"];
+        scatterPlot.dataSource = dataSource;
+    }
+}
+
+- (void)updateGraphWithPlotOptions:(NSDictionary *)plotOptions
+{
+    FGPlotType *plotType = [plotOptions[PlotType] integerValue];
+    FGAxisType *xAxisType = [plotOptions[XAxisType] integerValue];
+    FGAxisType *yAxisType = [plotOptions[YAxisType] integerValue];
+    [self configureStyleForPlotType:plotType];
+    [self updateXAxis:xAxisType yAxisType:yAxisType plotType:plotType];
+}
+
 
 
 - (void)configureStyleForPlotType:(FGPlotType)plotType
@@ -48,15 +69,6 @@
     }
 }
 
-
-- (void)setDataSource:(id<FGGraphDataSource>)dataSource
-{
-    if (dataSource != _dataSource) {
-        _dataSource = dataSource;
-        CPTScatterPlot *scatterPlot = (CPTScatterPlot *)[self plotWithIdentifier:@"Scatter Plot 1"];
-        scatterPlot.dataSource = dataSource;
-    }
-}
 
 - (void)_configurePlotSpace
 {

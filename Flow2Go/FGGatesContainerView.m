@@ -195,6 +195,8 @@
     
     panRecognizer.delegate = self;
     pinchRecognizer.delegate = self;
+    singleTapRecognizer.delegate = self;
+    
     self.simultaneousGestures = 0;
 }
 

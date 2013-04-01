@@ -660,7 +660,6 @@ static CPTPlotSymbol *plotSymbol;
         graphPoint[1] = aPoint.y;
         CGPoint viewPoint = [plotSpace plotAreaViewPointForDoublePrecisionPlotPoint:graphPoint];
         viewPoint = [aView.layer convertPoint:viewPoint fromLayer:self.plotSpace.graph.plotAreaFrame.plotArea];
-        
         [viewVertices addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
     return viewVertices;

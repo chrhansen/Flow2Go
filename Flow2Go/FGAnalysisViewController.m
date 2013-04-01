@@ -198,6 +198,7 @@
 #pragma mark - UICollectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
     [self _presentPlot:plot];
 }
@@ -238,7 +239,7 @@
     plotViewController.plot = plot;
     plotViewController.graph = self.graph;
     plotViewController.graph.dataSource = plotViewController;
-    navigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
     navigationController.navigationBar.translucent = YES;
     [self presentViewController:navigationController animated:YES completion:nil];

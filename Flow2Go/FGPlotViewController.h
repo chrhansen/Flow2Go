@@ -26,7 +26,7 @@
 
 @end
 
-@interface FGPlotViewController : UIViewController <FGGraphDataSource, GatesContainerViewDelegate, UIActionSheetDelegate>
+@interface FGPlotViewController : UIViewController <FGGraphDataSource, GatesContainerViewDelegate>
 
 - (void)preparePlotData;
 

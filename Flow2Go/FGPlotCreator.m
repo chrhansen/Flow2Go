@@ -67,8 +67,7 @@
     FGPlotType plotType = [self.plotOptions[PlotType] integerValue];
     NSInteger xParIndex = [self.plotOptions[XParNumber] integerValue] - 1;
     NSInteger yParIndex = [self.plotOptions[YParNumber] integerValue] - 1;
-    [self.graph configureStyleForPlotType:plotType];
-    [self.graph updateXAxis:[self.plotOptions[XAxisType] integerValue] yAxisType:[self.plotOptions[YAxisType] integerValue] plotType:plotType];
+    [self.graph updateGraphWithPlotOptions:self.plotOptions];
     [self.graph reloadData];
     [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[xParIndex] yRange:self.fcsFile.ranges[yParIndex] plotType:plotType];
 }

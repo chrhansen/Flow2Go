@@ -76,10 +76,13 @@
 {
     [super viewDidAppear:animated];
     self.graphHostingView.hostedGraph = self.graph;
-    [self _reloadPlotDataAndLayout];
+    [self preparePlotData];
+    [self _updateLayout];
+    [self.graph reloadData];
     self.gatesContainerView.delegate = self;
     [self.gatesContainerView performSelector:@selector(redrawGates) withObject:nil afterDelay:0.05];
     [self addTapGestureRecognizerToBackgruond];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -125,8 +128,7 @@
 
 - (void)_removeSubviews
 {
-    for (UIView *aSubView in self.view.subviews)
-    {
+    for (UIView *aSubView in self.view.subviews) {
         [aSubView removeFromSuperview];
     }
 }
@@ -182,7 +184,9 @@
 {
     NSNumber *plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
     self.plot.plotType = plotType;
-    [self _reloadPlotDataAndLayout];
+    [self preparePlotData];
+    [self _updateLayout];
+    [self.graph reloadData];
     [self.addGateButtonsView updateButtons];
     [self.gatesContainerView redrawGates];
     NSError *error;
@@ -311,7 +315,9 @@
     } else if (self.popoverView.tag == Y_AXIS_TAG) {
         self.plot.yParNumber = parNumber;
     }
-    [self _reloadPlotDataAndLayout];
+    [self preparePlotData];
+    [self _updateLayout];
+    [self.graph reloadData];
     [self.gatesContainerView redrawGates];
     
     NSError *error;
@@ -325,39 +331,8 @@
     NSLog(@"sender: %@", sender);
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex <= 0) {
-        return;
-    }
-    NSNumber *parNumber = [NSNumber numberWithInteger:buttonIndex];
-    if (actionSheet.tag == X_AXIS_TAG) {
-        self.plot.xParNumber = parNumber;
-    } else if (actionSheet.tag == Y_AXIS_TAG) {
-        self.plot.yParNumber = parNumber;
-    }
-    [self _reloadPlotDataAndLayout];
-    [self.gatesContainerView redrawGates];
-    NSError *error;
-    [self.plot.managedObjectContext save:&error];
-    if (error) NSLog(@"Erro saving plot: %@", error.localizedDescription);
-}
-
-
 
 #pragma mark Reloading plot
-- (void)_reloadPlotDataAndLayout
-{
-    [self preparePlotData];
-    [self _updateAxisTitleButtons];
-    
-    [self.graph configureStyleForPlotType:self.plot.plotType.integerValue];
-    [self.graph updateXAxis:self.plot.xAxisType.integerValue yAxisType:self.plot.yAxisType.integerValue plotType:self.plot.plotType.integerValue];
-    [self.graph reloadData];
-    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[_xParIndex] yRange:self.fcsFile.ranges[_yParIndex] plotType:self.plot.plotType.integerValue];
-}
-
-
 - (void)preparePlotData
 {
     _xParIndex = self.plot.xParNumber.integerValue - 1;
@@ -374,6 +349,14 @@
                                                       subset:self.parentGateCalculator.eventsInside
                                                  subsetCount:self.parentGateCalculator.countOfEventsInside];
 }
+
+- (void)_updateLayout
+{
+    [self _updateAxisTitleButtons];
+    [self.graph updateGraphWithPlotOptions:self.plot.plotOptions];
+    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[_xParIndex] yRange:self.fcsFile.ranges[_yParIndex] plotType:self.plot.plotType.integerValue];
+}
+
 
 - (void)updateSubPopulation
 {

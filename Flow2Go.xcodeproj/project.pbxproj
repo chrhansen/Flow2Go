@@ -53,6 +53,7 @@
 		E54923F617048E6000A0F75F /* FGGate.m in Sources */ = {isa = PBXBuildFile; fileRef = E54923F517048E6000A0F75F /* FGGate.m */; };
 		E54923FC1704B53700A0F75F /* NSManagedObjectContext+Clone.m in Sources */ = {isa = PBXBuildFile; fileRef = E54923FB1704B53700A0F75F /* NSManagedObjectContext+Clone.m */; };
 		E5492401170786DC00A0F75F /* FGMatrixInversion.m in Sources */ = {isa = PBXBuildFile; fileRef = E5492400170786DA00A0F75F /* FGMatrixInversion.m */; };
+		E54924041709DB2000A0F75F /* FGGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = E54924031709DB1F00A0F75F /* FGGraph.m */; };
 		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
 		E54D71B516049CC5008CEC5D /* FGPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* FGPolygon.m */; };
 		E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* FGGatesContainerView.m */; };
@@ -303,8 +304,10 @@
 		E54923F517048E6000A0F75F /* FGGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGate.m; sourceTree = "<group>"; };
 		E54923FA1704B53700A0F75F /* NSManagedObjectContext+Clone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Clone.h"; sourceTree = "<group>"; };
 		E54923FB1704B53700A0F75F /* NSManagedObjectContext+Clone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Clone.m"; sourceTree = "<group>"; };
-		E54923FF170786D900A0F75F /* FGMatrixInversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGMatrixInversion.h; path = Flow2Go/FGMatrixInversion.h; sourceTree = "<group>"; };
-		E5492400170786DA00A0F75F /* FGMatrixInversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FGMatrixInversion.m; path = Flow2Go/FGMatrixInversion.m; sourceTree = "<group>"; };
+		E54923FF170786D900A0F75F /* FGMatrixInversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMatrixInversion.h; sourceTree = "<group>"; };
+		E5492400170786DA00A0F75F /* FGMatrixInversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMatrixInversion.m; sourceTree = "<group>"; };
+		E54924021709DB1F00A0F75F /* FGGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraph.h; sourceTree = "<group>"; };
+		E54924031709DB1F00A0F75F /* FGGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraph.m; sourceTree = "<group>"; };
 		E54D71AC16049C98008CEC5D /* FGGatesContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGatesContainerView.h; sourceTree = "<group>"; };
 		E54D71B016049CC5008CEC5D /* FGGateGraphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateGraphic.h; sourceTree = "<group>"; };
 		E54D71B116049CC5008CEC5D /* FGGateGraphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateGraphic.m; sourceTree = "<group>"; };
@@ -619,6 +622,8 @@
 		E511FD6115CC31C000637D39 /* FCSParser */ = {
 			isa = PBXGroup;
 			children = (
+				E54923FF170786D900A0F75F /* FGMatrixInversion.h */,
+				E5492400170786DA00A0F75F /* FGMatrixInversion.m */,
 				E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */,
 				E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */,
 			);
@@ -715,6 +720,8 @@
 				E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */,
 				E579564715DAFE6800B77795 /* FGGateCalculator.h */,
 				E579564815DAFE6800B77795 /* FGGateCalculator.m */,
+				E54924021709DB1F00A0F75F /* FGGraph.h */,
+				E54924031709DB1F00A0F75F /* FGGraph.m */,
 				E56FC11E170356F1004019DF /* FGPlotCreator.h */,
 				E56FC11F170356F1004019DF /* FGPlotCreator.m */,
 				E54923F0170362E800A0F75F /* FGAnalysisManager.h */,
@@ -1203,10 +1210,8 @@
 		E5FC6F3915CA7E8E0047A3DD = {
 			isa = PBXGroup;
 			children = (
-				E54923FF170786D900A0F75F /* FGMatrixInversion.h */,
-				E5492400170786DA00A0F75F /* FGMatrixInversion.m */,
-				E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */,
 				E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */,
+				E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */,
 				E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */,
 				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
 				E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */,
@@ -1582,6 +1587,7 @@
 				E54923F617048E6000A0F75F /* FGGate.m in Sources */,
 				E54923FC1704B53700A0F75F /* NSManagedObjectContext+Clone.m in Sources */,
 				E5492401170786DC00A0F75F /* FGMatrixInversion.m in Sources */,
+				E54924041709DB2000A0F75F /* FGGraph.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -115,8 +115,9 @@
     double yMin = fcsFile.ranges[yPar].minValue;
     double yMax = fcsFile.ranges[yPar].maxValue;
     
-    double xFactor = pow(xMin/xMax, 1.0/(BIN_COUNT - 1.0));
-    double yFactor = pow(yMin/yMax, 1.0/(BIN_COUNT - 1.0));
+    double maxIndex = (double)(BIN_COUNT - 1);
+    double xFactor = pow(xMin/xMax, 1.0/maxIndex);
+    double yFactor = pow(yMin/yMax, 1.0/maxIndex);
     
     double log10XFactor = log10(xFactor);
     double log10YFactor = log10(yFactor);
@@ -124,7 +125,6 @@
     double log10XMin = log10(xMin);
     double log10YMin = log10(yMin);
     
-    double maxIndex = (double)(BIN_COUNT - 1);
     
     FGPlotPoint plotPoint;
     NSUInteger col = 0;

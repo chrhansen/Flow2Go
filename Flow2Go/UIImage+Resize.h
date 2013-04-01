@@ -10,7 +10,7 @@
 
 @interface UIImage (Resize)
 
-+ (void)scaleImage:(UIImage *)image toSize:(CGSize)size completion:(void (^)(UIImage *resizedImage))completion;
++ (void)scaleImage:(UIImage *)image toSize:(CGSize)size completion:(void (^)(UIImage *scaledImage))completion; // completion block is called on main queue
 + (UIImage *)scaleImage:(UIImage*)image toSize:(CGSize)newSize;
 
 @end

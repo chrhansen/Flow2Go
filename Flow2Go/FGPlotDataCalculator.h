@@ -18,8 +18,6 @@
                                       subset:(NSUInteger *)subset
                                  subsetCount:(NSUInteger)subsetCount;
 
-- (void)cleanUpPlotData;
-
 @property (nonatomic) NSUInteger numberOfPoints;
 @property (nonatomic) FGDensityPoint *points;
 @property (nonatomic) NSUInteger countForMaxBin;

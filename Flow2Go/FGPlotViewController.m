@@ -97,13 +97,6 @@
 }
 
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [self.plotData cleanUpPlotData];
-    [super viewDidDisappear:animated];
-}
-
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -421,8 +414,6 @@
     FGGate *parentGate = (FGGate *)self.plot.parentNode;
     if (parentGate && self.parentGateCalculator == nil) [self updateSubPopulation];
     
-    [self.plotData cleanUpPlotData];
-    self.plotData = nil;
     self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile
                                                  plotOptions:self.plot.plotOptions
                                                       subset:self.parentGateCalculator.eventsInside

@@ -425,7 +425,7 @@
 }
 
 
-- (void)cleanUpPlotData
+- (void)dealloc
 {
     free(self.points);
 }

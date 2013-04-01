@@ -51,7 +51,6 @@
     [plotCreator _insertScatterPlot];
     [plotCreator _reloadPlotDataAndLayout];
     UIImage *bigImage = [UIImage captureLayer:plotCreator.graph flipImage:YES];
-    [plotCreator _cleanUp];
     plotCreator.plotImage = [UIImage scaleImage:bigImage toSize:CGSizeMake(300, 300)];
     plotCreator.thumbImage = [UIImage scaleImage:bigImage toSize:CGSizeMake(74, 74)];
     
@@ -243,12 +242,6 @@
     }
 }
 
-- (void)_cleanUp
-{
-    self.plotSpace = nil;
-    self.graph = nil;
-    [self.plotData cleanUpPlotData];
-}
 
 #pragma mark - CPT Plot Data Source
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot

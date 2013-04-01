@@ -11,7 +11,6 @@
 #import "FGFCSFile.h"
 #import "FileMD5Hash.h"
 #import "FGKeyword.h"
-#import "FGKeywordParseOperation.h"
 
 @implementation FGMeasurement (Management)
 

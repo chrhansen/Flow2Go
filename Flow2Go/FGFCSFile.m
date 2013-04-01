@@ -7,7 +7,6 @@
 //
 
 #import "FGFCSFile.h"
-#import "FGFCSHeader.h"
 #import "FGMatrixInversion.h"
 
 typedef NS_ENUM(NSInteger, FGParameterSize)
@@ -17,6 +16,10 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     FGParameterSize16,
     FGParameterSize32,
 };
+
+@implementation FGFCSHeader
+
+@end
 
 @interface FGFCSFile ()
 
@@ -860,7 +863,7 @@ typedef union Int2Double Int2Double;
     return [self.class axisTypeForScaleString:scaleString];
 }
 
-- (void)cleanUpEvents
+- (void)dealloc
 {
     for (NSUInteger i = 0; i < _noOfEvents; i++) {
         free(_events[i]);

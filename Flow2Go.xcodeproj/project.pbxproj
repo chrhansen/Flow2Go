@@ -45,7 +45,6 @@
 		E52883BE16E535220057AA07 /* 83-calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883BC16E535220057AA07 /* 83-calendar@2x.png */; };
 		E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
-		E533C2DC16EA2D2600B949F6 /* FGKeywordParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E533C2DB16EA2D2600B949F6 /* FGKeywordParseOperation.m */; };
 		E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */; };
 		E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */; };
 		E542F4C6160933280041A60A /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */; };
@@ -65,7 +64,6 @@
 		E55923C616D382D200A087D8 /* ATSurveys.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923C416D382D200A087D8 /* ATSurveys.h */; };
 		E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C716D3838800A087D8 /* 09-chat-2@2x.png */; };
 		E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C816D3838800A087D8 /* 09-chat-2.png */; };
-		E5659AF015E56A87006D23B0 /* FGFCSHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */; };
 		E56FC120170356F1004019DF /* FGPlotCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E56FC11F170356F1004019DF /* FGPlotCreator.m */; };
 		E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E570CCDC16DCF03800418413 /* FGStackedLayout.m */; };
 		E577B4911607D76F002348EE /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B48F1607D76F002348EE /* 39-circle-check.png */; };
@@ -293,8 +291,6 @@
 		E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementHeaderView.m; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* FGGraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
-		E533C2DA16EA2D2600B949F6 /* FGKeywordParseOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGKeywordParseOperation.h; sourceTree = "<group>"; };
-		E533C2DB16EA2D2600B949F6 /* FGKeywordParseOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGKeywordParseOperation.m; sourceTree = "<group>"; };
 		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGMeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCollectionViewController.h; sourceTree = "<group>"; };
@@ -322,8 +318,6 @@
 		E55923C416D382D200A087D8 /* ATSurveys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATSurveys.h; path = Flow2Go/ApptentiveConnect/source/Surveys/ATSurveys.h; sourceTree = "<group>"; };
 		E55923C716D3838800A087D8 /* 09-chat-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "09-chat-2@2x.png"; sourceTree = "<group>"; };
 		E55923C816D3838800A087D8 /* 09-chat-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "09-chat-2.png"; sourceTree = "<group>"; };
-		E5659AEE15E56A87006D23B0 /* FGFCSHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSHeader.h; sourceTree = "<group>"; };
-		E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSHeader.m; sourceTree = "<group>"; };
 		E56FC11E170356F1004019DF /* FGPlotCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreator.h; sourceTree = "<group>"; };
 		E56FC11F170356F1004019DF /* FGPlotCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreator.m; sourceTree = "<group>"; };
 		E570CCDB16DCF03800418413 /* FGStackedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStackedLayout.h; sourceTree = "<group>"; };
@@ -627,10 +621,6 @@
 			children = (
 				E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */,
 				E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */,
-				E5659AEE15E56A87006D23B0 /* FGFCSHeader.h */,
-				E5659AEF15E56A87006D23B0 /* FGFCSHeader.m */,
-				E533C2DA16EA2D2600B949F6 /* FGKeywordParseOperation.h */,
-				E533C2DB16EA2D2600B949F6 /* FGKeywordParseOperation.m */,
 			);
 			name = FCSParser;
 			sourceTree = "<group>";
@@ -1501,7 +1491,6 @@
 				E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */,
 				E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */,
 				E59D2E3515E365FF00944789 /* FGAnalysisViewController.m in Sources */,
-				E5659AF015E56A87006D23B0 /* FGFCSHeader.m in Sources */,
 				E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */,
 				E57BA89315ED8D94008EA346 /* FGPlotDataCalculator.m in Sources */,
 				E5B480B015EF597D00BB6BAC /* FGGateTableViewController.m in Sources */,
@@ -1584,7 +1573,6 @@
 				E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */,
 				E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */,
 				E50F000416E8F164009C546E /* FGPlot.m in Sources */,
-				E533C2DC16EA2D2600B949F6 /* FGKeywordParseOperation.m in Sources */,
 				E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */,
 				E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */,
 				E5F835321701D93E0018E2A8 /* FGPendingOperations.m in Sources */,

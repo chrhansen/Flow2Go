@@ -248,7 +248,6 @@
     self.plotSpace = nil;
     self.graph = nil;
     [self.plotData cleanUpPlotData];
-    [self.fcsFile cleanUpEvents];
 }
 
 #pragma mark - CPT Plot Data Source

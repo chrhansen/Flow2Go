@@ -32,8 +32,6 @@ typedef NS_ENUM(NSInteger, FGParsingSegment) {
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
 + (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FGFCSFile *fcsFile))completion;
 
-- (void)cleanUpEvents;
-
 + (NSInteger)parameterNumberForShortName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile;
 + (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
 + (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
@@ -50,5 +48,17 @@ typedef NS_ENUM(NSInteger, FGParsingSegment) {
 @property (nonatomic) NSUInteger noOfEvents;
 @property (nonatomic) NSUInteger noOfParams;
 @property (nonatomic) FGParsingSegment parsingSegment;
+
+@end
+
+
+@interface FGFCSHeader : NSObject
+
+@property (nonatomic) NSUInteger textBegin;
+@property (nonatomic) NSUInteger textEnd;
+@property (nonatomic) NSUInteger dataBegin;
+@property (nonatomic) NSUInteger dataEnd;
+@property (nonatomic) NSUInteger analysisBegin;
+@property (nonatomic) NSUInteger analysisEnd;
 
 @end

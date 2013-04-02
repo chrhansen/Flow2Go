@@ -59,7 +59,7 @@
     self.addGateButtonsView.delegate = self;
     [self.addGateButtonsView updateButtons];
     [self updateLocalPlotVariables];
-    [self preparePlotData];
+    [self updatePlotData];
 }
 
 
@@ -67,7 +67,7 @@
 {
     [super viewWillAppear:animated];
     [self _configureButtons];
-    [self updatePlot];
+    [self prepareForPlotUpdate];
     self.graphHostingView.hostedGraph = self.graph;
 }
 
@@ -133,13 +133,6 @@
 }
 
 
-- (void)_removeSubviews
-{
-    for (UIView *aSubView in self.view.subviews) {
-        [aSubView removeFromSuperview];
-    }
-}
-
 - (void)_grabImageOfPlot
 {
     UIImage *plotImage = [UIImage captureLayer:self.graphHostingView.layer];
@@ -191,21 +184,12 @@
 {
     NSNumber *plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
     self.plot.plotType = plotType;
-    [self updatePlot];
-    [self preparePlotData];
-    [self.graph reloadData];
+    [self prepareForPlotUpdate];
+    [self updatePlotData];
     [self.addGateButtonsView updateButtons];
     [self.gatesContainerView redrawGates];
     NSError *error;
     if(![self.plot.managedObjectContext save:&error]) NSLog(@"Error saving plot when setting plotType: %@", error.localizedDescription);
-}
-
-
-- (void)doneTapped
-{
-//    [self _removeSubviews];
-    [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self.delegate plotViewController:self didTapDoneForPlot:self.plot];
 }
 
 
@@ -224,7 +208,6 @@
     
     plotTVC.plot = self.plot;
     
-    //[plotTVC setEditing:NO animated:NO];
     if (self.detailPopoverController.isPopoverVisible) {
         UINavigationController *navigationController = (UINavigationController *)self.detailPopoverController.contentViewController;
         if (!navigationController.topViewController.editing) {
@@ -324,8 +307,8 @@
     }
     self.plot.xAxisType  = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
     self.plot.yAxisType  = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
-    [self updatePlot];
-    [self preparePlotData];
+    [self prepareForPlotUpdate];
+    [self updatePlotData];
     [self.graph reloadData];
     [self.gatesContainerView redrawGates];
     
@@ -335,15 +318,10 @@
 }
 
 
-- (void)axisChanged:(id)sender
-{
-    NSLog(@"sender: %@", sender);
-}
-
-
 #pragma mark Reloading plot
-- (void)updatePlot
+- (void)prepareForPlotUpdate
 {
+    self.plotData = nil;
     [self updateLocalPlotVariables];
     [self _updateLayout];
 }
@@ -364,7 +342,7 @@
 }
 
 
-- (void)preparePlotData
+- (void)updatePlotData
 {
     NSArray *gatesData = [FGGate gatesAsData:self.plot.parentGates];
     FGPlotDataOperation *plotDataOperation = [[FGPlotDataOperation alloc] initWithFCSFile:self.fcsFile
@@ -375,8 +353,8 @@
     plotDataOperation.delegate = self;
     [plotDataOperation setCompletionBlock:^{
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.graph reloadData];
             [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[self.xParIndex] yRange:self.fcsFile.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
+            [self.graph reloadData];
         }];
     }];
     [[FGPendingOperations sharedInstance].gateCalculationQueue addOperation:plotDataOperation];
@@ -385,9 +363,7 @@
 #pragma mark - FG Plot Data Operation Delegate
 - (void)plotDataOperationDidFinish:(FGPlotDataOperation *)plotDataOperation
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (plotDataOperation.hasCalculatedSubet) {
-        NSLog(@"Has Caluclated subset");
         self.parentGateCalculator = plotDataOperation.gateCalculator;
     }
     self.plotData = plotDataOperation.plotDataCalculator;
@@ -429,7 +405,7 @@
     } else if (self.parentGateCalculator) {
         return self.parentGateCalculator.countOfEventsInside;
     }
-    return 0;//self.fcsFile.noOfEvents;
+    return 0;
 }
 
 
@@ -643,7 +619,8 @@ static CPTPlotSymbol *plotSymbol;
         CGPoint location = [sender locationInView:nil]; //Passing nil gives us coordinates in the window
         if (![self.view pointInside:[self.view convertPoint:location fromView:self.view.window] withEvent:nil]) {
             [self.view.window removeGestureRecognizer:sender];
-            [self doneTapped];
+            [self.detailPopoverController dismissPopoverAnimated:YES];
+            [self.delegate plotViewController:self didTapDoneForPlot:self.plot];
         }
     }
 }

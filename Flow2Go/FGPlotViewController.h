@@ -29,7 +29,7 @@
 
 @interface FGPlotViewController : UIViewController <FGGraphDataSource, GatesContainerViewDelegate>
 
-- (void)preparePlotData;
+- (void)updatePlotData;
 
 @property (nonatomic, strong) FGPlot *plot;
 @property (nonatomic, weak) IBOutlet CPTGraphHostingView *graphHostingView;

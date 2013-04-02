@@ -38,6 +38,7 @@
 		E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6F16E4FB9800A314D4 /* FGHeaderControlsView.m */; };
 		E5203E4F15F9EAAD00169EC7 /* FGPlotHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */; };
 		E5208C5C15E9B34800EBAE47 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */; };
+		E520B8DB170A48AC00A892B3 /* FGPlotDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E520B8DA170A48AB00A892B3 /* FGPlotDataOperation.m */; };
 		E52883A416E5207D0057AA07 /* FGHeaderControlsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E52883A316E5207D0057AA07 /* FGHeaderControlsView.xib */; };
 		E52883AE16E52BC00057AA07 /* stacked.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883AC16E52BC00057AA07 /* stacked.png */; };
 		E52883AF16E52BC00057AA07 /* stacked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883AD16E52BC00057AA07 /* stacked@2x.png */; };
@@ -283,6 +284,8 @@
 		E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotHelper.m; sourceTree = "<group>"; };
 		E5208C5A15E9B34800EBAE47 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
+		E520B8D9170A48AB00A892B3 /* FGPlotDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotDataOperation.h; sourceTree = "<group>"; };
+		E520B8DA170A48AB00A892B3 /* FGPlotDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotDataOperation.m; sourceTree = "<group>"; };
 		E52883A316E5207D0057AA07 /* FGHeaderControlsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FGHeaderControlsView.xib; sourceTree = "<group>"; };
 		E52883AC16E52BC00057AA07 /* stacked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stacked.png; sourceTree = "<group>"; };
 		E52883AD16E52BC00057AA07 /* stacked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stacked@2x.png"; sourceTree = "<group>"; };
@@ -714,6 +717,8 @@
 			children = (
 				E5F835301701D93E0018E2A8 /* FGPendingOperations.h */,
 				E5F835311701D93E0018E2A8 /* FGPendingOperations.m */,
+				E520B8D9170A48AB00A892B3 /* FGPlotDataOperation.h */,
+				E520B8DA170A48AB00A892B3 /* FGPlotDataOperation.m */,
 				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
 				E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */,
 				E5F8352C1701C6800018E2A8 /* FGGateCalculationOperation.h */,
@@ -1588,6 +1593,7 @@
 				E54923FC1704B53700A0F75F /* NSManagedObjectContext+Clone.m in Sources */,
 				E5492401170786DC00A0F75F /* FGMatrixInversion.m in Sources */,
 				E54924041709DB2000A0F75F /* FGGraph.m in Sources */,
+				E520B8DB170A48AC00A892B3 /* FGPlotDataOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

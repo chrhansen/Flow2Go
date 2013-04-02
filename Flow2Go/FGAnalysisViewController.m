@@ -179,6 +179,7 @@
     plotCell.populationLabel.text = [plot.parentGateNames componentsJoinedByString:@"/"];
 }
 
+
 #pragma mark - UICollectionView Datasource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -316,9 +317,7 @@
     [self dismissViewControllerAnimated:YES completion:^{
         NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:plot];
         [self configureCell:[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
-        NSError *error;
         [plot.managedObjectContext saveToPersistentStoreAndWait];
-        if (error) NSLog(@"Error saving plot: %@", error.localizedDescription);
     }];
 }
 

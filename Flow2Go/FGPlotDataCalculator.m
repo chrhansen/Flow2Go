@@ -104,6 +104,10 @@
         eventsInside = fcsFile.noOfEvents;
     }
     
+    if (!eventsInside) {
+        return nil;
+    }
+    
     NSInteger xPar = [plotOptions[XParNumber] integerValue] - 1;
     NSInteger yPar = [plotOptions[YParNumber] integerValue] - 1;
     

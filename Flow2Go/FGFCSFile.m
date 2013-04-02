@@ -334,11 +334,11 @@ typedef union Int2Float Int2Float;
     int indexOfOffset3 = (fileByteOrder == CFByteOrderLittleEndian) ? 3 : 0;
     
     NSUInteger byteOffset = 0;
+    Int2Float int2Float;
     for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
     {
         for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
         {
-            Int2Float int2Float;
             int2Float.b[indexOfOffset0] = bufferAllData[byteOffset + 0];
             int2Float.b[indexOfOffset1] = bufferAllData[byteOffset + 1];
             int2Float.b[indexOfOffset2] = bufferAllData[byteOffset + 2];

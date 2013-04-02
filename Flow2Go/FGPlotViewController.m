@@ -54,20 +54,19 @@
         NSLog(@"plot was nil");
         return;
     }
-    self.fcsFile = [self.delegate fcsFileForPlot:self.plot];
-    self.title = self.plot.name;
-    self.addGateButtonsView.delegate = self;
-    [self.addGateButtonsView updateButtons];
-    [self updateLocalPlotVariables];
-    [self updatePlotData];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self _configureButtons];
+    self.fcsFile = [self.delegate fcsFileForPlot:self.plot];
+    self.title = self.plot.name;
+    self.addGateButtonsView.delegate = self;
+    [self.addGateButtonsView updateButtons];
     [self prepareForPlotUpdate];
+    [self updatePlotData];
+    [self _configureButtons];
     self.graphHostingView.hostedGraph = self.graph;
 }
 
@@ -82,8 +81,8 @@
     [super viewDidAppear:animated];
     self.gatesContainerView.delegate = self;
     [self.gatesContainerView performSelector:@selector(redrawGates) withObject:nil afterDelay:0.05];
+    [self.gatesContainerView setHidden:NO animated:YES];
     [self addTapGestureRecognizerToBackgruond];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -91,9 +90,19 @@
     [self.detailPopoverController dismissPopoverAnimated:YES];
     [self.view.window removeGestureRecognizer:self.backgroundTapGestureRecognizer];
     [self _grabImageOfPlot]; //TODO: downscale image in background thread before adding. (consider thumbnail res. for measurement/and high res for sharing)
+    [self.gatesContainerView setHidden:YES animated:YES];
+    [self.gatesContainerView removeGateViews];
+    [self clearPlotData]; // TODO: set to inherit from previous plot and apply new gate
+    [self.graph reloadData];
     [super viewWillDisappear:animated];
 }
 
+//
+//- (void)viewDidDisappear:(BOOL)animated
+//{
+//    self.plotData = nil;
+//    [super viewDidDisappear:animated];
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -102,11 +111,21 @@
 }
 
 
-- (FGGateCalculator *)currentSubset
+- (FGGateCalculator *)displayedSubset
 {
-    NSLog(@"not implemented");
-    return nil;
+    return self.parentGateCalculator;
 }
+
+- (void)setDisplayedSubset:(FGGateCalculator *)gateCalculator
+{
+    self.parentGateCalculator = gateCalculator;
+}
+
+- (void)clearPlotData
+{
+    self.plotData = nil;
+}
+
 
 - (void)_centerNavigationControllerSuperview
 {

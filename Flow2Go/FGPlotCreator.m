@@ -32,7 +32,7 @@
                                      parentSubSet:(NSUInteger *)parentSubSet
                                 parentSubSetCount:(NSUInteger)parentSubSetCount
 {
-    if (!plotOptions || !fcsFile) {
+    if (!plotOptions || !fcsFile || !fcsFile.noOfEvents) {
         return nil;
     }
     FGPlotCreator *plotCreator = [[FGPlotCreator alloc] init];

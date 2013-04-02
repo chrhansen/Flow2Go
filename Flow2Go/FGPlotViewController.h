@@ -31,6 +31,14 @@
 
 - (void)updatePlotData;
 
+// get the subset currently shown in the plot
+- (FGGateCalculator *)displayedSubset;
+// set subset inherited from another plot or set to nil for root plots
+- (void)setDisplayedSubset:(FGGateCalculator *)gateCalculator;
+
+- (void)clearPlotData;
+
+
 @property (nonatomic, strong) FGPlot *plot;
 @property (nonatomic, weak) IBOutlet CPTGraphHostingView *graphHostingView;
 @property (nonatomic, weak) IBOutlet FGGatesContainerView *gatesContainerView;
@@ -40,6 +48,5 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *gateCalculationSpinner;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;
 @property (nonatomic, strong) FGGraph *graph;
-@property (nonatomic, readonly) FGGateCalculator *currentSubset;
 
 @end

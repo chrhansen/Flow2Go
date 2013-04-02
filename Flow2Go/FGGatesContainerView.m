@@ -68,6 +68,20 @@
     [self setNeedsDisplay];
 }
 
+#define HIDE_SHOW_ANIMATION_DURATION 0.2
+
+- (void)setHidden:(BOOL)hidden animated:(BOOL)animated
+{
+    CGFloat alpha = hidden ? 0.0f : 1.0f;
+    if (animated) {
+        [UIView animateWithDuration:HIDE_SHOW_ANIMATION_DURATION animations:^{
+            self.alpha = alpha;
+        }];
+    } else {
+        self.alpha = alpha;
+    }
+
+}
 
 - (void)_insertExistingGate:(FGGateType)gateType gateTag:(NSInteger)tagNumber vertices:(NSArray *)vertices
 {

@@ -68,6 +68,7 @@
         aMeasurement.thumbImage = plotCreator.thumbImage;
         rootPlot.image = plotCreator.plotImage;
     }
+    [self performSelector:@selector(saveUpdates) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
 }
 
 
@@ -96,6 +97,12 @@
     
     [[NSManagedObjectContext contextForCurrentThread] saveToPersistentStoreAndWait];
     if (completion) completion(error);
+}
+
+
+- (void)saveUpdates
+{
+    [[NSManagedObjectContext contextForCurrentThread] saveToPersistentStoreAndWait];
 }
 
 

@@ -26,6 +26,7 @@
 
 - (void)redrawGates;
 - (void)removeGateViews;
+- (void)setHidden:(BOOL)hidden animated:(BOOL)animated;
 - (void)insertNewGate:(FGGateType)gateType gateTag:(NSInteger)tagNumber;
 
 @property (nonatomic, weak) id<GatesContainerViewDelegate> delegate;

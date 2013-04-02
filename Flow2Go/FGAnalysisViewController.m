@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 @property (nonatomic, strong) FGGraph *graph;
+@property (nonatomic, strong) FGPlotViewController *plotViewController;
 
 @end
 
@@ -50,7 +51,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self performSelector:@selector(prepareGraph) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]]; // avoid loading graph when user is panning
+    // avoid loading graph when user is panning
+
+    [self performSelector:@selector(prepareGraph) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
+    [self performSelector:@selector(preparePlotViewController) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
 }
 
 
@@ -135,6 +139,19 @@
 }
 
 
+- (void)preparePlotViewController
+{
+    if (!self.plotViewController) {
+        self.plotViewController = (FGPlotViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
+        self.plotViewController.delegate = self;
+        self.plotViewController.graph = self.graph;
+        self.plotViewController.graph.dataSource = self.plotViewController;
+        self.plotViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        self.plotViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+}
+
+
 #pragma mark - FGFCSFile Progress Delegate
 - (void)loadProgress:(CGFloat)progress forFCSFile:(FGFCSFile *)fcsFile
 {
@@ -199,7 +216,6 @@
 #pragma mark - UICollectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     FGPlot *plot = [self.analysis.plots objectAtIndex:indexPath.row];
     [self _presentPlot:plot];
 }
@@ -234,17 +250,9 @@
 
 - (void)_presentPlot:(FGPlot *)plot
 {
-    UINavigationController *navigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"plotViewController"];
-    FGPlotViewController *plotViewController = (FGPlotViewController *)navigationController.topViewController;
-    plotViewController.delegate = self;
-    plotViewController.plot = plot;
-    plotViewController.graph = self.graph;
-    plotViewController.graph.dataSource = plotViewController;
-    navigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
-    navigationController.navigationBar.translucent = YES;
-    [self presentViewController:navigationController animated:YES completion:nil];
-    navigationController.view.superview.bounds = [self boundsThatFitsWithinStatusBarInAllOrientations];
+    self.plotViewController.plot = plot;
+    [self presentViewController:self.plotViewController animated:YES completion:nil];
+    self.plotViewController.view.superview.bounds = [self boundsThatFitsWithinStatusBarInAllOrientations];
 }
 
 
@@ -296,7 +304,9 @@
 
 - (void)plotViewController:(FGPlotViewController *)plotViewController didRequestNewPlotWithPopulationInGate:(FGGate *)gate
 {
+    [plotViewController setDisplayedSubset:nil]; // TODO: set to inherit from previous plot and apply new gate
     [self dismissViewControllerAnimated:YES completion:^{
+        plotViewController.plot = nil;
         FGPlot *newPlot = [FGPlot createPlotForAnalysis:self.analysis parentNode:gate];
         [self.collectionView reloadData];
         if (newPlot) {
@@ -312,7 +322,9 @@
 
 - (void)plotViewController:(FGPlotViewController *)plotViewController didTapDoneForPlot:(FGPlot *)plot
 {
+    [plotViewController setDisplayedSubset:nil];
     [self dismissViewControllerAnimated:YES completion:^{
+        self.plotViewController.plot = nil;
         NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:plot];
         [self configureCell:[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
         [plot.managedObjectContext saveToPersistentStoreAndWait];

@@ -294,12 +294,10 @@
     return self.fcsFile;
 }
 
-- (void)plotViewController:(FGPlotViewController *)plotViewController didSelectGate:(FGGate *)gate forPlot:(FGPlot *)plot
+- (void)plotViewController:(FGPlotViewController *)plotViewController didRequestNewPlotWithPopulationInGate:(FGGate *)gate
 {
     [self dismissViewControllerAnimated:YES completion:^{
         FGPlot *newPlot = [FGPlot createPlotForAnalysis:self.analysis parentNode:gate];
-        newPlot.xAxisType = plot.xAxisType;
-        newPlot.yAxisType = plot.yAxisType;
         [self.collectionView reloadData];
         if (newPlot) {
             [self _presentPlot:newPlot];

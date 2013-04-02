@@ -22,7 +22,7 @@
 @protocol PlotViewControllerDelegate <NSObject>
 
 - (FGFCSFile *)fcsFileForPlot:(FGPlot *)plot;
-- (void)plotViewController:(FGPlotViewController *)plotViewController didSelectGate:(FGGate *)gate forPlot:(FGPlot *)plot;
+- (void)plotViewController:(FGPlotViewController *)plotViewController didRequestNewPlotWithPopulationInGate:(FGGate *)gate;
 - (void)plotViewController:(FGPlotViewController *)plotViewController didTapDoneForPlot:(FGPlot *)plot;
 
 @end

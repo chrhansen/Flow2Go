@@ -528,7 +528,7 @@ static CPTPlotSymbol *plotSymbol;
 - (void)gatesContainerView:(FGGatesContainerView *)gatesContainerView didDoubleTapGate:(NSUInteger)gateNo
 {
     FGGate *tappedGate = self.displayedGates[gateNo];
-    [self.delegate plotViewController:self didSelectGate:tappedGate forPlot:self.plot];
+    [self.delegate plotViewController:self didRequestNewPlotWithPopulationInGate:tappedGate];
 }
 
 
@@ -575,7 +575,7 @@ static CPTPlotSymbol *plotSymbol;
 - (void)didTapNewPlot:(FGGateTableViewController *)sender
 {
     [self.detailPopoverController dismissPopoverAnimated:YES];
-    [self.delegate plotViewController:self didSelectGate:sender.gate forPlot:self.plot];
+    [self.delegate plotViewController:self didRequestNewPlotWithPopulationInGate:sender.gate];
 }
 
 

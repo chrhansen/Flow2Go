@@ -18,50 +18,28 @@
     free(_eventsInside);
 }
 
+
 + (FGGateCalculator *)eventsInsideGatesWithDatas:(NSArray *)gateDatas fcsFile:(FGFCSFile *)fcsFile
 {
     if (gateDatas == nil || gateDatas.count == 0) {
         // No gates return all events
         return nil;
     }
-    
     FGGateCalculator *gateCalculator;
     for (NSDictionary *gateData in gateDatas) {
-        gateCalculator = [self eventsInsideGateWithData:gateData
-                                                fcsFile:fcsFile
-                                                 subSet:gateCalculator.eventsInside
-                                            subSetCount:gateCalculator.countOfEventsInside];
+        gateCalculator = [self eventsInsideGateWithData:gateData fcsFile:fcsFile subSet:gateCalculator.eventsInside subSetCount:gateCalculator.countOfEventsInside];
     }
     return gateCalculator;
 }
 
 
-+ (FGGateCalculator *)eventsInsideGateWithData:(NSDictionary *)gateData
-                                       fcsFile:(FGFCSFile *)fcsFile
-                                        subSet:(NSUInteger *)subSet
-                                   subSetCount:(NSUInteger)subSetCount
++ (FGGateCalculator *)eventsInsideGateWithData:(NSDictionary *)gateData fcsFile:(FGFCSFile *)fcsFile subSet:(NSUInteger *)subSet subSetCount:(NSUInteger)subSetCount
 {
-    return [self eventsInsideGateWithXParameter:gateData[XParName]
-                                     yParameter:gateData[YParName]
-                                       gateType:[gateData[GateType] integerValue]
-                                       vertices:gateData[Vertices]
-                                        fcsFile:fcsFile
-                                         subSet:subSet
-                                    subSetCount:subSetCount];
-}
-
-+ (FGGateCalculator *)eventsInsideGateWithXParameter:(NSString *)xParShortName
-                                          yParameter:(NSString *)yParShortName
-                                            gateType:(FGGateType)gateType
-                                            vertices:(NSArray *)vertices
-                                             fcsFile:(FGFCSFile *)fcsFile
-                                              subSet:(NSUInteger *)subSet
-                                         subSetCount:(NSUInteger)subSetCount
-{
+    FGGateType gateType = [gateData[GateType] integerValue];
     switch (gateType) {
         case kGateTypePolygon:
         case kGateTypeRectangle:
-            return [FGGateCalculator eventsInsidePolygonGateWithXParameter:xParShortName yParameter:yParShortName gateType:gateType vertices:vertices fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
+            return [FGGateCalculator eventsInsidePolygonGateWithXParameter:gateData[XParName] yParameter:gateData[YParName] vertices:gateData[Vertices] fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeEllipse:
@@ -73,7 +51,7 @@
             break;
             
         case kGateTypeSingleRange:
-            return [FGGateCalculator eventsInsideSingleRangeGateWithXParameter:xParShortName gateType:gateType vertices:vertices fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
+            return [FGGateCalculator eventsInsideSingleRangeGateWithXParameter:gateData[XParName] vertices:gateData[Vertices] fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeTripleRange:
@@ -87,29 +65,8 @@
 }
 
 
-+ (void)eventsInsideGateWithXParameter:(NSString *)xParShortName
-                            yParameter:(NSString *)yParShortName
-                              gateType:(FGGateType)gateType
-                              vertices:(NSArray *)vertices
-                               fcsFile:(FGFCSFile *)fcsFile
-                                subSet:(NSUInteger *)subSet
-                           subSetCount:(NSUInteger)subSetCount
-                          completion:(void (^)(NSData *subset, NSUInteger numberOfCellsInside))completion
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        FGGateCalculator *gateCalculator = [self eventsInsideGateWithXParameter:xParShortName yParameter:yParShortName gateType:gateType vertices:vertices fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
-        NSData *subset = [NSData dataWithBytes:(NSUInteger *)gateCalculator.eventsInside length:sizeof(NSUInteger)*gateCalculator.countOfEventsInside];
-        NSUInteger numberOfCellsInside = gateCalculator.countOfEventsInside;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completion(subset, numberOfCellsInside);
-        });
-    });
-}
-
-
 + (FGGateCalculator *)eventsInsidePolygonGateWithXParameter:(NSString *)xParShortName
                                                  yParameter:(NSString *)yParShortName
-                                                   gateType:(FGGateType)gateType
                                                    vertices:(NSArray *)vertices
                                                     fcsFile:(FGFCSFile *)fcsFile
                                                      subSet:(NSUInteger *)subSet
@@ -165,64 +122,7 @@
 }
 
 
-+ (FGGateCalculator *)eventsInsidePolygonGateWithVertices:(NSArray *)vertices
-                                                  fcsFile:(FGFCSFile *)fcsFile
-                                              plotOptions:(NSDictionary *)plotOptions
-                                                   subSet:(NSUInteger *)subSet
-                                              subSetCount:(NSUInteger)subSetCount
-{
-    NSInteger eventsInside = subSetCount;
-    if (!subSet)
-    {
-        eventsInside = fcsFile.noOfEvents;
-    }
-    
-    FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
-    gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
-    gateCalculator.countOfEventsInside = 0;
-    
-    NSInteger xPar = [plotOptions[XParNumber] integerValue] - 1;
-    NSInteger yPar = [plotOptions[YParNumber] integerValue] - 1;
-    
-    FGPlotPoint plotPoint;
-    NSUInteger eventNo;
-    
-    if (subSet)
-    {
-        for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
-        {
-            eventNo = subSet[subSetNo];
-            
-            plotPoint.xVal = (double)fcsFile.events[eventNo][xPar];
-            plotPoint.yVal = (double)fcsFile.events[eventNo][yPar];
-            
-            if ([self _point:plotPoint insidePolygon:vertices])
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
-        }
-    }
-    else
-    {
-        for (eventNo = 0; eventNo < eventsInside; eventNo++)
-        {
-            plotPoint.xVal = fcsFile.events[eventNo][xPar];
-            plotPoint.yVal = fcsFile.events[eventNo][yPar];
-            
-            if ([self _point:plotPoint insidePolygon:vertices])
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
-        }
-    }
-    return gateCalculator;
-}
-
-
 + (FGGateCalculator *)eventsInsideSingleRangeGateWithXParameter:(NSString *)xParShortName
-                                                       gateType:(FGGateType)gateType
                                                        vertices:(NSArray *)vertices
                                                         fcsFile:(FGFCSFile *)fcsFile
                                                          subSet:(NSUInteger *)subSet

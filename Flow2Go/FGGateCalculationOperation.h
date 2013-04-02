@@ -19,12 +19,12 @@
 
 @interface FGGateCalculationOperation : NSOperation
 
-- (id)initWithGateData:(NSDictionary *)gateData
-               fcsFile:(FGFCSFile *)fcsFile
-          parentSubSet:(NSUInteger *)parentSubSet
-     parentSubSetCount:(NSUInteger)parentSubSetCount;
+- (id)initWithGateData:(NSDictionary *)gateData fcsFile:(FGFCSFile *)fcsFile parentSubSet:(NSUInteger *)parentSubSet parentSubSetCount:(NSUInteger)parentSubSetCount;
 
-@property (nonatomic, strong) NSDictionary *gateData;
+// When multiple nested gates exist, the subset will be assumed to be all events in the FCS-file
+- (id)initWithGateDatas:(NSArray *)gateDatas fcsFile:(FGFCSFile *)fcsFile;
+
+@property (nonatomic, strong) NSArray *gateDatas;
 @property (nonatomic) NSInteger gateTag;
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic) NSUInteger *parentSubSet;

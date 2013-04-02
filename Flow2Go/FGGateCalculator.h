@@ -13,30 +13,8 @@
 
 @interface FGGateCalculator : NSObject
 
-+ (FGGateCalculator *)eventsInsideGateWithData:(NSDictionary *)gateData
-                                       fcsFile:(FGFCSFile *)fcsFile
-                                        subSet:(NSUInteger *)subSet
-                                   subSetCount:(NSUInteger)subSetCount;
-
-+ (FGGateCalculator *)eventsInsideGatesWithDatas:(NSArray *)gateDatas
-                                         fcsFile:(FGFCSFile *)fcsFile;
-
-+ (FGGateCalculator *)eventsInsideGateWithXParameter:(NSString *)xParShortName
-                                          yParameter:(NSString *)yParShortName
-                                            gateType:(FGGateType)gateType
-                                            vertices:(NSArray *)vertices
-                                             fcsFile:(FGFCSFile *)fcsFile
-                                              subSet:(NSUInteger *)subSet
-                                         subSetCount:(NSUInteger)subSetCount;
-
-+ (void)eventsInsideGateWithXParameter:(NSString *)xParShortName
-                            yParameter:(NSString *)yParShortName
-                              gateType:(FGGateType)gateType
-                              vertices:(NSArray *)vertices
-                               fcsFile:(FGFCSFile *)fcsFile
-                                subSet:(NSUInteger *)subSet
-                           subSetCount:(NSUInteger)subSetCount
-                            completion:(void (^)(NSData *subset, NSUInteger numberOfCellsInside))completion;
++ (FGGateCalculator *)eventsInsideGatesWithDatas:(NSArray *)gateDatas fcsFile:(FGFCSFile *)fcsFile;
++ (FGGateCalculator *)eventsInsideGateWithData:(NSDictionary *)gateData fcsFile:(FGFCSFile *)fcsFile subSet:(NSUInteger *)subSet subSetCount:(NSUInteger)subSetCount;
 
 @property (nonatomic) NSUInteger *eventsInside;
 @property (nonatomic) NSUInteger countOfEventsInside;

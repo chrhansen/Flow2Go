@@ -38,8 +38,8 @@ const NSString *YParNumber = @"YParNumber";
     newPlot.parentNode = parentNode;
     
     FGPlot *parentPlot = (FGPlot *)parentNode.parentNode;
-    newPlot.xParNumber = parentPlot.xParNumber;
-    newPlot.yParNumber = parentPlot.yParNumber;
+    newPlot.xParNumber = parentNode.xParNumber;
+    newPlot.yParNumber = parentNode.yParNumber;
     newPlot.plotType = parentPlot.plotType;
     if (parentPlot == nil) {
         newPlot.xParNumber = @1;
@@ -49,6 +49,11 @@ const NSString *YParNumber = @"YParNumber";
         newPlot.xAxisType = [NSNumber numberWithUnsignedInteger:[FGFCSFile axisTypeForScaleString:scaleKeyword1.value]];
         newPlot.yAxisType = [NSNumber numberWithUnsignedInteger:[FGFCSFile axisTypeForScaleString:scaleKeyword2.value]];
         newPlot.plotType = [NSNumber numberWithInteger:kPlotTypeDensity];
+    } else {
+        FGKeyword *scaleKeyword1 = [analysis.measurement existingKeywordForKey:[@"$P" stringByAppendingFormat:@"%iE", newPlot.xParNumber.integerValue]];
+        FGKeyword *scaleKeyword2 = [analysis.measurement existingKeywordForKey:[@"$P" stringByAppendingFormat:@"%iE", newPlot.yParNumber.integerValue]];
+        newPlot.xAxisType = [NSNumber numberWithUnsignedInteger:[FGFCSFile axisTypeForScaleString:scaleKeyword1.value]];
+        newPlot.yAxisType = [NSNumber numberWithUnsignedInteger:[FGFCSFile axisTypeForScaleString:scaleKeyword2.value]];
     }
     newPlot.dateCreated = NSDate.date;
     newPlot.name = [newPlot defaultPlotName];

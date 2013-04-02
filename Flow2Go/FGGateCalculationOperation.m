@@ -19,13 +19,24 @@
      parentSubSetCount:(NSUInteger)parentSubSetCount
 {
     if (self = [super init]) {
-        self.gateData          = gateData;
+        self.gateDatas         = @[gateData];
         self.fcsFile           = fcsFile;
         self.parentSubSet      = parentSubSet;
         self.parentSubSetCount = parentSubSetCount;
     }
     return self;
 }
+
+
+- (id)initWithGateDatas:(NSArray *)gateDatas fcsFile:(FGFCSFile *)fcsFile
+{
+    if (self = [super init]) {
+        self.gateDatas = gateDatas;
+        self.fcsFile   = fcsFile;
+    }
+    return self;
+}
+
 
 - (void)main
 {
@@ -35,10 +46,19 @@
 
     @autoreleasepool {
         
-        FGGateCalculator *gateCalculator = [FGGateCalculator eventsInsideGateWithData:self.gateData
-                                                                              fcsFile:self.fcsFile
-                                                                               subSet:self.parentSubSet
-                                                                          subSetCount:self.parentSubSetCount];
+        FGGateCalculator *gateCalculator;
+        
+        if (self.gateDatas) {
+            gateCalculator = [FGGateCalculator eventsInsideGatesWithDatas:self.gateDatas
+                                                                  fcsFile:self.fcsFile];
+
+        } else {
+            gateCalculator = [FGGateCalculator eventsInsideGateWithData:self.gateDatas.lastObject
+                                                                fcsFile:self.fcsFile
+                                                                 subSet:self.parentSubSet
+                                                            subSetCount:self.parentSubSetCount];
+        }
+        
         
         if (self.isCancelled) {
             return;

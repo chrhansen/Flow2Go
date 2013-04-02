@@ -17,6 +17,7 @@
 @class FGGate;
 @class FGFCSFile;
 @class FGPlotViewController;
+@class FGGateCalculator;
 
 @protocol PlotViewControllerDelegate <NSObject>
 
@@ -39,5 +40,6 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *gateCalculationSpinner;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;
 @property (nonatomic, strong) FGGraph *graph;
+@property (nonatomic, readonly) FGGateCalculator *currentSubset;
 
 @end

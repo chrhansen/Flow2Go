@@ -17,14 +17,15 @@
 #import "FGPlotHelper.h"
 #import "FGGatesContainerView.h"
 #import "PopoverView.h"
-#import "UIImage+Resize.h"  
+#import "UIImage+Resize.h"
 #import "UIImage+Extensions.h"
 #import "FGMeasurement+Management.h"
 #import "FGAnalysis+Management.h"
 #import "FGPendingOperations.h"
 #import "FGGateCalculationOperation.h"
+#import "FGPlotDataOperation.h"
 
-@interface FGPlotViewController () <FGGateButtonsViewDelegate, GateTableViewControllerDelegate, FGGateCalculationOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
+@interface FGPlotViewController () <FGGateButtonsViewDelegate, GateTableViewControllerDelegate, FGGateCalculationOperationDelegate, FGPlotDataOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
 
 @property (nonatomic) NSInteger xParIndex;
 @property (nonatomic) NSInteger yParIndex;
@@ -57,6 +58,8 @@
     self.title = self.plot.name;
     self.addGateButtonsView.delegate = self;
     [self.addGateButtonsView updateButtons];
+    [self updateLocalPlotVariables];
+    [self preparePlotData];
 }
 
 
@@ -64,6 +67,8 @@
 {
     [super viewWillAppear:animated];
     [self _configureButtons];
+    [self updatePlot];
+    self.graphHostingView.hostedGraph = self.graph;
 }
 
 - (void)viewWillLayoutSubviews
@@ -75,10 +80,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.graphHostingView.hostedGraph = self.graph;
-    [self preparePlotData];
-    [self _updateLayout];
-    [self.graph reloadData];
     self.gatesContainerView.delegate = self;
     [self.gatesContainerView performSelector:@selector(redrawGates) withObject:nil afterDelay:0.05];
     [self addTapGestureRecognizerToBackgruond];
@@ -100,6 +101,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+- (FGGateCalculator *)currentSubset
+{
+    NSLog(@"not implemented");
+    return nil;
+}
 
 - (void)_centerNavigationControllerSuperview
 {
@@ -184,8 +191,8 @@
 {
     NSNumber *plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
     self.plot.plotType = plotType;
+    [self updatePlot];
     [self preparePlotData];
-    [self _updateLayout];
     [self.graph reloadData];
     [self.addGateButtonsView updateButtons];
     [self.gatesContainerView redrawGates];
@@ -196,7 +203,7 @@
 
 - (void)doneTapped
 {
-    [self _removeSubviews];
+//    [self _removeSubviews];
     [self.detailPopoverController dismissPopoverAnimated:YES];
     [self.delegate plotViewController:self didTapDoneForPlot:self.plot];
 }
@@ -315,8 +322,10 @@
     } else if (self.popoverView.tag == Y_AXIS_TAG) {
         self.plot.yParNumber = parNumber;
     }
+    self.plot.xAxisType  = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
+    self.plot.yAxisType  = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
+    [self updatePlot];
     [self preparePlotData];
-    [self _updateLayout];
     [self.graph reloadData];
     [self.gatesContainerView redrawGates];
     
@@ -333,35 +342,55 @@
 
 
 #pragma mark Reloading plot
-- (void)preparePlotData
+- (void)updatePlot
 {
-    _xParIndex = self.plot.xParNumber.integerValue - 1;
-    _yParIndex = self.plot.yParNumber.integerValue - 1;
-    _currentPlotType = self.plot.plotType.integerValue;
-    self.plot.xAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.xParNumber.integerValue - 1]];
-    self.plot.yAxisType = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
-    
-    FGGate *parentGate = (FGGate *)self.plot.parentNode;
-    if (parentGate && self.parentGateCalculator == nil) [self updateSubPopulation];
-    
-    self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile
-                                                 plotOptions:self.plot.plotOptions
-                                                      subset:self.parentGateCalculator.eventsInside
-                                                 subsetCount:self.parentGateCalculator.countOfEventsInside];
+    [self updateLocalPlotVariables];
+    [self _updateLayout];
 }
+
+- (void)updateLocalPlotVariables
+{
+    self.xParIndex       = self.plot.xParNumber.integerValue - 1;
+    self.yParIndex       = self.plot.yParNumber.integerValue - 1;
+    self.currentPlotType = self.plot.plotType.integerValue;
+}
+
 
 - (void)_updateLayout
 {
     [self _updateAxisTitleButtons];
     [self.graph updateGraphWithPlotOptions:self.plot.plotOptions];
-    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[_xParIndex] yRange:self.fcsFile.ranges[_yParIndex] plotType:self.plot.plotType.integerValue];
+    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[self.xParIndex] yRange:self.fcsFile.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
 }
 
 
-- (void)updateSubPopulation
+- (void)preparePlotData
 {
-    NSArray *parentGateDatas = [FGGate gatesAsData:self.plot.parentGates];
-    self.parentGateCalculator = [FGGateCalculator eventsInsideGatesWithDatas:parentGateDatas fcsFile:self.fcsFile];
+    NSArray *gatesData = [FGGate gatesAsData:self.plot.parentGates];
+    FGPlotDataOperation *plotDataOperation = [[FGPlotDataOperation alloc] initWithFCSFile:self.fcsFile
+                                                                              parentGates:gatesData
+                                                                              plotOptions:self.plot.plotOptions
+                                                                                   subset:self.parentGateCalculator.eventsInside
+                                                                              subsetCount:self.parentGateCalculator.countOfEventsInside];
+    plotDataOperation.delegate = self;
+    [plotDataOperation setCompletionBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            [self.graph reloadData];
+            [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[self.xParIndex] yRange:self.fcsFile.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
+        }];
+    }];
+    [[FGPendingOperations sharedInstance].gateCalculationQueue addOperation:plotDataOperation];
+}
+
+#pragma mark - FG Plot Data Operation Delegate
+- (void)plotDataOperationDidFinish:(FGPlotDataOperation *)plotDataOperation
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (plotDataOperation.hasCalculatedSubet) {
+        NSLog(@"Has Caluclated subset");
+        self.parentGateCalculator = plotDataOperation.gateCalculator;
+    }
+    self.plotData = plotDataOperation.plotDataCalculator;
 }
 
 
@@ -400,7 +429,7 @@
     } else if (self.parentGateCalculator) {
         return self.parentGateCalculator.countOfEventsInside;
     }
-    return self.fcsFile.noOfEvents;
+    return 0;//self.fcsFile.noOfEvents;
 }
 
 
@@ -482,7 +511,7 @@ static CPTPlotSymbol *plotSymbol;
         [plotSpace doublePrecisionPlotPoint:graphPoint forPlotAreaViewPoint:pathPoint];
         FGGraphPoint *gateVertex = [FGGraphPoint pointWithX:(double)graphPoint[0] andY:(double)graphPoint[1]];
         [gateVertices addObject:gateVertex];
-    }    
+    }
     return gateVertices;
 }
 

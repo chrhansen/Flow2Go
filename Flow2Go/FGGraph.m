@@ -78,8 +78,8 @@
     self.paddingBottom = 0.0f;
     self.plotAreaFrame.paddingLeft = 100.0;
     self.plotAreaFrame.paddingRight = 20.0;
-    self.plotAreaFrame.paddingBottom = 70.0;
-    self.plotAreaFrame.paddingTop = 40.0;
+    self.plotAreaFrame.paddingBottom = 100.0;
+    self.plotAreaFrame.paddingTop = 20.0;
     self.plotAreaFrame.borderLineStyle = nil;
     
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.defaultPlotSpace;

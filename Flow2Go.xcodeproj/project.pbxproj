@@ -46,6 +46,18 @@
 		E52883BE16E535220057AA07 /* 83-calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883BC16E535220057AA07 /* 83-calendar@2x.png */; };
 		E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
+		E5375DD2170CA989008F378B /* gate-rect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD1170CA989008F378B /* gate-rect@2x.png */; };
+		E5375DD4170CAA03008F378B /* gate-rect.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD3170CAA03008F378B /* gate-rect.png */; };
+		E5375DE1170CAF0D008F378B /* gate-poly.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DDF170CAF0C008F378B /* gate-poly.png */; };
+		E5375DE2170CAF0D008F378B /* gate-poly@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DE0170CAF0C008F378B /* gate-poly@2x.png */; };
+		E5375DE5170CE282008F378B /* gate-oval.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DE3170CE281008F378B /* gate-oval.png */; };
+		E5375DE6170CE282008F378B /* gate-oval@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DE4170CE281008F378B /* gate-oval@2x.png */; };
+		E5375DF0170CF4AA008F378B /* gate-quad-rect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DEF170CF4AA008F378B /* gate-quad-rect@2x.png */; };
+		E5375DF2170CF59E008F378B /* gate-quad-rect.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DF1170CF59D008F378B /* gate-quad-rect.png */; };
+		E5375DF8170D265D008F378B /* gate-range-1@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DF7170D265D008F378B /* gate-range-1@2X.png */; };
+		E5375DFA170D280F008F378B /* gate-range-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DF9170D280F008F378B /* gate-range-1.png */; };
+		E5375E00170D2AA3008F378B /* gate-range-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DFF170D2AA3008F378B /* gate-range-3@2x.png */; };
+		E5375E02170D30FE008F378B /* gate-range-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375E01170D30FE008F378B /* gate-range-3.png */; };
 		E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */; };
 		E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */; };
 		E542F4C6160933280041A60A /* FGMeasurementCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */; };
@@ -161,18 +173,6 @@
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
 		E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */; };
 		E5F835321701D93E0018E2A8 /* FGPendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F835311701D93E0018E2A8 /* FGPendingOperations.m */; };
-		E5F8354017021E770018E2A8 /* 0139@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353417021E770018E2A8 /* 0139@2x.png */; };
-		E5F8354117021E770018E2A8 /* 0140@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353517021E770018E2A8 /* 0140@2x.png */; };
-		E5F8354217021E770018E2A8 /* 0139.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353617021E770018E2A8 /* 0139.png */; };
-		E5F8354317021E770018E2A8 /* 0140.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353717021E770018E2A8 /* 0140.png */; };
-		E5F8354417021E770018E2A8 /* 0206.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353817021E770018E2A8 /* 0206.png */; };
-		E5F8354517021E770018E2A8 /* 0206@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353917021E770018E2A8 /* 0206@2x.png */; };
-		E5F8354617021E770018E2A8 /* 0278.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353A17021E770018E2A8 /* 0278.png */; };
-		E5F8354717021E770018E2A8 /* 0278@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353B17021E770018E2A8 /* 0278@2x.png */; };
-		E5F8354817021E770018E2A8 /* 0290.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353C17021E770018E2A8 /* 0290.png */; };
-		E5F8354917021E770018E2A8 /* 0290@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353D17021E770018E2A8 /* 0290@2x.png */; };
-		E5F8354A17021E770018E2A8 /* 0047.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353E17021E770018E2A8 /* 0047.png */; };
-		E5F8354B17021E770018E2A8 /* 0047@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F8353F17021E770018E2A8 /* 0047@2x.png */; };
 		E5F8354E1702217E0018E2A8 /* FGAddGateButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8354D1702217E0018E2A8 /* FGAddGateButtonsView.m */; };
 		E5FC6F4915CA7E8E0047A3DD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4815CA7E8E0047A3DD /* UIKit.framework */; };
 		E5FC6F4B15CA7E8E0047A3DD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC6F4A15CA7E8E0047A3DD /* Foundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -295,6 +295,18 @@
 		E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementHeaderView.m; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* FGGraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
+		E5375DD1170CA989008F378B /* gate-rect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-rect@2x.png"; sourceTree = "<group>"; };
+		E5375DD3170CAA03008F378B /* gate-rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-rect.png"; sourceTree = "<group>"; };
+		E5375DDF170CAF0C008F378B /* gate-poly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-poly.png"; sourceTree = "<group>"; };
+		E5375DE0170CAF0C008F378B /* gate-poly@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-poly@2x.png"; sourceTree = "<group>"; };
+		E5375DE3170CE281008F378B /* gate-oval.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-oval.png"; sourceTree = "<group>"; };
+		E5375DE4170CE281008F378B /* gate-oval@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-oval@2x.png"; sourceTree = "<group>"; };
+		E5375DEF170CF4AA008F378B /* gate-quad-rect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-quad-rect@2x.png"; sourceTree = "<group>"; };
+		E5375DF1170CF59D008F378B /* gate-quad-rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-quad-rect.png"; sourceTree = "<group>"; };
+		E5375DF7170D265D008F378B /* gate-range-1@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-range-1@2X.png"; sourceTree = "<group>"; };
+		E5375DF9170D280F008F378B /* gate-range-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-range-1.png"; sourceTree = "<group>"; };
+		E5375DFF170D2AA3008F378B /* gate-range-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-range-3@2x.png"; sourceTree = "<group>"; };
+		E5375E01170D30FE008F378B /* gate-range-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-range-3.png"; sourceTree = "<group>"; };
 		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGMeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCollectionViewController.h; sourceTree = "<group>"; };
@@ -549,18 +561,6 @@
 		E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateCalculationOperation.m; sourceTree = "<group>"; };
 		E5F835301701D93E0018E2A8 /* FGPendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPendingOperations.h; sourceTree = "<group>"; };
 		E5F835311701D93E0018E2A8 /* FGPendingOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPendingOperations.m; sourceTree = "<group>"; };
-		E5F8353417021E770018E2A8 /* 0139@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0139@2x.png"; sourceTree = "<group>"; };
-		E5F8353517021E770018E2A8 /* 0140@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0140@2x.png"; sourceTree = "<group>"; };
-		E5F8353617021E770018E2A8 /* 0139.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0139.png; sourceTree = "<group>"; };
-		E5F8353717021E770018E2A8 /* 0140.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0140.png; sourceTree = "<group>"; };
-		E5F8353817021E770018E2A8 /* 0206.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0206.png; sourceTree = "<group>"; };
-		E5F8353917021E770018E2A8 /* 0206@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0206@2x.png"; sourceTree = "<group>"; };
-		E5F8353A17021E770018E2A8 /* 0278.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0278.png; sourceTree = "<group>"; };
-		E5F8353B17021E770018E2A8 /* 0278@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0278@2x.png"; sourceTree = "<group>"; };
-		E5F8353C17021E770018E2A8 /* 0290.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0290.png; sourceTree = "<group>"; };
-		E5F8353D17021E770018E2A8 /* 0290@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0290@2x.png"; sourceTree = "<group>"; };
-		E5F8353E17021E770018E2A8 /* 0047.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0047.png; sourceTree = "<group>"; };
-		E5F8353F17021E770018E2A8 /* 0047@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0047@2x.png"; sourceTree = "<group>"; };
 		E5F8354C1702217E0018E2A8 /* FGAddGateButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAddGateButtonsView.h; sourceTree = "<group>"; };
 		E5F8354D1702217E0018E2A8 /* FGAddGateButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAddGateButtonsView.m; sourceTree = "<group>"; };
 		E5FC6F4415CA7E8E0047A3DD /* Flow2Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flow2Go.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1196,18 +1196,18 @@
 		E5F8353317021E570018E2A8 /* GateButtons */ = {
 			isa = PBXGroup;
 			children = (
-				E5F8353417021E770018E2A8 /* 0139@2x.png */,
-				E5F8353517021E770018E2A8 /* 0140@2x.png */,
-				E5F8353617021E770018E2A8 /* 0139.png */,
-				E5F8353717021E770018E2A8 /* 0140.png */,
-				E5F8353817021E770018E2A8 /* 0206.png */,
-				E5F8353917021E770018E2A8 /* 0206@2x.png */,
-				E5F8353A17021E770018E2A8 /* 0278.png */,
-				E5F8353B17021E770018E2A8 /* 0278@2x.png */,
-				E5F8353C17021E770018E2A8 /* 0290.png */,
-				E5F8353D17021E770018E2A8 /* 0290@2x.png */,
-				E5F8353E17021E770018E2A8 /* 0047.png */,
-				E5F8353F17021E770018E2A8 /* 0047@2x.png */,
+				E5375DDF170CAF0C008F378B /* gate-poly.png */,
+				E5375DE0170CAF0C008F378B /* gate-poly@2x.png */,
+				E5375DD3170CAA03008F378B /* gate-rect.png */,
+				E5375DD1170CA989008F378B /* gate-rect@2x.png */,
+				E5375DE3170CE281008F378B /* gate-oval.png */,
+				E5375DE4170CE281008F378B /* gate-oval@2x.png */,
+				E5375DF1170CF59D008F378B /* gate-quad-rect.png */,
+				E5375DEF170CF4AA008F378B /* gate-quad-rect@2x.png */,
+				E5375DF9170D280F008F378B /* gate-range-1.png */,
+				E5375DF7170D265D008F378B /* gate-range-1@2X.png */,
+				E5375E01170D30FE008F378B /* gate-range-3.png */,
+				E5375DFF170D2AA3008F378B /* gate-range-3@2x.png */,
 			);
 			name = GateButtons;
 			sourceTree = "<group>";
@@ -1469,18 +1469,18 @@
 				E52883AF16E52BC00057AA07 /* stacked@2x.png in Resources */,
 				E52883BD16E535220057AA07 /* 83-calendar.png in Resources */,
 				E52883BE16E535220057AA07 /* 83-calendar@2x.png in Resources */,
-				E5F8354017021E770018E2A8 /* 0139@2x.png in Resources */,
-				E5F8354117021E770018E2A8 /* 0140@2x.png in Resources */,
-				E5F8354217021E770018E2A8 /* 0139.png in Resources */,
-				E5F8354317021E770018E2A8 /* 0140.png in Resources */,
-				E5F8354417021E770018E2A8 /* 0206.png in Resources */,
-				E5F8354517021E770018E2A8 /* 0206@2x.png in Resources */,
-				E5F8354617021E770018E2A8 /* 0278.png in Resources */,
-				E5F8354717021E770018E2A8 /* 0278@2x.png in Resources */,
-				E5F8354817021E770018E2A8 /* 0290.png in Resources */,
-				E5F8354917021E770018E2A8 /* 0290@2x.png in Resources */,
-				E5F8354A17021E770018E2A8 /* 0047.png in Resources */,
-				E5F8354B17021E770018E2A8 /* 0047@2x.png in Resources */,
+				E5375DD2170CA989008F378B /* gate-rect@2x.png in Resources */,
+				E5375DD4170CAA03008F378B /* gate-rect.png in Resources */,
+				E5375DE1170CAF0D008F378B /* gate-poly.png in Resources */,
+				E5375DE2170CAF0D008F378B /* gate-poly@2x.png in Resources */,
+				E5375DE5170CE282008F378B /* gate-oval.png in Resources */,
+				E5375DE6170CE282008F378B /* gate-oval@2x.png in Resources */,
+				E5375DF0170CF4AA008F378B /* gate-quad-rect@2x.png in Resources */,
+				E5375DF2170CF59E008F378B /* gate-quad-rect.png in Resources */,
+				E5375DF8170D265D008F378B /* gate-range-1@2X.png in Resources */,
+				E5375DFA170D280F008F378B /* gate-range-1.png in Resources */,
+				E5375E00170D2AA3008F378B /* gate-range-3@2x.png in Resources */,
+				E5375E02170D30FE008F378B /* gate-range-3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

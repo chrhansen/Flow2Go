@@ -175,6 +175,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="c9y-Tt-V8o" eventType="touchUpInside" id="BPl-Rr-670"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9f5-bo-6z6">
                                         <accessibility key="accessibilityConfiguration" label="poly"/>
@@ -189,6 +192,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="c9y-Tt-V8o" eventType="touchUpInside" id="BSD-o2-qiJ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBf-Kj-mUx">
                                         <accessibility key="accessibilityConfiguration" label="ellipse button"/>
@@ -203,6 +209,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="c9y-Tt-V8o" eventType="touchUpInside" id="ASS-ML-z2C"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="4" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fA9-p6-nGj">
                                         <accessibility key="accessibilityConfiguration" label="quadrant"/>
@@ -217,6 +226,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="c9y-Tt-V8o" eventType="touchUpInside" id="arn-5K-3GA"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L6u-3w-gKz">
                                         <accessibility key="accessibilityConfiguration" label="rect"/>
@@ -231,6 +243,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="c9y-Tt-V8o" eventType="touchUpInside" id="je6-Ih-7ky"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="6" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uyI-px-ie3">
                                         <accessibility key="accessibilityConfiguration" label="poly"/>
@@ -242,6 +257,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="addGateButtonTapped:" destination="c9y-Tt-V8o" eventType="touchUpInside" id="sMg-yA-1tM"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -1475,6 +1493,9 @@
         <class className="FGPlotViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
             <relationships>
+                <relationship kind="action" name="plotTypeChanged:" candidateClass="UISegmentedControl"/>
+                <relationship kind="action" name="xAxisTapped:"/>
+                <relationship kind="action" name="yAxisTapped:"/>
                 <relationship kind="outlet" name="addGateButtonsView" candidateClass="FGAddGateButtonsView"/>
                 <relationship kind="outlet" name="gateCalculationSpinner" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
@@ -1517,9 +1538,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

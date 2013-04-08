@@ -72,7 +72,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[FGAnalysisManager sharedInstance] createRootPlotsForMeasurementsWithoutPlotsWithCompletion:nil];;
+    [[FGAnalysisManager sharedInstance] createRootPlotsForMeasurementsWithoutPlotsWithCompletion:nil];
 }
 
 - (void)dealloc

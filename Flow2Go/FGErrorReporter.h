@@ -10,4 +10,6 @@
 
 @interface FGErrorReporter : NSObject
 
++ (void)showErrorMess:(NSString *)message inView:(UIView *)view;
+
 @end

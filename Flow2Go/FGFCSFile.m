@@ -239,11 +239,12 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     {
         error = [self _readDoubleDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
     }
-
-    [self _setMinAndMaxValue:self.events dataTypeString:self.text[@"$DATATYPE"]];
-    [self _convertChannelValuesToScaleValues:self.events];
-    [self _applyCompensationToScaleValues:self.events];
-    [self _applyCalibrationToScaledValues:self.events];
+    if (!error) {
+        [self _setMinAndMaxValue:self.events dataTypeString:self.text[@"$DATATYPE"]];
+        [self _convertChannelValuesToScaleValues:self.events];
+        [self _applyCompensationToScaleValues:self.events];
+        [self _applyCalibrationToScaledValues:self.events];
+    }
     return error;
 }
 
@@ -253,9 +254,16 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     NSUInteger totalBytesRead = 0;
     NSInteger bytesRead = 0;
     NSUInteger eventNo = 0;
+    NSError *error;
     FGParameterSize *parSizes = [self _getParameterSizes:_noOfParams];
-    uint8_t bufferOneEvent[self.bitsPerEvent/8];
+    for (NSUInteger parIndex = 0; parIndex < _noOfParams; parIndex++) {
+        if (parSizes[parIndex] == FGParameterSizeUnknown) {
+            error = [NSError errorWithDomain:FCSFile_Error_Domain code:-1 userInfo:@{@"error": [NSString stringWithFormat:@"Paramter number %d has an unsupored bit size.", parIndex + 1]}];
+            return error;
+        }
+    }
     
+    uint8_t bufferOneEvent[self.bitsPerEvent/8];
     while (totalBytesRead < lastByte - firstByte
            && [inputStream hasBytesAvailable])
     {
@@ -311,7 +319,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     }
     if (parSizes) free(parSizes);
     
-    return nil;
+    return error;
 }
 
 union Int2Float {
@@ -601,26 +609,26 @@ typedef union Int2Double Int2Double;
 }
 
 
-- (void)_applyCompensationToScaleValues:(double **)eventsAsScaledValues
+- (NSError *)_applyCompensationToScaleValues:(double **)eventsAsScaledValues
 {
     NSString *spillOverString = self.text[@"$SPILLOVER"];
-    
+    NSError *error;
     if (spillOverString == nil) spillOverString = self.text[@"SPILL"];
 
     if (spillOverString == nil) {
-        return;
+        return error;
     }
     
     NSArray *spillOverArray = [spillOverString componentsSeparatedByString:@","];
     if (spillOverArray.count == 0)
     {
         NSLog(@"Error: No spill over components found: %@", spillOverString);
-        return;
+        return error;
     }
     NSInteger n = [spillOverArray[0] integerValue];
     if (spillOverArray.count < 1 + n + n * n) {
         NSLog(@"Error: Not all required spill over parameters found: %@", spillOverString);
-        return;
+        return error;
     }
         
     double **spillOverMatrix    = calloc(n, sizeof(NSUInteger *));
@@ -642,14 +650,18 @@ typedef union Int2Double Int2Double;
         free(spillOverMatrix);
         free(spillOverMatrixInv);
 
-        return;
+        return error;
     }
     
     NSLog(@"Spill over matrix is NOT identity check values");
     
     // invert spill over matrix
-    spillOverMatrixInv = [FGMatrixInversion getInverseMatrix:spillOverMatrix order:n];
-    
+    BOOL inversionSuccess;
+    spillOverMatrixInv = [FGMatrixInversion getInverseMatrix:spillOverMatrix order:n success:&inversionSuccess];
+    if (!inversionSuccess) {
+        NSLog(@"Spill over matrix could not be inverted");
+        return error = [NSError errorWithDomain:FCSFile_Error_Domain code:-1 userInfo:@{@"error": NSLocalizedString(@"Spill over matrix is not inversible.", nil)}];
+    }
     NSUInteger compensationParIndexes[n];
     for (NSUInteger i = 1; i < 1 + n; i++) {
         compensationParIndexes[i-1] = [FGFCSFile parameterNumberForShortName:spillOverArray[i] inFCSFile:self] - 1;
@@ -671,6 +683,7 @@ typedef union Int2Double Int2Double;
     }
     
     free(eventVector);
+    return error;
 }
 
 

@@ -15,7 +15,7 @@
 
 - (void)dealloc
 {
-    free(_eventsInside);
+    if (_eventsInside) free(_eventsInside);
 }
 
 
@@ -81,10 +81,10 @@
     FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
     gateCalculator.countOfEventsInside = 0;
-        
+    
     NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
     NSInteger yPar = [FGFCSFile parameterNumberForShortName:yParShortName inFCSFile:fcsFile] - 1;
-        
+    
     FGPlotPoint plotPoint;
     NSUInteger eventNo;
     
@@ -174,6 +174,75 @@
         }
     }
     return gateCalculator;
+}
+
+
++ (FGGateCalculator *)eventsInsideEllipseGateWithXParameter:(NSString *)xParShortName
+                                                 yParameter:(NSString *)yParShortName
+                                                   vertices:(NSArray *)vertices
+                                                    fcsFile:(FGFCSFile *)fcsFile
+                                                     subSet:(NSUInteger *)subSet
+                                                subSetCount:(NSUInteger)subSetCount
+{
+    NSInteger eventsInside = subSetCount;
+    if (!subSet)
+    {
+        eventsInside = fcsFile.noOfEvents;
+    }
+    
+    FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
+    gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
+    gateCalculator.countOfEventsInside = 0;
+    
+    NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
+    NSInteger yPar = [FGFCSFile parameterNumberForShortName:yParShortName inFCSFile:fcsFile] - 1;
+    FGPlotPoint ellipsePoint1, ellipsePoint2, testPoint;
+    ellipsePoint1.xVal = [(FGGraphPoint *)vertices[0] x];
+    ellipsePoint1.yVal = [(FGGraphPoint *)vertices[0] y];
+    ellipsePoint2.xVal = [(FGGraphPoint *)vertices[1] x];
+    ellipsePoint2.yVal = [(FGGraphPoint *)vertices[1] y];
+    double plotPoint;
+    NSUInteger eventNo;
+    
+    if (subSet)
+    {
+        for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
+        {
+            eventNo = subSet[subSetNo];
+            
+            testPoint.xVal = (double)fcsFile.events[eventNo][xPar];
+            testPoint.yVal = (double)fcsFile.events[eventNo][yPar];
+            
+            if ([self _point:testPoint insideEllipseWithPoint1:ellipsePoint1 andPoint2:ellipsePoint2])
+            {
+                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
+                gateCalculator.countOfEventsInside += 1;
+            }
+        }
+    }
+    else
+    {
+        for (eventNo = 0; eventNo < eventsInside; eventNo++)
+        {
+            testPoint.xVal = (double)fcsFile.events[eventNo][xPar];
+            testPoint.yVal = (double)fcsFile.events[eventNo][yPar];
+            
+            if ([self _point:testPoint insideEllipseWithPoint1:ellipsePoint1 andPoint2:ellipsePoint2])
+            {
+                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
+                gateCalculator.countOfEventsInside += 1;
+            }
+        }
+    }
+    return gateCalculator;
+}
+
+
++ (BOOL)_point:(FGPlotPoint)testPoint insideEllipseWithPoint1:(FGPlotPoint)point1 andPoint2:(FGPlotPoint)point2
+{
+    // implement inside-ellipse-checking-code
+    
+    return NO;
 }
 
 

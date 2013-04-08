@@ -149,18 +149,19 @@ double** trans(double **num, double **fac, int n)
 }
 
 
-+ (double **)getInverseMatrix:(double **)a order:(NSUInteger)n
++ (double **)getInverseMatrix:(double **)a order:(NSUInteger)n success:(BOOL *)success
 {
     double det = determinant(a, n);
     
     if (det == 0.0) {
-        NSLog(@"MATRIX IS NOT INVERSIBLE\n");
+        *success = NO;
     } else {
         double **inverseMatrix = calloc(n, sizeof(NSUInteger *));
         for (NSUInteger i = 0; i < n; i++) {
             inverseMatrix[i] = calloc(n, sizeof(double));
         }
         inverseMatrix = cofactors(a, n);
+        *success = YES;
         return inverseMatrix;
     }
     return nil;

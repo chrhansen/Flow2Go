@@ -30,6 +30,11 @@
 		E50BA4101600F38000E85118 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E50BA40F1600F38000E85118 /* libz.dylib */; };
 		E50F000416E8F164009C546E /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E50F000316E8F164009C546E /* FGPlot.m */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
+		E512FAF217129AC3003EE9E0 /* FGErrorReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = E512FAF117129AC3003EE9E0 /* FGErrorReporter.m */; };
+		E512FAF817136D55003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */; };
+		E512FAF917136D55003EE9E0 /* Flow2GoLaunchImage-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */; };
+		E512FAFA17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */; };
+		E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */; };
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5173B5C16E0F1CF00A314D4 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5173B5916E0F1CF00A314D4 /* libTestFlight.a */; };
 		E5173B5D16E0F1CF00A314D4 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E5173B5A16E0F1CF00A314D4 /* release_notes.md */; };
@@ -268,6 +273,12 @@
 		E511FD7815CC36C200637D39 /* icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_72.png; path = Images/icon_72.png; sourceTree = "<group>"; };
 		E511FDD815CC6C4800637D39 /* FGPlotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotViewController.h; sourceTree = "<group>"; };
 		E511FDD915CC6C4800637D39 /* FGPlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotViewController.m; sourceTree = "<group>"; };
+		E512FAF017129AC3003EE9E0 /* FGErrorReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGErrorReporter.h; sourceTree = "<group>"; };
+		E512FAF117129AC3003EE9E0 /* FGErrorReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGErrorReporter.m; sourceTree = "<group>"; };
+		E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Portrait@2x.png"; sourceTree = "<group>"; };
+		E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Portrait.png"; sourceTree = "<group>"; };
+		E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape.png"; sourceTree = "<group>"; };
+		E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape@2x.png"; sourceTree = "<group>"; };
 		E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+PriceAsString.h"; sourceTree = "<group>"; };
 		E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+PriceAsString.m"; sourceTree = "<group>"; };
 		E5173B5916E0F1CF00A314D4 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = Flow2Go/TestFlightSDK1.2beta2/libTestFlight.a; sourceTree = SOURCE_ROOT; };
@@ -715,6 +726,8 @@
 		E52BECB815DE861D002A3819 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E512FAF017129AC3003EE9E0 /* FGErrorReporter.h */,
+				E512FAF117129AC3003EE9E0 /* FGErrorReporter.m */,
 				E5F835301701D93E0018E2A8 /* FGPendingOperations.h */,
 				E5F835311701D93E0018E2A8 /* FGPendingOperations.m */,
 				E520B8D9170A48AB00A892B3 /* FGPlotDataOperation.h */,
@@ -1221,6 +1234,10 @@
 				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
 				E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */,
 				E5A1BC9416D05310001CABF8 /* flow2go-logo.png */,
+				E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */,
+				E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */,
+				E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */,
+				E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */,
 				E5FC6F5015CA7E8E0047A3DD /* Flow2Go */,
 				E5FC6F4715CA7E8E0047A3DD /* Frameworks */,
 				E5FC6F4515CA7E8E0047A3DD /* Products */,
@@ -1481,6 +1498,10 @@
 				E5375DFA170D280F008F378B /* gate-range-1.png in Resources */,
 				E5375E00170D2AA3008F378B /* gate-range-3@2x.png in Resources */,
 				E5375E02170D30FE008F378B /* gate-range-3.png in Resources */,
+				E512FAF817136D55003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png in Resources */,
+				E512FAF917136D55003EE9E0 /* Flow2GoLaunchImage-Portrait.png in Resources */,
+				E512FAFA17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png in Resources */,
+				E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1594,6 +1615,7 @@
 				E5492401170786DC00A0F75F /* FGMatrixInversion.m in Sources */,
 				E54924041709DB2000A0F75F /* FGGraph.m in Sources */,
 				E520B8DB170A48AC00A892B3 /* FGPlotDataOperation.m in Sources */,
+				E512FAF217129AC3003EE9E0 /* FGErrorReporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1735,7 +1757,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SHARED_PRECOMPS_DIR = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1768,7 +1790,7 @@
 				PROVISIONING_PROFILE = "8B020D33-5832-48C4-920F-99507C55192D";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8B020D33-5832-48C4-920F-99507C55192D";
 				SHARED_PRECOMPS_DIR = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

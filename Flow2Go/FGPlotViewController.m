@@ -328,12 +328,11 @@
     self.plot.yAxisType  = [NSNumber numberWithInteger:[self.fcsFile axisTypeForParameterIndex:self.plot.yParNumber.integerValue - 1]];
     [self prepareForPlotUpdate];
     [self updatePlotData];
-    [self.graph reloadData];
     [self.gatesContainerView redrawGates];
     
     NSError *error;
     [self.plot.managedObjectContext save:&error];
-    if (error) NSLog(@"Erro saving plot: %@", error.localizedDescription);
+    if (error) NSLog(@"Error saving plot: %@", error.localizedDescription);
 }
 
 

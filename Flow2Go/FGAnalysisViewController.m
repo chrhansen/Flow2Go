@@ -52,7 +52,7 @@
 {
     [super viewDidAppear:animated];
     // avoid loading graph when user is panning
-
+    
     [self performSelector:@selector(prepareGraph) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
     [self performSelector:@selector(preparePlotViewController) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
 }
@@ -99,7 +99,8 @@
         if (!error) {
             self.fcsFile = fcsFile;
         } else {
-            NSLog(@"Error reading fcs-file: %@", error.localizedDescription);
+            NSString *errorMessage = [@"Error reading fcs-file:" stringByAppendingFormat:@" %@", error.userInfo[@"error"]];
+            [FGErrorReporter showErrorMess:errorMessage inView:self.view];
         }
         [self.progressHUD hide:YES];
     }];
@@ -250,6 +251,10 @@
 
 - (void)_presentPlot:(FGPlot *)plot
 {
+    if (!self.fcsFile) {
+        [FGErrorReporter showErrorMess:NSLocalizedString(@"Error: FCS-file not loaded.", nil) inView:self.view];
+        return;
+    }
     self.plotViewController.plot = plot;
     [self presentViewController:self.plotViewController animated:YES completion:nil];
     self.plotViewController.view.superview.bounds = [self boundsThatFitsWithinStatusBarInAllOrientations];

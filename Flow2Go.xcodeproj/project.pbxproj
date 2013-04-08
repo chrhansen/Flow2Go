@@ -1671,8 +1671,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Christian Hansen";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Christian Hansen";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1695,8 +1695,8 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "AAE6FD49-3CE8-45DB-A9A3-EE79DD1C69E9";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AAE6FD49-3CE8-45DB-A9A3-EE79DD1C69E9";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1750,7 +1750,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Flow2Go/CorePlot\"",
-					"\"$(SRCROOT)/TestFlightSDK1.2.4\"",
 					"\"$(SRCROOT)/Flow2Go/TestFlightSDK1.2.4\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1782,7 +1781,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Flow2Go/CorePlot\"",
-					"\"$(SRCROOT)/TestFlightSDK1.2.4\"",
 					"\"$(SRCROOT)/Flow2Go/TestFlightSDK1.2.4\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1790,8 +1788,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
+				PROVISIONING_PROFILE = "AAE6FD49-3CE8-45DB-A9A3-EE79DD1C69E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AAE6FD49-3CE8-45DB-A9A3-EE79DD1C69E9";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;

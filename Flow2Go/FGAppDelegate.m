@@ -22,8 +22,7 @@
     [TestFlight takeOff:@"bf48b8b2-12a5-4f1d-8823-92ed91e71f24"];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Flow2Go.sqlite"];
     DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"jnrnwsyo6j65b4a" appSecret:@"3hlpks700kooxv8" root:kDBRootDropbox];
-    ATConnect *connection = [ATConnect sharedConnection];
-    connection.apiKey = kApptentiveAPIKey;
+    [ATConnect sharedConnection].apiKey = kApptentiveAPIKey;
     
     // Navigation Pane View Controller
     MSNavigationPaneViewController *navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;

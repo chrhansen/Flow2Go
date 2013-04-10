@@ -10,6 +10,7 @@
 #import "FGFCSFile.h"
 #import "FGPlot+Management.h"
 #import "FGGate+Management.h"
+#import "FGMatrixInversion.h"
 
 @implementation FGGateCalculator
 
@@ -190,30 +191,42 @@
         eventsInside = fcsFile.noOfEvents;
     }
     
-    FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
-    gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
-    gateCalculator.countOfEventsInside = 0;
     
     NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
     NSInteger yPar = [FGFCSFile parameterNumberForShortName:yParShortName inFCSFile:fcsFile] - 1;
-    FGPlotPoint ellipsePoint1, ellipsePoint2, testPoint;
-    ellipsePoint1.xVal = [(FGGraphPoint *)vertices[0] x];
-    ellipsePoint1.yVal = [(FGGraphPoint *)vertices[0] y];
-    ellipsePoint2.xVal = [(FGGraphPoint *)vertices[1] x];
-    ellipsePoint2.yVal = [(FGGraphPoint *)vertices[1] y];
-    double plotPoint;
-    NSUInteger eventNo;
     
+    FGEllipse ellipse;
+    ellipse.halfMajorAxis = [(FGGraphPoint *)vertices[0] x];
+    ellipse.halfMinorAxis = [(FGGraphPoint *)vertices[0] y];
+    ellipse.rotationCCW   = [(FGGraphPoint *)vertices[1] x];
+    ellipse.centerX       = [(FGGraphPoint *)vertices[2] x];
+    ellipse.centerY       = [(FGGraphPoint *)vertices[2] y];
+    BOOL hasInverse = NO;
+    FGMatrix3 ellipseInv  = [self inverseTransformFromEllipse:ellipse hasInverse:&hasInverse];
+    if (hasInverse == NO) {
+        return nil;
+    }
+    
+    FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
+    gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
+    gateCalculator.countOfEventsInside = 0;
+
+    FGVector3 testPoint;
+    NSUInteger eventNo;
     if (subSet)
     {
         for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
         {
             eventNo = subSet[subSetNo];
             
-            testPoint.xVal = (double)fcsFile.events[eventNo][xPar];
-            testPoint.yVal = (double)fcsFile.events[eventNo][yPar];
+            testPoint.x = (double)fcsFile.events[eventNo][xPar];
+            testPoint.y = (double)fcsFile.events[eventNo][yPar];
+            testPoint.z = 1.0;
             
-            if ([self _point:testPoint insideEllipseWithPoint1:ellipsePoint1 andPoint2:ellipsePoint2])
+            FGVector3 transformedPoint = [FGMatrixInversion multiplyMatrix:ellipseInv byVector:testPoint];
+            double pythagorasSum = transformedPoint.x * transformedPoint.x + transformedPoint.y * transformedPoint.y;
+            
+            if (pythagorasSum < 1.0)
             {
                 gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
                 gateCalculator.countOfEventsInside += 1;
@@ -224,10 +237,14 @@
     {
         for (eventNo = 0; eventNo < eventsInside; eventNo++)
         {
-            testPoint.xVal = (double)fcsFile.events[eventNo][xPar];
-            testPoint.yVal = (double)fcsFile.events[eventNo][yPar];
+            testPoint.x = (double)fcsFile.events[eventNo][xPar];
+            testPoint.y = (double)fcsFile.events[eventNo][yPar];
+            testPoint.z = 1.0;
             
-            if ([self _point:testPoint insideEllipseWithPoint1:ellipsePoint1 andPoint2:ellipsePoint2])
+            FGVector3 transformedPoint = [FGMatrixInversion multiplyMatrix:ellipseInv byVector:testPoint];
+            double pythagorasSum = transformedPoint.x * transformedPoint.x + transformedPoint.y * transformedPoint.y;
+            
+            if (pythagorasSum < 1.0)
             {
                 gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
                 gateCalculator.countOfEventsInside += 1;
@@ -237,6 +254,38 @@
     return gateCalculator;
 }
 
+
++ (FGMatrix3)transformFromEllipse:(FGEllipse)ellipse
+{
+    FGMatrix3 matrix;
+    matrix.m00 =   ellipse.a * cos(ellipse.phi);
+    matrix.m01 = - ellipse.b * sin(ellipse.phi);
+    matrix.m02 =   0.0;
+    
+    matrix.m10 =   ellipse.a * sin(ellipse.phi);
+    matrix.m11 =   ellipse.b * cos(ellipse.phi);
+    matrix.m12 =   0.0;
+    
+    matrix.m20 =   0.0;
+    matrix.m21 =   0.0;
+    matrix.m22 =   1.0;
+    return matrix;
+}
+
+
++ (FGMatrix3)inverseTransformFromEllipse:(FGEllipse)ellipse hasInverse:(BOOL *)hasInverse
+{
+    FGMatrix3 ellipseTransform = [self transformFromEllipse:ellipse];
+    BOOL isInvertible = NO;
+    FGMatrix3 inverseTransform = [FGMatrixInversion invertAffineTransform2D:ellipseTransform isInvertible:&isInvertible];
+    if (isInvertible) {
+        *hasInverse = YES;
+        return inverseTransform;
+    } else {
+        *hasInverse = NO;
+        return nil;
+    }
+}
 
 + (BOOL)_point:(FGPlotPoint)testPoint insideEllipseWithPoint1:(FGPlotPoint)point1 andPoint2:(FGPlotPoint)point2
 {

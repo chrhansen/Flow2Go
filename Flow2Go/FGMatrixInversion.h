@@ -14,5 +14,7 @@
 + (double **)getInverseMatrix:(double **)a order:(NSUInteger)n success:(BOOL *)success;
 + (double *)multiplyMatrix:(double **)matrix byVector:(double *)vector order:(NSUInteger)order;
 + (double *)multiplyVector:(double *)vector byMatrix:(double **)matrix order:(NSUInteger)order;
++ (FGMatrix3)invertAffineTransform2D:(FGMatrix3)matrix isInvertible:(BOOL *)isInvertible;
++ (FGVector3)multiplyMatrix:(FGMatrix3)matrix byVector:(FGVector3)vector;
 
 @end

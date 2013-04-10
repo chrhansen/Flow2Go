@@ -106,3 +106,46 @@ typedef NS_ENUM( NSUInteger, FGFileType ) {
     FGFileTypeLMD,
     FGFileTypeFCS
 };
+
+union _FGVector3
+{
+    struct
+    {
+        double x, y, z;
+    };
+    struct
+    {
+        double v0, v1, v2;
+    };
+    
+};
+typedef union _FGVector3 FGVector3;
+
+union _FGMatrix3
+{
+    struct
+    {
+        double m00, m01, m02;
+        double m10, m11, m12;
+        double m20, m21, m22;
+    };
+    double m[9];
+};
+typedef union _FGMatrix3 FGMatrix3;
+
+union _FGEllipse
+{
+    struct
+    {
+        double a, b;
+        double phi;
+        double x, y;
+    };
+    struct
+    {
+        double halfMajorAxis, halfMinorAxis;
+        double rotationCCW;
+        double centerX, centerY;
+    };
+};
+typedef union _FGEllipse FGEllipse;

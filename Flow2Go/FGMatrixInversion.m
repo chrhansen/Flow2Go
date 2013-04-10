@@ -197,4 +197,38 @@ double** trans(double **num, double **fac, int n)
     return vector;
 }
 
++ (FGMatrix3)invertAffineTransform2D:(FGMatrix3)matrix isInvertible:(BOOL *)isInvertible
+{
+    double det = fabs( matrix.m00 * matrix.m11 - matrix.m01 * matrix.m10 );
+    if (det == 0.0) {
+        *isInvertible = NO;
+        return nil;
+    }
+    FGMatrix3 invertedMatrix;
+    *isInvertible = YES;
+    //Row 0
+    invertedMatrix.m00 =   matrix.m11 / det;
+    invertedMatrix.m01 = - matrix.m01 / det;
+    invertedMatrix.m02 = ( matrix.m01 * matrix.m12 - matrix.m02 * matrix.m11 ) / det;
+    //Row 1
+    invertedMatrix.m10 = - matrix.m10 / det;
+    invertedMatrix.m11 =   matrix.m00 / det;
+    invertedMatrix.m12 = ( matrix.m02 * matrix.m10 - matrix.m00 * matrix.m12 ) / det;
+    //Row 2
+    invertedMatrix.m20 =   0.0;
+    invertedMatrix.m21 =   0.0;
+    invertedMatrix.m22 =   1.0;
+    
+    return invertedMatrix;
+}
+
++ (FGVector3)multiplyMatrix:(FGMatrix3)matrix byVector:(FGVector3)vector
+{
+    FGVector3 result;
+    result.v0 = vector.v0 * matrix.m00  +  vector.v1 * matrix.m01  +  vector.v2 * matrix.m02;
+    result.v1 = vector.v0 * matrix.m10  +  vector.v1 * matrix.m11  +  vector.v2 * matrix.m12;
+    result.v2 = vector.v0 * matrix.m20  +  vector.v1 * matrix.m21  +  vector.v2 * matrix.m22;
+    return result;
+}
+
 @end

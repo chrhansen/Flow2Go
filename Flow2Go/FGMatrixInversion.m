@@ -199,10 +199,11 @@ double** trans(double **num, double **fac, int n)
 
 + (FGMatrix3)invertAffineTransform2D:(FGMatrix3)matrix isInvertible:(BOOL *)isInvertible
 {
+    FGMatrix3 invertedTransform;
     double det = fabs( matrix.m00 * matrix.m11 - matrix.m01 * matrix.m10 );
     if (det == 0.0) {
         *isInvertible = NO;
-        return nil;
+        return invertedTransform;
     }
     FGMatrix3 invertedMatrix;
     *isInvertible = YES;

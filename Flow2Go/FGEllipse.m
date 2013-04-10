@@ -39,32 +39,33 @@
     CGFloat height = bounds.size.height;
     CGFloat width = bounds.size.width;
     
-    CGPoint upperLeft = CGPointMake(width * 0.4f, height * 0.4f);
-    CGPoint upperRight = CGPointMake(width * 0.6f, height * 0.4f);
-    CGPoint lowerRight = CGPointMake(width * 0.6f, height * 0.6f);
-    CGPoint lowerLeft = CGPointMake(width * 0.4f, height * 0.6f);
-    
-    NSArray *pathPoints = @[[NSValue valueWithCGPoint:upperLeft],
-    [NSValue valueWithCGPoint:upperRight],
-    [NSValue valueWithCGPoint:lowerRight],
-    [NSValue valueWithCGPoint:lowerLeft]];
+    CGPoint abAxis      = CGPointMake(width * 0.2f, height * 0.1f);
+    CGFloat rotationCCW = -M_PI_4;
+    CGPoint center      = CGPointMake(width * 0.5f, height * 0.5f);
+
+    NSArray *pathPoints = @[[NSValue valueWithCGPoint:abAxis],
+                            [NSNumber numberWithFloat:rotationCCW],
+                            [NSValue valueWithCGPoint:center]];
     
     return [FGEllipse.alloc initWithVertices:pathPoints];
 }
 
 - (void)_createEllipsePathWithPoints:(NSArray *)pathPoints
 {
-    if (pathPoints.count < 4)
-    {
+    if (pathPoints.count < 3) {
         return;
     }
-    CGPoint upperLeft = [pathPoints[0] CGPointValue];
-    CGPoint lowerRight = [pathPoints[2] CGPointValue];
     
-    CGRect rect = CGRectMake(upperLeft.x, upperLeft.y, fabsf(lowerRight.x - upperLeft.x), fabsf(lowerRight.y - upperLeft.y));
+    CGPoint abAxis      = [pathPoints[0] CGPointValue];
+    CGFloat rotationCCW = [pathPoints[1] floatValue];
+    CGPoint center      = [pathPoints[2] CGPointValue];
+
+    CGRect rect = CGRectMake(-abAxis.x, -abAxis.y, abAxis.x * 2.0f, abAxis.y * 2.0f);
     
     // ellipse
     self.path = [UIBezierPath bezierPathWithOvalInRect:rect];
+    [self.path applyTransform:CGAffineTransformMakeRotation(rotationCCW)];
+    [self.path applyTransform:CGAffineTransformMakeTranslation(center.x, center.y)];
     NSLog(@"ellipse points after creation: %@", [self getPathPoints]);
 }
 

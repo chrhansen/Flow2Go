@@ -133,7 +133,7 @@ union _FGMatrix3
 };
 typedef union _FGMatrix3 FGMatrix3;
 
-union _FGEllipse
+union _FGEllipseRepresentation
 {
     struct
     {
@@ -148,4 +148,4 @@ union _FGEllipse
         double centerX, centerY;
     };
 };
-typedef union _FGEllipse FGEllipse;
+typedef union _FGEllipseRepresentation FGEllipseRepresentation;

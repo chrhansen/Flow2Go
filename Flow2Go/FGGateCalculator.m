@@ -195,7 +195,7 @@
     NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
     NSInteger yPar = [FGFCSFile parameterNumberForShortName:yParShortName inFCSFile:fcsFile] - 1;
     
-    FGEllipse ellipse;
+    FGEllipseRepresentation ellipse;
     ellipse.halfMajorAxis = [(FGGraphPoint *)vertices[0] x];
     ellipse.halfMinorAxis = [(FGGraphPoint *)vertices[0] y];
     ellipse.rotationCCW   = [(FGGraphPoint *)vertices[1] x];
@@ -255,7 +255,7 @@
 }
 
 
-+ (FGMatrix3)transformFromEllipse:(FGEllipse)ellipse
++ (FGMatrix3)transformFromEllipse:(FGEllipseRepresentation)ellipse
 {
     FGMatrix3 matrix;
     matrix.m00 =   ellipse.a * cos(ellipse.phi);
@@ -273,7 +273,7 @@
 }
 
 
-+ (FGMatrix3)inverseTransformFromEllipse:(FGEllipse)ellipse hasInverse:(BOOL *)hasInverse
++ (FGMatrix3)inverseTransformFromEllipse:(FGEllipseRepresentation)ellipse hasInverse:(BOOL *)hasInverse
 {
     FGMatrix3 ellipseTransform = [self transformFromEllipse:ellipse];
     BOOL isInvertible = NO;
@@ -283,7 +283,7 @@
         return inverseTransform;
     } else {
         *hasInverse = NO;
-        return nil;
+        return inverseTransform;
     }
 }
 

@@ -37,14 +37,14 @@
 - (FGEllipse *)initWithBoundsOfContainerView:(CGRect)bounds
 {
     CGFloat height = bounds.size.height;
-    CGFloat width = bounds.size.width;
+    CGFloat width  = bounds.size.width;
     
-    CGPoint abAxis      = CGPointMake(width * 0.2f, height * 0.1f);
-    CGFloat rotationCCW = -M_PI_4;
-    CGPoint center      = CGPointMake(width * 0.5f, height * 0.5f);
+    CGPoint center         = CGPointMake(width * 0.5f, height * 0.5f);
+    CGPoint semiMajorPoint = CGPointMake(center.x + 100.0f, center.y + 40.0f);
+    CGPoint semiMinorPoint = CGPointMake(center.x, center.y + 40.0f);
 
-    NSArray *pathPoints = @[[NSValue valueWithCGPoint:abAxis],
-                            [NSNumber numberWithFloat:rotationCCW],
+    NSArray *pathPoints = @[[NSValue valueWithCGPoint:semiMajorPoint],
+                            [NSValue valueWithCGPoint:semiMinorPoint],
                             [NSValue valueWithCGPoint:center]];
     
     return [FGEllipse.alloc initWithVertices:pathPoints];
@@ -55,13 +55,19 @@
     if (pathPoints.count < 3) {
         return;
     }
+    CGPoint semiMajorPoint =  [pathPoints[0] CGPointValue];
+    CGPoint semiMinorPoint =  [pathPoints[1] CGPointValue];
+    CGPoint center         =  [pathPoints[2] CGPointValue];
     
-    CGPoint abAxis      = [pathPoints[0] CGPointValue];
-    CGFloat rotationCCW = [pathPoints[1] floatValue];
-    CGPoint center      = [pathPoints[2] CGPointValue];
-
+    CGPoint abAxis;
+    abAxis.x = sqrtf(powf(center.x - semiMajorPoint.x, 2.0f) + powf(center.y - semiMajorPoint.y, 2.0f));
+    abAxis.y = sqrtf(powf(center.x - semiMinorPoint.x, 2.0f) + powf(center.y - semiMinorPoint.y, 2.0f));
     CGRect rect = CGRectMake(-abAxis.x, -abAxis.y, abAxis.x * 2.0f, abAxis.y * 2.0f);
     
+    // Get rotation of ellipse
+    CGPoint bVector = CGPointMake(semiMajorPoint.x - center.x, semiMajorPoint.y - center.y);
+    CGFloat rotationCCW = - acosf(bVector.x / sqrtf(powf(bVector.x, 2.0f) + powf(bVector.y, 2.0f)));
+
     // ellipse
     self.path = [UIBezierPath bezierPathWithOvalInRect:rect];
     [self.path applyTransform:CGAffineTransformMakeRotation(rotationCCW)];
@@ -71,6 +77,21 @@
 
 
 #pragma mark - Public methods overwritten
+
+- (NSArray *)getPathPoints
+{
+    NSArray *pathPoints   = [super getPathPoints];
+    CGPoint point0 = [pathPoints[0] CGPointValue];
+    CGPoint point3 = [pathPoints[3] CGPointValue];
+    CGPoint point6 = [pathPoints[6] CGPointValue];
+    
+    CGPoint center   = CGPointMake((point6.x - point0.x) * 0.5f + point0.x, (point6.y - point0.y) * 0.5f + point0.y);
+    NSArray *ellipse = @[[NSValue valueWithCGPoint:point0], [NSValue valueWithCGPoint:point3], [NSValue valueWithCGPoint:center]];
+    
+    NSLog(@"Ellipse points: %@", ellipse);
+    return ellipse;
+}
+
 
 - (BOOL)isContentsUnderPoint:(CGPoint)point
 {

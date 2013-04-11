@@ -44,7 +44,7 @@
             break;
             
         case kGateTypeEllipse:
-            return nil;
+            return [FGGateCalculator eventsInsideEllipseGateWithXParameter:gateData[XParName] yParameter:gateData[YParName] vertices:gateData[Vertices] fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeQuadrant:
@@ -178,6 +178,26 @@
 }
 
 
+
++ (FGEllipseRepresentation)ellipseFromPoints:(NSArray *)points
+{
+    FGGraphPoint *semiMajorAxisPoint = points[0];
+    FGGraphPoint *semiMinorAxisPoint = points[1];
+    FGGraphPoint *center             = points[2];
+
+    FGGraphPoint *centerToSemiMajorAxisPoint = [FGGraphPoint pointWithX:semiMajorAxisPoint.x - center.x andY:semiMajorAxisPoint.y - center.y];
+    
+    FGEllipseRepresentation ellipse;
+    ellipse.halfMajorAxis = sqrt(pow(semiMajorAxisPoint.x - center.x, 2.0) + pow(semiMajorAxisPoint.y - center.y, 2.0));
+    ellipse.halfMinorAxis = sqrt(pow(semiMinorAxisPoint.x - center.x, 2.0) + pow(semiMinorAxisPoint.y - center.y, 2.0));
+    ellipse.rotationCCW = acos(centerToSemiMajorAxisPoint.x / sqrt(pow(centerToSemiMajorAxisPoint.x, 2.0) + pow(centerToSemiMajorAxisPoint.y, 2.0)));
+    ellipse.centerX = center.x;
+    ellipse.centerY = center.y;
+    
+    return ellipse;
+}
+
+
 + (FGGateCalculator *)eventsInsideEllipseGateWithXParameter:(NSString *)xParShortName
                                                  yParameter:(NSString *)yParShortName
                                                    vertices:(NSArray *)vertices
@@ -186,21 +206,12 @@
                                                 subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
-    if (!subSet)
-    {
-        eventsInside = fcsFile.noOfEvents;
-    }
-    
+    if (!subSet) eventsInside = fcsFile.noOfEvents;
     
     NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
     NSInteger yPar = [FGFCSFile parameterNumberForShortName:yParShortName inFCSFile:fcsFile] - 1;
     
-    FGEllipseRepresentation ellipse;
-    ellipse.halfMajorAxis = [(FGGraphPoint *)vertices[0] x];
-    ellipse.halfMinorAxis = [(FGGraphPoint *)vertices[0] y];
-    ellipse.rotationCCW   = [(FGGraphPoint *)vertices[1] x];
-    ellipse.centerX       = [(FGGraphPoint *)vertices[2] x];
-    ellipse.centerY       = [(FGGraphPoint *)vertices[2] y];
+    FGEllipseRepresentation ellipse = [self ellipseFromPoints:vertices];
     BOOL hasInverse = NO;
     FGMatrix3 ellipseInv  = [self inverseTransformFromEllipse:ellipse hasInverse:&hasInverse];
     if (hasInverse == NO) {
@@ -260,11 +271,11 @@
     FGMatrix3 matrix;
     matrix.m00 =   ellipse.a * cos(ellipse.phi);
     matrix.m01 = - ellipse.b * sin(ellipse.phi);
-    matrix.m02 =   0.0;
+    matrix.m02 =   ellipse.centerX;
     
     matrix.m10 =   ellipse.a * sin(ellipse.phi);
     matrix.m11 =   ellipse.b * cos(ellipse.phi);
-    matrix.m12 =   0.0;
+    matrix.m12 =   ellipse.centerY;
     
     matrix.m20 =   0.0;
     matrix.m21 =   0.0;

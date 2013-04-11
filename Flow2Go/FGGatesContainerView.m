@@ -330,8 +330,7 @@
             case UIGestureRecognizerStateCancelled:
                 self.simultaneousGestures -= 1;
                 if (self.modifyingGraphic != nil
-                    && self.simultaneousGestures == 0)
-                {
+                    && self.simultaneousGestures == 0) {
                     [self.modifyingGraphic.path applyTransform:CGAffineTransformMakeTranslation(tranlation.x, tranlation.y)];
                     [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
                     self.modifyingGraphic = nil;

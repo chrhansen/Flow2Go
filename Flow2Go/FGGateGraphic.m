@@ -105,7 +105,6 @@
     NSMutableArray *bezierPoints = [NSMutableArray array];
     CGPathApply(self.path.CGPath, (__bridge void *)(bezierPoints), Flow2GoCGPathApplierFunc);
 
-
     return [NSArray arrayWithArray:bezierPoints];
 }
 

@@ -564,8 +564,7 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark - Mark View Datasource
 - (NSUInteger)numberOfGatesInGatesContainerView:(FGGatesContainerView *)gatesContainerView
 {
-    self.displayedGates = [[self.plot childGatesForXPar:self.plot.xParNumber.integerValue
-                                                andYPar:self.plot.yParNumber.integerValue] mutableCopy];
+    self.displayedGates = [[self.plot childGatesForXPar:self.plot.xParNumber.integerValue andYPar:self.plot.yParNumber.integerValue] mutableCopy];
     return self.displayedGates.count;
 }
 

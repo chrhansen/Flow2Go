@@ -99,24 +99,6 @@
 }
 
 
-
-- (void)panBeganAtPoint:(CGPoint)beginPoint
-{
-    // pan began
-}
-
-
-- (void)panChangedToPoint:(CGPoint)nextPoint
-{
-    // pan changed
-}
-
-
-- (void)panEndedAtPoint:(CGPoint)endPoint
-{
-    // pan changed
-}
-
 - (CGAffineTransform)transformForScale:(CGFloat)scale atLocation:(CGPoint)location
 {
     CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
@@ -142,5 +124,32 @@
 {
     [self.path applyTransform:[self transformForScale:scale atLocation:location]];
 }
+
+
+- (CGAffineTransform)transformForRotation:(CGFloat)angle atLocation:(CGPoint)location
+{
+    CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
+    CGAffineTransform toLocation = CGAffineTransformMakeTranslation(location.x, location.y);
+    CGAffineTransform comboTransform = CGAffineTransformConcat(toCenter, CGAffineTransformMakeRotation(angle));
+    return CGAffineTransformConcat(comboTransform, toLocation);
+}
+
+- (void)rotationBeganAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
+}
+
+
+- (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
+}
+
+
+- (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
+}
+
 
 @end

@@ -98,6 +98,22 @@
 }
 
 
+- (void)rotationBeganAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    // Override in subclass
+}
+
+
+- (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    // Override in subclass
+}
+
+
+- (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    // Override in subclass
+}
 
 
 - (NSArray *)getPathPoints

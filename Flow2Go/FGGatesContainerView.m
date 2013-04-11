@@ -197,6 +197,8 @@
     
     UILongPressGestureRecognizer *longPressRecognizer = [UILongPressGestureRecognizer.alloc initWithTarget:self action:@selector(longPressDetected:)];
     
+    UIRotationGestureRecognizer *rotationRecognizer = [UIRotationGestureRecognizer.alloc initWithTarget:self action:@selector(rotationDetected:)];
+    
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
     
     [self addGestureRecognizer:singleTapRecognizer];
@@ -204,10 +206,12 @@
     [self addGestureRecognizer:panRecognizer];
     [self addGestureRecognizer:pinchRecognizer];
     [self addGestureRecognizer:longPressRecognizer];
+    [self addGestureRecognizer:rotationRecognizer];
     
     panRecognizer.delegate = self;
     pinchRecognizer.delegate = self;
     singleTapRecognizer.delegate = self;
+    rotationRecognizer.delegate = self;
     
     self.simultaneousGestures = 0;
 }
@@ -387,7 +391,48 @@
                 
         }
         [self setNeedsDisplay];
-        pinchRecognizer.scale = 1.0;
+        pinchRecognizer.scale = 1.0f;
+    }
+}
+
+- (void)rotationDetected:(UIRotationGestureRecognizer *)rotationGesture
+{
+    if (self.creatingGraphic) {
+        return;
+    } else {
+        CGPoint location = [rotationGesture locationInView:self];
+        
+        switch (rotationGesture.state)
+        {
+            case UIGestureRecognizerStateBegan:
+                self.simultaneousGestures += 1;
+                self.modifyingGraphic = [self _gateAtTapPoint:location];
+                [self.modifyingGraphic rotationBeganAtLocation:location withAngle:rotationGesture.rotation];
+                break;
+                
+            case UIGestureRecognizerStateChanged:
+                [self.modifyingGraphic rotationChangedAtLocation:location withAngle:rotationGesture.rotation];
+                break;
+                
+            case UIGestureRecognizerStateEnded:
+            case UIGestureRecognizerStateFailed:
+            case UIGestureRecognizerStateCancelled:
+                self.simultaneousGestures -= 1;
+                if (self.modifyingGraphic != nil
+                    && self.simultaneousGestures == 0)
+                {
+                    [self.modifyingGraphic rotationEndedAtLocation:location withAngle:rotationGesture.rotation];
+                    [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
+                    self.modifyingGraphic = nil;
+                }
+                break;
+                
+            default:
+                break;
+                
+        }
+        [self setNeedsDisplay];
+        rotationGesture.rotation = 0.0f;
     }
 }
 

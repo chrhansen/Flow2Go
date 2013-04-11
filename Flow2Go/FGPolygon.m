@@ -20,8 +20,8 @@
     self.path = [UIBezierPath bezierPath];
     self.path.lineWidth = 2.0;
     self.path.lineCapStyle = kCGLineCapRound;
-    self.gateType = kGateTypePolygon;
     self.strokeColor = UIColor.redColor;
+    self.gateType = kGateTypePolygon;
     self.fillColor = UIColor.redColor;
 }
 

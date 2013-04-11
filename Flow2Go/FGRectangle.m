@@ -153,4 +153,31 @@ void Flow2GoCGPathPointMoveFunction (void *info, const CGPathElement *element)
     }
 }
 
+
+- (CGAffineTransform)transformForRotation:(CGFloat)angle atLocation:(CGPoint)location
+{
+    CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
+    CGAffineTransform toLocation = CGAffineTransformMakeTranslation(location.x, location.y);
+    CGAffineTransform comboTransform = CGAffineTransformConcat(toCenter, CGAffineTransformMakeRotation(angle));
+    return CGAffineTransformConcat(comboTransform, toLocation);
+}
+
+
+- (void)rotationBeganAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
+}
+
+
+- (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
+}
+
+
+- (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+{
+    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
+}
+
 @end

@@ -65,14 +65,28 @@
     CGRect rect = CGRectMake(-abAxis.x, -abAxis.y, abAxis.x * 2.0f, abAxis.y * 2.0f);
     
     // Get rotation of ellipse
-    CGPoint bVector = CGPointMake(semiMajorPoint.x - center.x, semiMajorPoint.y - center.y);
-    CGFloat rotationCCW = - acosf(bVector.x / sqrtf(powf(bVector.x, 2.0f) + powf(bVector.y, 2.0f)));
+    CGFloat rotationCCW = [self orientationWihtPoints:pathPoints];
 
     // ellipse
     self.path = [UIBezierPath bezierPathWithOvalInRect:rect];
     [self.path applyTransform:CGAffineTransformMakeRotation(rotationCCW)];
     [self.path applyTransform:CGAffineTransformMakeTranslation(center.x, center.y)];
-    NSLog(@"ellipse points after creation: %@", [self getPathPoints]);
+}
+
+
+- (CGFloat)orientationWihtPoints:(NSArray *)points
+{
+    CGPoint semiMajorPoint = [points[0] CGPointValue];
+    CGPoint center         = [points[2] CGPointValue];
+    CGPoint bVector = CGPointMake(semiMajorPoint.x - center.x, semiMajorPoint.y - center.y);
+    return - acosf(bVector.x / sqrtf(powf(bVector.x, 2.0f) + powf(bVector.y, 2.0f)));
+}
+
+
+- (CGFloat)currentOrientation
+{
+    NSArray *points = [self getPathPoints];
+    return [self orientationWihtPoints:points];
 }
 
 
@@ -92,37 +106,77 @@
     return ellipse;
 }
 
-
 - (BOOL)isContentsUnderPoint:(CGPoint)point
 {
     return [self.path containsPoint:point];
 }
 
 
-- (CGAffineTransform)transformForScale:(CGFloat)scale atLocation:(CGPoint)location
+- (CGAffineTransform)transformForScale:(CGFloat)scale inXDir:(BOOL)isXScaling atLocation:(CGPoint)location currentOrientation:(CGFloat)orientation
 {
-    CGAffineTransform toCenter = CGAffineTransformMakeTranslation(-location.x, -location.y);
+    CGAffineTransform fromLocation = CGAffineTransformMakeTranslation(-location.x, -location.y);
+    CGAffineTransform fromOrientation = CGAffineTransformMakeRotation(-orientation);
+    CGAffineTransform fromOriginal = CGAffineTransformConcat(fromLocation, fromOrientation);
+    
     CGAffineTransform toLocation = CGAffineTransformMakeTranslation(location.x, location.y);
-    CGAffineTransform comboTransform = CGAffineTransformConcat(toCenter, CGAffineTransformMakeScale(scale, scale));
-    return CGAffineTransformConcat(comboTransform, toLocation);
+    CGAffineTransform toOrientation   = CGAffineTransformMakeRotation( orientation);
+    CGAffineTransform toOriginal = CGAffineTransformConcat(toOrientation, toLocation);
+    
+    CGFloat xScale = scale;
+    CGFloat yScale = 1.0f;
+    if (!isXScaling) {
+        yScale = scale;
+        xScale = 1.0f;
+    }
+    CGAffineTransform comboTransform = CGAffineTransformConcat(fromOriginal, CGAffineTransformMakeScale(xScale, yScale));
+    return CGAffineTransformConcat(comboTransform, toOriginal);
 }
 
 
-- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
+//- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
+//{
+//    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+//}
+//
+//
+//- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
+//{
+//    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+//}
+//
+//
+//- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
+//{
+//    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+//}
+
+
+- (void)pinchWithCentroid:(CGPoint)centroidPoint withScale:(CGFloat)scale touch1:(CGPoint)touch1Point touch2:(CGPoint)touch2Point
 {
-    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
-}
-
-
-- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-{
-    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
-}
-
-
-- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-{
-    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+    NSArray *points = [self getPathPoints];
+    CGPoint semiMajorPoint = [points[0] CGPointValue];
+    CGPoint semiMinorPoint = [points[1] CGPointValue];
+    CGPoint center         = [points[2] CGPointValue];
+    // Semi major vector
+    CGPoint semiMajorVector       = CGPointMake(semiMajorPoint.x - center.x, semiMajorPoint.y - center.y);
+    CGFloat semiMajorVectorLength = sqrtf(semiMajorVector.x * semiMajorVector.x + semiMajorVector.y * semiMajorVector.y);
+    CGPoint semiMajorVectorUnit   = CGPointMake(semiMajorVector.x / semiMajorVectorLength, semiMajorVector.y / semiMajorVectorLength);
+    // Semi minor vector
+    CGPoint semiMinorVector       = CGPointMake(semiMinorPoint.x - center.x, semiMinorPoint.y - center.y);
+    CGFloat semiMinorVectorLength = sqrtf(semiMinorVector.x * semiMinorVector.x + semiMinorVector.y * semiMinorVector.y);
+    CGPoint semiMinorVectorUnit   = CGPointMake(semiMinorVector.x / semiMinorVectorLength, semiMinorVector.y / semiMinorVectorLength);
+    // Semi touch vector
+    CGPoint touchVector           = CGPointMake(touch2Point.x - touch1Point.x, touch2Point.y - touch1Point.y);
+    CGFloat touchVectorLength     = sqrtf(touchVector.x * touchVector.x + touchVector.y * touchVector.y);
+    CGPoint touchVectorUnit       = CGPointMake(touchVector.x / touchVectorLength, touchVector.y / touchVectorLength);
+    
+    
+    CGFloat minorDotProduct = touchVectorUnit.x * semiMinorVectorUnit.x + touchVectorUnit.y * semiMinorVectorUnit.y;
+    CGFloat majorDotProduct = touchVectorUnit.x * semiMajorVectorUnit.x + touchVectorUnit.y * semiMajorVectorUnit.y;
+    CGFloat currentOrientation = [self currentOrientation];
+    CGAffineTransform pinchTransform = [self transformForScale:scale inXDir:(fabsf(minorDotProduct) <= fabsf(majorDotProduct)) atLocation:centroidPoint currentOrientation:currentOrientation];
+    
+    [self.path applyTransform:pinchTransform];
 }
 
 

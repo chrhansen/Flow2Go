@@ -29,6 +29,8 @@
 - (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle;
 - (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle;
 
+- (void)pinchWithCentroid:(CGPoint)centroidPoint withScale:(CGFloat)scale touch1:(CGPoint)touch1Point touch2:(CGPoint)touch2Point;
+
 
 @property (nonatomic, strong) UIBezierPath *path;
 @property (nonatomic) CGRect bounds;

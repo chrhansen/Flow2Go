@@ -12,6 +12,7 @@
 #import "ATConnect.h"
 #import "MSNavigationPaneViewController.h"
 #import "FGMeasurementCollectionViewController.h"
+#import <Crashlytics/Crashlytics.h>
 
 @class FGAnalysisViewController;
 
@@ -40,6 +41,9 @@
     [navigationPaneViewController setPaneViewController:paneViewController animated:NO completion:nil];
     navigationPaneViewController.paneDraggingEnabled = YES;
 
+    // Chrashlytics
+    [Crashlytics startWithAPIKey:@"0387772ffe94f1d824a25caa46697d6294cc3f90"];
+    
     [FGStyleController applyAppearance];
     return YES;
 }

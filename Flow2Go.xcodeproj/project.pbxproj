@@ -96,6 +96,7 @@
 		E585571916C15B0400BF4546 /* FGPlotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571816C15B0400BF4546 /* FGPlotCell.m */; };
 		E585571C16C1609200BF4546 /* FGFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571B16C1609200BF4546 /* FGFolder.m */; };
 		E585572316C1A46700BF4546 /* FGDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E585572216C1A46600BF4546 /* FGDropboxViewController.m */; };
+		E58A1A20171DB5C70099604E /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E58A1A1F171DB5C70099604E /* Crashlytics.framework */; };
 		E598014C16C840F500BF1A2D /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = E598014B16C840F500BF1A2D /* PopoverView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
 		E59A074D15EF8A0E006AE343 /* FGPlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* FGPlotDetailTableViewController.m */; };
@@ -368,6 +369,7 @@
 		E585571B16C1609200BF4546 /* FGFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolder.m; sourceTree = "<group>"; };
 		E585572116C1A46600BF4546 /* FGDropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGDropboxViewController.h; sourceTree = "<group>"; };
 		E585572216C1A46600BF4546 /* FGDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGDropboxViewController.m; sourceTree = "<group>"; };
+		E58A1A1F171DB5C70099604E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		E598014916C840F400BF1A2D /* PopoverView_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopoverView_Configuration.h; path = Flow2Go/PopoverView/PopoverView_Configuration.h; sourceTree = "<group>"; };
 		E598014A16C840F400BF1A2D /* PopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopoverView.h; path = Flow2Go/PopoverView/PopoverView.h; sourceTree = "<group>"; };
 		E598014B16C840F500BF1A2D /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopoverView.m; path = Flow2Go/PopoverView/PopoverView.m; sourceTree = "<group>"; };
@@ -614,6 +616,7 @@
 				E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */,
 				E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */,
 				E5D77C4C171377E2000232BB /* libTestFlight.a in Frameworks */,
+				E58A1A20171DB5C70099604E /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1256,6 +1259,7 @@
 		E5FC6F4715CA7E8E0047A3DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E58A1A1F171DB5C70099604E /* Crashlytics.framework */,
 				E55923AE16D3819900A087D8 /* SystemConfiguration.framework */,
 				E55923AC16D3817C00A087D8 /* CoreTelephony.framework */,
 				E5C0119416CA96570059ED0F /* StoreKit.framework */,
@@ -1363,6 +1367,7 @@
 				E5FC6F4015CA7E8E0047A3DD /* Sources */,
 				E5FC6F4115CA7E8E0047A3DD /* Frameworks */,
 				E5FC6F4215CA7E8E0047A3DD /* Resources */,
+				E58A1A1D171DB5970099604E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1507,6 +1512,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E58A1A1D171DB5970099604E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 0387772ffe94f1d824a25caa46697d6294cc3f90\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E5FC6F4015CA7E8E0047A3DD /* Sources */ = {

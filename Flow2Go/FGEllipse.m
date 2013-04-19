@@ -88,17 +88,6 @@
     return @[[NSValue valueWithCGPoint:semiMajorVector], [NSValue valueWithCGPoint:semiMinorVector]];
 }
 
-- (CGPoint)normalizeVector:(CGPoint)vector
-{
-    CGFloat vectorLength = [self vectorLength:vector];
-    return CGPointMake(vector.x / vectorLength, vector.y / vectorLength);
-}
-
-- (CGFloat)vectorLength:(CGPoint)vector
-{
-    return sqrtf(vector.x * vector.x + vector.y * vector.y);
-}
-
 
 #define TWO_PI 2.0f * (CGFloat)M_PI
 

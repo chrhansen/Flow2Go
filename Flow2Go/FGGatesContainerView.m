@@ -362,6 +362,10 @@
         
         switch (pinchRecognizer.state)
         {
+                if (pinchRecognizer.numberOfTouches < 2) {
+                    NSLog(@"------- number of touches: %d, state: %d --------", pinchRecognizer.numberOfTouches, pinchRecognizer.state);
+                }
+                
             case UIGestureRecognizerStateBegan:
                 self.simultaneousGestures += 1;
                 self.modifyingGraphic = [self _gateAtTapPoint:location];
@@ -382,8 +386,6 @@
             case UIGestureRecognizerStateEnded:
             case UIGestureRecognizerStateFailed:
             case UIGestureRecognizerStateCancelled:
-                NSLog(@"number of touches: %d, state: %d", pinchRecognizer.numberOfTouches, pinchRecognizer.state);
-
                 self.simultaneousGestures -= 1;
                 if (self.modifyingGraphic != nil
                     && self.simultaneousGestures == 0)

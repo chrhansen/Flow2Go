@@ -91,6 +91,16 @@
     // Override in subclass
 }
 
+- (CGPoint)normalizeVector:(CGPoint)vector
+{
+    CGFloat vectorLength = [self vectorLength:vector];
+    return CGPointMake(vector.x / vectorLength, vector.y / vectorLength);
+}
+
+- (CGFloat)vectorLength:(CGPoint)vector
+{
+    return sqrtf(vector.x * vector.x + vector.y * vector.y);
+}
 
 
 - (NSArray *)getPathPoints

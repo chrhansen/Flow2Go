@@ -16,6 +16,10 @@
 - (void)showDragableHooks;
 - (void)hideDragableHooks;
 
+- (CGPoint)normalizeVector:(CGPoint)vector;
+- (CGFloat)vectorLength:(CGPoint)vector;
+
+
 - (BOOL)isContentsUnderPoint:(CGPoint)point;
 - (NSArray *)getPathPoints;
 

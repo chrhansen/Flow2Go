@@ -783,13 +783,6 @@
 			name = GateDrawing;
 			sourceTree = "<group>";
 		};
-		E54D717316046E05008CEC5D /* TestFlight */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TestFlight;
-			sourceTree = "<group>";
-		};
 		E55923B116D381DB00A087D8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1238,8 +1231,8 @@
 				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
 				E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */,
 				E5A1BC9416D05310001CABF8 /* flow2go-logo.png */,
-				E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */,
 				E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */,
+				E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */,
 				E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */,
 				E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */,
 				E5FC6F5015CA7E8E0047A3DD /* Flow2Go */,
@@ -1324,7 +1317,6 @@
 				E598014D16C840F900BF1A2D /* PopoverView */,
 				E59C49BF16C57E9800B5E0D5 /* MD5Hash */,
 				E59C493116C42A0300B5E0D5 /* KGNoise */,
-				E54D717316046E05008CEC5D /* TestFlight */,
 			);
 			name = "3rd Party";
 			path = ..;
@@ -1809,8 +1801,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "AAE6FD49-3CE8-45DB-A9A3-EE79DD1C69E9";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AAE6FD49-3CE8-45DB-A9A3-EE79DD1C69E9";
+				PROVISIONING_PROFILE = "3E4162BF-2A05-465E-88B9-AAB0353ED116";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3E4162BF-2A05-465E-88B9-AAB0353ED116";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;

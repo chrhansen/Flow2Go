@@ -182,9 +182,9 @@
 }
 
 
-
 #pragma mark - Gesture Recognizer 
 #pragma mark Gesture Setup methods
+
 - (void)_addGestures
 {
     UITapGestureRecognizer *singleTapRecognizer = [UITapGestureRecognizer.alloc initWithTarget:self action:@selector(tapDetected:)];

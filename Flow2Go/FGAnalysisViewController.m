@@ -94,16 +94,21 @@
 - (void)_reloadFCSFile
 {
     [self.view addSubview:self.progressHUD];
-    [self.progressHUD show:NO];
-    [FGFCSFile readFCSFileAtPath:self.analysis.measurement.fullFilePath progressDelegate:self withCompletion:^(NSError *error, FGFCSFile *fcsFile) {
-        if (!error) {
-            self.fcsFile = fcsFile;
-        } else {
-            NSString *errorMessage = [@"Error reading fcs-file:" stringByAppendingFormat:@" %@", error.userInfo[@"error"]];
-            [FGErrorReporter showErrorMess:errorMessage inView:self.view];
-        }
-        [self.progressHUD hide:YES];
-    }];
+//    [self.progressHUD show:NO];
+    self.fcsFile = nil;
+    self.fcsFile = [[FGFCSFile alloc] init];
+    NSError *error;
+    self.fcsFile = [FGFCSFile fcsFileWithPath:self.analysis.measurement.fullFilePath lastParsingSegment:FGParsingSegmentAnalysis error:&error];
+    
+    
+    
+//    [self.fcsFile readFCSFileAtPath:self.analysis.measurement.fullFilePath progressDelegate:self withCompletion:^(NSError *error) {
+//        if (error) {
+//            NSString *errorMessage = [@"Error reading fcs-file:" stringByAppendingFormat:@" %@", error.userInfo[@"error"]];
+//            [FGErrorReporter showErrorMess:errorMessage inView:self.view];
+//        }
+//        [self.progressHUD hide:YES];
+//    }];
 }
 
 - (void)addNavigationPaneBarbuttonWithTarget:(id)barButtonResponder selector:(SEL)barButtonSelector;

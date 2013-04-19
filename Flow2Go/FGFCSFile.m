@@ -31,21 +31,20 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
 
 @implementation FGFCSFile
 
-+ (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error, FGFCSFile *fcsFile))completion
+- (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error))completion
 {
-    NSError *error = [self checkFilePath:path];
+    NSError *error = [self.class checkFilePath:path];
     if (error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            completion(error, nil);
+            completion(error);
         });
         return;
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSError *error;
-        FGFCSFile *newFCSFile = [FGFCSFile fcsFileWithPath:path lastParsingSegment:FGParsingSegmentAnalysis error:&error];
+        NSError *error = [self _parseFileFromPath:path lastParsingSegment:FGParsingSegmentAnalysis];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
-                completion(error, newFCSFile);
+                completion(error);
             }
         });
     });
@@ -61,6 +60,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     
     return nil;
 }
+
 
 + (NSError *)checkFilePath:(NSString *)path
 {

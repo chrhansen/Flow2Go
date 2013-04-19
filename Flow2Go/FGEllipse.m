@@ -25,14 +25,12 @@
 - (FGEllipse *)initWithVertices:(NSArray *)vertices;
 {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         [self baseInit];
         [self _createEllipsePathWithPoints:vertices];
     }
     return self;
 }
-
 
 - (FGEllipse *)initWithBoundsOfContainerView:(CGRect)bounds
 {
@@ -40,8 +38,8 @@
     CGFloat width  = bounds.size.width;
     
     CGPoint center         = CGPointMake(width * 0.5f, height * 0.5f);
-    CGPoint semiMajorPoint = CGPointMake(center.x + 100.0f, center.y + 40.0f);
-    CGPoint semiMinorPoint = CGPointMake(center.x, center.y + 40.0f);
+    CGPoint semiMajorPoint = CGPointMake(center.x + width * 0.2f, center.y);
+    CGPoint semiMinorPoint = CGPointMake(center.x, center.y + height * 0.1f);
 
     NSArray *pathPoints = @[[NSValue valueWithCGPoint:semiMajorPoint],
                             [NSValue valueWithCGPoint:semiMinorPoint],
@@ -50,43 +48,79 @@
     return [FGEllipse.alloc initWithVertices:pathPoints];
 }
 
+
 - (void)_createEllipsePathWithPoints:(NSArray *)pathPoints
 {
     if (pathPoints.count < 3) {
         return;
     }
-    CGPoint semiMajorPoint =  [pathPoints[0] CGPointValue];
-    CGPoint semiMinorPoint =  [pathPoints[1] CGPointValue];
-    CGPoint center         =  [pathPoints[2] CGPointValue];
+    NSArray *abAxes   = [self axesWithEllipsePoints:pathPoints normalize:NO];
+    CGPoint center    = [pathPoints[2] CGPointValue];
+    CGFloat semiMajor = [self vectorLength:[abAxes[0] CGPointValue]];
+    CGFloat semiMinor = [self vectorLength:[abAxes[1] CGPointValue]];
     
-    CGPoint abAxis;
-    abAxis.x = sqrtf(powf(center.x - semiMajorPoint.x, 2.0f) + powf(center.y - semiMajorPoint.y, 2.0f));
-    abAxis.y = sqrtf(powf(center.x - semiMinorPoint.x, 2.0f) + powf(center.y - semiMinorPoint.y, 2.0f));
-    CGRect rect = CGRectMake(-abAxis.x, -abAxis.y, abAxis.x * 2.0f, abAxis.y * 2.0f);
+    CGRect rect = CGRectMake(-semiMajor, -semiMinor, semiMajor * 2.0f, semiMinor * 2.0f);
     
     // Get rotation of ellipse
-    CGFloat rotationCCW = [self orientationWihtPoints:pathPoints];
-
+    CGFloat rotationCCW = [self orientationWithPoints:pathPoints];
+    
     // ellipse
     self.path = [UIBezierPath bezierPathWithOvalInRect:rect];
-    [self.path applyTransform:CGAffineTransformMakeRotation(rotationCCW)];
+    [self.path applyTransform:CGAffineTransformMakeRotation(-rotationCCW)];
     [self.path applyTransform:CGAffineTransformMakeTranslation(center.x, center.y)];
 }
 
 
-- (CGFloat)orientationWihtPoints:(NSArray *)points
+
+- (NSArray *)axesWithEllipsePoints:(NSArray *)pathPoints normalize:(BOOL)shouldNormalize
+{
+    CGPoint semiMajorPoint =  [pathPoints[0] CGPointValue];
+    CGPoint semiMinorPoint =  [pathPoints[1] CGPointValue];
+    CGPoint center         =  [pathPoints[2] CGPointValue];
+    
+    CGPoint semiMajorVector = CGPointMake(semiMajorPoint.x - center.x, semiMajorPoint.y - center.y);
+    CGPoint semiMinorVector = CGPointMake(semiMinorPoint.x - center.x, semiMinorPoint.y - center.y);
+    
+    if (shouldNormalize) {
+        semiMajorVector = [self normalizeVector:semiMajorVector];
+        semiMinorVector = [self normalizeVector:semiMinorVector];
+    }
+    return @[[NSValue valueWithCGPoint:semiMajorVector], [NSValue valueWithCGPoint:semiMinorVector]];
+}
+
+- (CGPoint)normalizeVector:(CGPoint)vector
+{
+    CGFloat vectorLength = [self vectorLength:vector];
+    return CGPointMake(vector.x / vectorLength, vector.y / vectorLength);
+}
+
+- (CGFloat)vectorLength:(CGPoint)vector
+{
+    return sqrtf(vector.x * vector.x + vector.y * vector.y);
+}
+
+
+#define TWO_PI 2.0f * (CGFloat)M_PI
+
+- (CGFloat)orientationWithPoints:(NSArray *)points
 {
     CGPoint semiMajorPoint = [points[0] CGPointValue];
     CGPoint center         = [points[2] CGPointValue];
     CGPoint bVector = CGPointMake(semiMajorPoint.x - center.x, semiMajorPoint.y - center.y);
-    return - acosf(bVector.x / sqrtf(powf(bVector.x, 2.0f) + powf(bVector.y, 2.0f)));
+
+    CGFloat angle = acosf(bVector.x / [self vectorLength:bVector]);
+    
+    if (bVector.y > 0.0f) {
+        angle = TWO_PI - angle;
+    }
+    return angle;
 }
 
 
 - (CGFloat)currentOrientation
 {
     NSArray *points = [self getPathPoints];
-    return [self orientationWihtPoints:points];
+    return [self orientationWithPoints:points];
 }
 
 
@@ -102,7 +136,6 @@
     CGPoint center   = CGPointMake((point6.x - point0.x) * 0.5f + point0.x, (point6.y - point0.y) * 0.5f + point0.y);
     NSArray *ellipse = @[[NSValue valueWithCGPoint:point0], [NSValue valueWithCGPoint:point3], [NSValue valueWithCGPoint:center]];
     
-    NSLog(@"Ellipse points: %@", ellipse);
     return ellipse;
 }
 
@@ -114,13 +147,13 @@
 
 - (CGAffineTransform)transformForScale:(CGFloat)scale inXDir:(BOOL)isXScaling atLocation:(CGPoint)location currentOrientation:(CGFloat)orientation
 {
-    CGAffineTransform fromLocation = CGAffineTransformMakeTranslation(-location.x, -location.y);
-    CGAffineTransform fromOrientation = CGAffineTransformMakeRotation(-orientation);
-    CGAffineTransform fromOriginal = CGAffineTransformConcat(fromLocation, fromOrientation);
+    CGAffineTransform fromLocation    = CGAffineTransformMakeTranslation(-location.x, -location.y);
+    CGAffineTransform fromOrientation = CGAffineTransformMakeRotation( orientation);
+    CGAffineTransform fromOriginal    = CGAffineTransformConcat(fromLocation, fromOrientation);
     
-    CGAffineTransform toLocation = CGAffineTransformMakeTranslation(location.x, location.y);
-    CGAffineTransform toOrientation   = CGAffineTransformMakeRotation( orientation);
-    CGAffineTransform toOriginal = CGAffineTransformConcat(toOrientation, toLocation);
+    CGAffineTransform toOrientation   = CGAffineTransformMakeRotation( -orientation);
+    CGAffineTransform toLocation      = CGAffineTransformMakeTranslation(location.x, location.y);
+    CGAffineTransform toOriginal      = CGAffineTransformConcat(toOrientation, toLocation);
     
     CGFloat xScale = scale;
     CGFloat yScale = 1.0f;
@@ -132,50 +165,23 @@
     return CGAffineTransformConcat(comboTransform, toOriginal);
 }
 
+#define DEGREES_TO_RADIANS(x) ((CGFloat)M_PI * x / 180.0f)
+#define RADIANS_TO_DEGREES(x) (180.0f * x / (CGFloat)M_PI)
 
-//- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
-//{
-//    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
-//}
-//
-//
-//- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-//{
-//    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
-//}
-//
-//
-//- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-//{
-//    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
-//}
-
-
-- (void)pinchWithCentroid:(CGPoint)centroidPoint withScale:(CGFloat)scale touch1:(CGPoint)touch1Point touch2:(CGPoint)touch2Point
+- (void)pinchWithCentroid:(CGPoint)centroidPoint scale:(CGFloat)scale touchPoint1:(CGPoint)touch1Point touchPoint2:(CGPoint)touch2Point
 {
     NSArray *points = [self getPathPoints];
-    CGPoint semiMajorPoint = [points[0] CGPointValue];
-    CGPoint semiMinorPoint = [points[1] CGPointValue];
-    CGPoint center         = [points[2] CGPointValue];
-    // Semi major vector
-    CGPoint semiMajorVector       = CGPointMake(semiMajorPoint.x - center.x, semiMajorPoint.y - center.y);
-    CGFloat semiMajorVectorLength = sqrtf(semiMajorVector.x * semiMajorVector.x + semiMajorVector.y * semiMajorVector.y);
-    CGPoint semiMajorVectorUnit   = CGPointMake(semiMajorVector.x / semiMajorVectorLength, semiMajorVector.y / semiMajorVectorLength);
-    // Semi minor vector
-    CGPoint semiMinorVector       = CGPointMake(semiMinorPoint.x - center.x, semiMinorPoint.y - center.y);
-    CGFloat semiMinorVectorLength = sqrtf(semiMinorVector.x * semiMinorVector.x + semiMinorVector.y * semiMinorVector.y);
-    CGPoint semiMinorVectorUnit   = CGPointMake(semiMinorVector.x / semiMinorVectorLength, semiMinorVector.y / semiMinorVectorLength);
-    // Semi touch vector
-    CGPoint touchVector           = CGPointMake(touch2Point.x - touch1Point.x, touch2Point.y - touch1Point.y);
-    CGFloat touchVectorLength     = sqrtf(touchVector.x * touchVector.x + touchVector.y * touchVector.y);
-    CGPoint touchVectorUnit       = CGPointMake(touchVector.x / touchVectorLength, touchVector.y / touchVectorLength);
-    
+
+    NSArray *unitABAxes = [self axesWithEllipsePoints:points normalize:YES];
+    CGPoint semiMajorVectorUnit = [unitABAxes[0] CGPointValue];
+    CGPoint semiMinorVectorUnit = [unitABAxes[1] CGPointValue];
+    CGPoint touchVectorUnit     = [self normalizeVector:CGPointMake(touch2Point.x - touch1Point.x, touch2Point.y - touch1Point.y)];
     
     CGFloat minorDotProduct = touchVectorUnit.x * semiMinorVectorUnit.x + touchVectorUnit.y * semiMinorVectorUnit.y;
     CGFloat majorDotProduct = touchVectorUnit.x * semiMajorVectorUnit.x + touchVectorUnit.y * semiMajorVectorUnit.y;
-    CGFloat currentOrientation = [self currentOrientation];
-    CGAffineTransform pinchTransform = [self transformForScale:scale inXDir:(fabsf(minorDotProduct) <= fabsf(majorDotProduct)) atLocation:centroidPoint currentOrientation:currentOrientation];
+    CGFloat currentOrientation = [self currentOrientation];    
     
+    CGAffineTransform pinchTransform = [self transformForScale:scale inXDir:(fabsf(minorDotProduct) < fabsf(majorDotProduct)) atLocation:centroidPoint currentOrientation:currentOrientation];
     [self.path applyTransform:pinchTransform];
 }
 
@@ -188,22 +194,9 @@
     return CGAffineTransformConcat(comboTransform, toLocation);
 }
 
-- (void)rotationBeganAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+- (void)rotationtAtLocation:(CGPoint)location withAngle:(CGFloat)angle
 {
     [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
 }
-
-
-- (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
-{
-    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
-}
-
-
-- (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
-{
-    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
-}
-
 
 @end

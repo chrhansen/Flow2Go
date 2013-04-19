@@ -44,7 +44,7 @@
             break;
             
         case kGateTypeEllipse:
-            return [FGGateCalculator eventsInsideEllipseGateWithXParameter:gateData[XParName] yParameter:gateData[YParName] vertices:gateData[Vertices] fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
+            return [FGGateCalculator eventsInsideEllipseGateWithGateData:gateData fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeQuadrant:
@@ -190,7 +190,8 @@
     FGEllipseRepresentation ellipse;
     ellipse.halfMajorAxis = sqrt(pow(semiMajorAxisPoint.x - center.x, 2.0) + pow(semiMajorAxisPoint.y - center.y, 2.0));
     ellipse.halfMinorAxis = sqrt(pow(semiMinorAxisPoint.x - center.x, 2.0) + pow(semiMinorAxisPoint.y - center.y, 2.0));
-    ellipse.rotationCCW = acos(centerToSemiMajorAxisPoint.x / sqrt(pow(centerToSemiMajorAxisPoint.x, 2.0) + pow(centerToSemiMajorAxisPoint.y, 2.0)));
+    double angle = acos(centerToSemiMajorAxisPoint.x / sqrt(pow(centerToSemiMajorAxisPoint.x, 2.0) + pow(centerToSemiMajorAxisPoint.y, 2.0)));
+    ellipse.rotationCCW = (centerToSemiMajorAxisPoint.y > 0.0) ? angle : M_PI - angle;
     ellipse.centerX = center.x;
     ellipse.centerY = center.y;
     
@@ -198,19 +199,19 @@
 }
 
 
-+ (FGGateCalculator *)eventsInsideEllipseGateWithXParameter:(NSString *)xParShortName
-                                                 yParameter:(NSString *)yParShortName
-                                                   vertices:(NSArray *)vertices
-                                                    fcsFile:(FGFCSFile *)fcsFile
-                                                     subSet:(NSUInteger *)subSet
-                                                subSetCount:(NSUInteger)subSetCount
++ (FGGateCalculator *)eventsInsideEllipseGateWithGateData:(NSDictionary *)gateData
+                                                  fcsFile:(FGFCSFile *)fcsFile
+                                                   subSet:(NSUInteger *)subSet
+                                              subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
     if (!subSet) eventsInside = fcsFile.noOfEvents;
     
-    NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
-    NSInteger yPar = [FGFCSFile parameterNumberForShortName:yParShortName inFCSFile:fcsFile] - 1;
-    
+    NSInteger xPar = [gateData[GateXParNumber] integerValue] - 1;
+    NSInteger yPar = [gateData[GateYParNumber] integerValue] - 1;
+    FGAxisType xAxisType = [gateData[XAxisType] integerValue];
+    FGAxisType yAxisType = [gateData[YAxisType] integerValue];
+    NSArray *vertices = gateData[Vertices];
     FGEllipseRepresentation ellipse = [self ellipseFromPoints:vertices];
     BOOL hasInverse = NO;
     FGMatrix3 ellipseInv  = [self inverseTransformFromEllipse:ellipse hasInverse:&hasInverse];
@@ -221,45 +222,28 @@
     FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
     gateCalculator.countOfEventsInside = 0;
-
+    
     FGVector3 testPoint;
     NSUInteger eventNo;
-    if (subSet)
+    for (NSUInteger index = 0; index < eventsInside; index++)
     {
-        for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
+        eventNo = index;
+        if (subSet) eventNo = subSet[index];
+        
+        testPoint.x = (double)fcsFile.events[eventNo][xPar];
+        testPoint.y = (double)fcsFile.events[eventNo][yPar];
+        testPoint.z = 1.0;
+        
+        if (xAxisType == kAxisTypeLogarithmic) testPoint.x = log10(testPoint.x);
+        if (yAxisType == kAxisTypeLogarithmic) testPoint.y = log10(testPoint.y);
+        
+        FGVector3 transformedPoint = [FGMatrixInversion multiplyMatrix:ellipseInv byVector:testPoint];
+        double pythagorasSum = transformedPoint.x * transformedPoint.x + transformedPoint.y * transformedPoint.y;
+        
+        if (pythagorasSum < 1.0)
         {
-            eventNo = subSet[subSetNo];
-            
-            testPoint.x = (double)fcsFile.events[eventNo][xPar];
-            testPoint.y = (double)fcsFile.events[eventNo][yPar];
-            testPoint.z = 1.0;
-            
-            FGVector3 transformedPoint = [FGMatrixInversion multiplyMatrix:ellipseInv byVector:testPoint];
-            double pythagorasSum = transformedPoint.x * transformedPoint.x + transformedPoint.y * transformedPoint.y;
-            
-            if (pythagorasSum < 1.0)
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
-        }
-    }
-    else
-    {
-        for (eventNo = 0; eventNo < eventsInside; eventNo++)
-        {
-            testPoint.x = (double)fcsFile.events[eventNo][xPar];
-            testPoint.y = (double)fcsFile.events[eventNo][yPar];
-            testPoint.z = 1.0;
-            
-            FGVector3 transformedPoint = [FGMatrixInversion multiplyMatrix:ellipseInv byVector:testPoint];
-            double pythagorasSum = transformedPoint.x * transformedPoint.x + transformedPoint.y * transformedPoint.y;
-            
-            if (pythagorasSum < 1.0)
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
+            gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
+            gateCalculator.countOfEventsInside += 1;
         }
     }
     return gateCalculator;

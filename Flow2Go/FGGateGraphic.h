@@ -22,14 +22,9 @@
 - (void)panBeganAtPoint:(CGPoint)beginPoint;
 - (void)panChangedToPoint:(CGPoint)nextPoint;
 - (void)panEndedAtPoint:(CGPoint)endPoint;
-- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale;
-- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale;
-- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale;
-- (void)rotationBeganAtLocation:(CGPoint)location withAngle:(CGFloat)angle;
-- (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle;
-- (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle;
 
-- (void)pinchWithCentroid:(CGPoint)centroidPoint withScale:(CGFloat)scale touch1:(CGPoint)touch1Point touch2:(CGPoint)touch2Point;
+- (void)rotationtAtLocation:(CGPoint)location withAngle:(CGFloat)angle;
+- (void)pinchWithCentroid:(CGPoint)centroidPoint scale:(CGFloat)scale touchPoint1:(CGPoint)touch1Point touchPoint2:(CGPoint)touch2Point;
 
 
 @property (nonatomic, strong) UIBezierPath *path;

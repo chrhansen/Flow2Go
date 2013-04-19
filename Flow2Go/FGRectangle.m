@@ -83,23 +83,12 @@
     return CGAffineTransformConcat(comboTransform, toLocation);
 }
 
-
-- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
+- (void)pinchWithCentroid:(CGPoint)centroidPoint scale:(CGFloat)scale touchPoint1:(CGPoint)touch1Point touchPoint2:(CGPoint)touch2Point
 {
-    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
+    [self.path applyTransform:[self transformForScale:scale atLocation:centroidPoint]];
 }
 
 
-- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-{
-    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
-}
-
-
-- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-{
-    [self.path applyTransform:[self transformForScale:scale atLocation:location]];
-}
 
 
 #define HOOK_SIZE 8.0
@@ -114,8 +103,7 @@
 {
     self.hooks = NSMutableArray.array;
     NSArray *points = [self getPathPoints];
-    for (NSValue *aValue in points)
-    {
+    for (NSValue *aValue in points) {
         [self.hooks addObject:[self _hookAtPoint:aValue.CGPointValue]];
     }
 }
@@ -163,19 +151,7 @@ void Flow2GoCGPathPointMoveFunction (void *info, const CGPathElement *element)
 }
 
 
-- (void)rotationBeganAtLocation:(CGPoint)location withAngle:(CGFloat)angle
-{
-    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
-}
-
-
-- (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
-{
-    [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
-}
-
-
-- (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
+- (void)rotationtAtLocation:(CGPoint)location withAngle:(CGFloat)angle
 {
     [self.path applyTransform:[self transformForRotation:angle atLocation:location]];
 }

@@ -80,40 +80,17 @@
 }
 
 
-- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
+- (void)pinchWithCentroid:(CGPoint)centroidPoint scale:(CGFloat)scale touchPoint1:(CGPoint)touch1Point touchPoint2:(CGPoint)touch2Point
 {
     // Override in subclass
 }
 
 
-- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
+- (void)rotationtAtLocation:(CGPoint)location withAngle:(CGFloat)angle
 {
     // Override in subclass
 }
 
-
-- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-{
-    // Override in subclass
-}
-
-
-- (void)rotationBeganAtLocation:(CGPoint)location withAngle:(CGFloat)angle
-{
-    // Override in subclass
-}
-
-
-- (void)rotationChangedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
-{
-    // Override in subclass
-}
-
-
-- (void)rotationEndedAtLocation:(CGPoint)location withAngle:(CGFloat)angle
-{
-    // Override in subclass
-}
 
 
 - (NSArray *)getPathPoints

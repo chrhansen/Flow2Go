@@ -10,7 +10,7 @@
 #import "FGAnalysis+Management.h"
 #import "FGKeyword.h"
 #import "FGMeasurement+Management.h"
-#import "FGPlot.h"
+#import "FGPlot+Management.h"
 
 const NSString *GateType       = @"GateType";
 const NSString *GateName       = @"GateName";
@@ -105,6 +105,11 @@ const NSString *Vertices       = @"Vertices";
     NSNumber *yParName   = self.yParName.copy;
     NSNumber *xParNumber = self.xParNumber.copy;
     NSNumber *yParNumber = self.yParNumber.copy;
+    NSNumber *xAxisType  = [(FGPlot *)self.parentNode xAxisType].copy;
+    NSNumber *yAxisType  = [(FGPlot *)self.parentNode yAxisType].copy;
+
+    
+    
     NSArray  *vertices   = [(NSArray *)self.vertices copy];
     
     return  @{GateType       : gateType,
@@ -113,6 +118,8 @@ const NSString *Vertices       = @"Vertices";
               YParName       : yParName,
               GateXParNumber : xParNumber,
               GateYParNumber : yParNumber,
+              XAxisType      : xAxisType,
+              YAxisType      : yAxisType,
               Vertices       : vertices};
 }
 

@@ -10,8 +10,6 @@
 
 @implementation FGSingleRange
 
-@synthesize path = _path;
-
 - (void)baseInit
 {
     self.path = [UIBezierPath bezierPath];
@@ -101,22 +99,12 @@
 }
 
 
-- (void)pinchBeganAtLocation:(CGPoint)location withScale:(CGFloat)scale
+- (void)pinchWithCentroid:(CGPoint)centroidPoint scale:(CGFloat)scale touchPoint1:(CGPoint)touch1Point touchPoint2:(CGPoint)touch2Point
 {
-    [self.path applyTransform:[self xTransformForScale:scale atLocation:location]];
+    [self.path applyTransform:[self xTransformForScale:scale atLocation:centroidPoint]];
 }
 
 
-- (void)pinchChangedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-{
-    [self.path applyTransform:[self xTransformForScale:scale atLocation:location]];
-}
-
-
-- (void)pinchEndedAtLocation:(CGPoint)location withScale:(CGFloat)scale
-{
-    [self.path applyTransform:[self xTransformForScale:scale atLocation:location]];
-}
 
 
 @end

@@ -74,10 +74,7 @@
                                                 subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
-    if (!subSet)
-    {
-        eventsInside = fcsFile.noOfEvents;
-    }
+    if (!subSet) eventsInside = fcsFile.noOfEvents;
     
     FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
@@ -89,34 +86,18 @@
     FGPlotPoint plotPoint;
     NSUInteger eventNo;
     
-    if (subSet)
+    for (NSUInteger index = 0; index < eventsInside; index++)
     {
-        for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
+        eventNo = index;
+        if (subSet) eventNo = subSet[index];
+        
+        plotPoint.xVal = fcsFile.events[eventNo][xPar];
+        plotPoint.yVal = fcsFile.events[eventNo][yPar];
+        
+        if ([self _point:plotPoint insidePolygon:vertices])
         {
-            eventNo = subSet[subSetNo];
-            
-            plotPoint.xVal = (double)fcsFile.events[eventNo][xPar];
-            plotPoint.yVal = (double)fcsFile.events[eventNo][yPar];
-            
-            if ([self _point:plotPoint insidePolygon:vertices])
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
-        }
-    }
-    else
-    {
-        for (eventNo = 0; eventNo < eventsInside; eventNo++)
-        {
-            plotPoint.xVal = fcsFile.events[eventNo][xPar];
-            plotPoint.yVal = fcsFile.events[eventNo][yPar];
-            
-            if ([self _point:plotPoint insidePolygon:vertices])
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
+            gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
+            gateCalculator.countOfEventsInside += 1;
         }
     }
     return gateCalculator;
@@ -130,10 +111,8 @@
                                                     subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
-    if (!subSet)
-    {
-        eventsInside = fcsFile.noOfEvents;
-    }
+    if (!subSet) eventsInside = fcsFile.noOfEvents;
+
     
     FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
@@ -144,34 +123,18 @@
     double xMax = [(FGGraphPoint *)vertices[1] x];
     double plotPoint;
     
-    if (subSet)
+    NSUInteger eventNo;
+    for (NSUInteger index = 0; index < eventsInside; index++)
     {
-        for (NSUInteger subSetNo = 0; subSetNo < subSetCount; subSetNo++)
-        {
-            NSUInteger eventNo = subSet[subSetNo];
-            
-            plotPoint = (double)fcsFile.events[eventNo][xPar];
-            
-            if (plotPoint > xMin
-                && plotPoint < xMax)
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
-        }
-    }
-    else
-    {
-        for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
-        {
-            plotPoint = fcsFile.events[eventNo][xPar];
-            
-            if (plotPoint > xMin
-                && plotPoint < xMax)
-            {
-                gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
-                gateCalculator.countOfEventsInside += 1;
-            }
+        eventNo = index;
+        if (subSet) eventNo = subSet[index];
+        
+        plotPoint = fcsFile.events[eventNo][xPar];
+        
+        if (plotPoint > xMin
+            && plotPoint < xMax) {
+            gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
+            gateCalculator.countOfEventsInside += 1;
         }
     }
     return gateCalculator;

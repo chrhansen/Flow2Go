@@ -52,12 +52,9 @@
                                 subsetCount:(NSUInteger)subsetCount
 {
     FGPlotDataCalculator *dotPlotData = [FGPlotDataCalculator.alloc init];
-    NSInteger eventsInside = fcsFile.noOfEvents;
-    
-    if (subset)
-    {
-        eventsInside = subsetCount;
-    }
+    NSInteger eventsInside = subsetCount;
+    if (!subset) eventsInside = fcsFile.noOfEvents;
+
     
     NSInteger xPar = [plotOptions[XParNumber] integerValue] - 1;
     NSInteger yPar = [plotOptions[YParNumber] integerValue] - 1;
@@ -65,23 +62,14 @@
     dotPlotData.points = calloc(eventsInside, sizeof(FGDensityPoint));
     dotPlotData.numberOfPoints = eventsInside;
     
-    if (subset)
+    NSUInteger eventNo;
+    for (NSUInteger index = 0; index < eventsInside; index++)
     {
-        for (NSUInteger subsetNo = 0; subsetNo < eventsInside; subsetNo++)
-        {
-            NSUInteger eventNo = subset[subsetNo];
-            
-            dotPlotData.points[subsetNo].xVal = (double)fcsFile.events[eventNo][xPar];
-            dotPlotData.points[subsetNo].yVal = (double)fcsFile.events[eventNo][yPar];
-        }
-    }
-    else
-    {
-        for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
-        {
-            dotPlotData.points[eventNo].xVal = (double)fcsFile.events[eventNo][xPar];
-            dotPlotData.points[eventNo].yVal = (double)fcsFile.events[eventNo][yPar];
-        }
+        eventNo = index;
+        if (subset) eventNo = subset[index];
+        
+        dotPlotData.points[eventNo].xVal = (double)fcsFile.events[eventNo][xPar];
+        dotPlotData.points[eventNo].yVal = (double)fcsFile.events[eventNo][yPar];
     }
     return dotPlotData;
 }
@@ -98,11 +86,7 @@
     }
     
     NSInteger eventsInside = subsetCount;
-    
-    if (!subset)
-    {
-        eventsInside = fcsFile.noOfEvents;
-    }
+    if (!subset) eventsInside = fcsFile.noOfEvents;
     
     if (!eventsInside) {
         return nil;
@@ -144,87 +128,47 @@
     NSUInteger row = 0;
     
     NSUInteger **binValues = calloc(BIN_COUNT, sizeof(NSUInteger *));
-    for (NSUInteger i = 0; i < BIN_COUNT; i++)
-    {
+    for (NSUInteger i = 0; i < BIN_COUNT; i++) {
         binValues[i] = calloc(BIN_COUNT, sizeof(NSUInteger));
     }
     
-    if (subset)
+    NSUInteger eventNo;
+    for (NSUInteger index = 0; index < eventsInside; index++)
     {
-        for (NSUInteger subsetNo = 0; subsetNo < subsetCount; subsetNo++)
+        eventNo = index;
+        if (subset) eventNo = subset[index];
+        
+        plotPoint.xVal = fcsFile.events[eventNo][xPar];
+        plotPoint.yVal = fcsFile.events[eventNo][yPar];
+        
+        switch (xAxisType)
         {
-            NSUInteger eventNo = subset[subsetNo];
-            
-            plotPoint.xVal = fcsFile.events[eventNo][xPar];
-            plotPoint.yVal = fcsFile.events[eventNo][yPar];
-            
-            switch (xAxisType)
-            {
-                case kAxisTypeLinear:
-                    col = (plotPoint.xVal - xMin) * xFCSRangeToBinRange;
-                    break;
-                    
-                case kAxisTypeLogarithmic:
-                    col = (log10XMin - log10(plotPoint.xVal))/log10XFactor;
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            switch (yAxisType)
-            {
-                case kAxisTypeLinear:
-                    row = (plotPoint.yVal - yMin) * yFCSRangeToBinRange;
-                    break;
-                    
-                case kAxisTypeLogarithmic:
-                    row = (log10YMin - log10(plotPoint.yVal))/log10YFactor;
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            binValues[col][row] += 1;
+            case kAxisTypeLinear:
+                col = (plotPoint.xVal - xMin) * xFCSRangeToBinRange;
+                break;
+                
+            case kAxisTypeLogarithmic:
+                col = (log10XMin - log10(plotPoint.xVal))/log10XFactor;
+                break;
+                
+            default:
+                break;
         }
-    }
-    else
-    {
-        for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
+        
+        switch (yAxisType)
         {
-            plotPoint.xVal = fcsFile.events[eventNo][xPar];
-            plotPoint.yVal = fcsFile.events[eventNo][yPar];
-            
-            switch (xAxisType)
-            {
-                case kAxisTypeLinear:
-                    col = (plotPoint.xVal - xMin) * xFCSRangeToBinRange;
-                    break;
-                    
-                case kAxisTypeLogarithmic:
-                    col = (log10XMin - log10(plotPoint.xVal))/log10XFactor;
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            switch (yAxisType)
-            {
-                case kAxisTypeLinear:
-                    row = (plotPoint.yVal - yMin) * yFCSRangeToBinRange;
-                    break;
-                    
-                case kAxisTypeLogarithmic:
-                    row = (log10YMin - log10(plotPoint.yVal))/log10YFactor;
-                    break;
-                    
-                default:
-                    break;
-            }
-            binValues[col][row] += 1;
+            case kAxisTypeLinear:
+                row = (plotPoint.yVal - yMin) * yFCSRangeToBinRange;
+                break;
+                
+            case kAxisTypeLogarithmic:
+                row = (log10YMin - log10(plotPoint.yVal))/log10YFactor;
+                break;
+                
+            default:
+                break;
         }
+        binValues[col][row] += 1;
     }
     
     FGPlotDataCalculator *densityPlotData = [FGPlotDataCalculator.alloc init];
@@ -304,11 +248,7 @@
     }
     
     NSInteger eventsInside = subsetCount;
-    
-    if (!subset)
-    {
-        eventsInside = fcsFile.noOfEvents;
-    }
+    if (!subset) eventsInside = fcsFile.noOfEvents;
     
     NSInteger parIndex = [plotOptions[XParNumber] integerValue] - 1;
     
@@ -326,51 +266,29 @@
     double dataPoint;
     NSUInteger *histogramValues = calloc(colCount, sizeof(NSUInteger));
     
-    if (subset)
+    NSUInteger eventNo;
+    for (NSUInteger index = 0; index < eventsInside; index++)
     {
-        for (NSUInteger subSetNo = 0; subSetNo < subsetCount; subSetNo++)
+        eventNo = index;
+        if (subset) eventNo = subset[index];
+        
+        dataPoint = fcsFile.events[eventNo][parIndex];
+        
+        switch (axisType)
         {
-            NSUInteger eventNo = subset[subSetNo];
-            dataPoint = fcsFile.events[eventNo][parIndex];
-            
-            switch (axisType)
-            {
-                case kAxisTypeLinear:
-                    col = dataPoint;
-                    break;
-                    
-                case kAxisTypeLogarithmic:
-                    col = (log10MinValue - log10(dataPoint))/log10Factor;
-                    break;
-                    
-                default:
-                    break;
-            }
-            histogramValues[col] += 1;
+            case kAxisTypeLinear:
+                col = dataPoint;
+                break;
+                
+            case kAxisTypeLogarithmic:
+                col = (log10MinValue - log10(dataPoint))/log10Factor;
+                break;
+                
+            default:
+                break;
         }
-    }
-    else
-    {
-        for (NSUInteger eventNo = 0; eventNo < eventsInside; eventNo++)
-        {
-            dataPoint = fcsFile.events[eventNo][parIndex];
-            
-            switch (axisType)
-            {
-                case kAxisTypeLinear:
-                    col = dataPoint;
-                    break;
-                    
-                case kAxisTypeLogarithmic:
-                    col = (log10MinValue - log10(dataPoint))/log10Factor;
-                    break;
-                    
-                default:
-                    break;
-            }
-            
-            histogramValues[col] += 1;
-        }
+        
+        histogramValues[col] += 1;
     }
     
     FGPlotDataCalculator *histogramPlotData = FGPlotDataCalculator.alloc.init;
@@ -440,7 +358,7 @@
 
 - (void)dealloc
 {
-    free(self.points);
+    if (self.points) free(self.points);
 }
 
 

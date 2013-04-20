@@ -114,12 +114,21 @@
     FGAxisType xAxisType = [plotOptions[XAxisType] integerValue];
     FGAxisType yAxisType = [plotOptions[YAxisType] integerValue];
     
+    double maxIndex = (double)(BIN_COUNT - 1);
+    
+    // For linear scales
     double xMin = fcsFile.ranges[xPar].minValue;
     double xMax = fcsFile.ranges[xPar].maxValue;
     double yMin = fcsFile.ranges[yPar].minValue;
-    double yMax = fcsFile.ranges[yPar].maxValue;
+    double yMax = fcsFile.ranges[yPar].maxValue;    
     
-    double maxIndex = (double)(BIN_COUNT - 1);
+    double xFCSRangeToBinRange = maxIndex / (xMax - xMin);
+    double xBinRangeToFCSRange = 1.0 / xFCSRangeToBinRange;
+    
+    double yFCSRangeToBinRange = maxIndex / (yMax - yMin);
+    double yBinRangeToFCSRange = 1.0 / yFCSRangeToBinRange;
+
+    // For logarithmic scales
     double xFactor = pow(xMin/xMax, 1.0/maxIndex);
     double yFactor = pow(yMin/yMax, 1.0/maxIndex);
     
@@ -152,7 +161,7 @@
             switch (xAxisType)
             {
                 case kAxisTypeLinear:
-                    col = (plotPoint.xVal / xMax) * maxIndex;
+                    col = (plotPoint.xVal - xMin) * xFCSRangeToBinRange;
                     break;
                     
                 case kAxisTypeLogarithmic:
@@ -166,7 +175,7 @@
             switch (yAxisType)
             {
                 case kAxisTypeLinear:
-                    row = (plotPoint.yVal / yMax) * maxIndex;
+                    row = (plotPoint.yVal - yMin) * yFCSRangeToBinRange;
                     break;
                     
                 case kAxisTypeLogarithmic:
@@ -190,7 +199,7 @@
             switch (xAxisType)
             {
                 case kAxisTypeLinear:
-                    col = (plotPoint.xVal / xMax) * maxIndex;
+                    col = (plotPoint.xVal - xMin) * xFCSRangeToBinRange;
                     break;
                     
                 case kAxisTypeLogarithmic:
@@ -204,7 +213,7 @@
             switch (yAxisType)
             {
                 case kAxisTypeLinear:
-                    row = (plotPoint.yVal / yMax) * maxIndex;
+                    row = (plotPoint.yVal - yMin) * yFCSRangeToBinRange;
                     break;
                     
                 case kAxisTypeLogarithmic:
@@ -237,7 +246,7 @@
                 switch (xAxisType)
                 {
                     case kAxisTypeLinear:
-                        densityPlotData.points[recordNo].xVal = (double)colNo * (xMax / maxIndex);
+                        densityPlotData.points[recordNo].xVal = (double)colNo * xBinRangeToFCSRange + xMin;
                         break;
                         
                     case kAxisTypeLogarithmic:
@@ -250,7 +259,7 @@
                 switch (yAxisType)
                 {
                     case kAxisTypeLinear:
-                        densityPlotData.points[recordNo].yVal = (double)rowNo * (yMax / maxIndex);
+                        densityPlotData.points[recordNo].yVal = (double)rowNo * yBinRangeToFCSRange + yMin;
                         break;
                         
                     case kAxisTypeLogarithmic:

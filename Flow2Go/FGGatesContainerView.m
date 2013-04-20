@@ -390,10 +390,6 @@
                 if (self.modifyingGraphic != nil
                     && self.simultaneousGestures == 0)
                 {
-//                    CGPoint touch1 = [pinchRecognizer locationOfTouch:0 inView:self];
-//                    CGPoint touch2 = [pinchRecognizer locationOfTouch:1 inView:self];
-//                    [self.modifyingGraphic pinchWithCentroid:location scale:pinchRecognizer.scale touchPoint1:touch1 touchPoint2:touch2];
-                    
                     [self.delegate gatesContainerView:self didModifyGateNo:self.modifyingGraphic.gateTag gateType:self.modifyingGraphic.gateType vertices:[self.modifyingGraphic getPathPoints]];
                     self.modifyingGraphic = nil;
                 }

@@ -67,8 +67,10 @@
                                                                  parentSubSetCount:0];
         aMeasurement.thumbImage = plotCreator.thumbImage;
         rootPlot.image = plotCreator.plotImage;
-        NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Error: could not create plot for", nil), aMeasurement.filename];
-        [FGHUDMessage showHUDMessageOverNavigationBar:errorMessage];
+        if (error) {
+            NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Error: could not create plot for", nil), aMeasurement.filename];
+            [FGHUDMessage showHUDMessageOverNavigationBar:errorMessage];
+        }
     }
     [self performSelector:@selector(saveUpdates) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
 }

@@ -227,23 +227,32 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     [self allocateDataArrayWithType:self.text[@"$DATATYPE"]];
     CFByteOrder fcsByteOrder = [self _byteOrderFromString:self.text[@"$BYTEORD"]];
     NSError *error;
-    if ([self.text[@"$DATATYPE"] isEqualToString:@"I"])
-    {
-        error = [self _readIntegerDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
+    
+    @try {
+        if ([self.text[@"$DATATYPE"] isEqualToString:@"I"])
+        {
+            error = [self _readIntegerDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
+        }
+        else if ([self.text[@"$DATATYPE"] isEqualToString:@"F"])
+        {
+            error = [self _readFloatDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
+        }
+        else if ([self.text[@"$DATATYPE"] isEqualToString:@"D"])
+        {
+            error = [self _readDoubleDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
+        }
+        if (!error) {
+            [self _setMinAndMaxValue:self.events dataTypeString:self.text[@"$DATATYPE"]];
+            [self _convertChannelValuesToScaleValues:self.events];
+            [self _applyCompensationToScaleValues:self.events];
+            [self _applyCalibrationToScaledValues:self.events];
+        }
     }
-    else if ([self.text[@"$DATATYPE"] isEqualToString:@"F"])
-    {
-        error = [self _readFloatDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
+    @catch (NSException *exception) {
+        error = [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Error reading data segment of"}];
     }
-    else if ([self.text[@"$DATATYPE"] isEqualToString:@"D"])
-    {
-        error = [self _readDoubleDataType:inputStream from:firstByte to:lastByte byteOrder:fcsByteOrder];
-    }
-    if (!error) {
-        [self _setMinAndMaxValue:self.events dataTypeString:self.text[@"$DATATYPE"]];
-        [self _convertChannelValuesToScaleValues:self.events];
-        [self _applyCompensationToScaleValues:self.events];
-        [self _applyCalibrationToScaledValues:self.events];
+    @finally {
+        NSLog(@"Finally block");
     }
     return error;
 }
@@ -258,7 +267,7 @@ typedef NS_ENUM(NSInteger, FGParameterSize)
     FGParameterSize *parSizes = [self _getParameterSizes:_noOfParams];
     for (NSUInteger parIndex = 0; parIndex < _noOfParams; parIndex++) {
         if (parSizes[parIndex] == FGParameterSizeUnknown) {
-            error = [NSError errorWithDomain:FCSFile_Error_Domain code:-1 userInfo:@{@"error": [NSString stringWithFormat:@"Paramter number %d has an unsupored bit size.", parIndex + 1]}];
+            error = [NSError errorWithDomain:FCSFile_Error_Domain code:-1 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Paramter number %d has an unsupored bit size", parIndex + 1]}];
             return error;
         }
     }

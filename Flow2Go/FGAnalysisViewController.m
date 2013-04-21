@@ -257,7 +257,7 @@
 - (void)_presentPlot:(FGPlot *)plot
 {
     if (!self.fcsFile) {
-        [FGErrorReporter showErrorMess:NSLocalizedString(@"Error: FCS-file not loaded.", nil) inView:self.view];
+        [FGHUDMessage showHUDMessage:NSLocalizedString(@"Error: FCS-file not loaded.", nil) inView:self.view];
         return;
     }
     self.plotViewController.plot = plot;

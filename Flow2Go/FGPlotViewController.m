@@ -39,6 +39,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
 @property (nonatomic, strong) PopoverView *popoverView;
 @property (nonatomic, strong) UITapGestureRecognizer *backgroundTapGestureRecognizer;
+@property (nonatomic, strong) MBProgressHUD *HUD;
 
 @end
 
@@ -260,6 +261,21 @@
     if (error) NSLog(@"Error creating child gate: %@", error.localizedDescription);
     [self.displayedGates addObject:newGate];
     [self.gatesContainerView insertNewGate:gateType gateTag:[self.displayedGates indexOfObject:newGate]];
+    [self addHUDForNewGateOfType:gateType];
+}
+
+- (void)addHUDForNewGateOfType:(FGGateType)gateType
+{
+    if (gateType == kGateTypePolygon) {
+        self.HUD = [FGHUDMessage textHUDWithMessage:NSLocalizedString(@"Draw a polygon around a group of cells", nil) inView:self.view];
+    } else if (gateType == kGateTypeRectangle || gateType == kGateTypeEllipse) {
+        self.HUD = [FGHUDMessage textHUDWithMessage:NSLocalizedString(@"Move, resize and rotate the gate with your fingers", nil) inView:self.view];
+    } else if (gateType == kGateTypeSingleRange || gateType == kGateTypeTripleRange) {
+        self.HUD = [FGHUDMessage textHUDWithMessage:NSLocalizedString(@"Move and resize the range gate with your fingers", nil) inView:self.view];
+    } else if (gateType == kGateTypeQuadrant) {
+        self.HUD = [FGHUDMessage textHUDWithMessage:NSLocalizedString(@"Move the quadrant center point with your finger", nil) inView:self.view];
+    }
+    self.HUD.yOffset = - self.view.bounds.size.height / 4.0f;
 }
 
 
@@ -513,7 +529,10 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark - Gates Container View Delegate
 - (void)gatesContainerView:(FGGatesContainerView *)gatesContainerView didModifyGateNo:(NSUInteger)gateNo gateType:(FGGateType)gateType vertices:(NSArray *)updatedVertices
 {
-    if (updatedVertices.count == 0) return;
+    if (updatedVertices == nil || updatedVertices.count == 0) {
+        [self.HUD hide:YES];
+        return;
+    }
     
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
     [[FGPendingOperations sharedInstance] cancelOperationsForGateWithTag:gateNo];

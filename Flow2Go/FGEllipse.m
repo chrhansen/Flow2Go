@@ -38,7 +38,7 @@
     CGFloat width  = bounds.size.width;
     
     CGPoint center         = CGPointMake(width * 0.5f, height * 0.5f);
-    CGPoint semiMajorPoint = CGPointMake(center.x + width * 0.1f, center.y);
+    CGPoint semiMajorPoint = CGPointMake(center.x + width * 0.2f, center.y);
     CGPoint semiMinorPoint = CGPointMake(center.x, center.y + height * 0.1f);
 
     NSArray *pathPoints = @[[NSValue valueWithCGPoint:semiMajorPoint],

@@ -296,6 +296,7 @@
         {
             case UIGestureRecognizerStateBegan:
                 [self.creatingGraphic panBeganAtPoint:location];
+                [self.delegate gatesContainerView:self didModifyGateNo:self.creatingGraphic.gateTag gateType:self.creatingGraphic.gateType vertices:nil];
                 [self setNeedsDisplayInRect:self.creatingGraphic.path.bounds];
                 break;
                 
@@ -323,6 +324,7 @@
             case UIGestureRecognizerStateBegan:
                 self.simultaneousGestures += 1;
                 self.modifyingGraphic = [self _gateAtTapPoint:location];
+                [self.delegate gatesContainerView:self didModifyGateNo:self.creatingGraphic.gateTag gateType:self.creatingGraphic.gateType vertices:nil];
                 break;
                 
             case UIGestureRecognizerStateChanged:
@@ -369,7 +371,8 @@
             case UIGestureRecognizerStateBegan:
                 self.simultaneousGestures += 1;
                 self.modifyingGraphic = [self _gateAtTapPoint:location];
-                
+                [self.delegate gatesContainerView:self didModifyGateNo:self.creatingGraphic.gateTag gateType:self.creatingGraphic.gateType vertices:nil];
+
                 CGPoint touch1 = [pinchRecognizer locationOfTouch:0 inView:self];
                 CGPoint touch2 = [pinchRecognizer locationOfTouch:1 inView:self];
                 [self.modifyingGraphic pinchWithCentroid:location scale:pinchRecognizer.scale touchPoint1:touch1 touchPoint2:touch2];
@@ -415,6 +418,7 @@
             case UIGestureRecognizerStateBegan:
                 self.simultaneousGestures += 1;
                 self.modifyingGraphic = [self _gateAtTapPoint:location];
+                [self.delegate gatesContainerView:self didModifyGateNo:self.creatingGraphic.gateTag gateType:self.creatingGraphic.gateType vertices:nil];
                 [self.modifyingGraphic rotationtAtLocation:location withAngle:rotationGesture.rotation];
                 break;
                 

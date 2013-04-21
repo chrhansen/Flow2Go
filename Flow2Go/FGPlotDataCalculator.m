@@ -68,8 +68,8 @@
         eventNo = index;
         if (subset) eventNo = subset[index];
         
-        dotPlotData.points[eventNo].xVal = (double)fcsFile.events[eventNo][xPar];
-        dotPlotData.points[eventNo].yVal = (double)fcsFile.events[eventNo][yPar];
+        dotPlotData.points[index].xVal = (double)fcsFile.events[eventNo][xPar];
+        dotPlotData.points[index].yVal = (double)fcsFile.events[eventNo][yPar];
     }
     return dotPlotData;
 }

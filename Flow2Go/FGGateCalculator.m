@@ -40,7 +40,7 @@
     switch (gateType) {
         case kGateTypePolygon:
         case kGateTypeRectangle:
-            return [FGGateCalculator eventsInsidePolygonGateWithXParameter:gateData[XParName] yParameter:gateData[YParName] vertices:gateData[Vertices] fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
+            return [FGGateCalculator eventsInsidePolygonGateWithGateData:gateData fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeEllipse:
@@ -52,7 +52,7 @@
             break;
             
         case kGateTypeSingleRange:
-            return [FGGateCalculator eventsInsideSingleRangeGateWithXParameter:gateData[XParName] vertices:gateData[Vertices] fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
+            return [FGGateCalculator eventsInsideSingleRangeGateWithGateData:gateData fcsFile:fcsFile subSet:subSet subSetCount:subSetCount];
             break;
             
         case kGateTypeTripleRange:
@@ -66,12 +66,10 @@
 }
 
 
-+ (FGGateCalculator *)eventsInsidePolygonGateWithXParameter:(NSString *)xParShortName
-                                                 yParameter:(NSString *)yParShortName
-                                                   vertices:(NSArray *)vertices
-                                                    fcsFile:(FGFCSFile *)fcsFile
-                                                     subSet:(NSUInteger *)subSet
-                                                subSetCount:(NSUInteger)subSetCount
++ (FGGateCalculator *)eventsInsidePolygonGateWithGateData:(NSDictionary *)gateData
+                                                  fcsFile:(FGFCSFile *)fcsFile
+                                                   subSet:(NSUInteger *)subSet
+                                              subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
     if (!subSet) eventsInside = fcsFile.noOfEvents;
@@ -80,9 +78,13 @@
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
     gateCalculator.countOfEventsInside = 0;
     
-    NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
-    NSInteger yPar = [FGFCSFile parameterNumberForShortName:yParShortName inFCSFile:fcsFile] - 1;
-    
+    NSInteger xPar = [gateData[GateXParNumber] integerValue] - 1;
+    NSInteger yPar = [gateData[GateYParNumber] integerValue] - 1;
+    FGAxisType xAxisType = [gateData[XAxisType] integerValue];
+    FGAxisType yAxisType = [gateData[YAxisType] integerValue];
+    NSArray *vertices = gateData[Vertices];
+    NSArray *correctedVertices = [self correctVertices:vertices forXScaleType:xAxisType yScaleType:yAxisType];
+
     FGPlotPoint plotPoint;
     NSUInteger eventNo;
     
@@ -94,7 +96,10 @@
         plotPoint.xVal = fcsFile.events[eventNo][xPar];
         plotPoint.yVal = fcsFile.events[eventNo][yPar];
         
-        if ([self _point:plotPoint insidePolygon:vertices])
+        if (xAxisType == kAxisTypeLogarithmic) plotPoint.xVal = log10(plotPoint.xVal);
+        if (yAxisType == kAxisTypeLogarithmic) plotPoint.yVal = log10(plotPoint.yVal);
+        
+        if ([self _point:plotPoint insidePolygon:correctedVertices])
         {
             gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
             gateCalculator.countOfEventsInside += 1;
@@ -104,21 +109,35 @@
 }
 
 
-+ (FGGateCalculator *)eventsInsideSingleRangeGateWithXParameter:(NSString *)xParShortName
-                                                       vertices:(NSArray *)vertices
-                                                        fcsFile:(FGFCSFile *)fcsFile
-                                                         subSet:(NSUInteger *)subSet
-                                                    subSetCount:(NSUInteger)subSetCount
++ (NSArray *)correctVertices:(NSArray *)vertices forXScaleType:(FGAxisType)xScaleType yScaleType:(FGAxisType)yScaleType
+{
+    NSMutableArray *correctedVertices = [NSMutableArray arrayWithCapacity:vertices.count];
+    for (FGGraphPoint *graphPoint in vertices) {
+        FGGraphPoint *modifiedGraphPoint = [[FGGraphPoint alloc] init];
+        modifiedGraphPoint.x = (xScaleType == kAxisTypeLogarithmic) ? log10(graphPoint.x) : graphPoint.x;
+        modifiedGraphPoint.y = (yScaleType == kAxisTypeLogarithmic) ? log10(graphPoint.y) : graphPoint.y;
+        [correctedVertices addObject:modifiedGraphPoint];
+    }
+    return correctedVertices;
+}
+
+
++ (FGGateCalculator *)eventsInsideSingleRangeGateWithGateData:(NSDictionary *)gateData
+                                                      fcsFile:(FGFCSFile *)fcsFile
+                                                       subSet:(NSUInteger *)subSet
+                                                  subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
     if (!subSet) eventsInside = fcsFile.noOfEvents;
-
+    
     
     FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
     gateCalculator.countOfEventsInside = 0;
     
-    NSInteger xPar = [FGFCSFile parameterNumberForShortName:xParShortName inFCSFile:fcsFile] - 1;
+    NSInteger xPar = [gateData[GateXParNumber] integerValue] - 1;
+    NSArray *vertices = gateData[Vertices];
+
     double xMin = [(FGGraphPoint *)vertices[0] x];
     double xMax = [(FGGraphPoint *)vertices[1] x];
     double plotPoint;
@@ -138,27 +157,6 @@
         }
     }
     return gateCalculator;
-}
-
-
-
-+ (FGEllipseRepresentation)ellipseFromPoints:(NSArray *)points
-{
-    FGGraphPoint *semiMajorAxisPoint = points[0];
-    FGGraphPoint *semiMinorAxisPoint = points[1];
-    FGGraphPoint *center             = points[2];
-
-    FGGraphPoint *centerToSemiMajorAxisPoint = [FGGraphPoint pointWithX:semiMajorAxisPoint.x - center.x andY:semiMajorAxisPoint.y - center.y];
-    
-    FGEllipseRepresentation ellipse;
-    ellipse.halfMajorAxis = sqrt(pow(semiMajorAxisPoint.x - center.x, 2.0) + pow(semiMajorAxisPoint.y - center.y, 2.0));
-    ellipse.halfMinorAxis = sqrt(pow(semiMinorAxisPoint.x - center.x, 2.0) + pow(semiMinorAxisPoint.y - center.y, 2.0));
-    double angle = acos(centerToSemiMajorAxisPoint.x / sqrt(pow(centerToSemiMajorAxisPoint.x, 2.0) + pow(centerToSemiMajorAxisPoint.y, 2.0)));
-    ellipse.rotationCCW = (centerToSemiMajorAxisPoint.y > 0.0) ? angle : M_PI - angle;
-    ellipse.centerX = center.x;
-    ellipse.centerY = center.y;
-    
-    return ellipse;
 }
 
 
@@ -213,6 +211,25 @@
 }
 
 
++ (FGEllipseRepresentation)ellipseFromPoints:(NSArray *)points
+{
+    FGGraphPoint *semiMajorAxisPoint = points[0];
+    FGGraphPoint *semiMinorAxisPoint = points[1];
+    FGGraphPoint *center             = points[2];
+    
+    FGGraphPoint *centerToSemiMajorAxisPoint = [FGGraphPoint pointWithX:(semiMajorAxisPoint.x - center.x) andY:(semiMajorAxisPoint.y - center.y)];
+    
+    FGEllipseRepresentation ellipse;
+    ellipse.halfMajorAxis = sqrt(pow(centerToSemiMajorAxisPoint.x, 2.0) + pow(centerToSemiMajorAxisPoint.y, 2.0));
+    ellipse.halfMinorAxis = sqrt(pow(semiMinorAxisPoint.x - center.x, 2.0) + pow(semiMinorAxisPoint.y - center.y, 2.0));
+    double angle = acos(centerToSemiMajorAxisPoint.x / sqrt(pow(centerToSemiMajorAxisPoint.x, 2.0) + pow(centerToSemiMajorAxisPoint.y, 2.0)));
+    ellipse.rotationCCW = (centerToSemiMajorAxisPoint.y > 0.0) ? angle : M_PI - angle;
+    ellipse.centerX = center.x;
+    ellipse.centerY = center.y;
+    
+    return ellipse;
+}
+
 + (FGMatrix3)transformFromEllipse:(FGEllipseRepresentation)ellipse
 {
     FGMatrix3 matrix;
@@ -243,13 +260,6 @@
         *hasInverse = NO;
         return inverseTransform;
     }
-}
-
-+ (BOOL)_point:(FGPlotPoint)testPoint insideEllipseWithPoint1:(FGPlotPoint)point1 andPoint2:(FGPlotPoint)point2
-{
-    // implement inside-ellipse-checking-code
-    
-    return NO;
 }
 
 

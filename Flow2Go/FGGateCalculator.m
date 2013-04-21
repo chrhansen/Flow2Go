@@ -173,7 +173,9 @@
     FGAxisType xAxisType = [gateData[XAxisType] integerValue];
     FGAxisType yAxisType = [gateData[YAxisType] integerValue];
     NSArray *vertices = gateData[Vertices];
+        
     FGEllipseRepresentation ellipse = [self ellipseFromPoints:vertices];
+    
     BOOL hasInverse = NO;
     FGMatrix3 ellipseInv  = [self inverseTransformFromEllipse:ellipse hasInverse:&hasInverse];
     if (hasInverse == NO) {

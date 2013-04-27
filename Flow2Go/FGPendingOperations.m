@@ -34,6 +34,16 @@
     return _gateCalculationQueue;
 }
 
+- (NSOperationQueue *)fcsParsingQueue
+{
+    if (_fcsParsingQueue == nil) {
+        _fcsParsingQueue = [[NSOperationQueue alloc] init];
+        _fcsParsingQueue.maxConcurrentOperationCount = 1;
+        _fcsParsingQueue.name = @"FCS Parsing Queue";
+    }
+    return _fcsParsingQueue;
+}
+
 - (void)cancelOperationsForGateWithTag:(NSInteger)gateTag
 {
     NSArray *waitingOperations = self.gateCalculationQueue.operations;

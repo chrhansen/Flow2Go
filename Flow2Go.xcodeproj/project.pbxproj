@@ -142,6 +142,7 @@
 		E5CB45E0172B57C300A93D9B /* FGFCSText.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CB45DF172B57C300A93D9B /* FGFCSText.m */; };
 		E5CB45E3172B5BC900A93D9B /* FGFCSData.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CB45E2172B5BC900A93D9B /* FGFCSData.m */; };
 		E5CB45E6172B65D100A93D9B /* FGFCSAnalysis.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CB45E5172B65D100A93D9B /* FGFCSAnalysis.m */; };
+		E5CB45E9172B6AEC00A93D9B /* FGFCSParserOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CB45E8172B6AEC00A93D9B /* FGFCSParserOperation.m */; };
 		E5D3149616CE5CBD00700F57 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3149516CE5CBD00700F57 /* NSData+MKBase64.m */; };
 		E5D3149916CE5CF400700F57 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3149816CE5CF400700F57 /* SFHFKeychainUtils.m */; };
 		E5D314D716CE5E7A00700F57 /* MagicalImportFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D3149F16CE5E7A00700F57 /* MagicalImportFunctions.m */; };
@@ -443,6 +444,8 @@
 		E5CB45E2172B5BC900A93D9B /* FGFCSData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSData.m; sourceTree = "<group>"; };
 		E5CB45E4172B65D100A93D9B /* FGFCSAnalysis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSAnalysis.h; sourceTree = "<group>"; };
 		E5CB45E5172B65D100A93D9B /* FGFCSAnalysis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSAnalysis.m; sourceTree = "<group>"; };
+		E5CB45E7172B6AEC00A93D9B /* FGFCSParserOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFCSParserOperation.h; sourceTree = "<group>"; };
+		E5CB45E8172B6AEC00A93D9B /* FGFCSParserOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFCSParserOperation.m; sourceTree = "<group>"; };
 		E5D3149416CE5CBD00700F57 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MKBase64.h"; path = "Flow2Go/MKStoreKit/Externals/NSData+MKBase64.h"; sourceTree = SOURCE_ROOT; };
 		E5D3149516CE5CBD00700F57 /* NSData+MKBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MKBase64.m"; path = "Flow2Go/MKStoreKit/Externals/NSData+MKBase64.m"; sourceTree = SOURCE_ROOT; };
 		E5D3149716CE5CF400700F57 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Flow2Go/MKStoreKit/Externals/SFHFKeychainUtils.h; sourceTree = SOURCE_ROOT; };
@@ -649,6 +652,8 @@
 			children = (
 				E54923FF170786D900A0F75F /* FGMatrixInversion.h */,
 				E5492400170786DA00A0F75F /* FGMatrixInversion.m */,
+				E5CB45E7172B6AEC00A93D9B /* FGFCSParserOperation.h */,
+				E5CB45E8172B6AEC00A93D9B /* FGFCSParserOperation.m */,
 				E5457DA015CEAE7F00678CB7 /* FGFCSFile.h */,
 				E5457DA115CEAE7F00678CB7 /* FGFCSFile.m */,
 				E5CB45DA172B550A00A93D9B /* FGFCSHeader.h */,
@@ -1638,6 +1643,7 @@
 				E5CB45E0172B57C300A93D9B /* FGFCSText.m in Sources */,
 				E5CB45E3172B5BC900A93D9B /* FGFCSData.m in Sources */,
 				E5CB45E6172B65D100A93D9B /* FGFCSAnalysis.m in Sources */,
+				E5CB45E9172B6AEC00A93D9B /* FGFCSParserOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

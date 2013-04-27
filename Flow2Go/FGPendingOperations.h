@@ -16,5 +16,6 @@
 - (void)unregisterForObservings:(id)objectToUnregister;
 
 @property (nonatomic, strong) NSOperationQueue *gateCalculationQueue;
+@property (nonatomic, strong) NSOperationQueue *fcsParsingQueue;
 
 @end

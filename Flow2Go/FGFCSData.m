@@ -17,10 +17,7 @@
 
 @end
 
-
 @implementation FGFCSData
-
-
 
 - (NSError *)parseDataSegmentFromData:(NSData *)dataSegmentData fcsKeywords:(NSDictionary *)keywords
 {

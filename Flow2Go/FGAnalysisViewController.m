@@ -23,8 +23,10 @@
 #import "NSManagedObjectContext+Clone.h"
 #import "FGAnalysisManager.h"
 #import "FGGraph.h"
+#import "FGFCSParserOperation.h"
+#import "FGPendingOperations.h"
 
-@interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate, FGFCSProgressDelegate>
+@interface FGAnalysisViewController () <PlotViewControllerDelegate, PlotDetailTableViewControllerDelegate, UIPopoverControllerDelegate, NSFetchedResultsControllerDelegate, FGFCSProgressDelegate, FGFCSParserOperationDelegate>
 
 @property (nonatomic, strong) FGFCSFile *fcsFile;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
@@ -94,25 +96,22 @@
 - (void)_reloadFCSFile
 {
     [self.view addSubview:self.progressHUD];
-//    [self.progressHUD show:NO];
+    [self.progressHUD show:NO];
     
     self.fcsFile = nil;
-    self.fcsFile = [[FGFCSFile alloc] init];
     
-//    [self.fcsFile readFCSFileAtPath:self.analysis.measurement.fullFilePath progressDelegate:self withCompletion:^(NSError *error) {
-//        if (error) {
-//            NSString *errorMessage = [@"Error reading fcs-file:" stringByAppendingFormat:@" %@", error.localizedDescription];
-//            [FGHUDMessage showHUDMessage:errorMessage inView:self.view];
-//        }
-//        [self.progressHUD hide:YES];
-//    }];
-    
-    
-    NSError *error;
-    self.fcsFile = [FGFCSFile fcsFileWithPath:self.analysis.measurement.fullFilePath lastParsingSegment:FGParsingSegmentAnalysis error:&error];
-    if (error) {
-        [FGHUDMessage showHUDMessage:error.localizedDescription inView:self.view];
-    }
+    FGFCSParserOperation *fcsParserOperation = [[FGFCSParserOperation alloc] initWithFCSFileAtPath:self.analysis.measurement.fullFilePath.copy lastParsingSegment:FGParsingSegmentAnalysis];
+    fcsParserOperation.delegate = self;
+    [fcsParserOperation setCompletionBlock:^(NSError *error, FGFCSFile *fcsFile) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.fcsFile = fcsFile;
+            [self.progressHUD hide:YES];
+            if (error) {
+                [FGHUDMessage showHUDMessage:error.localizedDescription inView:self.view];
+            }
+        }];
+    }];
+    [[FGPendingOperations sharedInstance].fcsParsingQueue addOperation:fcsParserOperation];
 }
 
 - (void)addNavigationPaneBarbuttonWithTarget:(id)barButtonResponder selector:(SEL)barButtonSelector;

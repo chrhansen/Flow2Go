@@ -32,7 +32,7 @@
                                      parentSubSet:(NSUInteger *)parentSubSet
                                 parentSubSetCount:(NSUInteger)parentSubSetCount
 {
-    if (!plotOptions || !fcsFile || !fcsFile.noOfEvents) {
+    if (!plotOptions || !fcsFile || !fcsFile.data.noOfEvents) {
         return nil;
     }
     FGPlotCreator *plotCreator = [[FGPlotCreator alloc] init];
@@ -69,7 +69,7 @@
     NSInteger yParIndex = [self.plotOptions[YParNumber] integerValue] - 1;
     [self.graph updateGraphWithPlotOptions:self.plotOptions];
     [self.graph reloadData];
-    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[xParIndex] yRange:self.fcsFile.ranges[yParIndex] plotType:plotType];
+    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[xParIndex] yRange:self.fcsFile.data.ranges[yParIndex] plotType:plotType];
 }
 
 
@@ -89,7 +89,7 @@
 #pragma mark - CPT Plot Data Source
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
-    return self.fcsFile.noOfEvents;
+    return self.fcsFile.data.noOfEvents;
 }
 
 

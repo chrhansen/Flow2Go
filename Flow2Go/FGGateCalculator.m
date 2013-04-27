@@ -72,7 +72,7 @@
                                               subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
-    if (!subSet) eventsInside = fcsFile.noOfEvents;
+    if (!subSet) eventsInside = fcsFile.data.noOfEvents;
     
     FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
@@ -93,8 +93,8 @@
         eventNo = index;
         if (subSet) eventNo = subSet[index];
         
-        plotPoint.xVal = fcsFile.events[eventNo][xPar];
-        plotPoint.yVal = fcsFile.events[eventNo][yPar];
+        plotPoint.xVal = fcsFile.data.events[eventNo][xPar];
+        plotPoint.yVal = fcsFile.data.events[eventNo][yPar];
         
         if (xAxisType == kAxisTypeLogarithmic) plotPoint.xVal = log10(plotPoint.xVal);
         if (yAxisType == kAxisTypeLogarithmic) plotPoint.yVal = log10(plotPoint.yVal);
@@ -128,7 +128,7 @@
                                                   subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
-    if (!subSet) eventsInside = fcsFile.noOfEvents;
+    if (!subSet) eventsInside = fcsFile.data.noOfEvents;
     
     
     FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
@@ -148,7 +148,7 @@
         eventNo = index;
         if (subSet) eventNo = subSet[index];
         
-        plotPoint = fcsFile.events[eventNo][xPar];
+        plotPoint = fcsFile.data.events[eventNo][xPar];
         
         if (plotPoint > xMin
             && plotPoint < xMax) {
@@ -166,7 +166,7 @@
                                               subSetCount:(NSUInteger)subSetCount
 {
     NSInteger eventsInside = subSetCount;
-    if (!subSet) eventsInside = fcsFile.noOfEvents;
+    if (!subSet) eventsInside = fcsFile.data.noOfEvents;
     
     NSInteger xPar = [gateData[GateXParNumber] integerValue] - 1;
     NSInteger yPar = [gateData[GateYParNumber] integerValue] - 1;
@@ -193,8 +193,8 @@
         eventNo = index;
         if (subSet) eventNo = subSet[index];
         
-        testPoint.x = (double)fcsFile.events[eventNo][xPar];
-        testPoint.y = (double)fcsFile.events[eventNo][yPar];
+        testPoint.x = (double)fcsFile.data.events[eventNo][xPar];
+        testPoint.y = (double)fcsFile.data.events[eventNo][yPar];
         testPoint.z = 1.0;
         
         if (xAxisType == kAxisTypeLogarithmic) testPoint.x = log10(testPoint.x);

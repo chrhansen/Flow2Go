@@ -307,7 +307,7 @@
 - (void)_showAxisPicker:(NSInteger)axisNumber fromButton:(UIButton *)axisButton
 {
     NSMutableArray *items = [NSMutableArray array];
-    for (NSUInteger parIndex = 0; parIndex < [self.fcsFile.text[@"$PAR"] integerValue]; parIndex++) {
+    for (NSUInteger parIndex = 0; parIndex < [self.fcsFile.keywords[@"$PAR"] integerValue]; parIndex++) {
         NSString *title = [self _titleForParameter:parIndex + 1];
         if (title) [items addObject:title];
     }
@@ -372,7 +372,7 @@
 {
     [self _updateAxisTitleButtons];
     [self.graph updateGraphWithPlotOptions:self.plot.plotOptions];
-    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[self.xParIndex] yRange:self.fcsFile.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
+    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[self.xParIndex] yRange:self.fcsFile.data.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
 }
 
 
@@ -387,7 +387,7 @@
     plotDataOperation.delegate = self;
     [plotDataOperation setCompletionBlock:^{
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.graph adjustPlotRangeToFitXRange:self.fcsFile.ranges[self.xParIndex] yRange:self.fcsFile.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
+            [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[self.xParIndex] yRange:self.fcsFile.data.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
             [self.graph reloadData];
         }];
     }];
@@ -417,8 +417,8 @@
 
 - (NSString *)_titleForParameter:(NSInteger)parNumber
 {
-    NSString *unitName = self.fcsFile.calibrationUnitNames[[NSString stringWithFormat:@"%i", parNumber]];
-    NSString *title = [FGFCSFile parameterShortNameForParameterIndex:parNumber - 1 inFCSFile:self.fcsFile];
+    NSString *unitName = self.fcsFile.data.calibrationUnitNames[[NSString stringWithFormat:@"%i", parNumber]];
+    NSString *title = [FGFCSText parameterShortNameForParameterIndex:parNumber - 1 inFCSKeywords:self.fcsFile.text.keywords];
     if (unitName) title = [title stringByAppendingFormat:@" %@", unitName];
     
     return title;

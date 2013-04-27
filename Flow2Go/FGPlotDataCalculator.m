@@ -53,7 +53,7 @@
 {
     FGPlotDataCalculator *dotPlotData = [FGPlotDataCalculator.alloc init];
     NSInteger eventsInside = subsetCount;
-    if (!subset) eventsInside = fcsFile.noOfEvents;
+    if (!subset) eventsInside = fcsFile.data.noOfEvents;
 
     
     NSInteger xPar = [plotOptions[XParNumber] integerValue] - 1;
@@ -68,8 +68,8 @@
         eventNo = index;
         if (subset) eventNo = subset[index];
         
-        dotPlotData.points[index].xVal = (double)fcsFile.events[eventNo][xPar];
-        dotPlotData.points[index].yVal = (double)fcsFile.events[eventNo][yPar];
+        dotPlotData.points[index].xVal = (double)fcsFile.data.events[eventNo][xPar];
+        dotPlotData.points[index].yVal = (double)fcsFile.data.events[eventNo][yPar];
     }
     return dotPlotData;
 }
@@ -86,7 +86,7 @@
     }
     
     NSInteger eventsInside = subsetCount;
-    if (!subset) eventsInside = fcsFile.noOfEvents;
+    if (!subset) eventsInside = fcsFile.data.noOfEvents;
     
     if (!eventsInside) {
         return nil;
@@ -101,10 +101,10 @@
     double maxIndex = (double)(BIN_COUNT - 1);
     
     // For linear scales
-    double xMin = fcsFile.ranges[xPar].minValue;
-    double xMax = fcsFile.ranges[xPar].maxValue;
-    double yMin = fcsFile.ranges[yPar].minValue;
-    double yMax = fcsFile.ranges[yPar].maxValue;    
+    double xMin = fcsFile.data.ranges[xPar].minValue;
+    double xMax = fcsFile.data.ranges[xPar].maxValue;
+    double yMin = fcsFile.data.ranges[yPar].minValue;
+    double yMax = fcsFile.data.ranges[yPar].maxValue;    
     
     double xFCSRangeToBinRange = maxIndex / (xMax - xMin);
     double xBinRangeToFCSRange = 1.0 / xFCSRangeToBinRange;
@@ -138,8 +138,8 @@
         eventNo = index;
         if (subset) eventNo = subset[index];
         
-        plotPoint.xVal = fcsFile.events[eventNo][xPar];
-        plotPoint.yVal = fcsFile.events[eventNo][yPar];
+        plotPoint.xVal = fcsFile.data.events[eventNo][xPar];
+        plotPoint.yVal = fcsFile.data.events[eventNo][yPar];
         
         switch (xAxisType)
         {
@@ -248,13 +248,13 @@
     }
     
     NSInteger eventsInside = subsetCount;
-    if (!subset) eventsInside = fcsFile.noOfEvents;
+    if (!subset) eventsInside = fcsFile.data.noOfEvents;
     
     NSInteger parIndex = [plotOptions[XParNumber] integerValue] - 1;
     
     FGAxisType axisType = [plotOptions[XAxisType] integerValue];
-    double minValue = fcsFile.ranges[parIndex].minValue;
-    double maxValue = fcsFile.ranges[parIndex].maxValue;
+    double minValue = fcsFile.data.ranges[parIndex].minValue;
+    double maxValue = fcsFile.data.ranges[parIndex].maxValue;
     NSUInteger colCount = (NSUInteger)(maxValue + 1.0);
     
     double factor = pow(minValue/maxValue, 1.0/(maxValue + 1.0));
@@ -272,7 +272,7 @@
         eventNo = index;
         if (subset) eventNo = subset[index];
         
-        dataPoint = fcsFile.events[eventNo][parIndex];
+        dataPoint = fcsFile.data.events[eventNo][parIndex];
         
         switch (axisType)
         {

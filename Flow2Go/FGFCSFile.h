@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "FGFCSText.h"
+#import "FGFCSData.h"
+
 @class FGFCSFile;
 
 @protocol FGFCSProgressDelegate <NSObject>
 - (void)loadProgress:(CGFloat)progress forFCSFile:(FGFCSFile *)fcsFile;
 @end
-
-// FCS file specific
-#define HEADER_LENGTH 58
 
 typedef NS_ENUM(NSInteger, FGParsingSegment) {
     FGParsingSegmentBegan,
@@ -32,33 +33,16 @@ typedef NS_ENUM(NSInteger, FGParsingSegment) {
 + (NSDictionary *)fcsKeywordsWithFCSFileAtPath:(NSString *)path;
 - (void)readFCSFileAtPath:(NSString *)path progressDelegate:(id<FGFCSProgressDelegate>)progressDelegate withCompletion:(void (^)(NSError *error))completion;
 
-+ (NSInteger)parameterNumberForShortName:(NSString *)PiNShortName inFCSFile:(FGFCSFile *)fcsFile;
-+ (NSString *)parameterShortNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
-+ (NSString *)parameterNameForParameterIndex:(NSInteger)parameterIndex inFCSFile:(FGFCSFile *)fcsFile;
+
 - (NSInteger)rangeOfParameterIndex:(NSInteger)parameterIndex;
 + (FGAxisType)axisTypeForScaleString:(NSString *)scaleString;
 - (FGAxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex;
 
-@property (nonatomic) double **events;
-@property (nonatomic) FGRange *ranges;
-
-@property (nonatomic, strong) NSDictionary *calibrationUnitNames;
-@property (nonatomic, strong) NSDictionary *text;
-@property (nonatomic, strong) NSDictionary *analysis;
-@property (nonatomic) NSUInteger noOfEvents;
-@property (nonatomic) NSUInteger noOfParams;
+@property (nonatomic, strong) FGFCSText *text;
+@property (nonatomic, strong) FGFCSData *data;
+@property (nonatomic, strong) NSDictionary *keywords;
+@property (nonatomic, strong) NSDictionary *analysisKeywords;
 @property (nonatomic) FGParsingSegment parsingSegment;
 
 @end
 
-
-@interface FGFCSHeader : NSObject
-
-@property (nonatomic) NSUInteger textBegin;
-@property (nonatomic) NSUInteger textEnd;
-@property (nonatomic) NSUInteger dataBegin;
-@property (nonatomic) NSUInteger dataEnd;
-@property (nonatomic) NSUInteger analysisBegin;
-@property (nonatomic) NSUInteger analysisEnd;
-
-@end

@@ -364,25 +364,38 @@
         
         switch (pinchRecognizer.state)
         {
-                if (pinchRecognizer.numberOfTouches < 2) {
-                    NSLog(@"------- number of touches: %d, state: %d --------", pinchRecognizer.numberOfTouches, pinchRecognizer.state);
-                }
-                
             case UIGestureRecognizerStateBegan:
                 self.simultaneousGestures += 1;
                 self.modifyingGraphic = [self _gateAtTapPoint:location];
                 [self.delegate gatesContainerView:self didModifyGateNo:self.creatingGraphic.gateTag gateType:self.creatingGraphic.gateType vertices:nil];
+                @try {
+                    CGPoint touch1 = [pinchRecognizer locationOfTouch:0 inView:self];
+                    CGPoint touch2 = [pinchRecognizer locationOfTouch:1 inView:self];
+                    [self.modifyingGraphic pinchWithCentroid:location scale:pinchRecognizer.scale touchPoint1:touch1 touchPoint2:touch2];
 
-                CGPoint touch1 = [pinchRecognizer locationOfTouch:0 inView:self];
-                CGPoint touch2 = [pinchRecognizer locationOfTouch:1 inView:self];
-                [self.modifyingGraphic pinchWithCentroid:location scale:pinchRecognizer.scale touchPoint1:touch1 touchPoint2:touch2];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"Pinch exception: %@, reason: %@", exception.name, exception.reason);
+                }
+                @finally {
+                    //
+                }
                 break;
                 
             case UIGestureRecognizerStateChanged:
             {
-                CGPoint touch1 = [pinchRecognizer locationOfTouch:0 inView:self];
-                CGPoint touch2 = [pinchRecognizer locationOfTouch:1 inView:self];
-                [self.modifyingGraphic pinchWithCentroid:location scale:pinchRecognizer.scale touchPoint1:touch1 touchPoint2:touch2];
+                @try {
+                    CGPoint touch1 = [pinchRecognizer locationOfTouch:0 inView:self];
+                    CGPoint touch2 = [pinchRecognizer locationOfTouch:1 inView:self];
+                    [self.modifyingGraphic pinchWithCentroid:location scale:pinchRecognizer.scale touchPoint1:touch1 touchPoint2:touch2];
+                    
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"Pinch exception: %@, reason: %@", exception.name, exception.reason);
+                }
+                @finally {
+                    //
+                }
             }
                 break;
                 

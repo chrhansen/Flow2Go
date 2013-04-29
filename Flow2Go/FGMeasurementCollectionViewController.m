@@ -140,11 +140,11 @@
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
 {
     if (editing) {
-        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0108"] style:UIBarButtonItemStylePlain target:self action:@selector(exportToCloudTapped:)];
+//        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0108"] style:UIBarButtonItemStylePlain target:self action:@selector(exportToCloudTapped:)];
+//        uploadButton.enabled = NO;
         UIBarButtonItem *deleteItem = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0210"] style:UIBarButtonItemStylePlain target:self action:@selector(deleteTapped:)];
-        uploadButton.enabled = NO;
         deleteItem.enabled = NO;
-        [self.navigationItem setLeftBarButtonItems:@[uploadButton, deleteItem] animated:YES];
+        [self.navigationItem setLeftBarButtonItems:@[deleteItem] animated:YES]; //uploadButton removed 
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     } else {
         UIBarButtonItem *importButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(importFromCloudTapped:)];
@@ -162,7 +162,7 @@
 
 - (void)exportToCloudTapped:(id)sender
 {
-    NSLog(@"exportToCloudTapped");
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 

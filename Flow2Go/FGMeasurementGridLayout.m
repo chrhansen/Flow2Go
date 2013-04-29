@@ -68,14 +68,15 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
     //Emblem
     UICollectionViewLayoutAttributes *emblemAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGEmblemKind withIndexPath:indexPath];
     emblemAttributes.frame = [self frameForDecorationViewOfKind:FGEmblemKind];
+    
     //Header Controls
-    UICollectionViewLayoutAttributes *headerControlsAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGHeaderControlsKind withIndexPath:indexPath];
-    headerControlsAttributes.frame = [self frameForDecorationViewOfKind:FGHeaderControlsKind];
+//    UICollectionViewLayoutAttributes *headerControlsAttributes = [UICollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:FGHeaderControlsKind withIndexPath:indexPath];
+//    headerControlsAttributes.frame = [self frameForDecorationViewOfKind:FGHeaderControlsKind];
 
     
     NSMutableDictionary *newLayoutInfo = [NSMutableDictionary dictionary];
     newLayoutInfo[FGEmblemKind]         = @{indexPath : emblemAttributes};
-    newLayoutInfo[FGHeaderControlsKind] = @{indexPath : headerControlsAttributes};
+//    newLayoutInfo[FGHeaderControlsKind] = @{indexPath : headerControlsAttributes};
 
     self.layoutInfo = newLayoutInfo;
 }

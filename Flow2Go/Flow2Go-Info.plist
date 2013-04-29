@@ -14,11 +14,13 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>flow2go-logo.png</string>
+				<string>Screen Shot 2013-04-29 at 00.30.03.png</string>
 				<string>flow2go-logo-72.png</string>
 				<string>flow2go-logo-114.png</string>
 				<string>flow2go-logo-57.png</string>
 			</array>
+			<key>UIPrerenderedIcon</key>
+			<true/>
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
@@ -52,6 +54,8 @@
 	<string>MainStoryboard_iPhone</string>
 	<key>UIMainStoryboardFile~ipad</key>
 	<string>MainStoryboard_iPad</string>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

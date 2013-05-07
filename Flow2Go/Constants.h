@@ -31,6 +31,13 @@ static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 //Apptentive API-key
 #define kApptentiveAPIKey @"054ed3017042a2823a0b7354b8530f1e98457f02307d8b58b23948586f21d082"
 
+//Crashlytics API-key
+#define kCrashlyticsAPIKey @"0387772ffe94f1d824a25caa46697d6294cc3f90"
+
+//Dropbox API keys
+#define kDropboxAPIKey    @"jnrnwsyo6j65b4a"
+#define kDropboxAPISecret @"3hlpks700kooxv8"
+
 //Pane View Controller
 #define PANE_COVER_WIDTH 500.0f
 #define PANE_REVEAL_WIDTH 470.0f

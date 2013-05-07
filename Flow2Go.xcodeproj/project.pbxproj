@@ -123,8 +123,6 @@
 		E5A1BC9716D0535B001CABF8 /* flow2go-logo-72.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */; };
 		E5A1BC9916D05433001CABF8 /* flow2go-logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */; };
 		E5A1BC9B16D05456001CABF8 /* flow2go-logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */; };
-		E5AA3367172E544E0007E2B8 /* flow2go-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5AA3366172E544E0007E2B8 /* flow2go-icon@2x.png */; };
-		E5AA3369172E59440007E2B8 /* Screen Shot 2013-04-29 at 00.30.03.png in Resources */ = {isa = PBXBuildFile; fileRef = E5AA3368172E59440007E2B8 /* Screen Shot 2013-04-29 at 00.30.03.png */; };
 		E5B480B015EF597D00BB6BAC /* FGGateTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */; };
 		E5C0117916C944F20059ED0F /* NSDate+Formatting.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117816C944F10059ED0F /* NSDate+Formatting.m */; };
 		E5C0117C16C990630059ED0F /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C0117B16C990630059ED0F /* MBProgressHUD.m */; };
@@ -173,8 +171,6 @@
 		E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D314D416CE5E7A00700F57 /* MagicalRecord.m */; };
 		E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153916CE5F0700700F57 /* libCorePlot-CocoaTouch.a */; };
 		E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */; };
-		E5D77C4C171377E2000232BB /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D77C49171377E2000232BB /* libTestFlight.a */; };
-		E5D77C4D171377E2000232BB /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = E5D77C4A171377E2000232BB /* release_notes.md */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */; };
 		E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */; };
@@ -407,8 +403,6 @@
 		E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-72.png"; sourceTree = "<group>"; };
 		E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-114.png"; sourceTree = "<group>"; };
 		E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-57.png"; sourceTree = "<group>"; };
-		E5AA3366172E544E0007E2B8 /* flow2go-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-icon@2x.png"; sourceTree = "<group>"; };
-		E5AA3368172E59440007E2B8 /* Screen Shot 2013-04-29 at 00.30.03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen Shot 2013-04-29 at 00.30.03.png"; sourceTree = "<group>"; };
 		E5B480AE15EF597D00BB6BAC /* FGGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateTableViewController.h; sourceTree = "<group>"; };
 		E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateTableViewController.m; sourceTree = "<group>"; };
 		E5C0117716C944F10059ED0F /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };
@@ -564,9 +558,6 @@
 		E5D3153816CE5F0700700F57 /* CPTXYPlotSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTXYPlotSpace.h; sourceTree = "<group>"; };
 		E5D3153916CE5F0700700F57 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
 		E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = Flow2Go/DropboxSDK.framework; sourceTree = "<group>"; };
-		E5D77C49171377E2000232BB /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		E5D77C4A171377E2000232BB /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		E5D77C4B171377E2000232BB /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F0AF0016E7E46100C765D8 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
@@ -622,7 +613,6 @@
 				E5FC6F4F15CA7E8E0047A3DD /* CoreData.framework in Frameworks */,
 				E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */,
 				E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */,
-				E5D77C4C171377E2000232BB /* libTestFlight.a in Frameworks */,
 				E58A1A20171DB5C70099604E /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1196,17 +1186,6 @@
 			path = CorePlotHeaders;
 			sourceTree = "<group>";
 		};
-		E5D77C48171377E2000232BB /* TestFlightSDK1.2.4 */ = {
-			isa = PBXGroup;
-			children = (
-				E5D77C49171377E2000232BB /* libTestFlight.a */,
-				E5D77C4A171377E2000232BB /* release_notes.md */,
-				E5D77C4B171377E2000232BB /* TestFlight.h */,
-			);
-			name = TestFlightSDK1.2.4;
-			path = Flow2Go/TestFlightSDK1.2.4;
-			sourceTree = "<group>";
-		};
 		E5F8353317021E570018E2A8 /* GateButtons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,8 +1208,6 @@
 		E5FC6F3915CA7E8E0047A3DD = {
 			isa = PBXGroup;
 			children = (
-				E5AA3368172E59440007E2B8 /* Screen Shot 2013-04-29 at 00.30.03.png */,
-				E5AA3366172E544E0007E2B8 /* flow2go-icon@2x.png */,
 				E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */,
 				E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */,
 				E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */,
@@ -1309,7 +1286,6 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				E5D77C48171377E2000232BB /* TestFlightSDK1.2.4 */,
 				E5173B5E16E1050200A314D4 /* MSNavigationPaneViewController */,
 				E55923C216D382BD00A087D8 /* Apptentive */,
 				E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */,
@@ -1498,9 +1474,6 @@
 				E512FAF917136D55003EE9E0 /* Flow2GoLaunchImage-Portrait.png in Resources */,
 				E512FAFA17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png in Resources */,
 				E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
-				E5D77C4D171377E2000232BB /* release_notes.md in Resources */,
-				E5AA3367172E544E0007E2B8 /* flow2go-icon@2x.png in Resources */,
-				E5AA3369172E59440007E2B8 /* Screen Shot 2013-04-29 at 00.30.03.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1769,7 +1742,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Flow2Go/CorePlot\"",
-					"\"$(SRCROOT)/Flow2Go/TestFlightSDK1.2.4\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1800,7 +1772,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Flow2Go/CorePlot\"",
-					"\"$(SRCROOT)/Flow2Go/TestFlightSDK1.2.4\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

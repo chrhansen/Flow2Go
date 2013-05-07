@@ -20,9 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [TestFlight takeOff:@"bf48b8b2-12a5-4f1d-8823-92ed91e71f24"];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Flow2Go.sqlite"];
-    DBSession.sharedSession = [DBSession.alloc initWithAppKey:@"jnrnwsyo6j65b4a" appSecret:@"3hlpks700kooxv8" root:kDBRootDropbox];
+    DBSession.sharedSession = [DBSession.alloc initWithAppKey:kDropboxAPIKey appSecret:kDropboxAPISecret root:kDBRootDropbox];
     [ATConnect sharedConnection].apiKey = kApptentiveAPIKey;
     
     // Navigation Pane View Controller
@@ -42,7 +41,7 @@
     navigationPaneViewController.paneDraggingEnabled = YES;
 
     // Chrashlytics
-    [Crashlytics startWithAPIKey:@"0387772ffe94f1d824a25caa46697d6294cc3f90"];
+    [Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
     
     [FGStyleController applyAppearance];
     return YES;

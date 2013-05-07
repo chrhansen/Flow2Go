@@ -244,7 +244,7 @@
 - (void)_toggleBarButtonStateOnChangedEditItems
 {
     [self.navigationItem.leftBarButtonItems[0] setEnabled:(self.editItems.count > 0)];
-    [self.navigationItem.leftBarButtonItems[1] setEnabled:(self.editItems.count > 0)];
+    //[self.navigationItem.leftBarButtonItems[1] setEnabled:(self.editItems.count > 0)]; removed upload button for now
 }
 
 - (void)_discardEditItems

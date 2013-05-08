@@ -67,6 +67,8 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>Filepicker API Key</key>
+	<string>AOXBaU7mTe6UMRf8axGzGz</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -35,6 +35,50 @@
 }
 
 
+- (void)setState:(FGDownloadState)downloadState isEditing:(BOOL)editing
+{
+    switch (downloadState) {
+        case FGDownloadStateDownloaded:
+            self.reloadButton.hidden = YES;
+            self.dateLabel.hidden = NO;
+            self.infoButton.enabled = YES;
+            self.progressView.hidden = YES;
+            self.eventCountLabel.hidden = NO;
+            break;
+            
+        case FGDownloadStateDownloading:
+            self.reloadButton.hidden = YES;
+            self.dateLabel.hidden = YES;
+            self.infoButton.enabled = NO;
+            self.progressView.hidden = NO;
+            self.eventCountLabel.hidden = YES;
+            break;
+            
+        case FGDownloadStateWaiting:
+            self.reloadButton.hidden = YES;
+            self.dateLabel.hidden = YES;
+            self.infoButton.enabled = NO;
+            self.progressView.hidden = NO;
+            self.eventCountLabel.hidden = YES;
+            break;
+
+        case FGDownloadStateFailed:
+        case FGDownloadStateUnknown:
+            self.reloadButton.hidden = editing ? YES : NO;
+            self.dateLabel.hidden = YES;
+            self.infoButton.enabled = NO;
+            self.progressView.hidden = YES;
+            self.eventCountLabel.hidden = YES;
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+
+
 - (void)setHighlighted:(BOOL)highlighted
 {
     self.measurementImageView.backgroundColor = highlighted ? [UIColor lightGrayColor] : [UIColor whiteColor];

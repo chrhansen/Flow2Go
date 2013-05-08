@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) NSMutableDictionary *currentDownloads;
 @property (nonatomic, strong) NSMutableDictionary *sharableLinks;
-@property (nonatomic, strong) NSMutableDictionary *errorDownloads;
 @property (nonatomic, strong) NSMutableDictionary *downloadProgresses;
 
 @end
@@ -70,14 +69,6 @@
     return _sharableLinks;
 }
 
-- (NSMutableDictionary *)errorDownloads
-{
-    if (_errorDownloads == nil) {
-        _errorDownloads = [NSMutableDictionary dictionary];
-    }
-    return _errorDownloads;
-}
-
 
 - (void)downloadFiles:(NSArray *)files toFolder:(FGFolder *)folder
 {
@@ -89,14 +80,14 @@
 - (void)downloadFile:(DBMetadata *)metadata toFolder:(FGFolder *)folder
 {
     FGMeasurement *measurement = [FGMeasurement findFirstByAttribute:@"fGMeasurementID" withValue:metadata.rev];
-    if (measurement.isDownloaded) {
+    if ([measurement state] == FGDownloadStateDownloaded) {
         self.sharableLinks[metadata.path] = measurement;
         [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
         return;
     }
     NSError *error;
     NSString *directoryPath = [@"tmp" stringByAppendingPathComponent:[NSString getUUID]];
-    [NSFileManager.defaultManager createDirectoryAtPath:[HOME_DIR stringByAppendingPathComponent:directoryPath] withIntermediateDirectories:NO attributes:nil error:&error];
+    [[NSFileManager defaultManager] createDirectoryAtPath:[HOME_DIR stringByAppendingPathComponent:directoryPath] withIntermediateDirectories:NO attributes:nil error:&error];
     if (error) {
         NSLog(@"Error: %@", error.localizedDescription);
         return;
@@ -104,20 +95,34 @@
     NSString *relativePath = [directoryPath stringByAppendingPathComponent:metadata.filename];
     NSDictionary *objectDetails = @{@"metadata"    : metadata,
                                     @"filePath"    : relativePath,
-                                    @"downloadDate": NSDate.date};
+                                    @"downloadDate": NSDate.date,
+                                    @"globalURL"   : metadata.path};
     FGMeasurement *newMeasurement = [[FGMeasurement MR_importFromArray:@[objectDetails]] lastObject];
     newMeasurement.folder = folder;
-    self.sharableLinks[metadata.path] = newMeasurement;
-    [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
-    if (!newMeasurement.isDownloaded) {
-        NSString *destinationPath = [HOME_DIR stringByAppendingPathComponent:relativePath];
+    if ([newMeasurement state] != FGDownloadStateDownloaded) {
         NSAssert(newMeasurement, @"Failed importing fcsfile based on dictionary");
-        self.currentDownloads[destinationPath] = newMeasurement;
-        self.downloadProgresses[newMeasurement.fGMeasurementID] = @0.0F;
-        [self.restClient loadFile:metadata.path intoPath:destinationPath];
-        if ([self.progressDelegate respondsToSelector:@selector(downloadManager:beganDownloadingMeasurement:)]) {
-            [self.progressDelegate downloadManager:self beganDownloadingMeasurement:newMeasurement];
-        }
+        [self _downloadMeasurement:newMeasurement];
+    }
+}
+
+- (void)retryDownloadOfMeasurement:(FGMeasurement *)measurement
+{
+    if ([measurement state] != FGDownloadStateFailed) {
+        return; //File is already downloaded, waiting, or currently loading (or object is nil)
+    }
+    [self _downloadMeasurement:measurement];
+}
+
+
+- (void)_downloadMeasurement:(FGMeasurement *)measurement
+{
+    [measurement setState:FGDownloadStateWaiting];
+    self.currentDownloads[measurement.fullFilePath] = measurement;
+    self.downloadProgresses[measurement.fGMeasurementID] = @0.0F;
+    [self.restClient loadFile:measurement.globalURL intoPath:measurement.fullFilePath];
+    [measurement setState:FGDownloadStateDownloading];
+    if ([self.progressDelegate respondsToSelector:@selector(downloadManager:beganDownloadingMeasurement:)]) {
+        [self.progressDelegate downloadManager:self beganDownloadingMeasurement:measurement];
     }
 }
 
@@ -153,13 +158,16 @@
             NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
             NSDictionary *objectDetails = @{@"metadata" : metadata,
                                             @"filePath" : newRelativePath,
-                                            @"downloadDate": NSDate.date};
+                                            @"downloadDate": [NSDate date]};
             FGMeasurement *measurement = [FGMeasurement importFromArray:@[objectDetails] inContext:localContext].lastObject;
+            [measurement setState:FGDownloadStateDownloaded];
             [measurement parseFCSKeyWords];
             measurement.md5FileHash = [measurement md5Hash];
         } completion:^(BOOL success, NSError *error) {
             NSAssert([NSThread isMainThread], @"Import callback not on main thread");
             [self.downloadProgresses removeObjectForKey:measurementDownloaded.fGMeasurementID];
+            self.sharableLinks[metadata.path] = measurementDownloaded;
+            [self.restClient loadSharableLinkForFile:metadata.path shortUrl:YES];
             [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];
             if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingMeasurement:)]) {
                 [self.progressDelegate downloadManager:self finishedDownloadingMeasurement:measurementDownloaded];
@@ -174,24 +182,14 @@
     //TODO: find the failed download file and remove from [self.currentDownloads removeObjectForKey:destPath];
     NSString *destinationPath = error.userInfo[@"destinationPath"];
     NSString *sourcePath = error.userInfo[@"path"];
-    if (!destinationPath || !sourcePath) {
-        NSLog(@"Error: failed download is not giving information of source- and/or destination path");
-    }
-    
+
     FGMeasurement *measurement = self.currentDownloads[destinationPath];
-    if (!self.errorDownloads[sourcePath]) {
-        // try an extra time to download the file
-        [self.errorDownloads setValue:destinationPath forKey:sourcePath];
-        [self.restClient loadFile:sourcePath intoPath:destinationPath];
-    } else {
-        // one additional attempt has been done already
-        [self.errorDownloads removeObjectForKey:sourcePath];
-        [self.currentDownloads removeObjectForKey:sourcePath];
-        [self.downloadProgresses removeObjectForKey:measurement.fGMeasurementID];
-        [NSNotificationCenter.defaultCenter postNotificationName:DropboxFailedDownloadNotification object:nil userInfo:@{@"error" : error}];
-        if ([self.progressDelegate respondsToSelector:@selector(downloadManager:failedDownloadingMeasurement:)]) {
-            [self.progressDelegate downloadManager:self failedDownloadingMeasurement:measurement];
-        }
+    [measurement setState:FGDownloadStateFailed];
+    [self.currentDownloads removeObjectForKey:sourcePath];
+    [self.downloadProgresses removeObjectForKey:measurement.fGMeasurementID];
+    [NSNotificationCenter.defaultCenter postNotificationName:DropboxFailedDownloadNotification object:nil userInfo:@{@"error" : error}];
+    if ([self.progressDelegate respondsToSelector:@selector(downloadManager:failedDownloadingMeasurement:)]) {
+        [self.progressDelegate downloadManager:self failedDownloadingMeasurement:measurement];
     }
 }
 
@@ -227,9 +225,12 @@
     NSLog(@"Error loading sharable link: %@", [error localizedDescription]);
 }
 
+
+#pragma mark - Local file operations
+
 - (NSString *)moveToDocumentsAndAvoidBackup:(NSString *)filePath
 {
-    NSFileManager *fileManager = NSFileManager.defaultManager;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
     NSString *relativePath = @"Documents";
     if ([fileManager fileExistsAtPath:filePath]) {
@@ -246,7 +247,7 @@
     return [relativePath stringByAppendingPathComponent:filePath.lastPathComponent];
 }
 
-#pragma mark - Skip Back-Up Attribute
+#pragma mark Skip Back-Up Attribute
 - (BOOL)addSkipBackupAttributeToItemAtFilePath:(NSString *)filePath
 {
     NSURL *URL = [NSURL fileURLWithPath:filePath];

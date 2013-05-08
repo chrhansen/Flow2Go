@@ -35,6 +35,7 @@
 		E512FAF917136D55003EE9E0 /* Flow2GoLaunchImage-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */; };
 		E512FAFA17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */; };
 		E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */; };
+		E513F7211739C19200F64267 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E513F7201739C19200F64267 /* MobileCoreServices.framework */; };
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6816E107CF00A314D4 /* PRTween.m */; };
 		E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6A16E107CF00A314D4 /* PRTweenTimingFunctions.m */; };
@@ -70,6 +71,9 @@
 		E54923FC1704B53700A0F75F /* NSManagedObjectContext+Clone.m in Sources */ = {isa = PBXBuildFile; fileRef = E54923FB1704B53700A0F75F /* NSManagedObjectContext+Clone.m */; };
 		E5492401170786DC00A0F75F /* FGMatrixInversion.m in Sources */ = {isa = PBXBuildFile; fileRef = E5492400170786DA00A0F75F /* FGMatrixInversion.m */; };
 		E54924041709DB2000A0F75F /* FGGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = E54924031709DB1F00A0F75F /* FGGraph.m */; };
+		E54B6B4D173B04B700F203C3 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E54B6B4C173B04B700F203C3 /* FGMeasurement.m */; };
+		E54B6B54173B142000F203C3 /* 0259.png in Resources */ = {isa = PBXBuildFile; fileRef = E54B6B52173B142000F203C3 /* 0259.png */; };
+		E54B6B55173B142000F203C3 /* 0259@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E54B6B53173B142000F203C3 /* 0259@2x.png */; };
 		E54D71B416049CC5008CEC5D /* FGGateGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B116049CC5008CEC5D /* FGGateGraphic.m */; };
 		E54D71B516049CC5008CEC5D /* FGPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B316049CC5008CEC5D /* FGPolygon.m */; };
 		E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* FGGatesContainerView.m */; };
@@ -173,7 +177,6 @@
 		E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */; };
-		E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
 		E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */; };
@@ -275,6 +278,7 @@
 		E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Portrait.png"; sourceTree = "<group>"; };
 		E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape.png"; sourceTree = "<group>"; };
 		E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape@2x.png"; sourceTree = "<group>"; };
+		E513F7201739C19200F64267 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+PriceAsString.h"; sourceTree = "<group>"; };
 		E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+PriceAsString.m"; sourceTree = "<group>"; };
 		E5173B6216E1073900A314D4 /* MSNavigationPaneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNavigationPaneViewController.h; sourceTree = "<group>"; };
@@ -327,6 +331,10 @@
 		E5492400170786DA00A0F75F /* FGMatrixInversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMatrixInversion.m; sourceTree = "<group>"; };
 		E54924021709DB1F00A0F75F /* FGGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraph.h; sourceTree = "<group>"; };
 		E54924031709DB1F00A0F75F /* FGGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraph.m; sourceTree = "<group>"; };
+		E54B6B4B173B04B700F203C3 /* FGMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurement.h; sourceTree = "<group>"; };
+		E54B6B4C173B04B700F203C3 /* FGMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurement.m; sourceTree = "<group>"; };
+		E54B6B52173B142000F203C3 /* 0259.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0259.png; sourceTree = "<group>"; };
+		E54B6B53173B142000F203C3 /* 0259@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "0259@2x.png"; sourceTree = "<group>"; };
 		E54D71AC16049C98008CEC5D /* FGGatesContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGatesContainerView.h; sourceTree = "<group>"; };
 		E54D71B016049CC5008CEC5D /* FGGateGraphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateGraphic.h; sourceTree = "<group>"; };
 		E54D71B116049CC5008CEC5D /* FGGateGraphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateGraphic.m; sourceTree = "<group>"; };
@@ -562,8 +570,6 @@
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F0AF0016E7E46100C765D8 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
-		E5F0AF0916E7E9A800C765D8 /* FGMeasurement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurement.h; sourceTree = "<group>"; };
-		E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurement.m; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
 		E5F1DAFD160E64A200591F2A /* FGRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGRectangle.m; sourceTree = "<group>"; };
 		E5F1DB04160E7BD200591F2A /* FGEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGEllipse.h; sourceTree = "<group>"; };
@@ -600,6 +606,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E513F7211739C19200F64267 /* MobileCoreServices.framework in Frameworks */,
 				E55923C016D3824000A087D8 /* libApptentiveConnect.a in Frameworks */,
 				E55923AF16D3819900A087D8 /* SystemConfiguration.framework in Frameworks */,
 				E5C0119516CA96570059ED0F /* StoreKit.framework in Frameworks */,
@@ -657,6 +664,7 @@
 		E511FD7A15CC377500637D39 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E513F72C173A201F00F64267 /* Launch and Icons */,
 				E5F8353317021E570018E2A8 /* GateButtons */,
 				E59C49A916C4AFF700B5E0D5 /* Folder View */,
 				E59C499916C49DF200B5E0D5 /* ShadowImage-NavBar@2x.png */,
@@ -669,6 +677,23 @@
 				E50427DE16C206E300692AD7 /* FGBarButtonIconNavigationPane.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		E513F72C173A201F00F64267 /* Launch and Icons */ = {
+			isa = PBXGroup;
+			children = (
+				E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */,
+				E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */,
+				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
+				E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */,
+				E5A1BC9416D05310001CABF8 /* flow2go-logo.png */,
+				E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */,
+				E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */,
+				E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */,
+				E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */,
+			);
+			name = "Launch and Icons";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		E5173B5E16E1050200A314D4 /* MSNavigationPaneViewController */ = {
@@ -834,10 +859,10 @@
 				E5FC6F6215CA7E8E0047A3DD /* Flow2Go.xcdatamodeld */,
 				E585571A16C1609200BF4546 /* FGFolder.h */,
 				E585571B16C1609200BF4546 /* FGFolder.m */,
-				E5F0AF0916E7E9A800C765D8 /* FGMeasurement.h */,
-				E5F0AF0A16E7E9A800C765D8 /* FGMeasurement.m */,
 				E504279216C1AC2C00692AD7 /* FGAnalysis.h */,
 				E504279316C1AC2C00692AD7 /* FGAnalysis.m */,
+				E54B6B4B173B04B700F203C3 /* FGMeasurement.h */,
+				E54B6B4C173B04B700F203C3 /* FGMeasurement.m */,
 				E504279516C1AC2D00692AD7 /* FGKeyword.h */,
 				E504279616C1AC2D00692AD7 /* FGKeyword.m */,
 				E50427A716C1B08600692AD7 /* FGNode.h */,
@@ -939,6 +964,8 @@
 		E59C49A916C4AFF700B5E0D5 /* Folder View */ = {
 			isa = PBXGroup;
 			children = (
+				E54B6B52173B142000F203C3 /* 0259.png */,
+				E54B6B53173B142000F203C3 /* 0259@2x.png */,
 				E52883BB16E535220057AA07 /* 83-calendar.png */,
 				E52883BC16E535220057AA07 /* 83-calendar@2x.png */,
 				E52883AC16E52BC00057AA07 /* stacked.png */,
@@ -1209,15 +1236,6 @@
 			isa = PBXGroup;
 			children = (
 				E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */,
-				E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */,
-				E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */,
-				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
-				E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */,
-				E5A1BC9416D05310001CABF8 /* flow2go-logo.png */,
-				E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */,
-				E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */,
-				E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */,
-				E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */,
 				E5FC6F5015CA7E8E0047A3DD /* Flow2Go */,
 				E5FC6F4715CA7E8E0047A3DD /* Frameworks */,
 				E5FC6F4515CA7E8E0047A3DD /* Products */,
@@ -1235,6 +1253,7 @@
 		E5FC6F4715CA7E8E0047A3DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E513F7201739C19200F64267 /* MobileCoreServices.framework */,
 				E58A1A1F171DB5C70099604E /* Crashlytics.framework */,
 				E55923AE16D3819900A087D8 /* SystemConfiguration.framework */,
 				E55923AC16D3817C00A087D8 /* CoreTelephony.framework */,
@@ -1255,11 +1274,11 @@
 			children = (
 				E5FC6F5C15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard */,
 				E5FC6F5F15CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard */,
-				E52BECB815DE861D002A3819 /* Utilities */,
-				E511FD6115CC31C000637D39 /* FCSParser */,
 				E5FC6FFD15CA87B20047A3DD /* Model */,
 				E53FA67015CB3E6F000B048C /* Views */,
 				E5FC6FFE15CA87BC0047A3DD /* Controllers */,
+				E511FD6115CC31C000637D39 /* FCSParser */,
+				E52BECB815DE861D002A3819 /* Utilities */,
 				E567CCEF15CBD12300CBF7D8 /* Categories */,
 				E5FC6F7015CA80470047A3DD /* 3rd Party */,
 				E5FC6F5115CA7E8E0047A3DD /* Supporting Files */,
@@ -1474,6 +1493,8 @@
 				E512FAF917136D55003EE9E0 /* Flow2GoLaunchImage-Portrait.png in Resources */,
 				E512FAFA17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png in Resources */,
 				E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
+				E54B6B54173B142000F203C3 /* 0259.png in Resources */,
+				E54B6B55173B142000F203C3 /* 0259@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1590,7 +1611,6 @@
 				E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */,
 				E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */,
 				E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */,
-				E5F0AF0B16E7E9A800C765D8 /* FGMeasurement.m in Sources */,
 				E50F000416E8F164009C546E /* FGPlot.m in Sources */,
 				E53E365D1700C60E00002265 /* MSNavigationPaneViewController.m in Sources */,
 				E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */,
@@ -1609,6 +1629,7 @@
 				E5CB45E3172B5BC900A93D9B /* FGFCSData.m in Sources */,
 				E5CB45E6172B65D100A93D9B /* FGFCSAnalysis.m in Sources */,
 				E5CB45E9172B6AEC00A93D9B /* FGFCSParserOperation.m in Sources */,
+				E54B6B4D173B04B700F203C3 /* FGMeasurement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

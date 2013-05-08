@@ -2,7 +2,7 @@
 //  FGMeasurement.h
 //  Flow2Go
 //
-//  Created by Christian Hansen on 06/03/13.
+//  Created by Christian Hansen on 08/05/13.
 //  Copyright (c) 2013 Christian Hansen. All rights reserved.
 //
 
@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSString * globalURL;
 @property (nonatomic, retain) NSString * md5FileHash;
 @property (nonatomic, retain) UIImage * thumbImage;
+@property (nonatomic, retain) NSNumber * downloadState;
 @property (nonatomic, retain) NSOrderedSet *analyses;
 @property (nonatomic, retain) FGFolder *folder;
 @property (nonatomic, retain) NSSet *keywords;

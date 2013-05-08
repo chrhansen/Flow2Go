@@ -26,6 +26,7 @@
     <entity name="FGMeasurement" representedClassName="FGMeasurement" syncable="YES">
         <attribute name="countOfEvents" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="downloadDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="downloadState" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="fGMeasurementID" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKeyName" value="metadata.rev"/>
@@ -63,7 +64,7 @@
         <element name="FGFolder" positionX="-4014" positionY="-2595" width="128" height="75"/>
         <element name="FGGate" positionX="-3276" positionY="-2406" width="128" height="103"/>
         <element name="FGKeyword" positionX="-3807" positionY="-2376" width="128" height="90"/>
-        <element name="FGMeasurement" positionX="-3825" positionY="-2646" width="128" height="208"/>
+        <element name="FGMeasurement" positionX="-3825" positionY="-2646" width="128" height="225"/>
         <element name="FGNode" positionX="-3366" positionY="-2655" width="128" height="180"/>
         <element name="FGPlot" positionX="-3528" positionY="-2410" width="128" height="118"/>
     </elements>

@@ -19,6 +19,7 @@ NSString *const DropboxUploadFolderSelected = @"DropboxUploadFolderSelected";
 
 NSString *const FileOpenFromEmailNotification = @"FileOpenFromEmailNotification";
 NSString *const FGHeaderControlsWillAppearNotification = @"FGHeaderControlsWillAppearNotification";
+NSString *const FGPickerViewControllerCancelledNotification = @"FGPickerViewControllerCancelledNotification";
 
 
 NSString *const PolygonAnsysModelLimitPassed = @"PolygonAnsysModelLimitPassed";

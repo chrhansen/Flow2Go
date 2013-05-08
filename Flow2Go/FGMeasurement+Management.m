@@ -16,7 +16,7 @@
 
 - (NSError *)parseFCSKeyWords
 {
-    if (self.isDownloaded) {
+    if ([self state] == FGDownloadStateDownloaded) {
         NSDictionary *textKeyValuePairs = [FGFCSFile fcsKeywordsWithFCSFileAtPath:self.fullFilePath];
         [self _addKeywordsWithDictionary:textKeyValuePairs];
         self.countOfEvents = [NSNumber numberWithInteger:[textKeyValuePairs[@"$TOT"] integerValue]];
@@ -90,6 +90,19 @@
 }
 
 
+- (FGDownloadState)state;
+{
+    return self.downloadState.integerValue;
+}
+
+
+- (void)setState:(FGDownloadState)downloadState
+{
+    if (downloadState != self.downloadState.integerValue) self.downloadState = [NSNumber numberWithInteger:downloadState];
+}
+
+
+
 - (void)_addKeywordsWithDictionary:(NSDictionary *)dictionary
 {
     for (NSString *key in dictionary.allKeys) {
@@ -143,11 +156,6 @@
     return self.fullFilePath.stringByDeletingLastPathComponent;
 }
 
-- (BOOL)isDownloaded
-{
-    NSArray *pathComponents = [self.filePath pathComponents];
-    return (pathComponents.count > 0 && [pathComponents[0] isEqualToString:@"Documents"]);
-}
 
 - (NSString *)downloadDateAsLocalizedString
 {

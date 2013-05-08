@@ -11,7 +11,6 @@
 #import "UIBarButtonItem+Customview.h"
 #import "FGMeasurementHeaderView.h"
 #import "FGMeasurementCell.h"
-#import "KGNoise.h"
 #import "FGMeasurementGridLayout.h"
 #import "FGStackedLayout.h"
 #import "FGMeasurement+Management.h"
@@ -34,6 +33,8 @@
 @property (nonatomic, strong) NSMutableArray *sectionChanges;
 @property (nonatomic) CGFloat verticalContentOffsetFraction;
 @property (nonatomic, strong) UIPopoverController *infoPopoverController;
+@property (nonatomic, strong) UIPopoverController *filePickerPopoverController;
+
 
 @end
 
@@ -154,9 +155,9 @@
 }
 
 #pragma mark Import/Export
-- (void)importFromCloudTapped:(id)sender
+- (void)importFromCloudTapped:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"Show Dropbox" sender:sender];
+    [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
 }
 
 
@@ -276,16 +277,9 @@
     [connection presentFeedbackControllerFromViewController:self];
 }
 
-
-- (IBAction)layoutControlTapped:(UISegmentedControl *)layoutControl
+- (void)filePickerCancelled
 {
-    if (layoutControl.selectedSegmentIndex == 0 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGStackedLayout class]]) {
-        FGStackedLayout *stackedLayout = [[FGStackedLayout alloc] init];
-        [self.collectionView setCollectionViewLayout:stackedLayout animated:YES];
-    } else if (layoutControl.selectedSegmentIndex == 1 && ![self.collectionView.collectionViewLayout isKindOfClass:[FGMeasurementGridLayout class]]) {
-        FGMeasurementGridLayout *folderLayout = [[FGMeasurementGridLayout alloc] init];
-        [self.collectionView setCollectionViewLayout:folderLayout animated:YES];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Apptentive
@@ -297,6 +291,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerControlsWillAppear:) name:FGHeaderControlsWillAppearNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidSaveNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filePickerCancelled) name:FGPickerViewControllerCancelledNotification object:nil];
 }
 
 - (void)surveyBecameAvailable:(NSNotification *)notification
@@ -325,17 +320,16 @@
 #define FILENAME_CHARACTER_COUNT 29
 
 - (void)configureCell:(UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
+{    
     FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     FGMeasurementCell *measurementCell = (FGMeasurementCell *)cell;
+    [measurementCell setState:[measurement state] isEditing:self.isEditing];
+    
     measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
-    measurementCell.dateLabel.hidden = !measurement.isDownloaded;
     measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
     measurementCell.thumbImageView.image = measurement.thumbImage;
-    measurementCell.infoButton.enabled = measurement.isDownloaded;
-    measurementCell.progressView.hidden = measurement.isDownloaded;
-    measurementCell.eventCountLabel.hidden = !measurement.isDownloaded;
-    measurementCell.eventCountLabel.text = (measurement.isDownloaded) ? measurement.countOfEvents.stringValue : @"-";
+    [measurementCell.reloadButton addTarget:self action:@selector(reloadButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    measurementCell.eventCountLabel.text = measurement.countOfEvents.stringValue;
     measurementCell.infoButton.hidden = self.isEditing;
     [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     if (!self.isEditing) measurementCell.checkMarkImageView.hidden = YES;
@@ -362,6 +356,15 @@
 }
 
 
+- (void)reloadButtonTapped:(UIButton *)reloadButton
+{
+    CGPoint buttonLocationInCollectionView = [reloadButton.superview convertPoint:reloadButton.center toView:self.collectionView];
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonLocationInCollectionView];
+    FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    if ([measurement state] == FGDownloadStateFailed) {
+        [[FGDownloadManager sharedInstance] retryDownloadOfMeasurement:measurement];
+    }
+}
 
 - (void)_createRootPlotsFor:(FGMeasurement *)measurement
 {
@@ -444,14 +447,14 @@
     id object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
     switch (self.isEditing) {
+        case NO:
+            [self _presentMeasurement:(FGMeasurement *)object];
+            break;
+
         case YES:
             [self _togglePresenceInEditItems:object];
             [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
             [self _toggleBarButtonStateOnChangedEditItems];
-            break;
-            
-        case NO:
-            [self _presentMeasurement:(FGMeasurement *)object];
             break;
     }
 }
@@ -460,7 +463,9 @@
 
 - (void)_presentMeasurement:(FGMeasurement *)aMeasurement
 {
-    if (aMeasurement.isDownloaded == NO) return;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%d", aMeasurement.downloadState.integerValue] message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+    if ([aMeasurement state] != FGDownloadStateDownloaded) return;
     
     FGAnalysis *analysis = aMeasurement.analyses.lastObject;
     if (analysis == nil) {

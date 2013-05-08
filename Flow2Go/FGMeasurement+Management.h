@@ -19,10 +19,12 @@
 - (FGFileType)fileType;
 + (FGFileType)fileTypeForFileName:(NSString *)fileNameWithExtension;
 
+- (FGDownloadState)state;
+- (void)setState:(FGDownloadState)downloadState;
+
 @property (nonatomic, readonly) NSString *fullFilePath;
 @property (nonatomic, readonly) NSString *enclosingFolder;
 @property (nonatomic, readonly) FGFileType fileType;
-@property (nonatomic, readonly) BOOL isDownloaded;
 @property (nonatomic, weak, readonly) NSString *downloadDateAsLocalizedString;
 
 @end

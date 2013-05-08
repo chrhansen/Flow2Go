@@ -10,6 +10,7 @@
 
 @interface FGMeasurementCell : UICollectionViewCell
 
+- (void)setState:(FGDownloadState)downloadState isEditing:(BOOL)editing;
 
 @property (weak, nonatomic) IBOutlet UILabel *fileNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *eventCountLabel;
@@ -19,5 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIImageView *checkMarkImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *thumbImageView;
+@property (weak, nonatomic) IBOutlet UIButton *reloadButton;
 
 @end

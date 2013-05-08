@@ -33,6 +33,7 @@
 + (FGDownloadManager *)sharedInstance;
 - (void)downloadFiles:(NSArray *)files toFolder:(FGFolder *)folder;
 - (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(FGFolder *)folder;
+- (void)retryDownloadOfMeasurement:(FGMeasurement *)measurement;
 
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<FGDownloadManagerDelegate> delegate;

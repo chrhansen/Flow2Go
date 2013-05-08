@@ -25,6 +25,7 @@ static NSString * const DropboxFailedDownloadNotification = @"DropboxFailedDownl
 
 static NSString * const AnalysisUpdatedNotification = @"AnalysisUpdatedNotification";
 extern NSString * const FGHeaderControlsWillAppearNotification;
+extern NSString * const FGPickerViewControllerCancelledNotification;
 
 static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 
@@ -112,6 +113,16 @@ typedef NS_ENUM( NSUInteger, FGFileType ) {
     FGFileTypeUnknown,
     FGFileTypeLMD,
     FGFileTypeFCS
+};
+
+
+typedef NS_ENUM(NSInteger, FGDownloadState)
+{
+    FGDownloadStateUnknown,
+    FGDownloadStateWaiting,
+    FGDownloadStateDownloading,
+    FGDownloadStateDownloaded,
+    FGDownloadStateFailed
 };
 
 union _FGVector3

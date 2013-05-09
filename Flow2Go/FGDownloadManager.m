@@ -105,6 +105,23 @@
     }
 }
 
+
+- (void)refreshDownloadStates
+{
+    NSArray *measurements = [FGMeasurement findAllSortedBy:@"downloadDate" ascending:YES withPredicate:[NSPredicate predicateWithFormat:@"downloadState != %@", [NSNumber numberWithInteger:FGDownloadStateDownloaded]]];
+    for (FGMeasurement *measurement in measurements) {
+        if ([measurement.filePath hasPrefix:@"Documents"]) {
+            [measurement setState:FGDownloadStateDownloaded];
+            if (!measurement.md5FileHash) measurement.md5FileHash = [measurement md5Hash];
+            
+            if (measurement.globalURL && ![measurement.globalURL hasPrefix:@"http://"]) {
+                self.sharableLinks[measurement.globalURL] = measurement;
+                [self.restClient loadSharableLinkForFile:measurement.globalURL shortUrl:YES];
+            }
+        }
+    }
+}
+
 - (void)retryDownloadOfMeasurement:(FGMeasurement *)measurement
 {
     if ([measurement state] != FGDownloadStateFailed) {
@@ -152,6 +169,7 @@
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata
 {
     FGMeasurement *measurementDownloaded = self.currentDownloads[destPath];
+    [measurementDownloaded setState:FGDownloadStateDownloaded];
     if (measurementDownloaded) {
         [self.currentDownloads removeObjectForKey:destPath];
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {

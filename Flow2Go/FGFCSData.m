@@ -148,27 +148,37 @@ typedef union Int2Float Int2Float;
     if (dataSegmentData.length < _noOfParams * _noOfEvents * sizeof(Float32)) {
         return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment.float" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Error data segment is smaller than required for the number of events and parameters."}];
     }
-    uint8_t bufferAllData[dataSegmentData.length];
-    [dataSegmentData getBytes:bufferAllData length:dataSegmentData.length];
     
     int indexOfOffset0 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 0 : 3;
     int indexOfOffset1 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 1 : 2;
     int indexOfOffset2 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 2 : 1;
     int indexOfOffset3 = (fcsFileByteOrder == CFByteOrderLittleEndian) ? 3 : 0;
-    
-    NSUInteger byteOffset = 0;
+
+    NSUInteger bytesPerEvent = _noOfParams * sizeof(Float32);
+    NSUInteger bytesToRead = _noOfEvents * bytesPerEvent;
+
+    NSUInteger totalBytesRead = 0;
+    NSUInteger eventIndex = 0;
     Int2Float int2Float;
-    for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++)
+
+    uint8_t bufferOneEvent[bytesPerEvent];
+    
+    while (totalBytesRead < bytesToRead)
     {
+        [dataSegmentData getBytes:bufferOneEvent range:NSMakeRange(totalBytesRead, bytesPerEvent)];
+        totalBytesRead += bytesPerEvent;
+        
+        NSUInteger byteOffset = 0;
         for (NSUInteger parIndex = 0; parIndex < _noOfParams; parIndex++)
         {
-            int2Float.b[indexOfOffset0] = bufferAllData[byteOffset + 0];
-            int2Float.b[indexOfOffset1] = bufferAllData[byteOffset + 1];
-            int2Float.b[indexOfOffset2] = bufferAllData[byteOffset + 2];
-            int2Float.b[indexOfOffset3] = bufferAllData[byteOffset + 3];
-            _events[eventNo][parIndex] = (double)int2Float.floatValue;
+            int2Float.b[indexOfOffset0] = bufferOneEvent[byteOffset + 0];
+            int2Float.b[indexOfOffset1] = bufferOneEvent[byteOffset + 1];
+            int2Float.b[indexOfOffset2] = bufferOneEvent[byteOffset + 2];
+            int2Float.b[indexOfOffset3] = bufferOneEvent[byteOffset + 3];
+            _events[eventIndex][parIndex] = (double)int2Float.floatValue;
             byteOffset += 4;
         }
+        eventIndex++;
     }
     return nil;
 }

@@ -73,6 +73,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [[FGDownloadManager sharedInstance] refreshDownloadStates];
     [[FGAnalysisManager sharedInstance] createRootPlotsForMeasurementsWithoutPlotsWithCompletion:nil];
 }
 
@@ -463,8 +464,6 @@
 
 - (void)_presentMeasurement:(FGMeasurement *)aMeasurement
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%d", aMeasurement.downloadState.integerValue] message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
     if ([aMeasurement state] != FGDownloadStateDownloaded) return;
     
     FGAnalysis *analysis = aMeasurement.analyses.lastObject;

@@ -89,7 +89,7 @@
 #pragma mark - CPT Plot Data Source
 - (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot
 {
-    return self.fcsFile.data.noOfEvents;
+    return self.plotData.numberOfPoints;
 }
 
 
@@ -97,11 +97,11 @@
 {
     switch (fieldEnum) {
         case CPTCoordinateX:
-            return self.plotData.points[index].xVal;
+            return _plotData.points[index].xVal;
             break;
             
         case CPTCoordinateY:
-            return self.plotData.points[index].yVal;
+            return _plotData.points[index].yVal;
             break;
             
         default:

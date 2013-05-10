@@ -12,7 +12,7 @@
 @implementation FGPlotDataCalculator
 
 #define BIN_COUNT 512
-#define HISTOGRAM_AVERAGING 9
+#define HISTOGRAM_AVERAGING 15
 
 + (FGPlotDataCalculator *)plotDataForFCSFile:(FGFCSFile *)fcsFile
                                  plotOptions:(NSDictionary *)plotOptions
@@ -100,12 +100,12 @@
     
     double maxIndex = (double)(BIN_COUNT - 1);
     
-    // For linear scales
     double xMin = fcsFile.data.ranges[xPar].minValue;
     double xMax = fcsFile.data.ranges[xPar].maxValue;
     double yMin = fcsFile.data.ranges[yPar].minValue;
     double yMax = fcsFile.data.ranges[yPar].maxValue;    
     
+    // For linear scales
     double xFCSRangeToBinRange = maxIndex / (xMax - xMin);
     double xBinRangeToFCSRange = 1.0 / xFCSRangeToBinRange;
     
@@ -162,12 +162,18 @@
                 break;
                 
             case kAxisTypeLogarithmic:
+//                if (plotPoint.yVal > yMax) {
+//                    NSLog(@"Row: %d, Index: %d, plotpoint(%f,%f)", row, index, plotPoint.xVal, plotPoint.yVal);
+//                }
                 row = (log10YMin - log10(plotPoint.yVal))/log10YFactor;
                 break;
                 
             default:
                 break;
         }
+//        if (col >= BIN_COUNT) col = BIN_COUNT - 1;
+//        if (row >= BIN_COUNT) row = BIN_COUNT - 1;
+        
         binValues[col][row] += 1;
     }
     
@@ -222,7 +228,7 @@
     for (NSUInteger i = 0; i < BIN_COUNT; i++) {
         free(binValues[i]);
     }
-    free(binValues);
+    if (binValues) free(binValues);
     return densityPlotData;
 }
 
@@ -253,18 +259,30 @@
     NSInteger parIndex = [plotOptions[XParNumber] integerValue] - 1;
     
     FGAxisType axisType = [plotOptions[XAxisType] integerValue];
-    double minValue = fcsFile.data.ranges[parIndex].minValue;
-    double maxValue = fcsFile.data.ranges[parIndex].maxValue;
-    NSUInteger colCount = (NSUInteger)(maxValue + 1.0);
     
-    double factor = pow(minValue/maxValue, 1.0/(maxValue + 1.0));
-    double log10Factor = log10(factor);
-    double log10MinValue = log10(minValue);
+    double maxIndex = (double)(BIN_COUNT - 1);
     
+    double xMin = fcsFile.data.ranges[parIndex].minValue;
+    double xMax = fcsFile.data.ranges[parIndex].maxValue;
+    
+    // For linear scales
+    double xFCSRangeToBinRange = maxIndex / (xMax - xMin);
+    double xBinRangeToFCSRange = 1.0 / xFCSRangeToBinRange;
+    
+    
+    // For logarithmic scales
+    double xFactor = pow(xMin/xMax, 1.0/maxIndex);
+    
+    double log10XFactor = log10(xFactor);
+    
+    double log10XMin = log10(xMin);
+    
+    
+    FGPlotPoint plotPoint;
     NSUInteger col = 0;
     
-    double dataPoint;
-    NSUInteger *histogramValues = calloc(colCount, sizeof(NSUInteger));
+    NSUInteger *binValues = calloc(BIN_COUNT, sizeof(NSUInteger));
+
     
     NSUInteger eventNo;
     for (NSUInteger index = 0; index < eventsInside; index++)
@@ -272,87 +290,64 @@
         eventNo = index;
         if (subset) eventNo = subset[index];
         
-        dataPoint = fcsFile.data.events[eventNo][parIndex];
+        plotPoint.xVal = fcsFile.data.events[eventNo][parIndex];
         
         switch (axisType)
         {
             case kAxisTypeLinear:
-                col = dataPoint;
+                col = (plotPoint.xVal - xMin) * xFCSRangeToBinRange;
                 break;
                 
             case kAxisTypeLogarithmic:
-                col = (log10MinValue - log10(dataPoint))/log10Factor;
+                col = (log10XMin - log10(plotPoint.xVal))/log10XFactor;
                 break;
                 
             default:
                 break;
         }
-        
-        histogramValues[col] += 1;
+        binValues[col] += 1;
     }
     
     FGPlotDataCalculator *histogramPlotData = [[FGPlotDataCalculator alloc] init];
-    histogramPlotData.numberOfPoints = colCount;
-    histogramPlotData.points = calloc(colCount, sizeof(FGDensityPoint));
+    histogramPlotData.numberOfPoints = BIN_COUNT;
+    histogramPlotData.points = calloc(BIN_COUNT, sizeof(FGDensityPoint));
     
-    // Prepare x-values
-    for (NSUInteger colNo = 0; colNo < colCount; colNo++)
+    NSInteger count = 0;
+    for (NSUInteger colNo = 0; colNo < BIN_COUNT; colNo++)
     {
+        count = binValues[colNo];
+        [histogramPlotData _checkForMaxCount:histogramPlotData.points[colNo].yVal];
+        
         switch (axisType)
         {
             case kAxisTypeLinear:
-                histogramPlotData.points[colNo].xVal = (double)colNo;
+                histogramPlotData.points[colNo].xVal = (double)colNo * xBinRangeToFCSRange + xMin;
                 break;
                 
             case kAxisTypeLogarithmic:
-                histogramPlotData.points[colNo].xVal = pow(10, log10MinValue - log10Factor*(double)colNo);
+                histogramPlotData.points[colNo].xVal = pow(10, log10XMin - log10XFactor * (double)colNo);
                 break;
                 
             default:
                 break;
         }
     }
-    
+
     // Prepare y-values
     double runningAverage = 0.0;
-    double divideBy = 1.0 + 2 * HISTOGRAM_AVERAGING;
     
-    for (NSUInteger i = 0; i < colCount; i++) {
-        
-        if (i >= HISTOGRAM_AVERAGING
-            && i < colCount - HISTOGRAM_AVERAGING) {
-            for (NSUInteger j = i - HISTOGRAM_AVERAGING; j < i + HISTOGRAM_AVERAGING; j++)
-            {
-                runningAverage += (double)histogramValues[j];
-            }
-            
-            histogramPlotData.points[i].yVal = runningAverage / divideBy;
+    for (NSUInteger col = 0; col < BIN_COUNT; col++) {
+        runningAverage += (double)binValues[col];
+
+        if (col >= HISTOGRAM_AVERAGING) {
+            runningAverage -= (double)binValues[col - HISTOGRAM_AVERAGING];
+            histogramPlotData.points[col].yVal = runningAverage / HISTOGRAM_AVERAGING;
+            [histogramPlotData _checkForMaxCount:(NSUInteger)histogramPlotData.points[col].yVal];
+        } else {
+            histogramPlotData.points[col].yVal = (double)binValues[col];;
         }
-        //        else if (i < HISTOGRAM_AVERAGING)
-        //        {
-        //            for (NSUInteger j = 0; j <= i; j++)
-        //            {
-        //                runningAverage += (double)histogramValues[j];
-        //            }
-        //
-        //            histogramPlotData.points[i].yVal = runningAverage / (double)(i+1);
-        //        }
-        //        else if (i >= maxIndex - HISTOGRAM_AVERAGING)
-        //        {
-        //            NSUInteger loops = 0;
-        //            for (NSUInteger j = i; j < maxIndex + 1; j++)
-        //            {
-        //                runningAverage += (double)histogramValues[j];
-        //                loops += 1;
-        //            }
-        //
-        //            histogramPlotData.points[i].yVal = runningAverage / (double)loops;
-        //        }
-        [histogramPlotData _checkForMaxCount:(NSUInteger)histogramPlotData.points[i].yVal];
-        runningAverage = 0.0;
     }
-    if (histogramValues) free(histogramValues);
-    
+    if (binValues) free(binValues);
     return histogramPlotData;
 }
 

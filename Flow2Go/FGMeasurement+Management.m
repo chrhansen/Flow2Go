@@ -21,7 +21,7 @@
         [self _addKeywordsWithDictionary:textKeyValuePairs];
         self.countOfEvents = [NSNumber numberWithInteger:[textKeyValuePairs[@"$TOT"] integerValue]];
     } else {
-        return [NSError errorWithDomain:@"com.flow2go.fcskeywords" code:44 userInfo:@{@"userInfo": @"Error: Can't parse Keywords, FCS file not downloaded"}];
+        return [NSError errorWithDomain:@"io.flow2go.fcskeywords" code:44 userInfo:@{NSLocalizedDescriptionKey : @"Error: Can't parse Keywords, FCS file not downloaded"}];
     }
     return nil;
 }

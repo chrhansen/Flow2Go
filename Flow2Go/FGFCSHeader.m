@@ -16,7 +16,7 @@
     NSString *headerString = [NSString.alloc initWithData:stringASCIIData encoding:NSASCIIStringEncoding];
     
     if (!headerString || headerString.length < HEADER_LENGTH) {
-        return [NSError errorWithDomain:@"io.flow2go.fcsparser.headersegment" code:-100 userInfo:@{@"userInfo": @"Error: length of header in FCS file not correct."}];
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.headersegment" code:-100 userInfo:@{NSLocalizedDescriptionKey : @"Error: length of header in FCS file not correct."}];
     }
     self.textBegin     = [[headerString substringWithRange:NSMakeRange(10, 8)] integerValue];
     self.textEnd       = [[headerString substringWithRange:NSMakeRange(18, 8)] integerValue];

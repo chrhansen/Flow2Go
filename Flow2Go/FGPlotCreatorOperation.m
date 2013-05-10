@@ -42,9 +42,9 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSError *error;
             if (!self.fcsFile) {
-                error = [NSError errorWithDomain:@"it.calcul8.flow2go.plotcreateoperation" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error: No FCS File to create plot from"}];
+                error = [NSError errorWithDomain:@"io.flow2go.plotcreateoperation" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error: No FCS File to create plot from"}];
             } else if (!self.plotOptions) {
-                error = [NSError errorWithDomain:@"it.calcul8.flow2go.plotcreateoperation" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error: No Plot settings to create plot from"}];
+                error = [NSError errorWithDomain:@"io.flow2go.plotcreateoperation" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error: No Plot settings to create plot from"}];
             }
             self.finishedPlottingCompletionBlock(error, nil, nil);
         }];

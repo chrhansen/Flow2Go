@@ -21,31 +21,41 @@
     NSString *analysisString = [[NSString alloc] initWithBytes:buffer length:sizeof(buffer) encoding:NSASCIIStringEncoding];
     
     if (!analysisString) {
-        return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{@"userInfo": @"Error: analysis could not be read in FCS file"}];
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{NSLocalizedDescriptionKey: @"Error: analysis could not be read in FCS file"}];
     }
     
     if (!seperatorCharacterset) {
-        return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{@"userInfo": @"Error: separator not set in analysis segment."}];
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{NSLocalizedDescriptionKey: @"Error: separator not set in analysis segment."}];
     }
     
-    NSArray *textSeparated = [[analysisString substringFromIndex:1] componentsSeparatedByCharactersInSet:seperatorCharacterset];
+    NSError *error;
     
-    NSMutableDictionary *analysisKeyValuePairs = [NSMutableDictionary dictionary];
-    
-    for (int i = 0; i < textSeparated.count; i += 2)
-    {
-        if (i + 1 < textSeparated.count)
+    @try {
+        NSArray *textSeparated = [[analysisString substringFromIndex:1] componentsSeparatedByCharactersInSet:seperatorCharacterset];
+        
+        NSMutableDictionary *analysisKeyValuePairs = [NSMutableDictionary dictionary];
+        
+        for (int i = 0; i < textSeparated.count; i += 2)
         {
-            analysisKeyValuePairs[[textSeparated[i] uppercaseString]] = textSeparated[i+1];
+            if (i + 1 < textSeparated.count)
+            {
+                analysisKeyValuePairs[[textSeparated[i] uppercaseString]] = textSeparated[i+1];
+            }
         }
+        
+        if (analysisKeyValuePairs.count > 0)
+        {
+            self.analysisKeywords = [NSDictionary dictionaryWithDictionary:analysisKeyValuePairs];
+        }
+        error = [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{NSLocalizedDescriptionKey: @"Error: no keywords could be read in the analysis segment."}];
     }
-    
-    if (analysisKeyValuePairs.count > 0)
-    {
-        self.analysisKeywords = [NSDictionary dictionaryWithDictionary:analysisKeyValuePairs];
-        return nil;
+    @catch (NSException *exception) {
+        error = [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{NSLocalizedDescriptionKey: exception.reason}];
     }
-    return [NSError errorWithDomain:@"io.flow2go.fcsparser.analysissegment" code:-100 userInfo:@{@"userInfo": @"Error: no keywords could be read in the analysis segment."}];
+    @finally {
+        // Nothing
+    }
+    return error;
 }
 
 @end

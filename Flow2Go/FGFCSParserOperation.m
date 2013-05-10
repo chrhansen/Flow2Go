@@ -40,7 +40,7 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSError *error;
             if (!self.path) {
-                error = [NSError errorWithDomain:@"it.calcul8.flow2go.fcsparseroperation" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error: No file path to parse FCS file from"}];
+                error = [NSError errorWithDomain:@"io.flow2go.fcsparseroperation" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error: No file path to parse FCS file from"}];
             } 
             self.finishedParsingCompletionBlock(error, nil);
         }];

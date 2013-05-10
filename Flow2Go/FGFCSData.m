@@ -28,7 +28,7 @@
     
     if (_noOfEvents == 0 || noOfParams == 0)
     {
-        return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment" code:-100 userInfo:@{@"userInfo": @"Error: parameter or event count is zero in FCS file"}];
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.datasegment" code:-100 userInfo:@{NSLocalizedDescriptionKey: @"Error: parameter or event count is zero in FCS file"}];
     }
     
     [self allocateDataArrayWithType:keywords[@"$DATATYPE"]];
@@ -413,7 +413,7 @@ typedef union Int2Double Int2Double;
     spillOverMatrixInv = [FGMatrixInversion getInverseMatrix:spillOverMatrix order:n success:&inversionSuccess];
     if (!inversionSuccess) {
         NSLog(@"Spill over matrix could not be inverted");
-        return error = [NSError errorWithDomain:FCSFile_Error_Domain code:-1 userInfo:@{@"error": NSLocalizedString(@"Spill over matrix is not inversible.", nil)}];
+        return error = [NSError errorWithDomain:FCSFile_Error_Domain code:-1 userInfo:@{NSLocalizedDescriptionKey : NSLocalizedString(@"Spill over matrix is not inversible.", nil)}];
     }
     NSUInteger compensationParIndexes[n];
     for (NSUInteger i = 1; i < 1 + n; i++) {

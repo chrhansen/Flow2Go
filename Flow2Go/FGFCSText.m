@@ -15,7 +15,7 @@
     NSString *textString = [[NSString alloc] initWithData:textASCIIData encoding:NSASCIIStringEncoding];
     
     if (!textString || textString.length == 0){
-        return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{@"userInfo": @"Error: text segment in FCS file could not be read."}];
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{NSLocalizedDescriptionKey: @"Error: text segment in FCS file could not be read."}];
     }
     
     self.seperatorCharacterset = [NSCharacterSet characterSetWithCharactersInString:[textString substringToIndex:1]];
@@ -38,7 +38,7 @@
     }
     else
     {
-        return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{@"userInfo": @"Error: no keywords could be read from FCS file."}];
+        return [NSError errorWithDomain:@"io.flow2go.fcsparser.textsegment" code:-100 userInfo:@{NSLocalizedDescriptionKey: @"Error: no keywords could be read from FCS file."}];
     }
 }
 

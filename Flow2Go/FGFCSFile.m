@@ -53,8 +53,8 @@
 + (NSError *)checkFilePath:(NSString *)path
 {
     NSError *error;
-    if (!path) error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{@"userInfo": @"Error: Path for FCS file is nil."}];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{@"userInfo": @"Error: no file at specified path."}];
+    if (!path) error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{NSLocalizedDescriptionKey : @"Error: Path for FCS file is nil."}];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) error = [NSError errorWithDomain:@"io.flow2go.fcsparser" code:-100 userInfo:@{NSLocalizedDescriptionKey: @"Error: no file at specified path."}];
     return error;
 }
 

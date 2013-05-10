@@ -20,6 +20,5 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIImageView *checkMarkImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *thumbImageView;
-@property (weak, nonatomic) IBOutlet UIButton *reloadButton;
 
 @end

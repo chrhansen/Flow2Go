@@ -43,8 +43,8 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    _objectChanges = [NSMutableArray array];
-    _sectionChanges = [NSMutableArray array];
+    self.sectionChanges = [NSMutableArray array];
+    self.objectChanges = [NSMutableArray array];
 }
 
 - (void)viewDidLoad
@@ -142,8 +142,6 @@
 - (void)_configureBarButtonItemsForEditing:(BOOL)editing
 {
     if (editing) {
-//        UIBarButtonItem *uploadButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0108"] style:UIBarButtonItemStylePlain target:self action:@selector(exportToCloudTapped:)];
-//        uploadButton.enabled = NO;
         UIBarButtonItem *deleteItem = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0210"] style:UIBarButtonItemStylePlain target:self action:@selector(deleteTapped:)];
         deleteItem.enabled = NO;
         [self.navigationItem setLeftBarButtonItems:@[deleteItem] animated:YES]; //uploadButton removed 
@@ -323,17 +321,25 @@
 {    
     FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     FGMeasurementCell *measurementCell = (FGMeasurementCell *)cell;
-    [measurementCell setState:[measurement state] isEditing:self.isEditing];
-    
+    FGDownloadState downloadState = [measurement state];
+    [measurementCell setState:downloadState isEditing:self.isEditing];
     measurementCell.fileNameLabel.text = [measurement.filename fitToLength:FILENAME_CHARACTER_COUNT];
-    measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
-    measurementCell.thumbImageView.image = measurement.thumbImage;
-    [measurementCell.reloadButton addTarget:self action:@selector(reloadButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    measurementCell.eventCountLabel.text = measurement.countOfEvents.stringValue;
-    measurementCell.infoButton.hidden = self.isEditing;
-    [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     if (!self.isEditing) measurementCell.checkMarkImageView.hidden = YES;
     measurementCell.checkMarkImageView.hidden = ![self.editItems containsObject:measurement];
+    measurementCell.infoButton.hidden = self.isEditing;
+
+    switch (downloadState) {
+        case FGDownloadStateDownloaded:
+            measurementCell.dateLabel.text = [measurement.downloadDate readableDate];
+            measurementCell.thumbImageView.image = measurement.thumbImage;
+            measurementCell.eventCountLabel.text = measurement.countOfEvents.stringValue;
+            [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            break;
+            
+        default:
+            
+            break;
+    }
 }
 
 #pragma - Info Popover
@@ -446,15 +452,19 @@
 #pragma mark - UICollectionView delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    id object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    if ([measurement state] == FGDownloadStateFailed) {
+        [[FGDownloadManager sharedInstance] retryFailedDownload:measurement];
+        return;
+    }
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
     switch (self.isEditing) {
         case NO:
-            [self _presentMeasurement:(FGMeasurement *)object];
+            [self _presentMeasurement:measurement];
             break;
 
         case YES:
-            [self _togglePresenceInEditItems:object];
+            [self _togglePresenceInEditItems:measurement];
             [self _updateCheckmarkVisibilityForCell:cell atIndexPath:indexPath];
             [self _toggleBarButtonStateOnChangedEditItems];
             break;
@@ -564,7 +574,7 @@
 #pragma mark - NSManagedContext
 - (void)handleDidSaveNotification:(NSNotification *)notification
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    //NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 
@@ -610,7 +620,18 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [self _performOutstandingCollectionViewUpdates];
+    @try {
+        [self _performOutstandingCollectionViewUpdates];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception (_performOutstandingCollectionViewUpdates): %@", exception.reason);
+        [self.sectionChanges removeAllObjects];
+        [self.objectChanges removeAllObjects];
+        [self.collectionView reloadData];
+    }
+    @finally {
+        // Nothing
+    }
 }
 
 
@@ -677,9 +698,8 @@
             } completion:nil];
         }
     }
-    
-    [_sectionChanges removeAllObjects];
-    [_objectChanges removeAllObjects];
+    [self.sectionChanges removeAllObjects];
+    [self.objectChanges removeAllObjects];
 }
 
 

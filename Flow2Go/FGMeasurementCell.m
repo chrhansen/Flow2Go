@@ -39,15 +39,15 @@
 {
     switch (downloadState) {
         case FGDownloadStateDownloaded:
-            self.reloadButton.hidden = YES;
             self.dateLabel.hidden = NO;
             self.infoButton.enabled = YES;
             self.progressView.hidden = YES;
             self.eventCountLabel.hidden = NO;
+            [self.thumbImageView setContentMode:UIViewContentModeScaleAspectFill];
             break;
             
         case FGDownloadStateDownloading:
-            self.reloadButton.hidden = YES;
+            self.thumbImageView.image = nil;
             self.dateLabel.hidden = YES;
             self.infoButton.enabled = NO;
             self.progressView.hidden = NO;
@@ -55,8 +55,9 @@
             break;
             
         case FGDownloadStateWaiting:
-            self.reloadButton.hidden = YES;
-            self.dateLabel.hidden = YES;
+            self.thumbImageView.image = nil;
+            self.dateLabel.text = NSLocalizedString(@"Waiting to download", nil);
+            self.dateLabel.hidden = NO;
             self.infoButton.enabled = NO;
             self.progressView.hidden = NO;
             self.eventCountLabel.hidden = YES;
@@ -64,11 +65,13 @@
 
         case FGDownloadStateFailed:
         case FGDownloadStateUnknown:
-            self.reloadButton.hidden = editing ? YES : NO;
-            self.dateLabel.hidden = YES;
+            self.dateLabel.text = NSLocalizedString(@"Failed download", nil);
+            self.dateLabel.hidden = NO;
             self.infoButton.enabled = NO;
             self.progressView.hidden = YES;
             self.eventCountLabel.hidden = YES;
+            [self.thumbImageView setContentMode:UIViewContentModeCenter];
+            self.thumbImageView.image = [UIImage imageNamed:@"0259"];
             break;
             
         default:

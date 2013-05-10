@@ -833,6 +833,9 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8dN-1p-yba">
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="86" id="Cxx-Rr-3Q1"/>
+                                            </constraints>
                                         </imageView>
                                         <imageView hidden="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" image="39-circle-check.png" translatesAutoresizingMaskIntoConstraints="NO" id="ykc-iz-eAo">
                                             <constraints>
@@ -891,43 +894,26 @@
                                                 <constraint firstAttribute="width" constant="195" id="pHd-fb-vrG"/>
                                             </constraints>
                                         </progressView>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLx-h3-ID7">
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="73" id="oYd-Ft-7RA"/>
-                                                <constraint firstAttribute="height" constant="43" id="pkR-1Y-vWy"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                            <state key="normal" image="0259.png">
-                                                <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
                                     <constraint firstItem="Kdw-he-u3c" firstAttribute="leading" secondItem="TjF-ix-N3g" secondAttribute="leading" type="default" id="2cy-st-gwg"/>
-                                    <constraint firstItem="lLx-h3-ID7" firstAttribute="centerY" secondItem="Kdw-he-u3c" secondAttribute="centerY" type="default" id="3o3-CC-1wG"/>
                                     <constraint firstAttribute="bottom" secondItem="shv-RS-Y20" secondAttribute="bottom" constant="10" id="AdE-LQ-FO2"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="centerX" secondItem="TjF-ix-N3g" secondAttribute="centerX" type="default" id="BKf-xW-ZIi"/>
                                     <constraint firstItem="8dN-1p-yba" firstAttribute="leading" secondItem="geG-Em-saE" secondAttribute="leading" type="user" id="CVz-l2-Fc3"/>
                                     <constraint firstItem="ykc-iz-eAo" firstAttribute="centerY" secondItem="Cnh-Pa-DpH" secondAttribute="centerY" type="default" id="KFv-AG-tdr"/>
                                     <constraint firstItem="3NS-TA-vzc" firstAttribute="trailing" secondItem="ykc-iz-eAo" secondAttribute="trailing" type="default" id="KRa-AN-E3x"/>
-                                    <constraint firstItem="8dN-1p-yba" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" type="default" id="KpO-se-I4d"/>
                                     <constraint firstAttribute="bottom" secondItem="TjF-ix-N3g" secondAttribute="bottom" constant="44" id="OXS-nr-5cn"/>
-                                    <constraint firstItem="Kdw-he-u3c" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" constant="6" id="RJV-hE-YLU"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" type="default" id="RGq-3R-31E"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="centerX" secondItem="geG-Em-saE" secondAttribute="centerX" type="default" id="SMS-SS-XOx"/>
                                     <constraint firstItem="AuM-Qp-u0N" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" constant="42" id="Ui5-HV-MIC"/>
+                                    <constraint firstItem="8dN-1p-yba" firstAttribute="centerY" secondItem="Kdw-he-u3c" secondAttribute="centerY" type="default" id="V9m-al-g2X"/>
                                     <constraint firstItem="Cnh-Pa-DpH" firstAttribute="top" secondItem="geG-Em-saE" secondAttribute="top" constant="8" type="user" id="VS8-Iw-W2p"/>
                                     <constraint firstItem="shv-RS-Y20" firstAttribute="top" secondItem="3NS-TA-vzc" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Y5Y-iA-9tG"/>
                                     <constraint firstItem="ykc-iz-eAo" firstAttribute="centerX" secondItem="Cnh-Pa-DpH" secondAttribute="centerX" type="default" id="c0A-3T-Dll"/>
                                     <constraint firstItem="shv-RS-Y20" firstAttribute="centerX" secondItem="TjF-ix-N3g" secondAttribute="centerX" type="default" id="cTp-5w-1wb"/>
-                                    <constraint firstItem="lLx-h3-ID7" firstAttribute="centerX" secondItem="8dN-1p-yba" secondAttribute="centerX" type="default" id="dE9-pc-qGu"/>
                                     <constraint firstItem="AuM-Qp-u0N" firstAttribute="trailing" secondItem="TjF-ix-N3g" secondAttribute="trailing" type="default" id="hgO-O0-Bs2"/>
-                                    <constraint firstItem="lLx-h3-ID7" firstAttribute="centerY" secondItem="8dN-1p-yba" secondAttribute="centerY" type="default" id="p1q-j0-aU2"/>
-                                    <constraint firstItem="lLx-h3-ID7" firstAttribute="centerX" secondItem="TjF-ix-N3g" secondAttribute="centerX" type="default" id="qah-Iy-fnz"/>
-                                    <constraint firstItem="lLx-h3-ID7" firstAttribute="centerX" secondItem="geG-Em-saE" secondAttribute="centerX" type="default" id="uZT-Tj-t9a"/>
                                     <constraint firstItem="AuM-Qp-u0N" firstAttribute="trailing" secondItem="Cnh-Pa-DpH" secondAttribute="trailing" type="default" id="zND-Gx-MaW"/>
                                 </constraints>
                                 <connections>
@@ -938,7 +924,6 @@
                                     <outlet property="infoButton" destination="Cnh-Pa-DpH" id="Hcu-bl-ZAq"/>
                                     <outlet property="measurementImageView" destination="8dN-1p-yba" id="XhD-FD-RKG"/>
                                     <outlet property="progressView" destination="TjF-ix-N3g" id="jXg-sB-S8B"/>
-                                    <outlet property="reloadButton" destination="lLx-h3-ID7" id="lZh-Cf-yuE"/>
                                     <outlet property="thumbImageView" destination="Kdw-he-u3c" id="DfD-Bt-7dG"/>
                                 </connections>
                             </collectionViewCell>
@@ -1399,7 +1384,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="0259.png" width="35" height="35"/>
         <image name="39-circle-check.png" width="28" height="28"/>
         <image name="gate-oval.png" width="25" height="25"/>
         <image name="gate-poly.png" width="25" height="25"/>
@@ -1408,149 +1392,6 @@
         <image name="gate-range-3.png" width="25" height="25"/>
         <image name="gate-rect.png" width="25" height="25"/>
     </resources>
-    <classes>
-        <class className="CPTGraphHostingView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CPTGraphHostingView.h"/>
-        </class>
-        <class className="FGAddGateButtonsView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAddGateButtonsView.h"/>
-            <relationships>
-                <relationship kind="action" name="addGateButtonTapped:" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="ovalGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="polyGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="quadrantGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="rectGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="singleRangeGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="tripleRangeGateButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="FGAnalysisViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGAnalysisViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="applyToAllTapped:"/>
-            </relationships>
-        </class>
-        <class className="FGDropboxCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="folderFileImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="folderFileName" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGDropboxViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGDropboxViewController.h"/>
-        </class>
-        <class className="FGFolderPickerTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGFolderPickerTableViewController.h"/>
-        </class>
-        <class className="FGGateTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGateTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="createNewPlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="deleteGateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="gateCount" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="gateName" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FGGatesContainerView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGGatesContainerView.h"/>
-        </class>
-        <class className="FGKeywordTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGKeywordTableViewController.h"/>
-        </class>
-        <class className="FGMeasurementCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="checkMarkImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="eventCountLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="fileNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="measurementImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="progressView" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="reloadButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="thumbImageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="FGMeasurementCollectionViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementCollectionViewController.h"/>
-        </class>
-        <class className="FGMeasurementGridLayout" superclassName="UICollectionViewFlowLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementGridLayout.h"/>
-        </class>
-        <class className="FGMeasurementHeaderView" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGMeasurementHeaderView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGPlotCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="countLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="infoButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="populationLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGPlotDetailTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotDetailTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="deletePlotButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="parentGateName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotCount" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="plotNameTextField" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="FGPlotViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGPlotViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="addGateButtonsView" candidateClass="FGAddGateButtonsView"/>
-                <relationship kind="outlet" name="gateCalculationSpinner" candidateClass="UIActivityIndicatorView"/>
-                <relationship kind="outlet" name="gatesContainerView" candidateClass="FGGatesContainerView"/>
-                <relationship kind="outlet" name="graphHostingView" candidateClass="CPTGraphHostingView"/>
-                <relationship kind="outlet" name="plotTypeSegmentedControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="xAxisButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="yAxisButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="FGStoreCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="buyButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="mainImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="smallImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FGStoreViewController" superclassName="UICollectionViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FGStoreViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="restoreButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="MSNavigationPaneViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MSNavigationPaneViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

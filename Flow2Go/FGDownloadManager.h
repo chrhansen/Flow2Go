@@ -34,7 +34,7 @@
 - (void)downloadFiles:(NSArray *)files toFolder:(FGFolder *)folder;
 - (void)downloadFile:(DBMetadata *)fileMetadata toFolder:(FGFolder *)folder;
 - (void)refreshDownloadStates;
-- (void)retryDownloadOfMeasurement:(FGMeasurement *)measurement;
+- (void)retryFailedDownload:(FGMeasurement *)measurement;
 
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<FGDownloadManagerDelegate> delegate;

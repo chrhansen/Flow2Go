@@ -122,7 +122,7 @@
     }
 }
 
-- (void)retryDownloadOfMeasurement:(FGMeasurement *)measurement
+- (void)retryFailedDownload:(FGMeasurement *)measurement
 {
     if ([measurement state] != FGDownloadStateFailed) {
         return; //File is already downloaded, waiting, or currently loading (or object is nil)
@@ -173,7 +173,8 @@
     if (measurementDownloaded) {
         [self.currentDownloads removeObjectForKey:destPath];
         [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-            NSString *newRelativePath = [self moveToDocumentsAndAvoidBackup:destPath];
+            NSString *newRelativePath = [self moveToDocuments:destPath];
+            [self addSkipBackupAttributeToItemAtFilePath:[HOME_DIR stringByAppendingPathComponent:newRelativePath]];
             NSDictionary *objectDetails = @{@"metadata" : metadata,
                                             @"filePath" : newRelativePath,
                                             @"downloadDate": [NSDate date]};
@@ -189,6 +190,9 @@
             [NSNotificationCenter.defaultCenter postNotificationName:DropboxFileDownloadedNotification object:nil userInfo:@{@"metadata" : metadata}];
             if ([self.progressDelegate respondsToSelector:@selector(downloadManager:finishedDownloadingMeasurement:)]) {
                 [self.progressDelegate downloadManager:self finishedDownloadingMeasurement:measurementDownloaded];
+            }
+            if (error) {
+                NSLog(@"Error saving downloaded measurement: %@", error.localizedDescription);
             }
         }];
     }
@@ -246,7 +250,7 @@
 
 #pragma mark - Local file operations
 
-- (NSString *)moveToDocumentsAndAvoidBackup:(NSString *)filePath
+- (NSString *)moveToDocuments:(NSString *)filePath
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error;
@@ -255,12 +259,7 @@
         NSArray *components = filePath.pathComponents;
         if (components.count > 1) relativePath = [@"Documents" stringByAppendingPathComponent:components[components.count - 2]];
         NSString *enclosingDirectory = filePath.stringByDeletingLastPathComponent;
-        
-        if ([fileManager moveItemAtPath:enclosingDirectory toPath:[HOME_DIR stringByAppendingPathComponent:relativePath] error:&error]) {
-            [self addSkipBackupAttributeToItemAtFilePath:[HOME_DIR stringByAppendingPathComponent:relativePath]];
-        } else {
-            NSLog(@"Error moving file to doc-dir: %@, error %@", filePath, error);
-        }
+        [fileManager moveItemAtPath:enclosingDirectory toPath:[HOME_DIR stringByAppendingPathComponent:relativePath] error:&error];
     }
     return [relativePath stringByAppendingPathComponent:filePath.lastPathComponent];
 }

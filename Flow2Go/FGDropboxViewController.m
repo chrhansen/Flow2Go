@@ -178,7 +178,8 @@
 {
     [self _showSpinner:NO];
     [self.refreshControl endRefreshing];
-    //TODO: alert user
+    NSString *errorMessage = NSLocalizedString(@"Could not connect to Dropbox, is the internet working?", nil);
+    [FGHUDMessage showHUDMessage:errorMessage inView:self.view];
 }
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager didLoadThumbnail:(DBMetadata *)metadata

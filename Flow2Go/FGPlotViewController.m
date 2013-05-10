@@ -25,7 +25,7 @@
 #import "FGGateCalculationOperation.h"
 #import "FGPlotDataOperation.h"
 
-@interface FGPlotViewController () <FGGateButtonsViewDelegate, GateTableViewControllerDelegate, FGGateCalculationOperationDelegate, FGPlotDataOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
+@interface FGPlotViewController () <FGGateButtonsViewDelegate, GateTableViewControllerDelegate, FGPlotDataOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
 
 @property (nonatomic) NSInteger xParIndex;
 @property (nonatomic) NSInteger yParIndex;
@@ -533,7 +533,6 @@ static CPTPlotSymbol *plotSymbol;
         [self.HUD hide:YES];
         return;
     }
-    
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.graph.defaultPlotSpace;
     [[FGPendingOperations sharedInstance] cancelOperationsForGateWithTag:gateNo];
     NSArray *gateVertices = [self gateVerticesFromViewVertices:updatedVertices inView:gatesContainerView plotSpace:plotSpace];
@@ -544,14 +543,19 @@ static CPTPlotSymbol *plotSymbol;
                                                                                              fcsFile:self.fcsFile
                                                                                         parentSubSet:self.parentGateCalculator.eventsInside
                                                                                    parentSubSetCount:self.parentGateCalculator.countOfEventsInside];
-    gateOperation.delegate = self;
     gateOperation.gateTag = gateNo;
-    [gateOperation setCompletionBlock:^{
+    __weak FGPlotViewController *weakSelf = self;
+    MBProgressHUD *progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+    [gateOperation setCompletionBlock:^(NSError *error, NSData *subset, NSUInteger subsetCount) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.gateCalculationSpinner stopAnimating];
+            if (error) [FGHUDMessage showHUDMessage:error.localizedDescription inView:weakSelf.view];
+            modifiedGate.countOfEvents = [NSNumber numberWithUnsignedInteger:subsetCount];
+            NSError *saveError;
+            [modifiedGate.managedObjectContext save:&saveError];
+            if (saveError) [FGHUDMessage showHUDMessage:saveError.localizedDescription inView:weakSelf.view];
+            [progressHUD hide:YES];
         }];
     }];
-    [self.gateCalculationSpinner startAnimating];
     [[FGPendingOperations sharedInstance].gateCalculationQueue addOperation:gateOperation];
 }
 
@@ -566,19 +570,6 @@ static CPTPlotSymbol *plotSymbol;
 {
     FGGate *tappedGate = self.displayedGates[gateNo];
     [self.delegate plotViewController:self didRequestNewPlotWithPopulationInGate:tappedGate];
-}
-
-
-#pragma mark - GateCalculationOperation Delegate
-- (void)gateCalculationOperationDidFinish:(FGGateCalculationOperation *)operation
-{
-    // TODO: Make proper fix, so delegate from another controller/calculation is not reported here (e.g. replace delegate with completion block)
-
-    FGGate *modifiedGate = self.displayedGates[operation.gateTag];
-    modifiedGate.countOfEvents = [NSNumber numberWithUnsignedInteger:operation.subSetCount];
-    NSError *error;
-    [self.plot.managedObjectContext save:&error];
-    if (error) NSLog(@"Error updating gate: %@", error.localizedDescription);
 }
 
 

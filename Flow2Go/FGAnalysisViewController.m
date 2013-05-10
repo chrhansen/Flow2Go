@@ -53,8 +53,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    // avoid loading graph when user is panning
     
+    // avoid loading graph when user is panning
     [self performSelector:@selector(prepareGraph) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
     [self performSelector:@selector(preparePlotViewController) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
 }
@@ -170,7 +170,7 @@
 - (MBProgressHUD *)progressHUD
 {
     if (_progressHUD == nil) {
-        _progressHUD = [MBProgressHUD.alloc initWithView:self.view];
+        _progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
         _progressHUD.labelText = NSLocalizedString(@"Reading FCS file", nil);
         _progressHUD.detailsLabelFont = _progressHUD.labelFont;
         [_progressHUD setMultipleTouchEnabled:YES];

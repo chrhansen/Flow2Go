@@ -749,37 +749,44 @@
 		E52BECB815DE861D002A3819 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				E512FAF017129AC3003EE9E0 /* FGHUDMessage.h */,
-				E512FAF117129AC3003EE9E0 /* FGHUDMessage.m */,
 				E5F835301701D93E0018E2A8 /* FGPendingOperations.h */,
 				E5F835311701D93E0018E2A8 /* FGPendingOperations.m */,
 				E52D4F0A173C67D30021C95C /* FGPlotCreatorOperation.h */,
 				E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */,
 				E520B8D9170A48AB00A892B3 /* FGPlotDataOperation.h */,
 				E520B8DA170A48AB00A892B3 /* FGPlotDataOperation.m */,
-				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
-				E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */,
 				E5F8352C1701C6800018E2A8 /* FGGateCalculationOperation.h */,
 				E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */,
-				E579564715DAFE6800B77795 /* FGGateCalculator.h */,
-				E579564815DAFE6800B77795 /* FGGateCalculator.m */,
-				E54924021709DB1F00A0F75F /* FGGraph.h */,
-				E54924031709DB1F00A0F75F /* FGGraph.m */,
-				E56FC11E170356F1004019DF /* FGPlotCreator.h */,
-				E56FC11F170356F1004019DF /* FGPlotCreator.m */,
 				E54923F0170362E800A0F75F /* FGAnalysisManager.h */,
 				E54923F1170362E900A0F75F /* FGAnalysisManager.m */,
-				E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */,
-				E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */,
 				E52BECB515DE63E9002A3819 /* FGGraphPoint.h */,
 				E52BECB615DE63E9002A3819 /* FGGraphPoint.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		E52D4F15173DB13A0021C95C /* Data Calculation */ = {
+			isa = PBXGroup;
+			children = (
+				E56FC11E170356F1004019DF /* FGPlotCreator.h */,
+				E56FC11F170356F1004019DF /* FGPlotCreator.m */,
+				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
+				E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */,
+				E579564715DAFE6800B77795 /* FGGateCalculator.h */,
+				E579564815DAFE6800B77795 /* FGGateCalculator.m */,
+				E5203E4D15F9EAAD00169EC7 /* FGPlotHelper.h */,
+				E5203E4E15F9EAAD00169EC7 /* FGPlotHelper.m */,
+			);
+			name = "Data Calculation";
+			sourceTree = "<group>";
+		};
 		E53FA67015CB3E6F000B048C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E54924021709DB1F00A0F75F /* FGGraph.h */,
+				E54924031709DB1F00A0F75F /* FGGraph.m */,
+				E512FAF017129AC3003EE9E0 /* FGHUDMessage.h */,
+				E512FAF117129AC3003EE9E0 /* FGHUDMessage.m */,
 				E5F8354C1702217E0018E2A8 /* FGAddGateButtonsView.h */,
 				E5F8354D1702217E0018E2A8 /* FGAddGateButtonsView.m */,
 				E59C498416C4917D00B5E0D5 /* FGStyleController.h */,
@@ -1330,6 +1337,7 @@
 		E5FC6FFD15CA87B20047A3DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E52D4F15173DB13A0021C95C /* Data Calculation */,
 				E585572016C160B200BF4546 /* CoreData managed subclasses */,
 				E504278C16C1AB2C00692AD7 /* FGMeasurement+Management.h */,
 				E504278D16C1AB2C00692AD7 /* FGMeasurement+Management.m */,

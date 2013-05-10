@@ -11,6 +11,15 @@
 #import "FGPlot+Management.h"
 #import "FGGate+Management.h"
 
+@interface FGGateCalculationOperation ()
+
+@property (nonatomic, copy) void (^gateCompletionBlock)(NSError *error, NSData *subset, NSUInteger subsetCount);
+@property (nonatomic) NSUInteger *parentSubSet;
+@property (nonatomic) NSUInteger parentSubSetCount;
+@property (nonatomic, strong) NSArray *gateDatas;
+
+@end
+
 @implementation FGGateCalculationOperation
 
 - (id)initWithGateData:(NSDictionary *)gateData
@@ -38,6 +47,12 @@
 }
 
 
+- (void)setCompletionBlock:(void (^)(NSError *error, NSData *subset, NSUInteger subsetCount))completion
+{
+    _gateCompletionBlock = completion;
+}
+
+
 - (void)main
 {
     if (self.isCancelled) {
@@ -46,6 +61,11 @@
 
     @autoreleasepool {
         
+        if (self.isCancelled) {
+            return;
+        }
+        
+        NSError *error;
         FGGateCalculator *gateCalculator;
         
         if (self.gateDatas) {
@@ -64,14 +84,15 @@
             return;
         }
         
-        self.subSet = [NSData dataWithBytes:(NSUInteger *)gateCalculator.eventsInside length:sizeof(NSUInteger)*gateCalculator.countOfEventsInside];
-        self.subSetCount = gateCalculator.countOfEventsInside;
+        NSData *subset = [NSData dataWithBytes:(NSUInteger *)gateCalculator.eventsInside length:sizeof(NSUInteger)*gateCalculator.countOfEventsInside];
+        NSUInteger *subsetCount = gateCalculator.countOfEventsInside;
         
         if (self.isCancelled) {
             return;
         }
         
-        [(NSObject *)self.delegate performSelector:@selector(gateCalculationOperationDidFinish:) onThread:[NSThread mainThread] withObject:self waitUntilDone:NO];
+        self.gateCompletionBlock(error, subset, subsetCount);
+        return;
     }
 }
 

@@ -291,10 +291,11 @@
         histogramValues[col] += 1;
     }
     
-    FGPlotDataCalculator *histogramPlotData = FGPlotDataCalculator.alloc.init;
+    FGPlotDataCalculator *histogramPlotData = [[FGPlotDataCalculator alloc] init];
     histogramPlotData.numberOfPoints = colCount;
     histogramPlotData.points = calloc(colCount, sizeof(FGDensityPoint));
     
+    // Prepare x-values
     for (NSUInteger colNo = 0; colNo < colCount; colNo++)
     {
         switch (axisType)
@@ -312,14 +313,14 @@
         }
     }
     
+    // Prepare y-values
     double runningAverage = 0.0;
     double divideBy = 1.0 + 2 * HISTOGRAM_AVERAGING;
     
-    for (NSUInteger i = 0; i < colCount; i++)
-    {
+    for (NSUInteger i = 0; i < colCount; i++) {
+        
         if (i >= HISTOGRAM_AVERAGING
-            && i < colCount - HISTOGRAM_AVERAGING)
-        {
+            && i < colCount - HISTOGRAM_AVERAGING) {
             for (NSUInteger j = i - HISTOGRAM_AVERAGING; j < i + HISTOGRAM_AVERAGING; j++)
             {
                 runningAverage += (double)histogramValues[j];
@@ -350,7 +351,7 @@
         [histogramPlotData _checkForMaxCount:(NSUInteger)histogramPlotData.points[i].yVal];
         runningAverage = 0.0;
     }
-    free(histogramValues);
+    if (histogramValues) free(histogramValues);
     
     return histogramPlotData;
 }

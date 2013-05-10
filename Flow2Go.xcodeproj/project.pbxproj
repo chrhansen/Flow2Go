@@ -51,6 +51,7 @@
 		E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
 		E52D4F0C173C67D40021C95C /* FGPlotCreatorOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */; };
+		E52D4F14173C8DDF0021C95C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E52D4F13173C8DDF0021C95C /* Crashlytics.framework */; };
 		E5375DD2170CA989008F378B /* gate-rect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD1170CA989008F378B /* gate-rect@2x.png */; };
 		E5375DD4170CAA03008F378B /* gate-rect.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD3170CAA03008F378B /* gate-rect.png */; };
 		E5375DE1170CAF0D008F378B /* gate-poly.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DDF170CAF0C008F378B /* gate-poly.png */; };
@@ -101,7 +102,6 @@
 		E585571916C15B0400BF4546 /* FGPlotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571816C15B0400BF4546 /* FGPlotCell.m */; };
 		E585571C16C1609200BF4546 /* FGFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = E585571B16C1609200BF4546 /* FGFolder.m */; };
 		E585572316C1A46700BF4546 /* FGDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E585572216C1A46600BF4546 /* FGDropboxViewController.m */; };
-		E58A1A20171DB5C70099604E /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E58A1A1F171DB5C70099604E /* Crashlytics.framework */; };
 		E598014C16C840F500BF1A2D /* PopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = E598014B16C840F500BF1A2D /* PopoverView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E599D2D915E1635A0036F2DC /* NSArrayValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = E599D2D815E1635A0036F2DC /* NSArrayValueTransformer.m */; };
 		E59A074D15EF8A0E006AE343 /* FGPlotDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E59A074C15EF8A0E006AE343 /* FGPlotDetailTableViewController.m */; };
@@ -306,6 +306,7 @@
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
 		E52D4F0A173C67D30021C95C /* FGPlotCreatorOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreatorOperation.h; sourceTree = "<group>"; };
 		E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreatorOperation.m; sourceTree = "<group>"; };
+		E52D4F13173C8DDF0021C95C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Flow2Go/Crashlytics.framework; sourceTree = "<group>"; };
 		E5375DD1170CA989008F378B /* gate-rect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-rect@2x.png"; path = "Images/gate-rect@2x.png"; sourceTree = "<group>"; };
 		E5375DD3170CAA03008F378B /* gate-rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-rect.png"; path = "Images/gate-rect.png"; sourceTree = "<group>"; };
 		E5375DDF170CAF0C008F378B /* gate-poly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-poly.png"; path = "Images/gate-poly.png"; sourceTree = "<group>"; };
@@ -609,6 +610,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E52D4F14173C8DDF0021C95C /* Crashlytics.framework in Frameworks */,
 				E513F7211739C19200F64267 /* MobileCoreServices.framework in Frameworks */,
 				E55923C016D3824000A087D8 /* libApptentiveConnect.a in Frameworks */,
 				E55923AF16D3819900A087D8 /* SystemConfiguration.framework in Frameworks */,
@@ -623,7 +625,6 @@
 				E5FC6F4F15CA7E8E0047A3DD /* CoreData.framework in Frameworks */,
 				E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */,
 				E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */,
-				E58A1A20171DB5C70099604E /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1310,6 +1311,7 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				E52D4F13173C8DDF0021C95C /* Crashlytics.framework */,
 				E5173B5E16E1050200A314D4 /* MSNavigationPaneViewController */,
 				E55923C216D382BD00A087D8 /* Apptentive */,
 				E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */,

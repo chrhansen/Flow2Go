@@ -50,6 +50,7 @@
 		E52883BE16E535220057AA07 /* 83-calendar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52883BC16E535220057AA07 /* 83-calendar@2x.png */; };
 		E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
+		E52D4F0C173C67D40021C95C /* FGPlotCreatorOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */; };
 		E5375DD2170CA989008F378B /* gate-rect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD1170CA989008F378B /* gate-rect@2x.png */; };
 		E5375DD4170CAA03008F378B /* gate-rect.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD3170CAA03008F378B /* gate-rect.png */; };
 		E5375DE1170CAF0D008F378B /* gate-poly.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DDF170CAF0C008F378B /* gate-poly.png */; };
@@ -303,6 +304,8 @@
 		E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementHeaderView.m; sourceTree = "<group>"; };
 		E52BECB515DE63E9002A3819 /* FGGraphPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGraphPoint.h; sourceTree = "<group>"; };
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
+		E52D4F0A173C67D30021C95C /* FGPlotCreatorOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreatorOperation.h; sourceTree = "<group>"; };
+		E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreatorOperation.m; sourceTree = "<group>"; };
 		E5375DD1170CA989008F378B /* gate-rect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-rect@2x.png"; sourceTree = "<group>"; };
 		E5375DD3170CAA03008F378B /* gate-rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-rect.png"; sourceTree = "<group>"; };
 		E5375DDF170CAF0C008F378B /* gate-poly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-poly.png"; sourceTree = "<group>"; };
@@ -749,6 +752,8 @@
 				E512FAF117129AC3003EE9E0 /* FGHUDMessage.m */,
 				E5F835301701D93E0018E2A8 /* FGPendingOperations.h */,
 				E5F835311701D93E0018E2A8 /* FGPendingOperations.m */,
+				E52D4F0A173C67D30021C95C /* FGPlotCreatorOperation.h */,
+				E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */,
 				E520B8D9170A48AB00A892B3 /* FGPlotDataOperation.h */,
 				E520B8DA170A48AB00A892B3 /* FGPlotDataOperation.m */,
 				E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */,
@@ -1630,6 +1635,7 @@
 				E5CB45E6172B65D100A93D9B /* FGFCSAnalysis.m in Sources */,
 				E5CB45E9172B6AEC00A93D9B /* FGFCSParserOperation.m in Sources */,
 				E54B6B4D173B04B700F203C3 /* FGMeasurement.m in Sources */,
+				E52D4F0C173C67D40021C95C /* FGPlotCreatorOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

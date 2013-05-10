@@ -28,7 +28,7 @@
     return self;
 }
 
-- (void)setCompletionBlock:(void (^)(NSError *, FGFCSFile *))completion
+- (void)setCompletionBlock:(void (^)(NSError *error, FGFCSFile *))completion
 {
     _finishedParsingCompletionBlock = completion;
 }
@@ -37,20 +37,31 @@
 - (void)main
 {
     if (self.isCancelled || !self.path) {
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            NSError *error;
+            if (!self.path) {
+                error = [NSError errorWithDomain:@"it.calcul8.flow2go.fcsparseroperation" code:0 userInfo:@{NSLocalizedDescriptionKey: @"Error: No file path to parse FCS file from"}];
+            } 
+            self.finishedParsingCompletionBlock(error, nil);
+        }];
         return;
     }
     
     @autoreleasepool {
         NSError *error;
+        
         FGFCSFile *fcsFile = [FGFCSFile fcsFileWithPath:self.path lastParsingSegment:self.lastSegment error:&error];
         
         if (self.isCancelled) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                self.finishedParsingCompletionBlock(nil, nil);
+            }];
             return;
         }
         
-        self.finishedParsingCompletionBlock(error, fcsFile);
-        
-//        [(NSObject *)self.delegate performSelector:@selector(fcsParserOperationProgress:) onThread:[NSThread mainThread] withObject:[NSNumber numberWithFloat:progress] waitUntilDone:NO];
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.finishedParsingCompletionBlock(error, fcsFile);
+        }];
     }
 }
 

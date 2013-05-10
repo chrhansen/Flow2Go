@@ -17,7 +17,7 @@
 	if (_pendingOperations == nil) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            _pendingOperations = [FGPendingOperations.alloc init];
+            _pendingOperations = [[FGPendingOperations alloc] init];
         });
 	}
     return _pendingOperations;
@@ -29,7 +29,7 @@
     if (_gateCalculationQueue == nil) {
         _gateCalculationQueue = [[NSOperationQueue alloc] init];
         _gateCalculationQueue.maxConcurrentOperationCount = 1;
-        _gateCalculationQueue.name = @"Gate Calculation Queue";
+        _gateCalculationQueue.name = @"Flow2Go Gate Calculation Queue";
     }
     return _gateCalculationQueue;
 }
@@ -39,9 +39,20 @@
     if (_fcsParsingQueue == nil) {
         _fcsParsingQueue = [[NSOperationQueue alloc] init];
         _fcsParsingQueue.maxConcurrentOperationCount = 1;
-        _fcsParsingQueue.name = @"FCS Parsing Queue";
+        _fcsParsingQueue.name = @"Flow2Go FCS Parsing Queue";
     }
     return _fcsParsingQueue;
+}
+
+
+- (NSOperationQueue *)plotCreatorQueue
+{
+    if (_plotCreatorQueue == nil) {
+        _plotCreatorQueue = [[NSOperationQueue alloc] init];
+        _plotCreatorQueue.maxConcurrentOperationCount = 1;
+        _plotCreatorQueue.name = @"Flow2Go Plot Creator Queue";
+    }
+    return _plotCreatorQueue;
 }
 
 - (void)cancelOperationsForGateWithTag:(NSInteger)gateTag

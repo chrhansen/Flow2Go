@@ -17,5 +17,6 @@
 
 @property (nonatomic, strong) NSOperationQueue *gateCalculationQueue;
 @property (nonatomic, strong) NSOperationQueue *fcsParsingQueue;
+@property (nonatomic, strong) NSOperationQueue *plotCreatorQueue;
 
 @end

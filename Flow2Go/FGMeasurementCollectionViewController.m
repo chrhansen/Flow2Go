@@ -289,7 +289,6 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
     [ATSurveys checkForAvailableSurveys];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerControlsWillAppear:) name:FGHeaderControlsWillAppearNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidSaveNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filePickerCancelled) name:FGPickerViewControllerCancelledNotification object:nil];
@@ -334,6 +333,7 @@
     measurementCell.infoButton.hidden = self.isEditing;
     [measurementCell.infoButton addTarget:self action:@selector(infoButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     if (!self.isEditing) measurementCell.checkMarkImageView.hidden = YES;
+    measurementCell.checkMarkImageView.hidden = ![self.editItems containsObject:measurement];
 }
 
 #pragma - Info Popover
@@ -363,7 +363,7 @@
     NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:buttonLocationInCollectionView];
     FGMeasurement *measurement = [self.fetchedResultsController objectAtIndexPath:indexPath];
     if ([measurement state] == FGDownloadStateFailed) {
-        [[FGDownloadManager sharedInstance] retryDownloadOfMeasurement:measurement];
+        [[FGDownloadManager sharedInstance] retryFailedDownload:measurement];
     }
 }
 
@@ -386,9 +386,10 @@
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager finishedDownloadingMeasurement:(FGMeasurement *)measurement
 {
-    [self _updateDownloadProgressViewForMeasurement:measurement progress:1.0f];
-    [self.collectionView setNeedsLayout];
-    [self _createRootPlotsFor:measurement];    
+    FGMeasurementCell *downloadCell = (FGMeasurementCell *)[self.collectionView cellForItemAtIndexPath:[self.fetchedResultsController indexPathForObject:measurement]];
+    NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:measurement];
+    [self configureCell:downloadCell atIndexPath:indexPath];
+    [self _createRootPlotsFor:measurement];
 }
 
 - (void)downloadManager:(FGDownloadManager *)downloadManager failedDownloadingMeasurement:(FGMeasurement *)measurement

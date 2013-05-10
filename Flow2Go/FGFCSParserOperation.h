@@ -21,7 +21,7 @@
 @interface FGFCSParserOperation : NSOperation
 
 - (id)initWithFCSFileAtPath:(NSString *)path lastParsingSegment:(FGParsingSegment)lastSegment;
-- (void)setCompletionBlock:(void (^)(NSError *error, FGFCSFile *fcsFile))completion;
+- (void)setCompletionBlock:(void (^)(NSError *error, FGFCSFile *fcsFile))completion; //Operation Performed on main queue
 
 @property (nonatomic, weak) id<FGFCSParserOperationDelegate> delegate; // Not implemented
 

@@ -14,6 +14,9 @@
 #import "FGGate+Management.h"
 #import "FGPlotCreator.h"
 #import "FGGateCalculator.h"
+#import "FGFCSParserOperation.h"
+#import "FGPendingOperations.h"
+#import "FGPlotCreatorOperation.h"
 
 @interface FGAnalysisManager ()
 
@@ -31,7 +34,7 @@
 	if (_analysisManager == nil) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            _analysisManager = [FGAnalysisManager.alloc init];
+            _analysisManager = [[FGAnalysisManager alloc] init];
         });
 	}
     return _analysisManager;
@@ -42,9 +45,10 @@
 
 - (void)createRootPlotsForMeasurementsWithoutPlotsWithCompletion:(void (^)(void))completion
 {
-    NSArray *allMeasurements = [FGMeasurement findAll];
+    NSArray *downloadedMeasurements = [FGMeasurement findAllSortedBy:@"downloadDate" ascending:YES withPredicate:[NSPredicate predicateWithFormat:@"downloadState == %@", [NSNumber numberWithInteger:FGDownloadStateDownloaded]]];
+
     NSMutableArray *needPlots = [NSMutableArray array];
-    for (FGMeasurement *aMeasurement in allMeasurements) {
+    for (FGMeasurement *aMeasurement in downloadedMeasurements) {
         if (!aMeasurement.thumbImage) [needPlots addObject:aMeasurement];
     }
     [self createRootPlotsForMeasurements:needPlots];
@@ -58,21 +62,37 @@
     for (FGMeasurement *aMeasurement in measurements) {
         FGAnalysis *analysis = aMeasurement.analyses.firstObject;
         if (!analysis) analysis = [FGAnalysis createAnalysisForMeasurement:aMeasurement];
-        FGPlot *rootPlot = analysis.rootPlot;
-        NSError *error;
-        FGFCSFile *fcsFile = [FGFCSFile fcsFileWithPath:aMeasurement.fullFilePath lastParsingSegment:FGParsingSegmentAnalysis error:&error];
-        FGPlotCreator *plotCreator = [FGPlotCreator renderPlotImageWithPlotOptions:rootPlot.plotOptions
-                                                                           fcsFile:fcsFile
-                                                                      parentSubSet:nil
-                                                                 parentSubSetCount:0];
-        aMeasurement.thumbImage = plotCreator.thumbImage;
-        rootPlot.image = plotCreator.plotImage;
-        if (error) {
-            NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Error: could not create plot for", nil), aMeasurement.filename];
+        [self _createRootPlotForMeasurement:aMeasurement];
+    }
+}
+
+
+- (void)_createRootPlotForMeasurement:(FGMeasurement *)measurement
+{
+    FGFCSParserOperation *parserOperation = [[FGFCSParserOperation alloc] initWithFCSFileAtPath:measurement.fullFilePath lastParsingSegment:FGParsingSegmentData];
+    [parserOperation setCompletionBlock:^(NSError *error, FGFCSFile *fcsFile) {
+        if (!error) {
+            FGPlot *rootPlot = [measurement.analyses.firstObject rootPlot];
+            NSDictionary *plotOptions = rootPlot.plotOptions;
+            
+            FGPlotCreatorOperation *plotOperation = [[FGPlotCreatorOperation alloc] initWithFCSFile:fcsFile plotOptions:plotOptions];
+            [plotOperation setCompletionBlock:^(NSError *error, UIImage *image, UIImage *thumbNail) {
+                measurement.thumbImage = thumbNail;
+                rootPlot.image = image;
+                if (error) {
+                    NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", error.localizedDescription, measurement.filename];
+                    [FGHUDMessage showHUDMessageOverNavigationBar:errorMessage];
+                }
+            }];
+            [[FGPendingOperations sharedInstance].plotCreatorQueue addOperation:plotOperation];
+        } else {
+            NSString *errorMessage = [NSString stringWithFormat:@"%@ %@", error.localizedDescription, measurement.filename];
             [FGHUDMessage showHUDMessageOverNavigationBar:errorMessage];
         }
-    }
-    [self performSelector:@selector(saveUpdates) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
+        
+        [self performSelector:@selector(saveUpdates) onThread:[NSThread mainThread] withObject:nil waitUntilDone:NO modes:@[NSDefaultRunLoopMode]];
+    }];
+    [[FGPendingOperations sharedInstance].fcsParsingQueue addOperation:parserOperation];
 }
 
 

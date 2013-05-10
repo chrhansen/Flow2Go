@@ -99,6 +99,7 @@
                                     @"globalURL"   : metadata.path};
     FGMeasurement *newMeasurement = [[FGMeasurement MR_importFromArray:@[objectDetails]] lastObject];
     newMeasurement.folder = folder;
+    [newMeasurement.managedObjectContext save:nil];
     if ([newMeasurement state] != FGDownloadStateDownloaded) {
         NSAssert(newMeasurement, @"Failed importing fcsfile based on dictionary");
         [self _downloadMeasurement:newMeasurement];
@@ -118,6 +119,10 @@
                 self.sharableLinks[measurement.globalURL] = measurement;
                 [self.restClient loadSharableLinkForFile:measurement.globalURL shortUrl:YES];
             }
+        } else if ([measurement state] == FGDownloadStateDownloading) {
+            if (![self.currentDownloads.allValues containsObject:measurement]) [measurement setState:FGDownloadStateFailed];
+        } else if ([measurement state] == FGDownloadStateUnknown) {
+            [measurement setState:FGDownloadStateFailed];
         }
     }
 }
@@ -166,7 +171,7 @@
 
 
 #pragma mark Download callbacks
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata*)metadata
+- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)destPath contentType:(NSString*)contentType metadata:(DBMetadata *)metadata
 {
     FGMeasurement *measurementDownloaded = self.currentDownloads[destPath];
     [measurementDownloaded setState:FGDownloadStateDownloaded];

@@ -572,6 +572,8 @@ static CPTPlotSymbol *plotSymbol;
 #pragma mark - GateCalculationOperation Delegate
 - (void)gateCalculationOperationDidFinish:(FGGateCalculationOperation *)operation
 {
+    // TODO: Make proper fix, so delegate from another controller/calculation is not reported here (e.g. replace delegate with completion block)
+
     FGGate *modifiedGate = self.displayedGates[operation.gateTag];
     modifiedGate.countOfEvents = [NSNumber numberWithUnsignedInteger:operation.subSetCount];
     NSError *error;

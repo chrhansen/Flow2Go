@@ -54,6 +54,10 @@
             [self _convertChannelValuesToScaleValues:self.events];
             [self _applyCompensationToScaleValues:self.events];
             [self _applyCalibrationToScaledValues:self.events];
+            if ([keywords[@"$DATATYPE"] isEqualToString:@"F"]) {
+                for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
+                    [self _findMinMaxForParNo:parNo events:self.events];
+            }
         }
     }
     @catch (NSException *exception) {
@@ -278,8 +282,7 @@ typedef union Int2Double Int2Double;
 - (void)_setMinAndMaxValue:(double **)eventsAsChannelValues dataTypeString:(NSString *)dataTypeString
 {
     self.ranges = calloc(_noOfParams, sizeof(FGRange));
-    for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
-    {
+    for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++) {
         double range = [self.keywords[[@"$P" stringByAppendingFormat:@"%iR", parNo + 1]] doubleValue] - 1.0;
         if ([dataTypeString isEqualToString:@"I"]) {
             self.ranges[parNo].minValue = 0.0;
@@ -301,11 +304,13 @@ typedef union Int2Double Int2Double;
     for (NSUInteger eventNo = 0; eventNo < _noOfEvents; eventNo++) {
         value = eventValues[eventNo][parNo];
         if (value > maxValue) {
-            _ranges[parNo].maxValue = maxValue = value;
+            maxValue = value;
         } else if (value < minValue) {
-            _ranges[parNo].minValue = minValue = value;
+            minValue = value;
         }
     }
+    _ranges[parNo].maxValue = maxValue;
+    _ranges[parNo].minValue = minValue;
 }
 
 

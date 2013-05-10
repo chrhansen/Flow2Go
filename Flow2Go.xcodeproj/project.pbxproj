@@ -275,10 +275,10 @@
 		E511FDD915CC6C4800637D39 /* FGPlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotViewController.m; sourceTree = "<group>"; };
 		E512FAF017129AC3003EE9E0 /* FGHUDMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGHUDMessage.h; sourceTree = "<group>"; };
 		E512FAF117129AC3003EE9E0 /* FGHUDMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGHUDMessage.m; sourceTree = "<group>"; };
-		E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Portrait@2x.png"; sourceTree = "<group>"; };
-		E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Portrait.png"; sourceTree = "<group>"; };
-		E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape.png"; sourceTree = "<group>"; };
-		E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape@2x.png"; sourceTree = "<group>"; };
+		E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Portrait@2x.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Portrait@2x.png"; sourceTree = "<group>"; };
+		E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Portrait.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Portrait.png"; sourceTree = "<group>"; };
+		E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Landscape.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Landscape.png"; sourceTree = "<group>"; };
+		E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Landscape@2x.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Landscape@2x.png"; sourceTree = "<group>"; };
 		E513F7201739C19200F64267 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+PriceAsString.h"; sourceTree = "<group>"; };
 		E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+PriceAsString.m"; sourceTree = "<group>"; };
@@ -318,7 +318,7 @@
 		E5375DF9170D280F008F378B /* gate-range-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-range-1.png"; sourceTree = "<group>"; };
 		E5375DFF170D2AA3008F378B /* gate-range-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-range-3@2x.png"; sourceTree = "<group>"; };
 		E5375E01170D30FE008F378B /* gate-range-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-range-3.png"; sourceTree = "<group>"; };
-		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		E53E31CF16D459AE0075DBA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Flow2Go/Launch and Icon Images/Default-568h@2x.png"; sourceTree = "<group>"; };
 		E53E365C1700C60E00002265 /* MSNavigationPaneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSNavigationPaneViewController.m; sourceTree = "<group>"; };
 		E542F4C4160933270041A60A /* FGMeasurementCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGMeasurementCollectionViewController.h; sourceTree = "<group>"; };
 		E542F4C5160933270041A60A /* FGMeasurementCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCollectionViewController.m; sourceTree = "<group>"; };
@@ -410,10 +410,10 @@
 		E59C49CA16C5A97A00B5E0D5 /* FGMeasurementCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGMeasurementCell.m; sourceTree = "<group>"; };
 		E59D2E3315E365FF00944789 /* FGAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGAnalysisViewController.h; sourceTree = "<group>"; };
 		E59D2E3415E365FF00944789 /* FGAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGAnalysisViewController.m; sourceTree = "<group>"; };
-		E5A1BC9416D05310001CABF8 /* flow2go-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo.png"; sourceTree = "<group>"; };
-		E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-72.png"; sourceTree = "<group>"; };
-		E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-114.png"; sourceTree = "<group>"; };
-		E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-logo-57.png"; sourceTree = "<group>"; };
+		E5A1BC9416D05310001CABF8 /* flow2go-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flow2go-logo.png"; path = "Flow2Go/Launch and Icon Images/flow2go-logo.png"; sourceTree = "<group>"; };
+		E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flow2go-logo-72.png"; path = "Flow2Go/Launch and Icon Images/flow2go-logo-72.png"; sourceTree = "<group>"; };
+		E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flow2go-logo-114.png"; path = "Flow2Go/Launch and Icon Images/flow2go-logo-114.png"; sourceTree = "<group>"; };
+		E5A1BC9A16D05456001CABF8 /* flow2go-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "flow2go-logo-57.png"; path = "Flow2Go/Launch and Icon Images/flow2go-logo-57.png"; sourceTree = "<group>"; };
 		E5B480AE15EF597D00BB6BAC /* FGGateTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateTableViewController.h; sourceTree = "<group>"; };
 		E5B480AF15EF597D00BB6BAC /* FGGateTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateTableViewController.m; sourceTree = "<group>"; };
 		E5C0117716C944F10059ED0F /* NSDate+Formatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatting.h"; sourceTree = "<group>"; };

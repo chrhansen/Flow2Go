@@ -54,7 +54,7 @@
             [self _convertChannelValuesToScaleValues:self.events];
             [self _applyCompensationToScaleValues:self.events];
             [self _applyCalibrationToScaledValues:self.events];
-            if ([keywords[@"$DATATYPE"] isEqualToString:@"F"]) {
+            if ([keywords[@"$DATATYPE"] isEqualToString:@"F"] || [keywords[@"$DATATYPE"] isEqualToString:@"D"]) {
                 for (NSUInteger parNo = 0; parNo < _noOfParams; parNo++)
                     [self _findMinMaxForParNo:parNo events:self.events];
             }

@@ -11,7 +11,7 @@
 
 @class FGFCSFile;
 
-@interface FGPlotCreator : NSObject
+@interface FGPlotCreator : NSObject <CPTScatterPlotDataSource>
 
 + (FGPlotCreator *)renderPlotImageWithPlotOptions:(NSDictionary *)plotOptions
                                           fcsFile:(FGFCSFile *)fcsFile

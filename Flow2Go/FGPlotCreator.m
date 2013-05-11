@@ -44,6 +44,7 @@
     
     CGRect rect = (IS_IPAD) ? DEFAULT_FRAME_IPAD : DEFAULT_FRAME_IPHONE;
     plotCreator.graph = [[FGGraph alloc] initWithFrame:rect themeNamed:kCPTSlateTheme];
+    plotCreator.graph.dataSource = plotCreator;
     [plotCreator preparePlotData];
 
     [plotCreator _updateLayout];

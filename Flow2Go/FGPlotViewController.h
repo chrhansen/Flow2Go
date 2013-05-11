@@ -27,7 +27,7 @@
 
 @end
 
-@interface FGPlotViewController : UIViewController <FGGraphDataSource, GatesContainerViewDelegate>
+@interface FGPlotViewController : UIViewController <CPTScatterPlotDataSource, GatesContainerViewDelegate>
 
 - (void)updatePlotData;
 
@@ -45,7 +45,6 @@
 @property (nonatomic, weak) IBOutlet FGAddGateButtonsView *addGateButtonsView;
 @property (weak, nonatomic) IBOutlet UIButton *xAxisButton;
 @property (weak, nonatomic) IBOutlet UIButton *yAxisButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *gateCalculationSpinner;
 @property (weak, nonatomic) id<PlotViewControllerDelegate> delegate;
 @property (nonatomic, strong) FGGraph *graph;
 

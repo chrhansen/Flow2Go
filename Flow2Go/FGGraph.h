@@ -8,20 +8,14 @@
 
 #import "CorePlot-CocoaTouch.h"
 
-@protocol FGGraphDataSource <CPTScatterPlotDataSource>
-
-- (NSInteger)countForHistogramMaxValue;
-
-@end
-
 @interface FGGraph : CPTXYGraph
 
-@property (nonatomic, weak) id<FGGraphDataSource> dataSource;
+@property (nonatomic, weak) id<CPTScatterPlotDataSource> dataSource;
 
 - (id)initWithFrame:(CGRect)newFrame themeNamed:(NSString *)themeName;
 
 - (void)updateGraphWithPlotOptions:(NSDictionary *)plotOptions;
-- (void)adjustPlotRangeToFitXRange:(FGRange)xMinMaxRange yRange:(FGRange)yMinMaxRange plotType:(FGPlotType)plotType;
+- (void)adjustPlotRangeToFitXRange:(FGRange)xMinMaxRange yRange:(FGRange)yMinMaxRange;
 
 @end
 

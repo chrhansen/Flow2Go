@@ -44,7 +44,6 @@
     
     CGRect rect = (IS_IPAD) ? DEFAULT_FRAME_IPAD : DEFAULT_FRAME_IPHONE;
     plotCreator.graph = [[FGGraph alloc] initWithFrame:rect themeNamed:kCPTSlateTheme];
-    plotCreator.graph.dataSource = plotCreator;
     [plotCreator preparePlotData];
 
     [plotCreator _updateLayout];
@@ -69,20 +68,19 @@
     NSInteger yParIndex = [self.plotOptions[YParNumber] integerValue] - 1;
     [self.graph updateGraphWithPlotOptions:self.plotOptions];
     [self.graph reloadData];
-    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[xParIndex] yRange:self.fcsFile.data.ranges[yParIndex] plotType:plotType];
+    
+    FGRange yRange = self.fcsFile.data.ranges[yParIndex];
+    if (plotType == kPlotTypeHistogram) {
+        yRange.minValue = 0.0;
+        yRange.maxValue = self.plotData.countForMaxBin * 1.1;
+    }
+    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[xParIndex] yRange:yRange];
 }
 
 
 - (void)preparePlotData
 {
     self.plotData = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile plotOptions:self.plotOptions subset:self.parentSubSet subsetCount:self.parentSubSetCount];
-}
-
-
-#pragma mark - FG Graph Data Source
-- (NSInteger)countForHistogramMaxValue
-{
-    return self.plotData.countForMaxBin;
 }
 
 

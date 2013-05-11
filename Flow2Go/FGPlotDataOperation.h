@@ -13,13 +13,6 @@
 @class FGPlotDataOperation;
 @class FGGateCalculator;
 
-@protocol FGPlotDataOperationDelegate <NSObject>
-
-- (void)plotDataOperationDidFinish:(FGPlotDataOperation *)plotDataOperation;
-
-@end
-
-
 @interface FGPlotDataOperation : NSOperation
 
 - (id)initWithFCSFile:(FGFCSFile *)fcsFile
@@ -28,9 +21,8 @@
                subset:(NSUInteger *)subset
           subsetCount:(NSUInteger)subsetCount;
 
-@property (nonatomic, strong) FGPlotDataCalculator *plotDataCalculator;
-@property (nonatomic, strong) FGGateCalculator *gateCalculator;
+- (void)setCompletionBlock:(void (^)(NSError *error, FGGateCalculator *gateData, FGPlotDataCalculator *plotData))completion;
+
 @property (nonatomic, readonly, getter = hasCalculatedSubet) BOOL calculatedSubset;
-@property (nonatomic, weak) id<FGPlotDataOperationDelegate> delegate;
 
 @end

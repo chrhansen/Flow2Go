@@ -52,6 +52,10 @@
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
 		E52D4F0C173C67D40021C95C /* FGPlotCreatorOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */; };
 		E52D4F14173C8DDF0021C95C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E52D4F13173C8DDF0021C95C /* Crashlytics.framework */; };
+		E52D4F1E173DE3F80021C95C /* histogram.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F1C173DE3F80021C95C /* histogram.png */; };
+		E52D4F1F173DE3F80021C95C /* histogram@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F1D173DE3F80021C95C /* histogram@2x.png */; };
+		E52D4F34173DEF250021C95C /* density.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F32173DEF250021C95C /* density.png */; };
+		E52D4F35173DEF250021C95C /* density@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F33173DEF250021C95C /* density@2x.png */; };
 		E5375DD2170CA989008F378B /* gate-rect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD1170CA989008F378B /* gate-rect@2x.png */; };
 		E5375DD4170CAA03008F378B /* gate-rect.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD3170CAA03008F378B /* gate-rect.png */; };
 		E5375DE1170CAF0D008F378B /* gate-poly.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DDF170CAF0C008F378B /* gate-poly.png */; };
@@ -307,6 +311,10 @@
 		E52D4F0A173C67D30021C95C /* FGPlotCreatorOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreatorOperation.h; sourceTree = "<group>"; };
 		E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreatorOperation.m; sourceTree = "<group>"; };
 		E52D4F13173C8DDF0021C95C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Flow2Go/Crashlytics.framework; sourceTree = "<group>"; };
+		E52D4F1C173DE3F80021C95C /* histogram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = histogram.png; sourceTree = "<group>"; };
+		E52D4F1D173DE3F80021C95C /* histogram@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "histogram@2x.png"; sourceTree = "<group>"; };
+		E52D4F32173DEF250021C95C /* density.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = density.png; sourceTree = "<group>"; };
+		E52D4F33173DEF250021C95C /* density@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "density@2x.png"; sourceTree = "<group>"; };
 		E5375DD1170CA989008F378B /* gate-rect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-rect@2x.png"; path = "Images/gate-rect@2x.png"; sourceTree = "<group>"; };
 		E5375DD3170CAA03008F378B /* gate-rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-rect.png"; path = "Images/gate-rect.png"; sourceTree = "<group>"; };
 		E5375DDF170CAF0C008F378B /* gate-poly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-poly.png"; path = "Images/gate-poly.png"; sourceTree = "<group>"; };
@@ -1229,6 +1237,10 @@
 		E5F8353317021E570018E2A8 /* GateButtons */ = {
 			isa = PBXGroup;
 			children = (
+				E52D4F32173DEF250021C95C /* density.png */,
+				E52D4F33173DEF250021C95C /* density@2x.png */,
+				E52D4F1C173DE3F80021C95C /* histogram.png */,
+				E52D4F1D173DE3F80021C95C /* histogram@2x.png */,
 				E5375DDF170CAF0C008F378B /* gate-poly.png */,
 				E5375DE0170CAF0C008F378B /* gate-poly@2x.png */,
 				E5375DD3170CAA03008F378B /* gate-rect.png */,
@@ -1510,6 +1522,10 @@
 				E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
 				E54B6B54173B142000F203C3 /* 0259.png in Resources */,
 				E54B6B55173B142000F203C3 /* 0259@2x.png in Resources */,
+				E52D4F1E173DE3F80021C95C /* histogram.png in Resources */,
+				E52D4F1F173DE3F80021C95C /* histogram@2x.png in Resources */,
+				E52D4F34173DEF250021C95C /* density.png in Resources */,
+				E52D4F35173DEF250021C95C /* density@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

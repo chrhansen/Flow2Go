@@ -25,7 +25,7 @@
 #import "FGGateCalculationOperation.h"
 #import "FGPlotDataOperation.h"
 
-@interface FGPlotViewController () <FGGateButtonsViewDelegate, GateTableViewControllerDelegate, FGPlotDataOperationDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
+@interface FGPlotViewController () <FGGateButtonsViewDelegate, GateTableViewControllerDelegate, UIPopoverControllerDelegate, PopoverViewDelegate>
 
 @property (nonatomic) NSInteger xParIndex;
 @property (nonatomic) NSInteger yParIndex;
@@ -36,9 +36,10 @@
 @property (nonatomic, strong) NSMutableArray *displayedGates;
 @property (nonatomic, strong) FGPlotHelper *plotHelper;
 @property (nonatomic, strong) UIPopoverController *detailPopoverController;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *plotTypeSegmentedControl;
 @property (nonatomic, strong) PopoverView *popoverView;
 @property (nonatomic, strong) UITapGestureRecognizer *backgroundTapGestureRecognizer;
+@property (weak, nonatomic) IBOutlet UIButton *densityPlotButton;
+@property (weak, nonatomic) IBOutlet UIButton *histogramPlotButton;
 @property (nonatomic, strong) MBProgressHUD *HUD;
 
 @end
@@ -98,12 +99,6 @@
     [super viewWillDisappear:animated];
 }
 
-//
-//- (void)viewDidDisappear:(BOOL)animated
-//{
-//    self.plotData = nil;
-//    [super viewDidDisappear:animated];
-//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -145,13 +140,28 @@
 {
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(_toggleInfo:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *infoBarButton = [UIBarButtonItem.alloc initWithCustomView: infoButton];
-    UIBarButtonItem *addGateButton = [UIBarButtonItem.alloc initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(_addGateButtonTapped:)];
-    self.navigationItem.leftBarButtonItems = @[addGateButton, infoBarButton];
-    self.plotTypeSegmentedControl.selectedSegmentIndex = self.plot.plotType.integerValue;
+    [self _updatePlotTypeButtons];
     [self.yAxisButton setTransform:CGAffineTransformMakeRotation(-M_PI / 2)];
 }
 
+
+- (void)_updatePlotTypeButtons
+{
+    switch (self.plot.plotType.integerValue) {
+        case kPlotTypeDensity:
+            self.densityPlotButton.hidden = YES;
+            self.histogramPlotButton.hidden = NO;
+            break;
+            
+        case kPlotTypeHistogram:
+            self.histogramPlotButton.hidden = YES;
+            self.densityPlotButton.hidden = NO;
+            break;
+            
+        default:
+            break;
+    }
+}
 
 - (void)_grabImageOfPlot
 {
@@ -200,10 +210,11 @@
 
 #pragma mark - Actions
 
-- (IBAction)plotTypeChanged:(UISegmentedControl *)sender
+- (IBAction)plotTypeChanged:(UIButton *)sender
 {
-    NSNumber *plotType = [NSNumber numberWithInteger:sender.selectedSegmentIndex];
+    NSNumber *plotType = [NSNumber numberWithInteger:sender.tag];
     self.plot.plotType = plotType;
+    [self _updatePlotTypeButtons];
     [self prepareForPlotUpdate];
     [self updatePlotData];
     [self.addGateButtonsView updateButtons];
@@ -357,7 +368,13 @@
 {
     self.plotData = nil;
     [self updateLocalPlotVariables];
-    [self _updateLayout];
+    [self _updateAxisTitleButtons];
+    [self.graph updateGraphWithPlotOptions:self.plot.plotOptions];
+    
+    if (self.currentPlotType != kPlotTypeHistogram) {
+        [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[self.xParIndex]
+                                        yRange:self.fcsFile.data.ranges[self.yParIndex]];
+    }
 }
 
 - (void)updateLocalPlotVariables
@@ -368,11 +385,13 @@
 }
 
 
-- (void)_updateLayout
+
+- (FGRange)_gestimatedHistogramRange
 {
-    [self _updateAxisTitleButtons];
-    [self.graph updateGraphWithPlotOptions:self.plot.plotOptions];
-    [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[self.xParIndex] yRange:self.fcsFile.data.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
+    FGRange range;
+    range.minValue = 0.0;
+    range.maxValue = self.fcsFile.data.noOfEvents / 100;
+    return range;
 }
 
 
@@ -384,23 +403,23 @@
                                                                               plotOptions:self.plot.plotOptions
                                                                                    subset:self.parentGateCalculator.eventsInside
                                                                               subsetCount:self.parentGateCalculator.countOfEventsInside];
-    plotDataOperation.delegate = self;
-    [plotDataOperation setCompletionBlock:^{
+    __weak FGPlotViewController *weakSelf = self;
+    MBProgressHUD *progressHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [plotDataOperation setCompletionBlock:^(NSError *error, FGGateCalculator *gateData, FGPlotDataCalculator *plotData) {
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            [self.graph adjustPlotRangeToFitXRange:self.fcsFile.data.ranges[self.xParIndex] yRange:self.fcsFile.data.ranges[self.yParIndex] plotType:self.plot.plotType.integerValue];
-            [self.graph reloadData];
+            FGRange yRange = weakSelf.fcsFile.data.ranges[weakSelf.yParIndex];
+            if (self.currentPlotType == kPlotTypeHistogram) {
+                yRange.minValue = 0.0;
+                yRange.maxValue = plotData.countForMaxBin * 1.1;
+            }
+            weakSelf.plotData = plotData;
+            [weakSelf.graph adjustPlotRangeToFitXRange:weakSelf.fcsFile.data.ranges[weakSelf.xParIndex] yRange:yRange];
+            if ([gatesData count] > 0 && !weakSelf.parentGateCalculator.eventsInside) weakSelf.parentGateCalculator = gateData;
+            [weakSelf.graph reloadData];
+            [progressHUD hide:YES];
         }];
     }];
     [[FGPendingOperations sharedInstance].gateCalculationQueue addOperation:plotDataOperation];
-}
-
-#pragma mark - FG Plot Data Operation Delegate
-- (void)plotDataOperationDidFinish:(FGPlotDataOperation *)plotDataOperation
-{
-    if (plotDataOperation.hasCalculatedSubet) {
-        self.parentGateCalculator = plotDataOperation.gateCalculator;
-    }
-    self.plotData = plotDataOperation.plotDataCalculator;
 }
 
 
@@ -422,12 +441,6 @@
     if (unitName) title = [title stringByAppendingFormat:@" %@", unitName];
     
     return title;
-}
-
-#pragma mark - FGGraph Data Source
-- (NSInteger)countForHistogramMaxValue
-{
-    return self.plotData.countForMaxBin;
 }
 
 

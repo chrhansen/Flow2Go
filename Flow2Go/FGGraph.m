@@ -25,7 +25,7 @@
 }
 
 
-- (void)setDataSource:(id<FGGraphDataSource>)dataSource
+- (void)setDataSource:(id<CPTScatterPlotDataSource>)dataSource
 {
     if (dataSource != _dataSource) {
         _dataSource = dataSource;
@@ -191,7 +191,7 @@
 }
 
 
-- (void)adjustPlotRangeToFitXRange:(FGRange)xMinMaxRange yRange:(FGRange)yMinMaxRange plotType:(FGPlotType)plotType
+- (void)adjustPlotRangeToFitXRange:(FGRange)xMinMaxRange yRange:(FGRange)yMinMaxRange
 {
     CPTXYPlotSpace *plotSpace = (CPTXYPlotSpace *)self.defaultPlotSpace;
     CPTMutablePlotRange *xRange = [plotSpace.xRange mutableCopy];
@@ -200,14 +200,6 @@
     plotSpace.xRange = xRange;
     
     CPTMutablePlotRange *yRange = [plotSpace.yRange mutableCopy];
-    
-    if (plotType == kPlotTypeHistogram) {
-        yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", 0.0]);
-        NSInteger maxCount = [self.dataSource countForHistogramMaxValue];
-        yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", (double)maxCount * 1.1]);
-        plotSpace.yRange = yRange;
-        return;
-    }
     yRange.location = CPTDecimalFromString([NSString stringWithFormat:@"%f", yMinMaxRange.minValue]);
     yRange.length = CPTDecimalFromString([NSString stringWithFormat:@"%f", yMinMaxRange.maxValue - yMinMaxRange.minValue]);
     plotSpace.yRange = yRange;

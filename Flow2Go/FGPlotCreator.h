@@ -11,7 +11,7 @@
 
 @class FGFCSFile;
 
-@interface FGPlotCreator : NSObject <FGGraphDataSource>
+@interface FGPlotCreator : NSObject
 
 + (FGPlotCreator *)renderPlotImageWithPlotOptions:(NSDictionary *)plotOptions
                                           fcsFile:(FGFCSFile *)fcsFile

@@ -18,7 +18,9 @@
 @property (nonatomic, strong) NSArray *parentGates;
 @property (nonatomic) NSUInteger *subset;
 @property (nonatomic) NSUInteger subsetCount;
-@property (nonatomic) BOOL subsetCalculated;
+@property (readwrite, nonatomic) BOOL calculatedSubset;
+@property (nonatomic, copy) void (^finishedPlotDataBlock)(NSError *error, FGGateCalculator *gateData, FGPlotDataCalculator *plotData);
+
 @end
 
 
@@ -37,9 +39,15 @@
         self.plotOptions      = plotOptions;
         self.subset           = subset;
         self.subsetCount      = subsetCount;
-        self.subsetCalculated = NO;
+        self.calculatedSubset = NO;
     }
     return self;
+}
+
+
+- (void)setCompletionBlock:(void (^)(NSError *, FGGateCalculator *, FGPlotDataCalculator *))completion
+{
+    _finishedPlotDataBlock = completion;
 }
 
 - (void)main
@@ -49,31 +57,29 @@
     }
     
     @autoreleasepool {
-        
+        if (self.isCancelled) {
+            return;
+        }
+        NSError *error;
+        FGGateCalculator *gateCalculator;
         if (self.parentGates.count > 0 && self.subset == nil) {
             NSLog(@"Will calculate subset");
-            self.gateCalculator = [FGGateCalculator eventsInsideGatesWithDatas:self.parentGates fcsFile:self.fcsFile];
-            self.subset         = self.gateCalculator.eventsInside;
-            self.subsetCount    = self.gateCalculator.countOfEventsInside;
-            self.subsetCalculated = YES;
+            gateCalculator      = [FGGateCalculator eventsInsideGatesWithDatas:self.parentGates fcsFile:self.fcsFile];
+            self.subset         = gateCalculator.eventsInside;
+            self.subsetCount    = gateCalculator.countOfEventsInside;
+            self.calculatedSubset = YES;
         }
         if (self.isCancelled) {
             return;
         }
         NSLog(@"Will calculate plot data");
-        self.plotDataCalculator = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile plotOptions:self.plotOptions subset:self.subset subsetCount:self.subsetCount];
+        FGPlotDataCalculator *plotDataCalculator = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile plotOptions:self.plotOptions subset:self.subset subsetCount:self.subsetCount];
         
         if (self.isCancelled) {
             return;
         }
-        [(NSObject *)self.delegate performSelector:@selector(plotDataOperationDidFinish:) onThread:[NSThread mainThread] withObject:self waitUntilDone:NO];
+        self.finishedPlotDataBlock(error, gateCalculator, plotDataCalculator);
     }
 }
-
-- (BOOL)hasCalculatedSubet
-{
-    return self.subsetCalculated;
-}
-
 
 @end

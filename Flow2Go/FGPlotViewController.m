@@ -366,6 +366,7 @@
 #pragma mark Reloading plot
 - (void)prepareForPlotUpdate
 {
+    [self.graph.plot setHidden:YES];
     self.plotData = nil;
     [self updateLocalPlotVariables];
     [self _updateAxisTitleButtons];
@@ -415,6 +416,7 @@
             weakSelf.plotData = plotData;
             [weakSelf.graph adjustPlotRangeToFitXRange:weakSelf.fcsFile.data.ranges[weakSelf.xParIndex] yRange:yRange];
             if ([gatesData count] > 0 && !weakSelf.parentGateCalculator.eventsInside) weakSelf.parentGateCalculator = gateData;
+            [self.graph.plot setHidden:NO];
             [weakSelf.graph reloadData];
             [progressHUD hide:YES];
         }];

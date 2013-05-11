@@ -43,7 +43,10 @@
     [self updateXAxis:xAxisType yAxisType:yAxisType plotType:plotType];
 }
 
-
+- (CPTScatterPlot *)plot
+{
+    return (CPTScatterPlot *)[self plotWithIdentifier:@"Scatter Plot 1"];
+}
 
 - (void)configureStyleForPlotType:(FGPlotType)plotType
 {
@@ -94,7 +97,7 @@
     scatterPlot.identifier = @"Scatter Plot 1";
     scatterPlot.plotSymbolMarginForHitDetection = 5.0;
     scatterPlot.borderWidth = 2.0f;
-    scatterPlot.borderColor = [self _currentThemeLineColor];
+    scatterPlot.borderColor = [[CPTColor colorWithCGColor:[self _currentThemeLineColor]] colorWithAlphaComponent:0.5f].cgColor;
     [self addPlot:scatterPlot toPlotSpace:self.defaultPlotSpace];
 }
 
@@ -111,7 +114,7 @@
     CPTXYAxisSet *axisSet = (CPTXYAxisSet *)self.axisSet;
     CPTXYAxis *x = axisSet.xAxis;
     CPTXYAxis *y = axisSet.yAxis;
-    CPTColor *themeColor = [CPTColor colorWithCGColor:[self _currentThemeLineColor]];
+    CPTColor *themeColor = [[CPTColor colorWithCGColor:[self _currentThemeLineColor]] colorWithAlphaComponent:0.5f];
     
     NSNumberFormatter *logarithmicLabelFormatter = NSNumberFormatter.alloc.init;
     [logarithmicLabelFormatter setGeneratesDecimalNumbers:NO];
@@ -125,12 +128,16 @@
     
     CPTMutableLineStyle *minorTickLineStyle = [x.minorTickLineStyle mutableCopy];
     minorTickLineStyle.lineColor = themeColor;
+    CPTMutableLineStyle *majorTickLineStyle = [x.majorTickLineStyle mutableCopy];
+    majorTickLineStyle.lineColor = themeColor;
+
     
     CPTMutableTextStyle *labelTextStyle = [x.labelTextStyle mutableCopy];
     labelTextStyle.color = themeColor;
     x.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
     x.preferredNumberOfMajorTicks = 10;
     x.minorTickLineStyle = minorTickLineStyle;
+    x.majorTickLineStyle = majorTickLineStyle;
     x.tickDirection = CPTSignNegative;
     x.labelTextStyle = labelTextStyle;
     x.axisLineStyle = nil;
@@ -139,6 +146,7 @@
     y.labelingPolicy = CPTAxisLabelingPolicyAutomatic;
     y.preferredNumberOfMajorTicks = 10;
     y.minorTickLineStyle = minorTickLineStyle;
+    y.majorTickLineStyle = majorTickLineStyle;
     y.tickDirection = CPTSignNegative;
     y.labelTextStyle = labelTextStyle;
     y.axisLineStyle = nil;

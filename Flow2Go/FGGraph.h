@@ -17,6 +17,8 @@
 - (void)updateGraphWithPlotOptions:(NSDictionary *)plotOptions;
 - (void)adjustPlotRangeToFitXRange:(FGRange)xMinMaxRange yRange:(FGRange)yMinMaxRange;
 
+@property (nonatomic, strong) CPTScatterPlot *plot;
+
 @end
 
 

@@ -19,7 +19,7 @@
     self.path.lineCapStyle = kCGLineCapRound;
     self.strokeColor = UIColor.redColor;
     self.gateType = kGateTypeRectangle;
-    self.fillColor = UIColor.redColor;
+    self.fillColor = nil; //UIColor.redColor;
 }
 
 - (FGRectangle *)initWithVertices:(NSArray *)vertices;

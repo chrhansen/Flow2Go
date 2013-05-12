@@ -167,17 +167,9 @@
     for (FGGateGraphic *gateGraphic in self.gateGraphics)
     {
         [gateGraphic.fillColor setFill];
-        [gateGraphic.path fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
+        [gateGraphic.path fillWithBlendMode:kCGBlendModeNormal alpha:0.1];
         [gateGraphic.strokeColor setStroke];
         [gateGraphic.path stroke];
-        if (gateGraphic.hooks) {
-            [gateGraphic.hookColor setFill];
-            [gateGraphic.hookColor setStroke];
-            for (UIBezierPath *hook in gateGraphic.hooks) {
-                [hook fillWithBlendMode:kCGBlendModeNormal alpha:0.3];
-                [hook stroke];
-            }
-        }
     }
 }
 

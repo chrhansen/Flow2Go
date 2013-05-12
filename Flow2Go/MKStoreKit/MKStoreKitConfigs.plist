@@ -4,10 +4,7 @@
 <dict>
 	<key>Non-Consumables</key>
 	<array>
-		<string>it.calcul8.flow2go.batchanalysis</string>
-		<string>it.calcul8.flow2go.layout</string>
 		<string>it.calcul8.flow2go.fcsfile.unlimited</string>
-		<string>it.calcul8.flow2go.allaccess</string>
 	</array>
 	<key>Non-Consumables-batch</key>
 	<dict>

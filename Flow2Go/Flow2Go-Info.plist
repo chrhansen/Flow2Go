@@ -15,9 +15,10 @@
 			<key>CFBundleIconFiles</key>
 			<array>
 				<string>Screen Shot 2013-04-29 at 00.30.03.png</string>
-				<string>flow2go-logo-72.png</string>
+				<string>flow2go-icon.png</string>
 				<string>flow2go-logo-114.png</string>
 				<string>flow2go-logo-57.png</string>
+				<string>flow2go-icon@2x.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>
@@ -40,7 +41,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>db-jnrnwsyo6j65b4a</string>
+				<string>db-6hb8rousm8nruan</string>
 			</array>
 		</dict>
 	</array>
@@ -67,8 +68,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>Filepicker API Key</key>
-	<string>AOXBaU7mTe6UMRf8axGzGz</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

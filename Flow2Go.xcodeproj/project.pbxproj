@@ -22,8 +22,6 @@
 		E50427BC16C1DC1F00692AD7 /* folder_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427BA16C1DC1F00692AD7 /* folder_icon@2x.png */; };
 		E50427BF16C1DC4700692AD7 /* 180-stickynote.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427BD16C1DC4700692AD7 /* 180-stickynote.png */; };
 		E50427C016C1DC4700692AD7 /* 180-stickynote@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427BE16C1DC4700692AD7 /* 180-stickynote@2x.png */; };
-		E50427C316C1DCF200692AD7 /* fcsfile_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427C116C1DCF200692AD7 /* fcsfile_icon@2x.png */; };
-		E50427C416C1DCF200692AD7 /* fcsfile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427C216C1DCF200692AD7 /* fcsfile_icon.png */; };
 		E50427C716C1DEB500692AD7 /* FGFolderPickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E50427C616C1DEB000692AD7 /* FGFolderPickerTableViewController.m */; };
 		E50427DF16C206E400692AD7 /* FGBarButtonIconNavigationPane@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427DD16C206E200692AD7 /* FGBarButtonIconNavigationPane@2x.png */; };
 		E50427E016C206E400692AD7 /* FGBarButtonIconNavigationPane.png in Resources */ = {isa = PBXBuildFile; fileRef = E50427DE16C206E300692AD7 /* FGBarButtonIconNavigationPane.png */; };
@@ -57,6 +55,12 @@
 		E52D4F34173DEF250021C95C /* density.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F32173DEF250021C95C /* density.png */; };
 		E52D4F35173DEF250021C95C /* density@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F33173DEF250021C95C /* density@2x.png */; };
 		E52D4F3A173F21D20021C95C /* FGFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = E52D4F39173F21D20021C95C /* FGFolder.m */; };
+		E52D4F3D173F4CEE0021C95C /* flow2go-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F3B173F4A680021C95C /* flow2go-icon@2x.png */; };
+		E52D4F3F173F58E50021C95C /* flow2go-scatter-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F3E173F58E40021C95C /* flow2go-scatter-icon@2x.png */; };
+		E52D4F41173F644B0021C95C /* flow2go-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F40173F644A0021C95C /* flow2go-icon.png */; };
+		E52D4F44173F6E4F0021C95C /* flow2go-icon_35.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F42173F6E4F0021C95C /* flow2go-icon_35.png */; };
+		E52D4F45173F6E4F0021C95C /* flow2go-icon_35@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F43173F6E4F0021C95C /* flow2go-icon_35@2x.png */; };
+		E52D4F4D173F76A20021C95C /* FGSampleImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = E52D4F4C173F76A10021C95C /* FGSampleImporter.m */; };
 		E5375DD2170CA989008F378B /* gate-rect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD1170CA989008F378B /* gate-rect@2x.png */; };
 		E5375DD4170CAA03008F378B /* gate-rect.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DD3170CAA03008F378B /* gate-rect.png */; };
 		E5375DE1170CAF0D008F378B /* gate-poly.png in Resources */ = {isa = PBXBuildFile; fileRef = E5375DDF170CAF0C008F378B /* gate-poly.png */; };
@@ -94,8 +98,6 @@
 		E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C816D3838800A087D8 /* 09-chat-2.png */; };
 		E56FC120170356F1004019DF /* FGPlotCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E56FC11F170356F1004019DF /* FGPlotCreator.m */; };
 		E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E570CCDC16DCF03800418413 /* FGStackedLayout.m */; };
-		E577B4911607D76F002348EE /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B48F1607D76F002348EE /* 39-circle-check.png */; };
-		E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E577B4901607D76F002348EE /* 39-circle-check@2x.png */; };
 		E579564915DAFE6800B77795 /* FGGateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* FGGateCalculator.m */; };
 		E57BA89315ED8D94008EA346 /* FGPlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */; };
 		E580999C15F79C8B000E0B34 /* FGKeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* FGKeywordTableViewController.m */; };
@@ -182,8 +184,12 @@
 		E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */; };
+		E5F130DA173F8379008B068C /* Sample-1.lmd in Resources */ = {isa = PBXBuildFile; fileRef = E5F130D8173F8379008B068C /* Sample-1.lmd */; };
+		E5F130DB173F8379008B068C /* Sample-2.fcs in Resources */ = {isa = PBXBuildFile; fileRef = E5F130D9173F8379008B068C /* Sample-2.fcs */; };
 		E5F1DAFE160E64A200591F2A /* FGRectangle.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DAFD160E64A200591F2A /* FGRectangle.m */; };
 		E5F1DB06160E7BD300591F2A /* FGEllipse.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F1DB05160E7BD200591F2A /* FGEllipse.m */; };
+		E5F30FF9173F80D5009A40E0 /* 39-circle-check.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F30FF7173F80D5009A40E0 /* 39-circle-check.png */; };
+		E5F30FFA173F80D5009A40E0 /* 39-circle-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5F30FF8173F80D5009A40E0 /* 39-circle-check@2x.png */; };
 		E5F8352E1701C6800018E2A8 /* FGGateCalculationOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */; };
 		E5F835321701D93E0018E2A8 /* FGPendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F835311701D93E0018E2A8 /* FGPendingOperations.m */; };
 		E5F8354E1702217E0018E2A8 /* FGAddGateButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F8354D1702217E0018E2A8 /* FGAddGateButtonsView.m */; };
@@ -266,8 +272,6 @@
 		E50427BA16C1DC1F00692AD7 /* folder_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "folder_icon@2x.png"; path = "Images/folder_icon@2x.png"; sourceTree = "<group>"; };
 		E50427BD16C1DC4700692AD7 /* 180-stickynote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "180-stickynote.png"; path = "Images/180-stickynote.png"; sourceTree = "<group>"; };
 		E50427BE16C1DC4700692AD7 /* 180-stickynote@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "180-stickynote@2x.png"; path = "Images/180-stickynote@2x.png"; sourceTree = "<group>"; };
-		E50427C116C1DCF200692AD7 /* fcsfile_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fcsfile_icon@2x.png"; path = "Images/fcsfile_icon@2x.png"; sourceTree = "<group>"; };
-		E50427C216C1DCF200692AD7 /* fcsfile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fcsfile_icon.png; path = Images/fcsfile_icon.png; sourceTree = "<group>"; };
 		E50427C516C1DEAE00692AD7 /* FGFolderPickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolderPickerTableViewController.h; sourceTree = "<group>"; };
 		E50427C616C1DEB000692AD7 /* FGFolderPickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolderPickerTableViewController.m; sourceTree = "<group>"; };
 		E50427DD16C206E200692AD7 /* FGBarButtonIconNavigationPane@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FGBarButtonIconNavigationPane@2x.png"; path = "Images/FGBarButtonIconNavigationPane@2x.png"; sourceTree = "<group>"; };
@@ -317,6 +321,13 @@
 		E52D4F33173DEF250021C95C /* density@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "density@2x.png"; sourceTree = "<group>"; };
 		E52D4F38173F21D20021C95C /* FGFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGFolder.h; sourceTree = "<group>"; };
 		E52D4F39173F21D20021C95C /* FGFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGFolder.m; sourceTree = "<group>"; };
+		E52D4F3B173F4A680021C95C /* flow2go-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-icon@2x.png"; sourceTree = "<group>"; };
+		E52D4F3E173F58E40021C95C /* flow2go-scatter-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-scatter-icon@2x.png"; sourceTree = "<group>"; };
+		E52D4F40173F644A0021C95C /* flow2go-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-icon.png"; sourceTree = "<group>"; };
+		E52D4F42173F6E4F0021C95C /* flow2go-icon_35.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-icon_35.png"; sourceTree = "<group>"; };
+		E52D4F43173F6E4F0021C95C /* flow2go-icon_35@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flow2go-icon_35@2x.png"; sourceTree = "<group>"; };
+		E52D4F4B173F76A10021C95C /* FGSampleImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSampleImporter.h; sourceTree = "<group>"; };
+		E52D4F4C173F76A10021C95C /* FGSampleImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSampleImporter.m; sourceTree = "<group>"; };
 		E5375DD1170CA989008F378B /* gate-rect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-rect@2x.png"; path = "Images/gate-rect@2x.png"; sourceTree = "<group>"; };
 		E5375DD3170CAA03008F378B /* gate-rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-rect.png"; path = "Images/gate-rect.png"; sourceTree = "<group>"; };
 		E5375DDF170CAF0C008F378B /* gate-poly.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gate-poly.png"; path = "Images/gate-poly.png"; sourceTree = "<group>"; };
@@ -366,8 +377,6 @@
 		E56FC11F170356F1004019DF /* FGPlotCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreator.m; sourceTree = "<group>"; };
 		E570CCDB16DCF03800418413 /* FGStackedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStackedLayout.h; sourceTree = "<group>"; };
 		E570CCDC16DCF03800418413 /* FGStackedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStackedLayout.m; sourceTree = "<group>"; };
-		E577B48F1607D76F002348EE /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "39-circle-check.png"; path = "Images/39-circle-check.png"; sourceTree = "<group>"; };
-		E577B4901607D76F002348EE /* 39-circle-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "39-circle-check@2x.png"; path = "Images/39-circle-check@2x.png"; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* FGGateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGGateCalculator.h; path = Flow2Go/FGGateCalculator.h; sourceTree = SOURCE_ROOT; };
 		E579564815DAFE6800B77795 /* FGGateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FGGateCalculator.m; path = Flow2Go/FGGateCalculator.m; sourceTree = SOURCE_ROOT; };
 		E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotDataCalculator.h; sourceTree = "<group>"; };
@@ -582,10 +591,14 @@
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F0AF0016E7E46100C765D8 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		E5F130D8173F8379008B068C /* Sample-1.lmd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Sample-1.lmd"; sourceTree = "<group>"; };
+		E5F130D9173F8379008B068C /* Sample-2.fcs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Sample-2.fcs"; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
 		E5F1DAFD160E64A200591F2A /* FGRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGRectangle.m; sourceTree = "<group>"; };
 		E5F1DB04160E7BD200591F2A /* FGEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGEllipse.h; sourceTree = "<group>"; };
 		E5F1DB05160E7BD200591F2A /* FGEllipse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGEllipse.m; sourceTree = "<group>"; };
+		E5F30FF7173F80D5009A40E0 /* 39-circle-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check.png"; sourceTree = "<group>"; };
+		E5F30FF8173F80D5009A40E0 /* 39-circle-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "39-circle-check@2x.png"; sourceTree = "<group>"; };
 		E5F8352C1701C6800018E2A8 /* FGGateCalculationOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGGateCalculationOperation.h; sourceTree = "<group>"; };
 		E5F8352D1701C6800018E2A8 /* FGGateCalculationOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGateCalculationOperation.m; sourceTree = "<group>"; };
 		E5F835301701D93E0018E2A8 /* FGPendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPendingOperations.h; sourceTree = "<group>"; };
@@ -642,8 +655,8 @@
 		E504278016C1A8B500692AD7 /* Dropbox */ = {
 			isa = PBXGroup;
 			children = (
-				E50427C116C1DCF200692AD7 /* fcsfile_icon@2x.png */,
-				E50427C216C1DCF200692AD7 /* fcsfile_icon.png */,
+				E52D4F42173F6E4F0021C95C /* flow2go-icon_35.png */,
+				E52D4F43173F6E4F0021C95C /* flow2go-icon_35@2x.png */,
 				E50427BD16C1DC4700692AD7 /* 180-stickynote.png */,
 				E50427BE16C1DC4700692AD7 /* 180-stickynote@2x.png */,
 				E50427B916C1DC1F00692AD7 /* folder_icon.png */,
@@ -920,6 +933,8 @@
 		E585572516C1A4B500BF4546 /* IO Controller */ = {
 			isa = PBXGroup;
 			children = (
+				E52D4F4B173F76A10021C95C /* FGSampleImporter.h */,
+				E52D4F4C173F76A10021C95C /* FGSampleImporter.m */,
 				E5FC701D15CA997C0047A3DD /* FGDownloadManager.h */,
 				E5FC701E15CA997C0047A3DD /* FGDownloadManager.m */,
 			);
@@ -985,6 +1000,8 @@
 		E59C49A916C4AFF700B5E0D5 /* Folder View */ = {
 			isa = PBXGroup;
 			children = (
+				E5F30FF7173F80D5009A40E0 /* 39-circle-check.png */,
+				E5F30FF8173F80D5009A40E0 /* 39-circle-check@2x.png */,
 				E54B6B52173B142000F203C3 /* 0259.png */,
 				E54B6B53173B142000F203C3 /* 0259@2x.png */,
 				E52883BB16E535220057AA07 /* 83-calendar.png */,
@@ -997,8 +1014,6 @@
 				E5C011A416CAA05B0059ED0F /* 80-shopping-cart@2x.png */,
 				E59C493C16C4597000B5E0D5 /* 0210.png */,
 				E59C493D16C4597000B5E0D5 /* 0210@2x.png */,
-				E577B48F1607D76F002348EE /* 39-circle-check.png */,
-				E577B4901607D76F002348EE /* 39-circle-check@2x.png */,
 				E58556D716C0AE9800BF4546 /* 0108.png */,
 				E58556D816C0AE9800BF4546 /* 0108@2x.png */,
 				E59C499D16C4A84800B5E0D5 /* Transparent-Flat-Label-Background@2x.png */,
@@ -1234,6 +1249,15 @@
 			path = CorePlotHeaders;
 			sourceTree = "<group>";
 		};
+		E5F130D7173F8379008B068C /* Sample FCS Files */ = {
+			isa = PBXGroup;
+			children = (
+				E5F130D8173F8379008B068C /* Sample-1.lmd */,
+				E5F130D9173F8379008B068C /* Sample-2.fcs */,
+			);
+			path = "Sample FCS Files";
+			sourceTree = "<group>";
+		};
 		E5F8353317021E570018E2A8 /* GateButtons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1260,6 +1284,9 @@
 		E5FC6F3915CA7E8E0047A3DD = {
 			isa = PBXGroup;
 			children = (
+				E52D4F40173F644A0021C95C /* flow2go-icon.png */,
+				E52D4F3E173F58E40021C95C /* flow2go-scatter-icon@2x.png */,
+				E52D4F3B173F4A680021C95C /* flow2go-icon@2x.png */,
 				E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */,
 				E5FC6F5015CA7E8E0047A3DD /* Flow2Go */,
 				E5FC6F4715CA7E8E0047A3DD /* Frameworks */,
@@ -1314,6 +1341,7 @@
 		E5FC6F5115CA7E8E0047A3DD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E5F130D7173F8379008B068C /* Sample FCS Files */,
 				E511FD7A15CC377500637D39 /* Images */,
 				E5FC702015CA9A720047A3DD /* Constants.h */,
 				E504278716C1AA0700692AD7 /* Constants.m */,
@@ -1462,8 +1490,6 @@
 				E5FC6F5515CA7E8E0047A3DD /* InfoPlist.strings in Resources */,
 				E5FC6F5E15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard in Resources */,
 				E5FC6F6115CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard in Resources */,
-				E577B4911607D76F002348EE /* 39-circle-check.png in Resources */,
-				E577B4921607D76F002348EE /* 39-circle-check@2x.png in Resources */,
 				E58556D916C0AE9800BF4546 /* 0108.png in Resources */,
 				E58556DA16C0AE9800BF4546 /* 0108@2x.png in Resources */,
 				E58556DD16C0B02900BF4546 /* 0107.png in Resources */,
@@ -1472,8 +1498,6 @@
 				E50427BC16C1DC1F00692AD7 /* folder_icon@2x.png in Resources */,
 				E50427BF16C1DC4700692AD7 /* 180-stickynote.png in Resources */,
 				E50427C016C1DC4700692AD7 /* 180-stickynote@2x.png in Resources */,
-				E50427C316C1DCF200692AD7 /* fcsfile_icon@2x.png in Resources */,
-				E50427C416C1DCF200692AD7 /* fcsfile_icon.png in Resources */,
 				E50427DF16C206E400692AD7 /* FGBarButtonIconNavigationPane@2x.png in Resources */,
 				E50427E016C206E400692AD7 /* FGBarButtonIconNavigationPane.png in Resources */,
 				E59C493E16C4597000B5E0D5 /* 0210.png in Resources */,
@@ -1526,6 +1550,15 @@
 				E52D4F1F173DE3F80021C95C /* histogram@2x.png in Resources */,
 				E52D4F34173DEF250021C95C /* density.png in Resources */,
 				E52D4F35173DEF250021C95C /* density@2x.png in Resources */,
+				E52D4F3D173F4CEE0021C95C /* flow2go-icon@2x.png in Resources */,
+				E52D4F3F173F58E50021C95C /* flow2go-scatter-icon@2x.png in Resources */,
+				E52D4F41173F644B0021C95C /* flow2go-icon.png in Resources */,
+				E52D4F44173F6E4F0021C95C /* flow2go-icon_35.png in Resources */,
+				E52D4F45173F6E4F0021C95C /* flow2go-icon_35@2x.png in Resources */,
+				E5F30FF9173F80D5009A40E0 /* 39-circle-check.png in Resources */,
+				E5F30FFA173F80D5009A40E0 /* 39-circle-check@2x.png in Resources */,
+				E5F130DA173F8379008B068C /* Sample-1.lmd in Resources */,
+				E5F130DB173F8379008B068C /* Sample-2.fcs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1662,6 +1695,7 @@
 				E54B6B4D173B04B700F203C3 /* FGMeasurement.m in Sources */,
 				E52D4F0C173C67D40021C95C /* FGPlotCreatorOperation.m in Sources */,
 				E52D4F3A173F21D20021C95C /* FGFolder.m in Sources */,
+				E52D4F4D173F76A20021C95C /* FGSampleImporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

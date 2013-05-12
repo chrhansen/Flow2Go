@@ -236,7 +236,7 @@
         NSString *modifiedDuration = [NSString formatInterval:-[metadata.lastModifiedDate timeIntervalSinceNow]];
         dropboxCell.description.hidden = NO;
         dropboxCell.description.text = [metadata.humanReadableSize stringByAppendingString: [@", modified " stringByAppendingString:modifiedDuration]];
-        dropboxCell.folderFileImage.image = ([FGMeasurement fileTypeForFileName:metadata.filename] == FGFileTypeUnknown) ? [UIImage imageNamed:@"180-stickynote"] : [UIImage imageNamed:@"fcsfile_icon"];
+        dropboxCell.folderFileImage.image = ([FGMeasurement fileTypeForFileName:metadata.filename] == FGFileTypeUnknown) ? [UIImage imageNamed:@"180-stickynote"] : [UIImage imageNamed:@"flow2go-icon_35"];
     }
     
     if (metadata.thumbnailExists) [self _loadThumbnail:dropboxCell.folderFileImage withMetadata:metadata];

@@ -21,15 +21,9 @@ NSString *const FileOpenFromEmailNotification = @"FileOpenFromEmailNotification"
 NSString *const FGHeaderControlsWillAppearNotification = @"FGHeaderControlsWillAppearNotification";
 NSString *const FGPickerViewControllerCancelledNotification = @"FGPickerViewControllerCancelledNotification";
 
-
-NSString *const PolygonAnsysModelLimitPassed = @"PolygonAnsysModelLimitPassed";
-NSString *const PolygonModelTypeNotPurchased = @"PolygonModelTypeNotPurchased";
-
 #pragma mark - Source Identifiers
 NSString *const SourceEmail = @"SourceEmail";
 NSString *const SourceDropbox = @"http://www.dropbox.com";
-
-
 
 // user default constants
 

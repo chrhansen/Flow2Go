@@ -593,6 +593,7 @@
 		E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		E5F130D8173F8379008B068C /* Sample-1.lmd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Sample-1.lmd"; sourceTree = "<group>"; };
 		E5F130D9173F8379008B068C /* Sample-2.fcs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Sample-2.fcs"; sourceTree = "<group>"; };
+		E5F130DD173F88FA008B068C /* Flow2Go_v1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = Flow2Go_v1.0.xcdatamodel; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
 		E5F1DAFD160E64A200591F2A /* FGRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGRectangle.m; sourceTree = "<group>"; };
 		E5F1DB04160E7BD200591F2A /* FGEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGEllipse.h; sourceTree = "<group>"; };
@@ -1900,6 +1901,7 @@
 		E5FC6F6215CA7E8E0047A3DD /* Flow2Go.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				E5F130DD173F88FA008B068C /* Flow2Go_v1.0.xcdatamodel */,
 				E5FC6F6315CA7E8E0047A3DD /* Flow2Go.xcdatamodel */,
 			);
 			currentVersion = E5FC6F6315CA7E8E0047A3DD /* Flow2Go.xcdatamodel */;

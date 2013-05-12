@@ -127,7 +127,7 @@ static NSString * const FGHeaderControlsKind = @"HeaderControlsKind";
         CGSize size = [FGEmblemView defaultSize];
         
         CGFloat originX = floorf((self.collectionView.bounds.size.width - size.width) * 0.5f);
-        CGFloat originY = -size.height - 55.0f;
+        CGFloat originY = -size.height + 0.0;
         
         return CGRectMake(originX, originY, size.width, size.height);
     } else if ([kind isEqualToString:FGHeaderControlsKind]) {

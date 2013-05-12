@@ -50,6 +50,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Flow2Go";
     [self _configureBarButtonItemsForEditing:NO];
     [self _addNoiseBackground];
     [self _observings];

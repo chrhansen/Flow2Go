@@ -36,6 +36,9 @@
 - (void)refreshDownloadStates;
 - (void)retryFailedDownload:(FGMeasurement *)measurement;
 
+- (NSString *)moveToDocuments:(NSString *)filePath;
+- (BOOL)addSkipBackupAttributeToItemAtFilePath:(NSString *)filePath;
+
 @property (nonatomic, strong) DBRestClient *restClient;
 @property (nonatomic, weak) id<FGDownloadManagerDelegate> delegate;
 @property (nonatomic, weak) id<FGDownloadManagerProgressDelegate> progressDelegate;

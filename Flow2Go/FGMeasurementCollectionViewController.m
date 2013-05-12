@@ -24,6 +24,7 @@
 #import "FGHeaderControlsView.h"
 #import "FGKeywordTableViewController.h"
 #import "FGAnalysisManager.h"
+#import "FGSampleImporter.h"
 
 @interface FGMeasurementCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate>
 
@@ -74,6 +75,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [FGSampleImporter importSamplesIfFirstLaunch];
     [[FGDownloadManager sharedInstance] refreshDownloadStates];
     [[FGAnalysisManager sharedInstance] createRootPlotsForMeasurementsWithoutPlotsWithCompletion:nil];
 }

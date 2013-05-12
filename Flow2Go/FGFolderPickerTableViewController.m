@@ -61,6 +61,7 @@
         NSString *folderName = [alertView textFieldAtIndex:0].text;
         FGFolder *newFolder = [FGFolder createEntity];
         newFolder.name = folderName;
+        newFolder.createdAt = [NSDate date];
     }
 }
 

@@ -88,6 +88,13 @@
     FGPlotPoint plotPoint;
     NSUInteger eventNo;
     
+    FGPlotPoint lowerLeft;
+    FGPlotPoint upperRight;
+    [self upperLeftOfVertices:vertices lowerLeft:&lowerLeft upperRight:&upperRight];
+    if (xAxisType == kAxisTypeLogarithmic) { lowerLeft.xVal = log10(lowerLeft.xVal); upperRight.xVal = log10(upperRight.xVal); }
+    if (yAxisType == kAxisTypeLogarithmic) { lowerLeft.yVal = log10(lowerLeft.yVal); upperRight.yVal = log10(upperRight.yVal); }
+
+    
     for (NSUInteger index = 0; index < eventsInside; index++)
     {
         eventNo = index;
@@ -99,13 +106,33 @@
         if (xAxisType == kAxisTypeLogarithmic) plotPoint.xVal = log10(plotPoint.xVal);
         if (yAxisType == kAxisTypeLogarithmic) plotPoint.yVal = log10(plotPoint.yVal);
         
-        if ([self _point:plotPoint insidePolygon:correctedVertices])
+        if ([self _point:plotPoint insidePolygon:correctedVertices lowerLeft:lowerLeft upperRight:upperRight])
         {
             gateCalculator.eventsInside[gateCalculator.countOfEventsInside] = eventNo;
             gateCalculator.countOfEventsInside += 1;
         }
     }
     return gateCalculator;
+}
+
+
+
++ (void)upperLeftOfVertices:(NSArray *)vertices lowerLeft:(FGPlotPoint *)lowerLeft  upperRight:(FGPlotPoint *)upperRight
+{
+    lowerLeft->xVal  = [vertices.lastObject x];
+    lowerLeft->yVal  = [vertices.lastObject y];
+    upperRight->xVal = [vertices.lastObject x];
+    upperRight->yVal = [vertices.lastObject y];
+    
+    for (FGGraphPoint *vertex in vertices) {
+        //Upper Left corner
+        if (vertex.x < lowerLeft->xVal) lowerLeft->xVal = vertex.x;
+        if (vertex.y < lowerLeft->yVal) lowerLeft->yVal = vertex.y;
+        
+        //Lower Right corner
+        if (vertex.x > upperRight->xVal) upperRight->xVal = vertex.x;
+        if (vertex.y > upperRight->yVal) upperRight->yVal = vertex.y;
+    }
 }
 
 
@@ -182,7 +209,7 @@
         return nil;
     }
     
-    FGGateCalculator *gateCalculator = [FGGateCalculator.alloc init];
+    FGGateCalculator *gateCalculator = [[FGGateCalculator alloc] init];
     gateCalculator.eventsInside = calloc(eventsInside, sizeof(NSUInteger *));
     gateCalculator.countOfEventsInside = 0;
     
@@ -265,12 +292,21 @@
 }
 
 
-+ (BOOL)_point:(FGPlotPoint)point insidePolygon:(NSArray *)polygonVertices
++ (BOOL)_point:(FGPlotPoint)point insidePolygon:(NSArray *)polygonVertices lowerLeft:(FGPlotPoint)lowerLeft upperRight:(FGPlotPoint)upperRight
 {
     int counter = 0;
     int i;
     double xinters;
     FGGraphPoint *p1, *p2;
+
+    // Check first if point is inside the bounds of the polygon
+    if (point.xVal < lowerLeft.xVal || point.xVal < lowerLeft.xVal) {
+        return NO;
+    }
+    if (point.yVal > upperRight.yVal || point.yVal > upperRight.yVal) {
+        return NO;
+    }
+    
     
     if (polygonVertices.count == 0)
     {

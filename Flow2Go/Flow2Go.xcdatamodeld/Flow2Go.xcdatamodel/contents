@@ -9,6 +9,7 @@
         <relationship name="plots" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="FGPlot" inverseName="analysis" inverseEntity="FGPlot" syncable="YES"/>
     </entity>
     <entity name="FGFolder" representedClassName="FGFolder" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="measurements" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="FGMeasurement" inverseName="folder" inverseEntity="FGMeasurement" syncable="YES"/>
     </entity>
@@ -61,7 +62,7 @@
     </entity>
     <elements>
         <element name="FGAnalysis" positionX="-3618" positionY="-2646" width="128" height="135"/>
-        <element name="FGFolder" positionX="-4014" positionY="-2595" width="128" height="75"/>
+        <element name="FGFolder" positionX="-4014" positionY="-2595" width="128" height="90"/>
         <element name="FGGate" positionX="-3276" positionY="-2406" width="128" height="103"/>
         <element name="FGKeyword" positionX="-3807" positionY="-2376" width="128" height="90"/>
         <element name="FGMeasurement" positionX="-3825" positionY="-2646" width="128" height="225"/>

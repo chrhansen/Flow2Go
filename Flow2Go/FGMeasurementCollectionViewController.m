@@ -511,12 +511,15 @@
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-    _fetchedResultsController = [FGMeasurement fetchAllGroupedBy:@"folder.name"
-                                                   withPredicate:nil
-                                                        sortedBy:@"filename"
-                                                       ascending:YES
-                                                        delegate:self
-                                                       inContext:[NSManagedObjectContext defaultContext]];
+//    _fetchedResultsController = [FGMeasurement fetchAllGroupedBy:@"folder.createdAt"
+//                                                   withPredicate:nil
+//                                                        sortedBy:@"filename"
+//                                                       ascending:NO
+//                                                        delegate:self
+//                                                       inContext:[NSManagedObjectContext defaultContext]];
+    _fetchedResultsController = [FGMeasurement fetchAllSortedBy:@"folder.createdAt" ascending:NO withPredicate:nil groupBy:@"folder.name" delegate:self inContext:[NSManagedObjectContext defaultContext]];
+
+    
     return _fetchedResultsController;
 }
 

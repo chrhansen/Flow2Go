@@ -63,7 +63,6 @@
         NSError *error;
         FGGateCalculator *gateCalculator;
         if (self.parentGates.count > 0 && self.subset == nil) {
-            NSLog(@"Will calculate subset");
             gateCalculator      = [FGGateCalculator eventsInsideGatesWithDatas:self.parentGates fcsFile:self.fcsFile];
             self.subset         = gateCalculator.eventsInside;
             self.subsetCount    = gateCalculator.countOfEventsInside;
@@ -72,7 +71,6 @@
         if (self.isCancelled) {
             return;
         }
-        NSLog(@"Will calculate plot data");
         FGPlotDataCalculator *plotDataCalculator = [FGPlotDataCalculator plotDataForFCSFile:self.fcsFile plotOptions:self.plotOptions subset:self.subset subsetCount:self.subsetCount];
         
         if (self.isCancelled) {

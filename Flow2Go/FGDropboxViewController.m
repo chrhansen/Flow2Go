@@ -227,7 +227,7 @@
 - (void)_configureCell:(UITableViewCell *)cell withMetaData:(DBMetadata *)metadata
 {
     FGDropboxCell *dropboxCell = (FGDropboxCell *)cell;
-    dropboxCell.folderFileName.text = [metadata.filename fitToLength:29];
+    dropboxCell.folderFileName.text = [metadata.filename fitToLength:55];
     
     if (metadata.isDirectory) {
         dropboxCell.folderFileImage.image = [UIImage imageNamed:@"folder_icon"];

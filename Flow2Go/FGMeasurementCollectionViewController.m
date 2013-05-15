@@ -296,11 +296,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filePickerCancelled) name:FGPickerViewControllerCancelledNotification object:nil];
 }
 
+
 - (void)surveyBecameAvailable:(NSNotification *)notification
 {
     [ATSurveys presentSurveyControllerFromViewController:self];
 }
-
 
 
 #pragma mark UISearchBar delegate

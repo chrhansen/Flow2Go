@@ -46,6 +46,7 @@
 #endif
 
 #define kProductFetchedNotification @"MKStoreKitProductsFetched"
+#define kProductFetchedFailedNotification @"MKStoreKitProductsFetchFailed" // Added by Christian Hansen
 #define kSubscriptionsPurchasedNotification @"MKStoreKitSubscriptionsPurchased"
 #define kSubscriptionsInvalidNotification @"MKStoreKitSubscriptionsInvalid"
 
@@ -56,6 +57,8 @@
 
 // this is a class method, since it doesn't require the store manager to be initialized prior to calling
 + (BOOL) isFeaturePurchased:(NSString*) featureId;
+
+- (void)requestProductData;
 
 @property (nonatomic, strong) NSMutableArray *purchasableObjects;
 @property (nonatomic, strong) NSMutableDictionary *subscriptionProducts;

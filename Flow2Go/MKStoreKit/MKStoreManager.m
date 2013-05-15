@@ -316,7 +316,7 @@ static MKStoreManager* _sharedStoreManager;
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
 	self.isProductsAvailable = NO;
-    [[NSNotificationCenter defaultCenter] postNotificationName:kProductFetchedNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:kProductFetchedFailedNotification
                                                         object:[NSNumber numberWithBool:self.isProductsAvailable]];
 	self.productsRequest = nil;
 }

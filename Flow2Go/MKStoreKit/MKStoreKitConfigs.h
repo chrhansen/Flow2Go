@@ -55,5 +55,5 @@
 
 //#warning Shared Secret Missing Ignore this warning if you don't use auto-renewable subscriptions
 #ifndef kSharedSecret
-    #define kSharedSecret @"<FILL IN YOUR SHARED SECRET HERE>"
+    #define kSharedSecret @"4c982a7e89d248c5a010d064796177f2"
 #endif

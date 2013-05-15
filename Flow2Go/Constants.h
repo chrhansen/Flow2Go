@@ -36,6 +36,14 @@ static NSString * const FG_FIRST_LAUNCH_KEY = @"FG_FIRST_LAUNCH_KEY";
 //Crashlytics API-key
 #define kCrashlyticsAPIKey @"0387772ffe94f1d824a25caa46697d6294cc3f90"
 
+// In-App purchases
+extern NSString * const InAppIdentifierFCSFiles;
+
+
+// Sample File MD5 checksums
+extern NSString * const SampleFileCheckSum1;
+extern NSString * const SampleFileCheckSum2;
+
 //Dropbox API keys
 #define kDropboxAPIKey    @"6hb8rousm8nruan"
 #define kDropboxAPISecret @"uapd0yurv7xaev1"

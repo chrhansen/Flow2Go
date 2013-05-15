@@ -10,7 +10,7 @@
 
 @class MSNavigationPaneViewController, FGAnalysisViewController;
 
-@interface FGMeasurementCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate>
+@interface FGMeasurementCollectionViewController : UICollectionViewController <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, weak) MSNavigationPaneViewController *navigationPaneViewController;

@@ -92,6 +92,8 @@
 		E55923C616D382D200A087D8 /* ATSurveys.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923C416D382D200A087D8 /* ATSurveys.h */; };
 		E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C716D3838800A087D8 /* 09-chat-2@2x.png */; };
 		E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C816D3838800A087D8 /* 09-chat-2.png */; };
+		E56CBE3A17433EAA004D4C6B /* FCS_FILES_UNLIMITED.png in Resources */ = {isa = PBXBuildFile; fileRef = E56CBE3817433EAA004D4C6B /* FCS_FILES_UNLIMITED.png */; };
+		E56CBE401743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E56CBE3F1743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png */; };
 		E56FC120170356F1004019DF /* FGPlotCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E56FC11F170356F1004019DF /* FGPlotCreator.m */; };
 		E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E570CCDC16DCF03800418413 /* FGStackedLayout.m */; };
 		E579564915DAFE6800B77795 /* FGGateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* FGGateCalculator.m */; };
@@ -369,6 +371,8 @@
 		E55923C416D382D200A087D8 /* ATSurveys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATSurveys.h; path = Flow2Go/ApptentiveConnect/source/Surveys/ATSurveys.h; sourceTree = "<group>"; };
 		E55923C716D3838800A087D8 /* 09-chat-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "09-chat-2@2x.png"; path = "Images/09-chat-2@2x.png"; sourceTree = "<group>"; };
 		E55923C816D3838800A087D8 /* 09-chat-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "09-chat-2.png"; path = "Images/09-chat-2.png"; sourceTree = "<group>"; };
+		E56CBE3817433EAA004D4C6B /* FCS_FILES_UNLIMITED.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FCS_FILES_UNLIMITED.png; sourceTree = "<group>"; };
+		E56CBE3F1743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FCS_FILES_UNLIMITED@2x.png"; sourceTree = "<group>"; };
 		E56FC11E170356F1004019DF /* FGPlotCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreator.h; sourceTree = "<group>"; };
 		E56FC11F170356F1004019DF /* FGPlotCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreator.m; sourceTree = "<group>"; };
 		E570CCDB16DCF03800418413 /* FGStackedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStackedLayout.h; sourceTree = "<group>"; };
@@ -690,6 +694,7 @@
 		E511FD7A15CC377500637D39 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E56CBE3617433E80004D4C6B /* In App Purchases */,
 				E513F72C173A201F00F64267 /* Launch and Icons */,
 				E5F8353317021E570018E2A8 /* GateButtons */,
 				E59C49A916C4AFF700B5E0D5 /* Folder View */,
@@ -886,6 +891,15 @@
 				E5208C5B15E9B34800EBAE47 /* NSString+UUID.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		E56CBE3617433E80004D4C6B /* In App Purchases */ = {
+			isa = PBXGroup;
+			children = (
+				E56CBE3817433EAA004D4C6B /* FCS_FILES_UNLIMITED.png */,
+				E56CBE3F1743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png */,
+			);
+			name = "In App Purchases";
 			sourceTree = "<group>";
 		};
 		E585572016C160B200BF4546 /* CoreData managed subclasses */ = {
@@ -1560,6 +1574,8 @@
 				E5FF978C174335EE00C711D5 /* Flow2GoLaunchImage-Portrait.png in Resources */,
 				E5FF978F174336A600C711D5 /* Flow2GoLaunchImage-Landscape.png in Resources */,
 				E5FF9790174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
+				E56CBE3A17433EAA004D4C6B /* FCS_FILES_UNLIMITED.png in Resources */,
+				E56CBE401743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1805,8 +1821,8 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
+				PROVISIONING_PROFILE = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
 				SDKROOT = iphoneos;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1870,8 +1886,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
+				PROVISIONING_PROFILE = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;

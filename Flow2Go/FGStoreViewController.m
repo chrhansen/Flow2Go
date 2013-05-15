@@ -10,11 +10,11 @@
 #import "MKStoreManager.h"
 #import "FGStoreCell.h"
 #import "SKProduct+PriceAsString.h"
+#import "MKSKSubscriptionProduct.h"
 
 @interface FGStoreViewController ()
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *restoreButton;
-@property (nonatomic, strong) NSArray *childrenOfPurchasedBatches;
 
 @end
 
@@ -49,10 +49,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 - (void)_addObservings
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsFetched:) name:kProductFetchedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsFetchedFailed:) name:kProductFetchedFailedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsFetched:) name:kSubscriptionsPurchasedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsFetched:) name:kSubscriptionsInvalidNotification object:nil];
 }
 
 
@@ -72,7 +74,6 @@
     NSInteger productIndex = [(UIButton *)sender tag];
     [[MKStoreManager sharedManager] buyFeature:[[MKStoreManager sharedManager].purchasableObjects[productIndex] productIdentifier] onComplete:^(NSString *purchasedFeature, NSData *purchasedReceipt, NSArray *availableDownloads) {
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
-        [self loadBatchPurchases];
         [self reloadProductWithIdentifier:purchasedFeature];
     } onCancelled:^{
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
@@ -84,7 +85,6 @@
 {
     [[MKStoreManager sharedManager] restorePreviousTransactionsOnComplete:^{
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
-        [self loadBatchPurchases];
         [self.collectionView reloadItemsAtIndexPaths:[self.collectionView indexPathsForVisibleItems]];
     } onError:^(NSError *error) {
         NSAssert([NSThread isMainThread], @"WTF! completion handler not on main thread");
@@ -110,29 +110,25 @@
 }
 
 
-- (void)loadBatchPurchases
-{
-    NSDictionary *batchProducts = [NSDictionary dictionaryWithContentsOfFile: [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"MKStoreKitConfigs.plist"]][@"Non-Consumables-batch"];
-    NSMutableArray *childProducts = [NSMutableArray array];
-    for (SKProduct *product in [[MKStoreManager sharedManager] purchasableObjects]) {
-        if ([MKStoreManager isFeaturePurchased:product.productIdentifier] && batchProducts[product.productIdentifier]) {
-            [childProducts addObjectsFromArray:batchProducts[product.productIdentifier]];
-        }
-    }
-    self.childrenOfPurchasedBatches = childProducts;
-}
-
-
 #pragma mark Store updates
 - (void)productsFetched:(NSNotification *)notification
 {
     NSNumber *isProductsAvailable = notification.object;
     if (isProductsAvailable.boolValue) {
-        [self loadBatchPurchases];
         [self.collectionView reloadData];
     }
 }
 
+- (void)productsFetchedFailed:(NSNotification *)notification
+{
+    [self postInternetErrorNotification];
+}
+
+
+- (void)postInternetErrorNotification
+{
+    [FGHUDMessage showHUDMessage:NSLocalizedString(@"Could not get products, are you connected to the internet?", nil) inView:self.view];
+}
 
 - (void)reloadProductWithIdentifier:(NSString *)productIdentifier
 {
@@ -155,23 +151,42 @@
     storeCell.titleLabel.text = product.localizedTitle;
     storeCell.descriptionLabel.text = product.localizedDescription;
     [storeCell.descriptionLabel sizeToFit];
-    if ([self.childrenOfPurchasedBatches containsObject:product.productIdentifier]) {
-        [storeCell.buyButton setTitle:NSLocalizedString(@"Unavailable", nil) forState:UIControlStateNormal];
-        [storeCell.buyButton setEnabled:NO];
-    }
-    else if ([MKStoreManager isFeaturePurchased:product.productIdentifier]) {
+    if ([MKStoreManager isFeaturePurchased:product.productIdentifier]) {
         [storeCell.buyButton setTitle:NSLocalizedString(@"Purchased", nil) forState:UIControlStateNormal];
         [storeCell.buyButton setEnabled:NO];
     } else {
-        [storeCell.buyButton setTitle:product.priceAsString forState:UIControlStateNormal];
+        MKSKSubscriptionProduct *subscriptionProduct = [[MKStoreManager sharedManager] subscriptionProducts][product.productIdentifier];
+        if (subscriptionProduct) {
+            NSString *duration;
+            if (subscriptionProduct.subscriptionDays == 7) {
+                duration = NSLocalizedString(@"week", nil);
+            } else if (subscriptionProduct.subscriptionDays == 30) {
+                duration = NSLocalizedString(@"month", nil);
+            }
+            NSString *subscriptionPriceTitle = [product.priceAsString stringByAppendingFormat:@"/%@", duration];
+            [storeCell.buyButton setTitle:subscriptionPriceTitle forState:UIControlStateNormal];
+        } else {
+            [storeCell.buyButton setTitle:product.priceAsString forState:UIControlStateNormal];
+        }
         storeCell.buyButton.tag = indexPath.row;
         [storeCell.buyButton setEnabled:YES];
+
         if (storeCell.buyButton.allTargets.count == 0) {
             [storeCell.buyButton addTarget:self action:@selector(buyButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
+    storeCell.mainImageView.image = [self imageForProductIdentifier:product.productIdentifier];
 }
 
+
+- (UIImage *)imageForProductIdentifier:(NSString *)productIdentifier
+{
+    UIImage *image;
+    if ([productIdentifier isEqualToString:@"it.calcul8.flow2go.fcsfile"]) {
+        image = [UIImage imageNamed:@"FCS_FILES_UNLIMITED"];
+    } 
+    return image;
+}
 
 
 

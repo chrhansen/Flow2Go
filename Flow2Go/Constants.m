@@ -43,3 +43,12 @@ NSString *const ParsableFormats = @"ParsableFormats";
 // ROI list
 NSString *const ROIs = @"ROIs";
 NSString *const PolygonROIs = @"PolygonROIs";
+
+
+// In-App purchases
+NSString * const InAppIdentifierFCSFiles = @"it.calcul8.flow2go.fcsfile";
+
+
+// Sample file md5 checksums
+NSString * const SampleFileCheckSum1 = @"24be50cc6b2fc79fb9090fd15592618c";
+NSString * const SampleFileCheckSum2 = @"7555d11f62605a6caa00c2ccd03f7b20";

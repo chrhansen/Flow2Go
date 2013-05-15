@@ -25,8 +25,9 @@
 #import "FGKeywordTableViewController.h"
 #import "FGAnalysisManager.h"
 #import "FGSampleImporter.h"
+#import "MKStoreManager.h"
 
-@interface FGMeasurementCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate>
+@interface FGMeasurementCollectionViewController () <UIActionSheetDelegate, FGDownloadManagerProgressDelegate, UIPopoverControllerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *editItems;
 @property (nonatomic, strong) UIBarButtonItem *leftBarButtonItem;
@@ -305,8 +306,8 @@
 #pragma mark UISearchBar delegate
 - (void)headerControlsWillAppear:(NSNotification *)notification
 {
-    UISearchBar *searchBar = notification.userInfo[@"searchBar"];
-    searchBar.delegate = self;
+//    UISearchBar *searchBar = notification.userInfo[@"searchBar"];
+//    searchBar.delegate = self;
     UISegmentedControl *segmentedControl = notification.userInfo[@"segmentedControl"];
     segmentedControl.selectedSegmentIndex = [self.collectionView.collectionViewLayout isKindOfClass:[FGStackedLayout class]] ? 0 : 1;
 }
@@ -463,7 +464,11 @@
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
     switch (self.isEditing) {
         case NO:
-            [self _presentMeasurement:measurement];
+            if ([self isFCSViewingPurchased] || [self isSampleMeasurement:measurement]) {
+                [self _presentMeasurement:measurement];
+            } else {
+                [self showPleaseUpgradeAlert];
+            }
             break;
 
         case YES:
@@ -508,20 +513,60 @@
 //    } completion:nil];
 }
 
+
+#pragma mark - In App Purchase Check
+- (BOOL)isFCSViewingPurchased
+{
+    return ([MKStoreManager isFeaturePurchased:InAppIdentifierFCSFiles]);
+}
+
+
+- (BOOL)isSampleMeasurement:(FGMeasurement *)measurement
+{
+    if ([measurement.fGMeasurementID isEqualToString:SampleFileCheckSum1]
+        || [measurement.fGMeasurementID isEqualToString:SampleFileCheckSum2]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)showPleaseUpgradeAlert
+{
+    NSString *message = NSLocalizedString(@"Thank you for using Flow2Go! Please upgrade to view your own FCS files.", nil);
+
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Please Upgrade", nil)
+                                                        message:message
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                              otherButtonTitles:NSLocalizedString(@"Upgrade...", nil), nil];
+    [alertView show];
+}
+
+
+
+#pragma mark - Alert View Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) {
+        return;
+    }
+    [self performSegueWithIdentifier:@"Show Store" sender:nil];
+}
+
+
 #pragma mark - Fetched results controller
 - (NSFetchedResultsController *)fetchedResultsController
 {
     if (_fetchedResultsController != nil) {
         return _fetchedResultsController;
     }
-//    _fetchedResultsController = [FGMeasurement fetchAllGroupedBy:@"folder.createdAt"
-//                                                   withPredicate:nil
-//                                                        sortedBy:@"filename"
-//                                                       ascending:NO
-//                                                        delegate:self
-//                                                       inContext:[NSManagedObjectContext defaultContext]];
-    _fetchedResultsController = [FGMeasurement fetchAllSortedBy:@"folder.createdAt" ascending:NO withPredicate:nil groupBy:@"folder.name" delegate:self inContext:[NSManagedObjectContext defaultContext]];
-
+    _fetchedResultsController = [FGMeasurement fetchAllSortedBy:@"folder.createdAt"
+                                                      ascending:NO
+                                                  withPredicate:nil
+                                                        groupBy:@"folder.name"
+                                                       delegate:self
+                                                      inContext:[NSManagedObjectContext defaultContext]];
+    
     
     return _fetchedResultsController;
 }

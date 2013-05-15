@@ -28,7 +28,7 @@
 {
     FGFolder *folder = [FGFolder createEntity];
     folder.createdAt = [NSDate date];
-    folder.name = NSLocalizedString(@"Sampe Files", nil);
+    folder.name = NSLocalizedString(@"Sample Files", nil);
     
     return folder;    
 }

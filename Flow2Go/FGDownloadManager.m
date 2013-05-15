@@ -138,6 +138,8 @@
 
 - (void)_downloadMeasurement:(FGMeasurement *)measurement
 {
+    if (!measurement) return;
+    
     [measurement setState:FGDownloadStateWaiting];
     self.currentDownloads[measurement.fullFilePath] = measurement;
     self.downloadProgresses[measurement.fGMeasurementID] = @0.0F;
@@ -225,6 +227,9 @@
 {
     NSAssert([NSThread isMainThread], @"Download progress not called on Main Thread");
     FGMeasurement *measurement = self.currentDownloads[destPath];
+    if (!measurement) {
+        return;
+    }
     self.downloadProgresses[measurement.fGMeasurementID] = [NSNumber numberWithFloat:progress];
     if ([self.progressDelegate respondsToSelector:@selector(downloadManager:loadProgress:forMeasurement:)])
         [self.progressDelegate downloadManager:self loadProgress:progress forMeasurement:self.currentDownloads[destPath]];

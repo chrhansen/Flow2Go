@@ -29,10 +29,6 @@
 		E50F000416E8F164009C546E /* FGPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = E50F000316E8F164009C546E /* FGPlot.m */; };
 		E511FDDA15CC6C4800637D39 /* FGPlotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E511FDD915CC6C4800637D39 /* FGPlotViewController.m */; };
 		E512FAF217129AC3003EE9E0 /* FGHUDMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = E512FAF117129AC3003EE9E0 /* FGHUDMessage.m */; };
-		E512FAF817136D55003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */; };
-		E512FAF917136D55003EE9E0 /* Flow2GoLaunchImage-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */; };
-		E512FAFA17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */; };
-		E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */; };
 		E513F7211739C19200F64267 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E513F7201739C19200F64267 /* MobileCoreServices.framework */; };
 		E5140F3016CB1C720048316E /* SKProduct+PriceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */; };
 		E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */ = {isa = PBXBuildFile; fileRef = E5173B6816E107CF00A314D4 /* PRTween.m */; };
@@ -206,6 +202,10 @@
 		E5FC701F15CA997C0047A3DD /* FGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E5FC701E15CA997C0047A3DD /* FGDownloadManager.m */; };
 		E5FC703315CA9F580047A3DD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC703215CA9F580047A3DD /* Security.framework */; };
 		E5FC703515CA9F8A0047A3DD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FC703415CA9F890047A3DD /* QuartzCore.framework */; };
+		E5FF978B174335EE00C711D5 /* Flow2GoLaunchImage-Portrait@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5FF9789174335EE00C711D5 /* Flow2GoLaunchImage-Portrait@2x.png */; };
+		E5FF978C174335EE00C711D5 /* Flow2GoLaunchImage-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = E5FF978A174335EE00C711D5 /* Flow2GoLaunchImage-Portrait.png */; };
+		E5FF978F174336A600C711D5 /* Flow2GoLaunchImage-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = E5FF978D174336A600C711D5 /* Flow2GoLaunchImage-Landscape.png */; };
+		E5FF9790174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5FF978E174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -283,10 +283,6 @@
 		E511FDD915CC6C4800637D39 /* FGPlotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotViewController.m; sourceTree = "<group>"; };
 		E512FAF017129AC3003EE9E0 /* FGHUDMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGHUDMessage.h; sourceTree = "<group>"; };
 		E512FAF117129AC3003EE9E0 /* FGHUDMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGHUDMessage.m; sourceTree = "<group>"; };
-		E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Portrait@2x.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Portrait@2x.png"; sourceTree = "<group>"; };
-		E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Portrait.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Portrait.png"; sourceTree = "<group>"; };
-		E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Landscape.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Landscape.png"; sourceTree = "<group>"; };
-		E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Flow2GoLaunchImage-Landscape@2x.png"; path = "Flow2Go/Launch and Icon Images/Flow2GoLaunchImage-Landscape@2x.png"; sourceTree = "<group>"; };
 		E513F7201739C19200F64267 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		E5140F2E16CB1C720048316E /* SKProduct+PriceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+PriceAsString.h"; sourceTree = "<group>"; };
 		E5140F2F16CB1C720048316E /* SKProduct+PriceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+PriceAsString.m"; sourceTree = "<group>"; };
@@ -593,7 +589,7 @@
 		E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		E5F130D8173F8379008B068C /* Sample-1.lmd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Sample-1.lmd"; sourceTree = "<group>"; };
 		E5F130D9173F8379008B068C /* Sample-2.fcs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Sample-2.fcs"; sourceTree = "<group>"; };
-		E5F130DD173F88FA008B068C /* Flow2Go_v1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = Flow2Go_v1.0.xcdatamodel; sourceTree = "<group>"; };
+		E5F130DD173F88FA008B068C /* Flow2Go_v1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Flow2Go_v1.0.xcdatamodel; sourceTree = "<group>"; };
 		E5F1DAFC160E64A200591F2A /* FGRectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGRectangle.h; sourceTree = "<group>"; };
 		E5F1DAFD160E64A200591F2A /* FGRectangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGRectangle.m; sourceTree = "<group>"; };
 		E5F1DB04160E7BD200591F2A /* FGEllipse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGEllipse.h; sourceTree = "<group>"; };
@@ -625,6 +621,10 @@
 		E5FC702015CA9A720047A3DD /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E5FC703215CA9F580047A3DD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E5FC703415CA9F890047A3DD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		E5FF9789174335EE00C711D5 /* Flow2GoLaunchImage-Portrait@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Portrait@2x.png"; sourceTree = "<group>"; };
+		E5FF978A174335EE00C711D5 /* Flow2GoLaunchImage-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Portrait.png"; sourceTree = "<group>"; };
+		E5FF978D174336A600C711D5 /* Flow2GoLaunchImage-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape.png"; sourceTree = "<group>"; };
+		E5FF978E174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Flow2GoLaunchImage-Landscape@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -713,10 +713,10 @@
 				E5A1BC9816D05433001CABF8 /* flow2go-logo-114.png */,
 				E5A1BC9616D0535B001CABF8 /* flow2go-logo-72.png */,
 				E5A1BC9416D05310001CABF8 /* flow2go-logo.png */,
-				E512FAF517136D54003EE9E0 /* Flow2GoLaunchImage-Portrait.png */,
-				E512FAF417136D54003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png */,
-				E512FAF617136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png */,
-				E512FAF717136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png */,
+				E5FF978A174335EE00C711D5 /* Flow2GoLaunchImage-Portrait.png */,
+				E5FF9789174335EE00C711D5 /* Flow2GoLaunchImage-Portrait@2x.png */,
+				E5FF978D174336A600C711D5 /* Flow2GoLaunchImage-Landscape.png */,
+				E5FF978E174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png */,
 			);
 			name = "Launch and Icons";
 			path = ..;
@@ -1541,10 +1541,6 @@
 				E5375DFA170D280F008F378B /* gate-range-1.png in Resources */,
 				E5375E00170D2AA3008F378B /* gate-range-3@2x.png in Resources */,
 				E5375E02170D30FE008F378B /* gate-range-3.png in Resources */,
-				E512FAF817136D55003EE9E0 /* Flow2GoLaunchImage-Portrait@2x.png in Resources */,
-				E512FAF917136D55003EE9E0 /* Flow2GoLaunchImage-Portrait.png in Resources */,
-				E512FAFA17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape.png in Resources */,
-				E512FAFB17136D55003EE9E0 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
 				E54B6B54173B142000F203C3 /* 0259.png in Resources */,
 				E54B6B55173B142000F203C3 /* 0259@2x.png in Resources */,
 				E52D4F1E173DE3F80021C95C /* histogram.png in Resources */,
@@ -1560,6 +1556,10 @@
 				E5F30FFA173F80D5009A40E0 /* 39-circle-check@2x.png in Resources */,
 				E5F130DA173F8379008B068C /* Sample-1.lmd in Resources */,
 				E5F130DB173F8379008B068C /* Sample-2.fcs in Resources */,
+				E5FF978B174335EE00C711D5 /* Flow2GoLaunchImage-Portrait@2x.png in Resources */,
+				E5FF978C174335EE00C711D5 /* Flow2GoLaunchImage-Portrait.png in Resources */,
+				E5FF978F174336A600C711D5 /* Flow2GoLaunchImage-Landscape.png in Resources */,
+				E5FF9790174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1751,8 +1751,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Christian Hansen";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Christian Hansen";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1775,8 +1775,8 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
 				SDKROOT = iphoneos;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1805,8 +1805,8 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "621CCA5C-8BCD-477C-9BD1-4AB2C1157E8D";
+				PROVISIONING_PROFILE = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
 				SDKROOT = iphoneos;
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1817,6 +1817,8 @@
 		E5FC6F6E15CA7E8E0047A3DD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1836,6 +1838,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
@@ -1866,8 +1870,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3E4162BF-2A05-465E-88B9-AAB0353ED116";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3E4162BF-2A05-465E-88B9-AAB0353ED116";
+				PROVISIONING_PROFILE = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ADB997B8-92C7-40F0-92F2-AF6264D35CB7";
 				SHARED_PRECOMPS_DIR = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;

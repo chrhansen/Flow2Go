@@ -182,7 +182,7 @@
 - (UIImage *)imageForProductIdentifier:(NSString *)productIdentifier
 {
     UIImage *image;
-    if ([productIdentifier isEqualToString:@"it.calcul8.flow2go.fcsfile"]) {
+    if ([productIdentifier isEqualToString:InAppIdentifierFCSFiles]) {
         image = [UIImage imageNamed:@"FCS_FILES_UNLIMITED"];
     } 
     return image;

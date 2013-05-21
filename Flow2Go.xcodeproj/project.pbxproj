@@ -95,7 +95,6 @@
 		E56CBE3A17433EAA004D4C6B /* FCS_FILES_UNLIMITED.png in Resources */ = {isa = PBXBuildFile; fileRef = E56CBE3817433EAA004D4C6B /* FCS_FILES_UNLIMITED.png */; };
 		E56CBE401743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E56CBE3F1743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png */; };
 		E56FC120170356F1004019DF /* FGPlotCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = E56FC11F170356F1004019DF /* FGPlotCreator.m */; };
-		E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E570CCDC16DCF03800418413 /* FGStackedLayout.m */; };
 		E579564915DAFE6800B77795 /* FGGateCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E579564815DAFE6800B77795 /* FGGateCalculator.m */; };
 		E57BA89315ED8D94008EA346 /* FGPlotDataCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = E57BA89215ED8D94008EA346 /* FGPlotDataCalculator.m */; };
 		E580999C15F79C8B000E0B34 /* FGKeywordTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E580999B15F79C8B000E0B34 /* FGKeywordTableViewController.m */; };
@@ -180,6 +179,12 @@
 		E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = E5D314D416CE5E7A00700F57 /* MagicalRecord.m */; };
 		E5D3153A16CE5F0700700F57 /* libCorePlot-CocoaTouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153916CE5F0700700F57 /* libCorePlot-CocoaTouch.a */; };
 		E5D3153C16CE5F4400700F57 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */; };
+		E5D53139174BE72600C3B4E3 /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D53135174BE72600C3B4E3 /* blueButton.png */; };
+		E5D5313A174BE72600C3B4E3 /* blueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D53136174BE72600C3B4E3 /* blueButton@2x.png */; };
+		E5D5313B174BE72600C3B4E3 /* blueButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D53137174BE72600C3B4E3 /* blueButtonHighlight.png */; };
+		E5D5313C174BE72600C3B4E3 /* blueButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D53138174BE72600C3B4E3 /* blueButtonHighlight@2x.png */; };
+		E5D5313F174BE73700C3B4E3 /* greenButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D5313D174BE73700C3B4E3 /* greenButton.png */; };
+		E5D53140174BE73700C3B4E3 /* greenButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D5313E174BE73700C3B4E3 /* greenButton@2x.png */; };
 		E5E1E774160CA68B006BFE98 /* FGSingleRange.m in Sources */ = {isa = PBXBuildFile; fileRef = E5E1E773160CA68B006BFE98 /* FGSingleRange.m */; };
 		E5F0AF0216E7E46100C765D8 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E5F0AF0116E7E46100C765D8 /* UIImage+Resize.m */; };
 		E5F130DA173F8379008B068C /* Sample-1.lmd in Resources */ = {isa = PBXBuildFile; fileRef = E5F130D8173F8379008B068C /* Sample-1.lmd */; };
@@ -375,8 +380,6 @@
 		E56CBE3F1743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FCS_FILES_UNLIMITED@2x.png"; sourceTree = "<group>"; };
 		E56FC11E170356F1004019DF /* FGPlotCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreator.h; sourceTree = "<group>"; };
 		E56FC11F170356F1004019DF /* FGPlotCreator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreator.m; sourceTree = "<group>"; };
-		E570CCDB16DCF03800418413 /* FGStackedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGStackedLayout.h; sourceTree = "<group>"; };
-		E570CCDC16DCF03800418413 /* FGStackedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGStackedLayout.m; sourceTree = "<group>"; };
 		E579564715DAFE6800B77795 /* FGGateCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FGGateCalculator.h; path = Flow2Go/FGGateCalculator.h; sourceTree = SOURCE_ROOT; };
 		E579564815DAFE6800B77795 /* FGGateCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FGGateCalculator.m; path = Flow2Go/FGGateCalculator.m; sourceTree = SOURCE_ROOT; };
 		E57BA89115ED8D94008EA346 /* FGPlotDataCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotDataCalculator.h; sourceTree = "<group>"; };
@@ -587,6 +590,12 @@
 		E5D3153816CE5F0700700F57 /* CPTXYPlotSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPTXYPlotSpace.h; sourceTree = "<group>"; };
 		E5D3153916CE5F0700700F57 /* libCorePlot-CocoaTouch.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCorePlot-CocoaTouch.a"; sourceTree = "<group>"; };
 		E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = Flow2Go/DropboxSDK.framework; sourceTree = "<group>"; };
+		E5D53135174BE72600C3B4E3 /* blueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButton.png; sourceTree = "<group>"; };
+		E5D53136174BE72600C3B4E3 /* blueButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButton@2x.png"; sourceTree = "<group>"; };
+		E5D53137174BE72600C3B4E3 /* blueButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButtonHighlight.png; sourceTree = "<group>"; };
+		E5D53138174BE72600C3B4E3 /* blueButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButtonHighlight@2x.png"; sourceTree = "<group>"; };
+		E5D5313D174BE73700C3B4E3 /* greenButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenButton.png; sourceTree = "<group>"; };
+		E5D5313E174BE73700C3B4E3 /* greenButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenButton@2x.png"; sourceTree = "<group>"; };
 		E5E1E772160CA68B006BFE98 /* FGSingleRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGSingleRange.h; sourceTree = "<group>"; };
 		E5E1E773160CA68B006BFE98 /* FGSingleRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGSingleRange.m; sourceTree = "<group>"; };
 		E5F0AF0016E7E46100C765D8 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
@@ -896,6 +905,7 @@
 		E56CBE3617433E80004D4C6B /* In App Purchases */ = {
 			isa = PBXGroup;
 			children = (
+				E5D53133174BE70F00C3B4E3 /* Buy Button */,
 				E56CBE3817433EAA004D4C6B /* FCS_FILES_UNLIMITED.png */,
 				E56CBE3F1743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png */,
 			);
@@ -991,8 +1001,6 @@
 		E59C494816C4677800B5E0D5 /* Grouped Layout */ = {
 			isa = PBXGroup;
 			children = (
-				E570CCDB16DCF03800418413 /* FGStackedLayout.h */,
-				E570CCDC16DCF03800418413 /* FGStackedLayout.m */,
 				E59C495316C4710F00B5E0D5 /* FGMeasurementGridLayout.h */,
 				E59C495416C4710F00B5E0D5 /* FGMeasurementGridLayout.m */,
 			);
@@ -1262,6 +1270,19 @@
 				E5D3153816CE5F0700700F57 /* CPTXYPlotSpace.h */,
 			);
 			path = CorePlotHeaders;
+			sourceTree = "<group>";
+		};
+		E5D53133174BE70F00C3B4E3 /* Buy Button */ = {
+			isa = PBXGroup;
+			children = (
+				E5D5313D174BE73700C3B4E3 /* greenButton.png */,
+				E5D5313E174BE73700C3B4E3 /* greenButton@2x.png */,
+				E5D53135174BE72600C3B4E3 /* blueButton.png */,
+				E5D53136174BE72600C3B4E3 /* blueButton@2x.png */,
+				E5D53137174BE72600C3B4E3 /* blueButtonHighlight.png */,
+				E5D53138174BE72600C3B4E3 /* blueButtonHighlight@2x.png */,
+			);
+			name = "Buy Button";
 			sourceTree = "<group>";
 		};
 		E5F130D7173F8379008B068C /* Sample FCS Files */ = {
@@ -1576,6 +1597,12 @@
 				E5FF9790174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */,
 				E56CBE3A17433EAA004D4C6B /* FCS_FILES_UNLIMITED.png in Resources */,
 				E56CBE401743424F004D4C6B /* FCS_FILES_UNLIMITED@2x.png in Resources */,
+				E5D53139174BE72600C3B4E3 /* blueButton.png in Resources */,
+				E5D5313A174BE72600C3B4E3 /* blueButton@2x.png in Resources */,
+				E5D5313B174BE72600C3B4E3 /* blueButtonHighlight.png in Resources */,
+				E5D5313C174BE72600C3B4E3 /* blueButtonHighlight@2x.png in Resources */,
+				E5D5313F174BE73700C3B4E3 /* greenButton.png in Resources */,
+				E5D53140174BE73700C3B4E3 /* greenButton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1685,7 +1712,6 @@
 				E5D314EE16CE5E7A00700F57 /* MagicalRecord+Setup.m in Sources */,
 				E5D314EF16CE5E7A00700F57 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				E5D314F016CE5E7A00700F57 /* MagicalRecord.m in Sources */,
-				E570CCDD16DCF03800418413 /* FGStackedLayout.m in Sources */,
 				E5173B6B16E107CF00A314D4 /* PRTween.m in Sources */,
 				E5173B6C16E107CF00A314D4 /* PRTweenTimingFunctions.m in Sources */,
 				E5173B7016E4FB9900A314D4 /* FGHeaderControlsView.m in Sources */,

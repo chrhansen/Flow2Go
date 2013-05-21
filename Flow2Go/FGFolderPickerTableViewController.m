@@ -62,6 +62,7 @@
         FGFolder *newFolder = [FGFolder createEntity];
         newFolder.name = folderName;
         newFolder.createdAt = [NSDate date];
+        [newFolder.managedObjectContext obtainPermanentIDsForObjects:@[newFolder] error:nil];
     }
 }
 

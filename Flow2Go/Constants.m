@@ -46,7 +46,7 @@ NSString *const PolygonROIs = @"PolygonROIs";
 
 
 // In-App purchases
-NSString * const InAppIdentifierFCSFiles = @"it.calcul8.flow2go.fcsfile";
+NSString * const InAppIdentifierFCSFiles = @"io.flow2go.fcsfiles";
 
 
 // Sample file md5 checksums

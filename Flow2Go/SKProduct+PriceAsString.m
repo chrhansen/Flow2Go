@@ -17,8 +17,7 @@
     [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [formatter setLocale:[self priceLocale]];
     
-    NSString *str = [formatter stringFromNumber:[self price]];
-    return str;
+    return [formatter stringFromNumber:[self price]];
 }
 
 @end

@@ -93,17 +93,22 @@
         return;
     }
     NSString *relativePath = [directoryPath stringByAppendingPathComponent:metadata.filename];
-    NSDictionary *objectDetails = @{@"metadata"    : metadata,
-                                    @"filePath"    : relativePath,
-                                    @"downloadDate": NSDate.date,
-                                    @"globalURL"   : metadata.path};
-    FGMeasurement *newMeasurement = [[FGMeasurement MR_importFromArray:@[objectDetails]] lastObject];
-    newMeasurement.folder = folder;
-    [newMeasurement.managedObjectContext save:nil];
-    if ([newMeasurement state] != FGDownloadStateDownloaded) {
-        NSAssert(newMeasurement, @"Failed importing fcsfile based on dictionary");
-        [self _downloadMeasurement:newMeasurement];
-    }
+    NSManagedObjectID *folderID = [folder objectID];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSDictionary *objectDetails = @{@"metadata"    : metadata,
+                                        @"filePath"    : relativePath,
+                                        @"downloadDate": NSDate.date,
+                                        @"globalURL"   : metadata.path};
+        FGMeasurement *newMeasurement = [[FGMeasurement MR_importFromArray:@[objectDetails] inContext:localContext] lastObject];
+        FGFolder *localFolder = (FGFolder *)[localContext objectWithID:folderID];
+        newMeasurement.folder = localFolder;
+    } completion:^(BOOL success, NSError *error){
+        FGMeasurement *newMeasurement = [FGMeasurement findFirstByAttribute:@"fGMeasurementID" withValue:metadata.rev];
+        if ([newMeasurement state] != FGDownloadStateDownloaded) {
+            NSAssert(newMeasurement, @"Failed importing fcsfile based on dictionary");
+            [self _downloadMeasurement:newMeasurement];
+        }
+    }];
 }
 
 

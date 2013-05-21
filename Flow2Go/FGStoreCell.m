@@ -31,9 +31,43 @@
         self.mainImageView.layer.shadowOpacity = 0.5f;
         self.mainImageView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
         self.mainImageView.layer.shouldRasterize = YES;
-        
+        [self configureBuyButton];
+        [self addTextShadow];
     }
 }
+
+
+- (void)configureBuyButton
+{
+    UIImage *buttonImage = [[UIImage imageNamed:@"blueButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"blueButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageDisabled = [[UIImage imageNamed:@"greenButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    // Set the background for any states you plan to use
+    [self.buyButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [self.buyButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [self.buyButton setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
+    
+    [self.buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
+
+- (void)addTextShadow
+{
+    self.titleLabel.layer.shadowOpacity = 0.4;
+    self.titleLabel.layer.shadowRadius = 3.0;
+    self.titleLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.titleLabel.layer.shadowOffset = CGSizeMake(0.0, 2.0);
+    self.titleLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    self.titleLabel.layer.shouldRasterize = YES;
+    
+    self.descriptionLabel.layer.shadowOpacity = 0.5;
+    self.descriptionLabel.layer.shadowRadius = 2.0;
+    self.descriptionLabel.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.descriptionLabel.layer.shadowOffset = CGSizeMake(0.0, 1.0);
+    self.descriptionLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    self.descriptionLabel.layer.shouldRasterize = YES;
+}
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

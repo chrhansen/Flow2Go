@@ -12,7 +12,6 @@
 #import "FGMeasurementHeaderView.h"
 #import "FGMeasurementCell.h"
 #import "FGMeasurementGridLayout.h"
-#import "FGStackedLayout.h"
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
@@ -291,7 +290,6 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
     [ATSurveys checkForAvailableSurveys];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(headerControlsWillAppear:) name:FGHeaderControlsWillAppearNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidSaveNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filePickerCancelled) name:FGPickerViewControllerCancelledNotification object:nil];
 }
@@ -300,22 +298,6 @@
 - (void)surveyBecameAvailable:(NSNotification *)notification
 {
     [ATSurveys presentSurveyControllerFromViewController:self];
-}
-
-
-#pragma mark UISearchBar delegate
-- (void)headerControlsWillAppear:(NSNotification *)notification
-{
-//    UISearchBar *searchBar = notification.userInfo[@"searchBar"];
-//    searchBar.delegate = self;
-    UISegmentedControl *segmentedControl = notification.userInfo[@"segmentedControl"];
-    segmentedControl.selectedSegmentIndex = [self.collectionView.collectionViewLayout isKindOfClass:[FGStackedLayout class]] ? 0 : 1;
-}
-
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-    NSLog(@"search text: %@", searchText);
 }
 
 

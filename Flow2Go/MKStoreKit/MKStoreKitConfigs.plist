@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>Non-Consumables</key>
-        <array>
-        </array>
-        <key>Subscriptions</key>
-        <dict>
-            <key>it.calcul8.flow2go.fcsfile</key>
-            <integer>30</integer>
-        </dict>
-    </dict>
+<dict>
+	<key>Non-Consumables</key>
+	<array>
+		<string>io.flow2go.fcsfiles</string>
+	</array>
+	<key>Subscriptions</key>
+	<dict/>
+</dict>
 </plist>

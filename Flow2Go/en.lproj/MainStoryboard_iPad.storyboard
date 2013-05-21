@@ -1200,7 +1200,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PyR-Wv-mvZ">
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="52" id="M0J-oL-Emb"/>
-                                                <constraint firstAttribute="width" constant="90" id="Wjr-ol-gRs"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" type="user" id="Wjr-ol-gRs"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                             <state key="normal" title="Button">

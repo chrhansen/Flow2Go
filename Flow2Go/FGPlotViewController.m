@@ -331,6 +331,7 @@
             point = CGPointMake(axisButton.frame.origin.x + axisButton.bounds.size.height / 2.0f, axisButton.frame.origin.y);
             break;
         default:
+            point = CGPointMake(self.view.bounds.size.width / 2.0f, self.view.bounds.size.height / 2.0f);
             break;
     }
     self.popoverView = [PopoverView showPopoverAtPoint:point inView:self.view withTitle:nil withStringArray:items delegate:self];

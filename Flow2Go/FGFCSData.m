@@ -14,6 +14,7 @@
 
 @property (nonatomic) NSUInteger bitsPerEvent;
 @property (nonatomic, strong) NSDictionary *keywords;
+@property (nonatomic) FGParameterSize *parSizes;
 
 @end
 
@@ -72,7 +73,7 @@
 
 - (NSError *)_readIntegerDataFromData:(NSData *)dataSegmentData byteOrder:(CFByteOrder)fcsFileByteOrder
 {
-    FGParameterSize *parSizes = [self _getParameterSizes:_noOfParams];
+    self.parSizes = [self _getParameterSizes:_noOfParams];
     NSUInteger bytesPerEvent = self.bitsPerEvent/8;
     NSUInteger bytesToRead = _noOfEvents * bytesPerEvent;
     if (dataSegmentData.length < bytesToRead) {
@@ -82,7 +83,7 @@
     NSUInteger eventIndex = 0;
     NSError *error;
     for (NSUInteger parIndex = 0; parIndex < _noOfParams; parIndex++) {
-        if (parSizes[parIndex] == FGParameterSizeUnknown) {
+        if (self.parSizes[parIndex] == FGParameterSizeUnknown) {
             error = [NSError errorWithDomain:FCSFile_Error_Domain code:-1 userInfo:@{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Paramter number %d has an unsupored bit size", parIndex + 1]}];
             return error;
         }
@@ -98,7 +99,7 @@
         NSUInteger byteOffset = 0;
         for (NSUInteger parIndex = 0; parIndex < _noOfParams; parIndex++)
         {
-            switch (parSizes[parIndex])
+            switch (self.parSizes[parIndex])
             {
                 case FGParameterSize8:
                     self.events[eventIndex][parIndex] = (double)bufferOneEvent[byteOffset];
@@ -135,7 +136,7 @@
         }
         eventIndex++;
     }
-    if (parSizes) free(parSizes);
+    if (self.parSizes) free(self.parSizes);
     
     return error;
 }
@@ -384,8 +385,8 @@ typedef union Int2Double Int2Double;
         return error;
     }
     
-    double **spillOverMatrix    = calloc(n, sizeof(NSUInteger *));
-    double **spillOverMatrixInv = calloc(n, sizeof(NSUInteger *));
+    double **spillOverMatrix    = calloc(n, sizeof(double *));
+    double **spillOverMatrixInv = calloc(n, sizeof(double *));
     for (NSUInteger i = 0; i < n; i++) {
         spillOverMatrix[i]       = calloc(n, sizeof(double));
         spillOverMatrixInv[i] = calloc(n, sizeof(double));
@@ -533,6 +534,8 @@ typedef union Int2Double Int2Double;
     for (NSUInteger i = 0; i < _noOfEvents; i++) {
         free(_events[i]);
     }
+    if (self.parSizes) free(self.parSizes);
+    
     free(_events);
     free(_ranges);
 }

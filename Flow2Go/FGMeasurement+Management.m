@@ -84,7 +84,6 @@
     CFStringRef executableFileMD5Hash = FileMD5HashCreateWithPath((CFStringRef)CFBridgingRetain(executablePath), FileHashDefaultChunkSizeForReadingData);
     if (executableFileMD5Hash) {
         md5Hash = ((NSString *)CFBridgingRelease(executableFileMD5Hash));
-//        CFRelease(executableFileMD5Hash);
     }
     return md5Hash;
 }

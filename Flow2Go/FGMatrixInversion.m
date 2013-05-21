@@ -32,14 +32,17 @@
 
 double determinant(double **a, int k)
 {
-    double **b = calloc(k * k, sizeof(NSUInteger *));
+    double **b = calloc(k * k, sizeof(double *));
     for (NSUInteger i = 0; i < k * k; i++) {
         b[i] = calloc(k * k, sizeof(double));
     }
     double s = 1, det = 0;
     int i, j, m, n, c;
     if (k == 1) {
-        return (a[0][0]);
+        for (NSUInteger i = 0; i < k * k; i++)
+            free(b[i]);
+        free(b);
+        return a[0][0];
     } else {
         det = 0;
         for (c = 0; c < k; c++) {
@@ -72,8 +75,8 @@ double determinant(double **a, int k)
 
 double**  cofactors(double **num, int f)
 {
-    double **b = calloc(f*f, sizeof(NSUInteger *));
-    double **fac = calloc(f*f, sizeof(NSUInteger *));
+    double **b = calloc(f*f, sizeof(double *));
+    double **fac = calloc(f*f, sizeof(double *));
     for (NSUInteger i = 0; i < f*f; i++) {
         b[i] = calloc(f*f, sizeof(double));
         fac[i] = calloc(f*f, sizeof(double));
@@ -117,8 +120,8 @@ double** trans(double **num, double **fac, int n)
 {
     int i, j;
     
-    double **b = calloc(n*n, sizeof(NSUInteger *));
-    double **inv = calloc(n*n, sizeof(NSUInteger *));
+    double **b = calloc(n*n, sizeof(double *));
+    double **inv = calloc(n*n, sizeof(double *));
     for (NSUInteger i = 0; i < n*n; i++) {
         b[i] = calloc(n*n, sizeof(double));
         inv[i] = calloc(n*n, sizeof(double));
@@ -132,7 +135,7 @@ double** trans(double **num, double **fac, int n)
     }
     
     d = determinant(num, n);
-    inv[i][j] = 0;
+//    inv[i][j] = 0;
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
             inv[i][j] = b[i][j] / d;
@@ -156,7 +159,7 @@ double** trans(double **num, double **fac, int n)
     if (det == 0.0) {
         *success = NO;
     } else {
-        double **inverseMatrix = calloc(n, sizeof(NSUInteger *));
+        double **inverseMatrix = calloc(n, sizeof(double *));
         for (NSUInteger i = 0; i < n; i++) {
             inverseMatrix[i] = calloc(n, sizeof(double));
         }
@@ -169,7 +172,7 @@ double** trans(double **num, double **fac, int n)
 
 + (double *)multiplyMatrix:(double **)matrix byVector:(double *)vector order:(NSUInteger)order
 {
-    double result[order];
+    double *result = calloc(order, sizeof(double));
     for (int row = 0; row < order; row++) {
         result[row] = 0.0;
         for (int col = 0; col < order; col++) {
@@ -179,6 +182,7 @@ double** trans(double **num, double **fac, int n)
     for (int i = 0; i < order; i++) {
         vector[i] = result[i];
     }
+    free(result);
     return vector;
 }
 

@@ -312,10 +312,8 @@
     histogramPlotData.numberOfPoints = BIN_COUNT;
     histogramPlotData.points = calloc(BIN_COUNT, sizeof(FGDensityPoint));
     
-    NSInteger count = 0;
     for (NSUInteger colNo = 0; colNo < BIN_COUNT; colNo++)
     {
-        count = binValues[colNo];
         [histogramPlotData _checkForMaxCount:histogramPlotData.points[colNo].yVal];
         
         switch (axisType)

@@ -50,7 +50,7 @@ extern NSString * const SampleFileCheckSum2;
 
 //Pane View Controller
 #define PANE_COVER_WIDTH 500.0f
-#define PANE_REVEAL_WIDTH 470.0f
+#define PANE_REVEAL_WIDTH 500.0f
 
 // Structs
 struct FGEvent

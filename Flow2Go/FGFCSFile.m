@@ -189,14 +189,8 @@
     }
     NSArray *scaleComponents = [scaleString componentsSeparatedByString:@","];
     double f1 = [scaleComponents[0] doubleValue];
-    if (f1 <= 0.0)
-    {
-        return kAxisTypeLinear;
-    }
-    else
-    {
-        return kAxisTypeLogarithmic;
-    }
+  
+    return (f1 <= 0.0) ? kAxisTypeLinear : kAxisTypeLogarithmic;
 }
 
 - (FGAxisType)axisTypeForParameterIndex:(NSInteger)parameterIndex

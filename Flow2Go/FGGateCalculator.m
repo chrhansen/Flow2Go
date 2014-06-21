@@ -296,10 +296,10 @@
 {
     int counter = 0;
     int i;
-    double xinters;
+    double xIntersection;
     FGGraphPoint *p1, *p2;
 
-    // Check first if point is inside the bounds of the polygon
+    // Check first if point is inside the bounds of the polygon vdsp_vclip Accellerate (for floats) / vDSP_vthrsc
     if (point.xVal < lowerLeft.xVal || point.xVal < lowerLeft.xVal) {
         return NO;
     }
@@ -324,8 +324,8 @@
                 {
                     if (p1.y != p2.y)
                     {
-                        xinters = (point.yVal-p1.y)*(p2.x-p1.x)/(p2.y-p1.y)+p1.x;
-                        if (p1.x == p2.x || point.xVal <= xinters)
+                        xIntersection = (point.yVal-p1.y)*(p2.x-p1.x)/(p2.y-p1.y)+p1.x;
+                        if (p1.x == p2.x || point.xVal <= xIntersection)
                         {
                             counter++;
                         }

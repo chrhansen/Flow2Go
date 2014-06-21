@@ -85,12 +85,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
@@ -151,7 +145,9 @@
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     } else {
         UIBarButtonItem *importButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(importFromCloudTapped:)];
-        [self.navigationItem setLeftBarButtonItems:@[importButton] animated:YES];
+        UIBarButtonItem *toggleLayoutTest = [[UIBarButtonItem alloc] initWithTitle:@"Toggle Layout" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleLayout)];
+        [toggleLayoutTest setTitle:@"Toggle Layout"];
+        [self.navigationItem setLeftBarButtonItems:@[importButton, toggleLayoutTest] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     }
 }
@@ -162,12 +158,24 @@
     [self performSegueWithIdentifier:@"Show Dropbox" sender:self];
 }
 
+#define SMALLER_WIDTH 300
 
-- (void)exportToCloudTapped:(id)sender
+- (void)toggleLayout
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    CGRect bounds = self.parentViewController.view.bounds;
+    if (self.navigationPaneViewController.openStateRevealWidth == PANE_REVEAL_WIDTH) {
+        self.navigationPaneViewController.openStateRevealWidth = SMALLER_WIDTH;
+        bounds.size.width = SMALLER_WIDTH;
+    } else {
+        self.navigationPaneViewController.openStateRevealWidth = PANE_REVEAL_WIDTH;
+        bounds.size.width = SMALLER_WIDTH;
+    }
+    [UIView animateWithDuration:1.0 animations:^{
+        self.parentViewController.view.bounds = bounds;
+        [self.collectionView.collectionViewLayout invalidateLayout];
+    }];
+    [self.navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES completion:nil];
 }
-
 
 - (void)togglePaneTapped:(UIBarButtonItem *)doneButton
 {

@@ -136,7 +136,7 @@
         }
         eventIndex++;
     }
-    if (self.parSizes) free(self.parSizes);
+//    if (_parSizes) free(_parSizes);
     
     return error;
 }
@@ -534,7 +534,7 @@ typedef union Int2Double Int2Double;
     for (NSUInteger i = 0; i < _noOfEvents; i++) {
         free(_events[i]);
     }
-    if (self.parSizes) free(self.parSizes);
+//    if (_parSizes) free(_parSizes);
     
     free(_events);
     free(_ranges);

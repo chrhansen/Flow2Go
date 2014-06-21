@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12E55" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="FGAnalysis" representedClassName="FGAnalysis" syncable="YES">
         <attribute name="dateModified" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="dateViewed" optional="YES" attributeType="Date" syncable="YES"/>
@@ -61,12 +61,12 @@
         <relationship name="analysis" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="FGAnalysis" inverseName="plots" inverseEntity="FGAnalysis" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FGAnalysis" positionX="-3618" positionY="-2646" width="128" height="135"/>
+        <element name="FGAnalysis" positionX="-3618" positionY="-2664" width="128" height="135"/>
         <element name="FGFolder" positionX="-4014" positionY="-2595" width="128" height="90"/>
         <element name="FGGate" positionX="-3276" positionY="-2406" width="128" height="103"/>
         <element name="FGKeyword" positionX="-3807" positionY="-2376" width="128" height="90"/>
-        <element name="FGMeasurement" positionX="-3825" positionY="-2646" width="128" height="225"/>
+        <element name="FGMeasurement" positionX="-3836" positionY="-2790" width="128" height="225"/>
         <element name="FGNode" positionX="-3366" positionY="-2655" width="128" height="180"/>
-        <element name="FGPlot" positionX="-3528" positionY="-2410" width="128" height="118"/>
+        <element name="FGPlot" positionX="-3530" positionY="-2386" width="128" height="118"/>
     </elements>
 </model>

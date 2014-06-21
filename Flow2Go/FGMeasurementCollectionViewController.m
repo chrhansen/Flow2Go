@@ -145,9 +145,7 @@
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     } else {
         UIBarButtonItem *importButton = [UIBarButtonItem barButtonWithImage:[UIImage imageNamed:@"0107"] style:UIBarButtonItemStylePlain target:self action:@selector(importFromCloudTapped:)];
-        UIBarButtonItem *toggleLayoutTest = [[UIBarButtonItem alloc] initWithTitle:@"Toggle Layout" style:UIBarButtonItemStyleBordered target:self action:@selector(toggleLayout)];
-        [toggleLayoutTest setTitle:@"Toggle Layout"];
-        [self.navigationItem setLeftBarButtonItems:@[importButton, toggleLayoutTest] animated:YES];
+        [self.navigationItem setLeftBarButtonItems:@[importButton] animated:YES];
         [self.navigationItem setRightBarButtonItems:@[self.editButtonItem] animated:YES];
     }
 }
@@ -160,22 +158,6 @@
 
 #define SMALLER_WIDTH 300
 
-- (void)toggleLayout
-{
-    CGRect bounds = self.parentViewController.view.bounds;
-    if (self.navigationPaneViewController.openStateRevealWidth == PANE_REVEAL_WIDTH) {
-        self.navigationPaneViewController.openStateRevealWidth = SMALLER_WIDTH;
-        bounds.size.width = SMALLER_WIDTH;
-    } else {
-        self.navigationPaneViewController.openStateRevealWidth = PANE_REVEAL_WIDTH;
-        bounds.size.width = SMALLER_WIDTH;
-    }
-    [UIView animateWithDuration:1.0 animations:^{
-        self.parentViewController.view.bounds = bounds;
-        [self.collectionView.collectionViewLayout invalidateLayout];
-    }];
-    [self.navigationPaneViewController setPaneState:MSNavigationPaneStateOpen animated:YES completion:nil];
-}
 
 - (void)togglePaneTapped:(UIBarButtonItem *)doneButton
 {
@@ -195,14 +177,6 @@
 
 - (void)_updatePaneViewControllerOpenWidthForInterfaceOrientation:(UIInterfaceOrientation)orientation
 {
-//    if (self.interfaceOrientation == orientation) {
-//        self.navigationPaneViewController.openStateRevealWidth = self.view.bounds.size.width - PANE_COVER_WIDTH;
-//    } else {
-//        CGFloat revealWidth = self.view.bounds.size.height - PANE_COVER_WIDTH;
-//        if (![[UIApplication sharedApplication] isStatusBarHidden]) revealWidth += 20.0f;
-//        if (!self.navigationController.navigationBar.isHidden) revealWidth += self.navigationController.navigationBar.frame.size.height;
-//        self.navigationPaneViewController.openStateRevealWidth = revealWidth;
-//    }
     self.navigationPaneViewController.openStateRevealWidth = PANE_REVEAL_WIDTH;
     [self.navigationPaneViewController setPaneState:self.navigationPaneViewController.paneState animated:YES completion:nil];
 }
@@ -280,12 +254,6 @@
     [self performSegueWithIdentifier:@"Show Store" sender:sender];
 }
 
-
-- (IBAction)feedbackButtonTapped:(id)sender
-{
-    ATConnect *connection = [ATConnect sharedConnection];
-    [connection presentFeedbackControllerFromViewController:self];
-}
 
 - (void)filePickerCancelled
 {

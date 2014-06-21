@@ -24,11 +24,9 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];
-    [self.searchBar setBackgroundImage:[UIImage new]];
-    [self.searchBar setTranslucent:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:FGHeaderControlsWillAppearNotification object:nil userInfo:@{
-     @"storeButton": self.storeButton,
-     @"feedBackButton" : self.feedbackButton}]; //@"searchBar": self.searchBar, @"segmentedControl" : self.layoutSegmentedControl,
+    [[NSNotificationCenter defaultCenter] postNotificationName:FGHeaderControlsWillAppearNotification
+                                                        object:nil
+                                                      userInfo:@{@"storeButton": self.storeButton}];
 }
 
 @end

@@ -23,6 +23,9 @@
 
 #import "PRTweenTimingFunctions.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsequenced"
+
 CGFloat PRTweenTimingFunctionLinear (CGFloat time, CGFloat begin, CGFloat change, CGFloat duration) {
     return change * time / duration + begin;
 }
@@ -183,6 +186,8 @@ CGFloat PRTweenTimingFunctionSineIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d)
 CGFloat PRTweenTimingFunctionSineInOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     return -c/2 * (cos(M_PI*t/d) - 1) + b;
 }
+
+#pragma clang diagnostic pop
 
 CGFloat PRTweenTimingFunctionCALinear       (CGFloat t, CGFloat b, CGFloat c, CGFloat d) { return 0; }
 CGFloat PRTweenTimingFunctionCAEaseIn       (CGFloat t, CGFloat b, CGFloat c, CGFloat d) { return 0; }

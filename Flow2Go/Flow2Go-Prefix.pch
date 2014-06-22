@@ -21,6 +21,7 @@
     #import "KGNoise.h"
     #import "UIImage+Resize.h"
     #import "FGHUDMessage.h"
+    #import "Secrets.h"
 #endif
 
 

@@ -30,12 +30,6 @@ extern NSString * const FGPickerViewControllerCancelledNotification;
 static NSString * const FCSFile_Error_Domain = @"FCSFile_Error_Domain";
 static NSString * const FG_FIRST_LAUNCH_KEY = @"FG_FIRST_LAUNCH_KEY";
 
-//Apptentive API-key
-#define kApptentiveAPIKey @"054ed3017042a2823a0b7354b8530f1e98457f02307d8b58b23948586f21d082"
-
-//Crashlytics API-key
-#define kCrashlyticsAPIKey @"0387772ffe94f1d824a25caa46697d6294cc3f90"
-
 // In-App purchases
 extern NSString * const InAppIdentifierFCSFiles;
 
@@ -44,9 +38,6 @@ extern NSString * const InAppIdentifierFCSFiles;
 extern NSString * const SampleFileCheckSum1;
 extern NSString * const SampleFileCheckSum2;
 
-//Dropbox API keys
-#define kDropboxAPIKey    @"6hb8rousm8nruan"
-#define kDropboxAPISecret @"uapd0yurv7xaev1"
 
 //Pane View Controller
 #define PANE_COVER_WIDTH 500.0f

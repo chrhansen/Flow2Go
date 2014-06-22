@@ -352,6 +352,8 @@
 		E585572116C1A46600BF4546 /* FGDropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGDropboxViewController.h; sourceTree = "<group>"; };
 		E585572216C1A46600BF4546 /* FGDropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGDropboxViewController.m; sourceTree = "<group>"; };
 		E58A1A1F171DB5C70099604E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		E58BBD9F19567E0500FA239D /* Secrets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Secrets.h; sourceTree = "<group>"; };
+		E58BBDA1195687A000FA239D /* Secrets-distribution.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Secrets-distribution.h"; sourceTree = "<group>"; };
 		E598014916C840F400BF1A2D /* PopoverView_Configuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopoverView_Configuration.h; path = Flow2Go/PopoverView/PopoverView_Configuration.h; sourceTree = "<group>"; };
 		E598014A16C840F400BF1A2D /* PopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PopoverView.h; path = Flow2Go/PopoverView/PopoverView.h; sourceTree = "<group>"; };
 		E598014B16C840F500BF1A2D /* PopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PopoverView.m; path = Flow2Go/PopoverView/PopoverView.m; sourceTree = "<group>"; };
@@ -1314,6 +1316,8 @@
 				E5F130D7173F8379008B068C /* Sample FCS Files */,
 				E511FD7A15CC377500637D39 /* Images */,
 				E5FC702015CA9A720047A3DD /* Constants.h */,
+				E58BBD9F19567E0500FA239D /* Secrets.h */,
+				E58BBDA1195687A000FA239D /* Secrets-distribution.h */,
 				E504278716C1AA0700692AD7 /* Constants.m */,
 				E5FC6F5915CA7E8E0047A3DD /* FGAppDelegate.h */,
 				E5FC6F5A15CA7E8E0047A3DD /* FGAppDelegate.m */,

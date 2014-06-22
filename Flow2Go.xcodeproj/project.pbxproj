@@ -199,7 +199,6 @@
 		E5FC6F5515CA7E8E0047A3DD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E5FC6F5315CA7E8E0047A3DD /* InfoPlist.strings */; };
 		E5FC6F5715CA7E8E0047A3DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E5FC6F5615CA7E8E0047A3DD /* main.m */; };
 		E5FC6F5B15CA7E8E0047A3DD /* FGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E5FC6F5A15CA7E8E0047A3DD /* FGAppDelegate.m */; };
-		E5FC6F5E15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5FC6F5C15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard */; };
 		E5FC6F6115CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5FC6F5F15CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard */; };
 		E5FC6F6415CA7E8E0047A3DD /* Flow2Go.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5FC6F6215CA7E8E0047A3DD /* Flow2Go.xcdatamodeld */; };
 		E5FC701F15CA997C0047A3DD /* FGDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E5FC701E15CA997C0047A3DD /* FGDownloadManager.m */; };
@@ -583,7 +582,6 @@
 		E5FC6F5815CA7E8E0047A3DD /* Flow2Go-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flow2Go-Prefix.pch"; sourceTree = "<group>"; };
 		E5FC6F5915CA7E8E0047A3DD /* FGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FGAppDelegate.h; sourceTree = "<group>"; };
 		E5FC6F5A15CA7E8E0047A3DD /* FGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FGAppDelegate.m; sourceTree = "<group>"; };
-		E5FC6F5D15CA7E8E0047A3DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		E5FC6F6015CA7E8E0047A3DD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		E5FC6F6315CA7E8E0047A3DD /* Flow2Go.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Flow2Go.xcdatamodel; sourceTree = "<group>"; };
 		E5FC701D15CA997C0047A3DD /* FGDownloadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGDownloadManager.h; sourceTree = "<group>"; };
@@ -1296,7 +1294,6 @@
 		E5FC6F5015CA7E8E0047A3DD /* Flow2Go */ = {
 			isa = PBXGroup;
 			children = (
-				E5FC6F5C15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard */,
 				E5FC6F5F15CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard */,
 				E5FC6FFD15CA87B20047A3DD /* Model */,
 				E53FA67015CB3E6F000B048C /* Views */,
@@ -1428,7 +1425,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5FC6F5515CA7E8E0047A3DD /* InfoPlist.strings in Resources */,
-				E5FC6F5E15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard in Resources */,
 				E5FC6F6115CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard in Resources */,
 				E58556D916C0AE9800BF4546 /* 0108.png in Resources */,
 				E58556DA16C0AE9800BF4546 /* 0108@2x.png in Resources */,
@@ -1653,14 +1649,6 @@
 				E5FC6F5415CA7E8E0047A3DD /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		E5FC6F5C15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E5FC6F5D15CA7E8E0047A3DD /* en */,
-			);
-			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		E5FC6F5F15CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard */ = {

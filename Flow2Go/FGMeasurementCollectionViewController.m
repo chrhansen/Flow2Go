@@ -15,8 +15,6 @@
 #import "FGMeasurement+Management.h"
 #import "NSString+_Format.h"
 #import "NSDate+Formatting.h"
-#import "ATConnect.h"
-#import "ATSurveys.h"
 #import "FGAnalysisViewController.h"
 #import "FGAnalysis+Management.h"
 #import "MSNavigationPaneViewController.h"
@@ -264,18 +262,9 @@
 #pragma mark - Apptentive
 - (void)_observings
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(surveyBecameAvailable:) name:ATSurveyNewSurveyAvailableNotification object:nil];
-    [ATSurveys checkForAvailableSurveys];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidSaveNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filePickerCancelled) name:FGPickerViewControllerCancelledNotification object:nil];
 }
-
-
-- (void)surveyBecameAvailable:(NSNotification *)notification
-{
-    [ATSurveys presentSurveyControllerFromViewController:self];
-}
-
 
 #define FILENAME_CHARACTER_COUNT 29
 

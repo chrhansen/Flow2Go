@@ -9,7 +9,6 @@
 #import "FGAppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "FGStyleController.h"
-#import "ATConnect.h"
 #import "MSNavigationPaneViewController.h"
 #import "FGMeasurementCollectionViewController.h"
 #import <Crashlytics/Crashlytics.h>
@@ -22,7 +21,6 @@
 {
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"Flow2Go.sqlite"];
     DBSession.sharedSession = [DBSession.alloc initWithAppKey:kDropboxAPIKey appSecret:kDropboxAPISecret root:kDBRootDropbox];
-    [ATConnect sharedConnection].apiKey = kApptentiveAPIKey;
     
     // Navigation Pane View Controller
     MSNavigationPaneViewController *navigationPaneViewController = (MSNavigationPaneViewController *)self.window.rootViewController;

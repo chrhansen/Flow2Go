@@ -86,10 +86,6 @@
 		E54D71B716049E09008CEC5D /* FGGatesContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E54D71B616049E09008CEC5D /* FGGatesContainerView.m */; };
 		E55923AD16D3817C00A087D8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55923AC16D3817C00A087D8 /* CoreTelephony.framework */; };
 		E55923AF16D3819900A087D8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E55923AE16D3819900A087D8 /* SystemConfiguration.framework */; };
-		E55923C016D3824000A087D8 /* libApptentiveConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E55923B716D381DB00A087D8 /* libApptentiveConnect.a */; };
-		E55923C116D3829D00A087D8 /* ApptentiveResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E55923BB16D381DB00A087D8 /* ApptentiveResources.bundle */; };
-		E55923C516D382D200A087D8 /* ATConnect.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923C316D382D200A087D8 /* ATConnect.h */; };
-		E55923C616D382D200A087D8 /* ATSurveys.h in Resources */ = {isa = PBXBuildFile; fileRef = E55923C416D382D200A087D8 /* ATSurveys.h */; };
 		E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C716D3838800A087D8 /* 09-chat-2@2x.png */; };
 		E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */ = {isa = PBXBuildFile; fileRef = E55923C816D3838800A087D8 /* 09-chat-2.png */; };
 		E56CBE3A17433EAA004D4C6B /* FCS_FILES_UNLIMITED.png in Resources */ = {isa = PBXBuildFile; fileRef = E56CBE3817433EAA004D4C6B /* FCS_FILES_UNLIMITED.png */; };
@@ -215,44 +211,6 @@
 		E5FF9790174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E5FF978E174336A600C711D5 /* Flow2GoLaunchImage-Landscape@2x.png */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		E55923B616D381DB00A087D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 496DC37F1333D35600743F65;
-			remoteInfo = ApptentiveConnect;
-		};
-		E55923B816D381DB00A087D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 496DC38C1333D35600743F65;
-			remoteInfo = ApptentiveConnectTests;
-		};
-		E55923BA16D381DB00A087D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 49D1118C13341A7C00603373;
-			remoteInfo = ApptentiveResources;
-		};
-		E55923BC16D3822E00A087D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 496DC37E1333D35600743F65;
-			remoteInfo = ApptentiveConnect;
-		};
-		E55923BE16D3822E00A087D8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 49D1118B13341A7C00603373;
-			remoteInfo = ApptentiveResources;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		E504277D16C1A73A00692AD7 /* FGDropboxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGDropboxCell.h; sourceTree = "<group>"; };
 		E504277E16C1A73A00692AD7 /* FGDropboxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGDropboxCell.m; sourceTree = "<group>"; };
@@ -371,9 +329,6 @@
 		E54D71B616049E09008CEC5D /* FGGatesContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGatesContainerView.m; sourceTree = "<group>"; };
 		E55923AC16D3817C00A087D8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		E55923AE16D3819900A087D8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ApptentiveConnect.xcodeproj; path = Flow2Go/ApptentiveConnect/ApptentiveConnect.xcodeproj; sourceTree = "<group>"; };
-		E55923C316D382D200A087D8 /* ATConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATConnect.h; path = Flow2Go/ApptentiveConnect/source/ATConnect.h; sourceTree = "<group>"; };
-		E55923C416D382D200A087D8 /* ATSurveys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ATSurveys.h; path = Flow2Go/ApptentiveConnect/source/Surveys/ATSurveys.h; sourceTree = "<group>"; };
 		E55923C716D3838800A087D8 /* 09-chat-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "09-chat-2@2x.png"; path = "Images/09-chat-2@2x.png"; sourceTree = "<group>"; };
 		E55923C816D3838800A087D8 /* 09-chat-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "09-chat-2.png"; path = "Images/09-chat-2.png"; sourceTree = "<group>"; };
 		E56CBE3817433EAA004D4C6B /* FCS_FILES_UNLIMITED.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FCS_FILES_UNLIMITED.png; sourceTree = "<group>"; };
@@ -647,7 +602,6 @@
 			files = (
 				E52D4F14173C8DDF0021C95C /* Crashlytics.framework in Frameworks */,
 				E513F7211739C19200F64267 /* MobileCoreServices.framework in Frameworks */,
-				E55923C016D3824000A087D8 /* libApptentiveConnect.a in Frameworks */,
 				E55923AF16D3819900A087D8 /* SystemConfiguration.framework in Frameworks */,
 				E5C0119516CA96570059ED0F /* StoreKit.framework in Frameworks */,
 				E55923AD16D3817C00A087D8 /* CoreTelephony.framework in Frameworks */,
@@ -856,25 +810,6 @@
 				E5F1DB05160E7BD200591F2A /* FGEllipse.m */,
 			);
 			name = GateDrawing;
-			sourceTree = "<group>";
-		};
-		E55923B116D381DB00A087D8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E55923B716D381DB00A087D8 /* libApptentiveConnect.a */,
-				E55923B916D381DB00A087D8 /* ApptentiveConnectTests.octest */,
-				E55923BB16D381DB00A087D8 /* ApptentiveResources.bundle */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E55923C216D382BD00A087D8 /* Apptentive */ = {
-			isa = PBXGroup;
-			children = (
-				E55923C316D382D200A087D8 /* ATConnect.h */,
-				E55923C416D382D200A087D8 /* ATSurveys.h */,
-			);
-			name = Apptentive;
 			sourceTree = "<group>";
 		};
 		E567CCEF15CBD12300CBF7D8 /* Categories */ = {
@@ -1323,7 +1258,6 @@
 				E52D4F40173F644A0021C95C /* flow2go-icon.png */,
 				E52D4F3E173F58E40021C95C /* flow2go-scatter-icon@2x.png */,
 				E52D4F3B173F4A680021C95C /* flow2go-icon@2x.png */,
-				E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */,
 				E5FC6F5015CA7E8E0047A3DD /* Flow2Go */,
 				E5FC6F4715CA7E8E0047A3DD /* Frameworks */,
 				E5FC6F4515CA7E8E0047A3DD /* Products */,
@@ -1396,7 +1330,6 @@
 			children = (
 				E52D4F13173C8DDF0021C95C /* Crashlytics.framework */,
 				E5173B5E16E1050200A314D4 /* MSNavigationPaneViewController */,
-				E55923C216D382BD00A087D8 /* Apptentive */,
 				E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */,
 				E5D314F916CE5F0700700F57 /* CorePlot */,
 				E5D3149B16CE5E7A00700F57 /* MagicalRecord */,
@@ -1453,8 +1386,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E55923BD16D3822E00A087D8 /* PBXTargetDependency */,
-				E55923BF16D3822E00A087D8 /* PBXTargetDependency */,
 			);
 			name = Flow2Go;
 			productName = Flow2Go;
@@ -1480,12 +1411,6 @@
 			mainGroup = E5FC6F3915CA7E8E0047A3DD;
 			productRefGroup = E5FC6F4515CA7E8E0047A3DD /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = E55923B116D381DB00A087D8 /* Products */;
-					ProjectRef = E55923B016D381DB00A087D8 /* ApptentiveConnect.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				E5FC6F4315CA7E8E0047A3DD /* Flow2Go */,
@@ -1493,36 +1418,11 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		E55923B716D381DB00A087D8 /* libApptentiveConnect.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libApptentiveConnect.a;
-			remoteRef = E55923B616D381DB00A087D8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E55923B916D381DB00A087D8 /* ApptentiveConnectTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ApptentiveConnectTests.octest;
-			remoteRef = E55923B816D381DB00A087D8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E55923BB16D381DB00A087D8 /* ApptentiveResources.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ApptentiveResources.bundle;
-			remoteRef = E55923BA16D381DB00A087D8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		E5FC6F4215CA7E8E0047A3DD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E55923C116D3829D00A087D8 /* ApptentiveResources.bundle in Resources */,
 				E5FC6F5515CA7E8E0047A3DD /* InfoPlist.strings in Resources */,
 				E5FC6F5E15CA7E8E0047A3DD /* MainStoryboard_iPhone.storyboard in Resources */,
 				E5FC6F6115CA7E8E0047A3DD /* MainStoryboard_iPad.storyboard in Resources */,
@@ -1554,8 +1454,6 @@
 				E5A1BC9716D0535B001CABF8 /* flow2go-logo-72.png in Resources */,
 				E5A1BC9916D05433001CABF8 /* flow2go-logo-114.png in Resources */,
 				E5A1BC9B16D05456001CABF8 /* flow2go-logo-57.png in Resources */,
-				E55923C516D382D200A087D8 /* ATConnect.h in Resources */,
-				E55923C616D382D200A087D8 /* ATSurveys.h in Resources */,
 				E55923C916D3838800A087D8 /* 09-chat-2@2x.png in Resources */,
 				E55923CA16D3838800A087D8 /* 09-chat-2.png in Resources */,
 				E53E31D016D459AE0075DBA3 /* Default-568h@2x.png in Resources */,
@@ -1743,19 +1641,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E55923BD16D3822E00A087D8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ApptentiveConnect;
-			targetProxy = E55923BC16D3822E00A087D8 /* PBXContainerItemProxy */;
-		};
-		E55923BF16D3822E00A087D8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ApptentiveResources;
-			targetProxy = E55923BE16D3822E00A087D8 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E5FC6F5315CA7E8E0047A3DD /* InfoPlist.strings */ = {

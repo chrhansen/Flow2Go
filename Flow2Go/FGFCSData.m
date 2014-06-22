@@ -459,7 +459,7 @@ typedef union Int2Double Int2Double;
             }
             if (!unitNames)
             {
-                unitNames = NSMutableArray.array;
+                unitNames = [NSMutableDictionary dictionary];
             }
             double f = [calibrationComponents[0] doubleValue];
             NSString *unitNameWithBraces = [@"[" stringByAppendingFormat:@"%@]", calibrationComponents[1]];

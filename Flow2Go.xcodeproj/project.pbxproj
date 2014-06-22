@@ -45,7 +45,6 @@
 		E52883C916E791770057AA07 /* FGMeasurementHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52883C816E791770057AA07 /* FGMeasurementHeaderView.m */; };
 		E52BECB715DE63EA002A3819 /* FGGraphPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = E52BECB615DE63E9002A3819 /* FGGraphPoint.m */; };
 		E52D4F0C173C67D40021C95C /* FGPlotCreatorOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */; };
-		E52D4F14173C8DDF0021C95C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E52D4F13173C8DDF0021C95C /* Crashlytics.framework */; };
 		E52D4F1E173DE3F80021C95C /* histogram.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F1C173DE3F80021C95C /* histogram.png */; };
 		E52D4F1F173DE3F80021C95C /* histogram@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F1D173DE3F80021C95C /* histogram@2x.png */; };
 		E52D4F34173DEF250021C95C /* density.png in Resources */ = {isa = PBXBuildFile; fileRef = E52D4F32173DEF250021C95C /* density.png */; };
@@ -274,7 +273,6 @@
 		E52BECB615DE63E9002A3819 /* FGGraphPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGGraphPoint.m; sourceTree = "<group>"; };
 		E52D4F0A173C67D30021C95C /* FGPlotCreatorOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGPlotCreatorOperation.h; sourceTree = "<group>"; };
 		E52D4F0B173C67D30021C95C /* FGPlotCreatorOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGPlotCreatorOperation.m; sourceTree = "<group>"; };
-		E52D4F13173C8DDF0021C95C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Flow2Go/Crashlytics.framework; sourceTree = "<group>"; };
 		E52D4F1C173DE3F80021C95C /* histogram.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = histogram.png; sourceTree = "<group>"; };
 		E52D4F1D173DE3F80021C95C /* histogram@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "histogram@2x.png"; sourceTree = "<group>"; };
 		E52D4F32173DEF250021C95C /* density.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = density.png; sourceTree = "<group>"; };
@@ -600,7 +598,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E52D4F14173C8DDF0021C95C /* Crashlytics.framework in Frameworks */,
 				E513F7211739C19200F64267 /* MobileCoreServices.framework in Frameworks */,
 				E55923AF16D3819900A087D8 /* SystemConfiguration.framework in Frameworks */,
 				E5C0119516CA96570059ED0F /* StoreKit.framework in Frameworks */,
@@ -1329,7 +1326,6 @@
 		E5FC6F7015CA80470047A3DD /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				E52D4F13173C8DDF0021C95C /* Crashlytics.framework */,
 				E5173B5E16E1050200A314D4 /* MSNavigationPaneViewController */,
 				E5D3153B16CE5F4400700F57 /* DropboxSDK.framework */,
 				E5D314F916CE5F0700700F57 /* CorePlot */,
@@ -1518,7 +1514,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Flow2Go/Crashlytics.framework/run 0387772ffe94f1d824a25caa46697d6294cc3f90\n";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 

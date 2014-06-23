@@ -9,6 +9,7 @@
 
 ## Flow Cytometry
 _What is flow cytometry_
+
 ### Usefull links
 
 - link1
@@ -24,10 +25,10 @@ _TODO_
 
 ## TODO
 
-- ### Tests
-- ### Separate out FCS parser
-- ### Update to iOS7
-- ### Update to iOS8 
+- Tests
+- Separate out FCS parser
+- Update to iOS7
+- Update to iOS8 
 
 
 ## Screenshots
